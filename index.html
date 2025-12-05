@@ -246,7 +246,7 @@
             height: 100%;
             background-color: var(--bar-active);
             width: 0%;
-            transition: width 0.05s linear;
+            /* REMOVED: transition causes lag on mobile - now using requestAnimationFrame */
             z-index: 1;
         }
 
@@ -861,18 +861,18 @@
             }
 
             header {
-                padding: 5px 15px 3px 15px;
+                padding: 8px 15px 5px 15px;
                 width: 100%;
             }
 
             header .logo {
-                font-size: 3.6em;
+                font-size: 3.2em;
             }
 
             #emote-7tv {
-                width: 170px;
-                height: 50px;
-                margin-top: 2px;
+                width: 150px;
+                height: 44px;
+                margin-top: 3px;
             }
 
             .mode-selector {
@@ -1419,7 +1419,7 @@
         ];
 
 
-       // -----------------------------------------------------
+        // -----------------------------------------------------
         // Variables
         let audioPlayer = new Audio(); // Created in memory, not in DOM
         let currentSong = {};
@@ -1444,20 +1444,21 @@
         let hasGuessedCorrectly = false;
         let availableSongs = [];
 
-        // variables de control de tiempo y snippet
-        let snippetTimeout = null;
-        let snippetRAF = null; // NUEVO: requestAnimationFrame ID para timing preciso
-        let timeMarkerInterval = null;
-        let isSnippetPlaying = false;
-        let snippetDurationMs = 0;
-        let snippetRemainingMs = 0;
-        let gameStartTime = 0; // el punto de inicio de los 15s dentro del audio
-        let snippetEndTime = 0; // NUEVO: tiempo exacto donde debe terminar el snippet
+        // =====================================================
+        // AUDIO PLAYER SYSTEM - Mobile-Optimized v2.0
+        // =====================================================
+        // Uses audio timeupdate events + requestAnimationFrame
+        // instead of setTimeout/setInterval for reliable mobile playback
+
+        // Snippet playback state
+        let snippetState = 'idle'; // 'idle' | 'playing' | 'paused'
+        let snippetTargetTime = 0; // The exact audio time where snippet should stop
+        let animationFrameId = null; // For requestAnimationFrame cleanup
+
+        // Core audio variables
+        let gameStartTime = 0; // Random start point within the song
         let isFullSongPlaying = false;
         let fullPlayerInterval = null;
-
-        // NUEVO: Detectar dispositivo móvil
-        const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 
         // nuevo: historial para evitar repetición entre juegos.
         let lastTwoIndices = [-1, -1]; // almacena los índices de las dos últimas canciones jugadas de 'biblioteca'
@@ -2204,18 +2205,25 @@
             });
         }
 
-        function updatePlayIcon(playing) {
-            playButton.innerHTML = playing ? iconPause : iconPlay;
-            playButton.setAttribute('aria-label', playing ? 'pausar fragmento' : 'escuchar fragmento');
-        }
+        // =====================================================
+        // AUDIO PLAYER - Core Functions (Mobile-Optimized v2.0)
+        // =====================================================
 
-        function pauseAudioInternal() {
+        /**
+         * Stops the audio and cleans up all playback state.
+         * @param {boolean} resetToIdle - If true, resets state to 'idle'. If false, sets to 'paused'.
+         */
+        function pauseAudioInternal(resetToIdle = true) {
+            // 1. Pause the audio
             audioPlayer.pause();
-            if (snippetTimeout) { clearTimeout(snippetTimeout); snippetTimeout = null; }
-            if (snippetRAF) { cancelAnimationFrame(snippetRAF); snippetRAF = null; } // NUEVO: cancelar RAF
-            stopTimeMarkerUpdate();
-            isSnippetPlaying = false;
-            snippetEndTime = 0;
+
+            // 2. Stop animation loop
+            stopAnimationLoop();
+
+            // 3. Update state
+            snippetState = resetToIdle ? 'idle' : 'paused';
+
+            // 4. Update UI
             updatePlayIcon(false);
         }
 
@@ -2365,108 +2373,129 @@
             }
         }
 
+        /**
+         * Updates the play button icon
+         */
+        function updatePlayIcon(playing) {
+            playButton.innerHTML = playing ? iconPause : iconPlay;
+            playButton.setAttribute('aria-label', playing ? 'pausar fragmento' : 'escuchar fragmento');
+        }
 
-        // lógica de reproducción (con la mentirita de 0.2s)
-        // OPTIMIZADO PARA MÓVILES: usa requestAnimationFrame en lugar de setTimeout
+        /**
+         * Finishes snippet playback - called when target time is reached
+         */
+        function finishSnippet() {
+            pauseAudioInternal(true);
+            // Don't reset currentTime - keep position for potential resume after skip
+        }
+
+        /**
+         * Continuous animation loop for smooth progress bar updates.
+         * Runs at 60fps using requestAnimationFrame.
+         * Also monitors audio position to stop at target time (replaces setTimeout).
+         */
+        function animationLoop() {
+            // Stop if not playing
+            if (snippetState !== 'playing') {
+                animationFrameId = null;
+                return;
+            }
+
+            const currentTime = audioPlayer.currentTime;
+
+            // Check if we've reached or passed the target time
+            if (currentTime >= snippetTargetTime) {
+                // Ensure bar is at exactly 100% of segment before pausing
+                const targetPercentage = getPercentage(snippetTargetTime - gameStartTime);
+                progressBarFill.style.width = targetPercentage + '%';
+
+                // Stop playback
+                finishSnippet();
+                return;
+            }
+
+            // Update progress bar
+            const elapsedFromStart = Math.max(0, currentTime - gameStartTime);
+            const targetDuration = snippetTargetTime - gameStartTime;
+            const percentage = getPercentage(Math.min(elapsedFromStart, targetDuration));
+            progressBarFill.style.width = percentage + '%';
+
+            // Continue the loop
+            animationFrameId = requestAnimationFrame(animationLoop);
+        }
+
+        /**
+         * Starts the animation loop for smooth progress updates
+         */
+        function startAnimationLoop() {
+            if (animationFrameId) {
+                cancelAnimationFrame(animationFrameId);
+            }
+            animationFrameId = requestAnimationFrame(animationLoop);
+        }
+
+        /**
+         * Stops the animation loop
+         */
+        function stopAnimationLoop() {
+            if (animationFrameId) {
+                cancelAnimationFrame(animationFrameId);
+                animationFrameId = null;
+            }
+        }
+
+        /**
+         * Main playback function - Mobile-Optimized v2.0
+         * Uses audio events instead of timers for reliable mobile playback
+         */
         function playSnippet() {
             if (hasGuessedCorrectly || playButton.hasAttribute('disabled')) return;
 
             const durations = getDurations();
-            let totalDurationForGuess = durations[guessCount] || getTotalGameDuration();
+            let targetDuration = durations[guessCount] || getTotalGameDuration();
 
-            // mentirita del 0.2s: si es el primer intento (guesscount=0) y el target visual es 0.1s, 
-            // la duracion real de la reproduccion (totaldurationforguess) sera 0.2s.
-            if (guessCount === 0 && totalDurationForGuess === 0.1) {
-                totalDurationForGuess = 0.2;
+            // "Mentira" del 0.2s: visual shows 0.1s but plays 0.2s
+            if (guessCount === 0 && targetDuration === 0.1) {
+                targetDuration = 0.2;
             }
 
-            if (isSnippetPlaying) {
-                pauseAudioInternal();
+            // Toggle pause if already playing
+            if (snippetState === 'playing') {
+                pauseAudioInternal(false); // pause, don't reset to idle
                 return;
             }
 
-            // FIX MOBILE: Para tiempos cortos, SIEMPRE reiniciar desde el principio.
-            const isShortDuration = totalDurationForGuess <= 0.5;
+            // Calculate the absolute target time in the audio
+            snippetTargetTime = gameStartTime + targetDuration;
 
-            // Calcular tiempo de inicio
-            let startFromBeginning = isShortDuration;
+            // Determine if we should restart or resume
+            const currentTime = audioPlayer.currentTime;
+            const tolerance = 0.05; // 50ms tolerance
 
-            if (!startFromBeginning) {
-                let currentOffset = audioPlayer.currentTime - gameStartTime;
-                const tolerance = 0.1;
-                if (currentOffset >= totalDurationForGuess - tolerance || currentOffset < -tolerance) {
-                    startFromBeginning = true;
-                }
-            }
+            // Always restart from beginning for short durations (mobile fix)
+            // Or if we're past the target, or before gameStartTime
+            const isShortDuration = targetDuration <= 0.5;
+            const isPastTarget = currentTime >= snippetTargetTime - tolerance;
+            const isBeforeStart = currentTime < gameStartTime - tolerance;
 
-            if (startFromBeginning) {
+            if (isShortDuration || isPastTarget || isBeforeStart) {
                 audioPlayer.currentTime = gameStartTime;
             }
 
-            // Calcular punto de fin exacto
-            snippetEndTime = gameStartTime + totalDurationForGuess;
+            // Start playback
+            audioPlayer.play()
+                .then(() => {
+                    snippetState = 'playing';
+                    updatePlayIcon(true);
 
-            // Buffer extra para móviles (el audio tarda más en responder)
-            const mobileBuffer = isMobile ? 0.05 : 0;
-
-            isSnippetPlaying = true;
-            updatePlayIcon(true);
-
-            // Iniciar reproducción
-            audioPlayer.play().then(() => {
-                // NUEVO SISTEMA: usar requestAnimationFrame para verificar tiempo real
-                // Esto es MUCHO más preciso que setTimeout en móviles
-                function checkAudioTime() {
-                    if (!isSnippetPlaying) return;
-
-                    const currentTime = audioPlayer.currentTime;
-
-                    // Verificar si alcanzamos o superamos el tiempo límite
-                    if (currentTime >= snippetEndTime - mobileBuffer) {
-                        finishSnippet();
-                        return;
-                    }
-
-                    // Continuar verificando
-                    snippetRAF = requestAnimationFrame(checkAudioTime);
-                }
-
-                // Iniciar el loop de verificación
-                snippetRAF = requestAnimationFrame(checkAudioTime);
-
-                // También agregar timeupdate como respaldo de seguridad
-                // Esto captura casos donde RAF no se ejecuta (ej: pestaña en background)
-                audioPlayer.ontimeupdate = function () {
-                    if (isSnippetPlaying && audioPlayer.currentTime >= snippetEndTime - mobileBuffer) {
-                        finishSnippet();
-                    }
-                };
-
-            }).catch(e => {
-                console.warn('fallo al reproducir:', e);
-                pauseAudioInternal();
-            });
-
-            // Calcular cuánto falta para la barra visual
-            let remainingSeconds = totalDurationForGuess - (audioPlayer.currentTime - gameStartTime);
-            if (remainingSeconds < 0) remainingSeconds = totalDurationForGuess;
-
-            startTimeMarkerUpdate(audioPlayer.currentTime, remainingSeconds, totalDurationForGuess);
-
-            // FALLBACK: setTimeout como último recurso (con buffer extra para móviles)
-            const timeoutMs = Math.round(totalDurationForGuess * 1000) + (isMobile ? 200 : 50);
-            snippetTimeout = setTimeout(() => {
-                if (isSnippetPlaying) {
-                    finishSnippet();
-                }
-            }, timeoutMs);
-        }
-
-        // Limpiar listener timeupdate al pausar
-        function finishSnippet() {
-            audioPlayer.ontimeupdate = null;
-            pauseAudioInternal();
-            snippetRemainingMs = 0;
+                    // Start the smooth animation loop
+                    startAnimationLoop();
+                })
+                .catch(e => {
+                    console.warn('Error starting playback:', e);
+                    snippetState = 'idle';
+                    updatePlayIcon(false);
+                });
         }
 
         let isGameOver = false;
@@ -2668,40 +2697,9 @@
             progressBarFill.style.width = startPercentage + '%';
         }
 
-        // fix visual: logica de la barra de progreso mientras suena
-        function startTimeMarkerUpdate(currentAudioTimeSeconds, segmentDurationSeconds, totalDurationForGuess) {
-            stopTimeMarkerUpdate();
-
-            const fullSnippetDuration = totalDurationForGuess * 1000;
-            const segEndPercentage = getPercentage(totalDurationForGuess);
-
-            const updateInterval = 30;
-
-            timeMarkerInterval = setInterval(() => {
-
-                // CORREGIDO: Math.max
-                const elapsedFromGameStart = Math.max(0, (audioPlayer.currentTime - gameStartTime) * 1000);
-
-                if (elapsedFromGameStart >= (fullSnippetDuration + 50)) {
-                    stopTimeMarkerUpdate();
-                    return;
-                }
-                updateBarVisuals(elapsedFromGameStart);
-
-            }, updateInterval);
-
-            function updateBarVisuals(ms) {
-                const currentSeconds = ms / 1000;
-                const currentPct = getPercentage(currentSeconds);
-
-                // CORREGIDO: Math.min
-                progressBarFill.style.width = Math.min(currentPct, segEndPercentage) + '%';
-            }
-        }
-
-        function stopTimeMarkerUpdate() {
-            if (timeMarkerInterval) { clearInterval(timeMarkerInterval); timeMarkerInterval = null; }
-        }
+        // OLD TIMER-BASED FUNCTIONS REMOVED:
+        // startTimeMarkerUpdate and stopTimeMarkerUpdate are replaced by
+        // handleSnippetTimeUpdate and updateProgressBarVisuals using timeupdate events
 
         // -----------------------------------------------------
         // buscador y eventos
