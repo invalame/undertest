@@ -891,11 +891,14 @@
                 height: 100vh;
                 height: 100dvh;
                 /* Dynamic viewport height for mobile browsers */
+                /* Dynamic viewport height for mobile browsers */
                 display: flex;
                 flex-direction: column;
-                justify-content: center;
-                /* Centrar verticalmente */
+                justify-content: flex-start;
+                /* Centrar verticalmente -> CAMBIADO A FLEX-START */
                 align-items: center;
+                padding-top: 30px;
+                /* Espacio superior */
             }
 
             /* Pop animation removed from here (moved to global) */
@@ -1528,6 +1531,7 @@
 
     <script>
         // -----------------------------------------------------
+
 
         const biblioteca = [
 
@@ -3058,6 +3062,18 @@
     </script>
     <script>
         function ajustarEscala() {
+            // DISABLE ON MOBILE/TABLET
+            if (window.innerWidth < 850) {
+                const ui = document.getElementById("ui-root");
+                if (ui) {
+                    ui.style.transform = '';
+                    ui.style.position = '';
+                    ui.style.left = '';
+                    ui.style.top = '';
+                }
+                return;
+            }
+
             const baseAncho = 900;
             const baseAlto = 950;
 
