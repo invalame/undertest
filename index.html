@@ -35,6 +35,13 @@
             font-style: normal;
         }
 
+        @font-face {
+            font-family: 'PoppinsFont';
+            src: url('fonts/Poppins-Regular.ttf') format('truetype');
+            font-weight: normal;
+            font-style: normal;
+        }
+
         :root {
             --bg: #161819;
             --panel: #242829;
@@ -193,6 +200,33 @@
             border-color: var(--panel);
         }
 
+        /* ANIMACIÓN POP GLOBAL */
+        @keyframes popIn {
+            0% {
+                transform: scale(0.9);
+                opacity: 0;
+            }
+
+            70% {
+                transform: scale(1.05);
+                opacity: 1;
+            }
+
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .guess-box.skipped,
+        .guess-box.incorrect,
+        .guess-box.correct,
+        .guess-box.partial {
+            animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+            /* Pop effect */
+            border: none;
+        }
+
         .guess-box.correct {
             background-color: var(--accent);
             /* Verde */
@@ -313,8 +347,8 @@
         button.play-button {
             background-color: var(--accent);
             border-radius: 50%;
-            width: 50px;
-            height: 50px;
+            width: 60px;
+            height: 60px;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -333,7 +367,8 @@
         }
 
         button.play-button:not([disabled]):active {
-            transform: scale(0.95);
+            /* REMOVED ANIMATION */
+            transform: none;
         }
 
         button.play-button svg {
@@ -369,11 +404,11 @@
             max-width: 600px;
             background-color: var(--panel);
             border-radius: 4px;
-            overflow: hidden;
-            align-items: center;
-            box-shadow: none;
             opacity: 1;
             transition: opacity 0.3s;
+            /* overflow: hidden; REMOVED to allow songs-list to show outside/above */
+            position: relative;
+            /* Ensure absolute child positions are relative to this */
         }
 
         .search-container.disabled {
@@ -455,10 +490,14 @@
             border-radius: 4px;
             box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
             width: 100%;
-            max-width: 600px;
+            /* Ancho exacto del contenedor padre */
+            max-width: none;
+            /* Quitar max-width heredado */
             top: auto;
-            bottom: calc(100% + 15px);
-            /* Posicion encima del controls-row */
+            bottom: 100%;
+            /* Pegado al borde superior del input */
+            margin-bottom: 5px;
+            /* Pequeño espacio */
             z-index: 1000;
             max-height: 200px;
             overflow-y: auto;
@@ -858,6 +897,8 @@
                 /* Centrar verticalmente */
                 align-items: center;
             }
+
+            /* Pop animation removed from here (moved to global) */
 
             #ui-root {
                 width: 100%;
@@ -1261,6 +1302,99 @@
         #artist-list.show {
             display: block;
         }
+
+        /* TIPOGRAFÍA POPPINS PARA ELEMENTOS ESPECÍFICOS */
+        .play-again-button,
+        #skip-button-standalone,
+        #search-input,
+        #artist-search-input,
+        .suggestion-item {
+            font-family: 'PoppinsFont', sans-serif !important;
+        }
+
+        #search-input::placeholder,
+        #artist-search-input::placeholder {
+            font-family: 'PoppinsFont', sans-serif !important;
+            opacity: 0.8;
+            /* Asegurar legibilidad */
+        }
+
+        /* ESTILOS POPUP RACHA */
+        .streak-popup {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            background-color: var(--panel);
+            border: 2px solid var(--accent);
+            border-radius: 12px;
+            padding: 20px;
+            /* box-shadow removed for solid look */
+            z-index: 2000;
+            max-width: 250px;
+            font-family: 'PoppinsFont', sans-serif;
+            animation: slideInLeft 0.5s ease-out;
+        }
+
+        @keyframes slideInLeft {
+            from {
+                transform: translateX(-100%);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        .popup-title {
+            font-size: 1.1em;
+            font-weight: bold;
+            color: var(--white);
+            margin-bottom: 5px;
+            line-height: 1.2;
+        }
+
+        .popup-text {
+            font-size: 0.85em;
+            color: var(--muted);
+            margin-bottom: 15px;
+            line-height: 1.3;
+        }
+
+        .claim-button {
+            background-color: var(--accent);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            width: 100%;
+            font-family: 'PoppinsFont', sans-serif;
+            transition: background-color 0.2s;
+        }
+
+        .claim-button:hover {
+            background-color: #4a9e20;
+        }
+
+        .close-popup {
+            position: absolute;
+            top: 5px;
+            right: 10px;
+            background: none;
+            border: none;
+            color: var(--muted);
+            font-size: 1.5em;
+            cursor: pointer;
+            line-height: 1;
+            padding: 0;
+        }
+
+        .close-popup:hover {
+            color: var(--white);
+        }
     </style>
 </head>
 
@@ -1338,13 +1472,21 @@
                     </svg>
                     <input type="text" class="search-input" id="search-input" placeholder="Busca un banger"
                         autocomplete="off">
+                    <div id="songs-list" class="songs-list" aria-hidden="true"></div>
                 </div>
                 <button id="skip-button-standalone" onclick="handleSkip()">Skip</button>
             </div>
-            <div id="songs-list" class="songs-list" aria-hidden="true"></div>
         </div>
         <div id="streak-saver-ui">salvadores de racha: 3</div>
     </main>
+
+    <!-- POPUP RECLAMAR RACHA -->
+    <div id="streak-claim-popup" class="streak-popup" style="display: none;">
+        <button class="close-popup" onclick="closeClaimPopup()">×</button>
+        <div class="popup-title">Reclamar 25 de racha</div>
+        <div class="popup-text">Por la cantidad de bugs te regalamos esto</div>
+        <button class="claim-button" onclick="claimStreak()">Reclamar</button>
+    </div>
 
     <div id="game-over-message" role="dialog" aria-modal="true">
         <div class="game-over-content" id="game-over-content">
@@ -1468,6 +1610,11 @@
         let lastTwoIndices = [-1, -1]; // almacena los índices de las dos últimas canciones jugadas de 'biblioteca'
         let currentBlobUrl = null; // Para ocultar la URL del archivo
 
+        // HISTORIAL PERSISTENTE DE CANCIONES JUGADAS
+        // Se guardan los nombres de las canciones ya jugadas para no repetir hasta completar la lista
+        let playedSongsNormal = JSON.parse(localStorage.getItem('playedSongsNormal')) || [];
+        let playedSongsArtist = JSON.parse(localStorage.getItem('playedSongsArtist')) || [];
+
         // NUEVO: Sistema de rachas
         let winStreak = parseInt(localStorage.getItem('winStreak')) || 0;
         let artistStreak = parseInt(localStorage.getItem('artistStreak')) || 0; // NUEVO
@@ -1512,9 +1659,24 @@
         const modeNormalBtn = document.getElementById('mode-normal');
         const modeArtistBtn = document.getElementById('mode-artist');
 
-        // iconos svg para el boton
-        const iconPlay = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>';
-        const iconPause = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>';
+        // iconos svg para el boton (con bordes redondeados sutiles)
+        const iconPlay = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z" stroke="white" stroke-width="2" stroke-linejoin="round" /></svg>';
+        const iconPause = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z" stroke="white" stroke-width="2" stroke-linejoin="round" /></svg>';
+
+        // SOUND EFFECTS
+        const soundClick = new Audio('sounds/sound_click.mp3');
+        const soundGameOver = new Audio('sounds/sound_game_over.mp3');
+
+        function playSound(type) {
+            // Reset to start to allow rapid re-play
+            if (type === 'click') {
+                soundClick.currentTime = 0;
+                soundClick.play().catch(e => console.warn('Error playing click sound:', e));
+            } else if (type === 'gameover') {
+                soundGameOver.currentTime = 0;
+                soundGameOver.play().catch(e => console.warn('Error playing gameover sound:', e));
+            }
+        }
 
         // -----------------------------------------------------
         // helpers
@@ -1897,6 +2059,7 @@
 
 
         function switchMode(mode) {
+            playSound('click');
             if (currentMode === mode) return;
 
             // FIX: Detener reproducción y limpiar barra al cambiar de modo
@@ -1989,6 +2152,7 @@
 
             // Si se fuerza un juego nuevo (botón reset/play again), borramos la canción guardada
             if (forceNew) {
+                playSound('click');
                 localStorage.removeItem('savedSong');
             }
 
@@ -2116,17 +2280,39 @@
         }
 
         function selectRandomSong() {
-            // asegura que el pool de la sesión esté lleno si es necesario.
+            // 1. Determinar qué historial usar
+            let persistentHistory = currentMode === 'normal' ? playedSongsNormal : playedSongsArtist;
+            const currentLib = currentMode === 'artist' ? bibliotecaArtist : biblioteca;
+
+            // 2. Si availableSongs está vacío, llenarlo filtrando las ya jugadas
             if (!availableSongs || availableSongs.length === 0) {
+                let fullPool = [];
                 if (currentMode === 'artist') {
                     if (selectedArtist) {
-                        // Filtrar solo canciones del artista seleccionado desde bibliotecaArtist
-                        availableSongs = bibliotecaArtist.filter(song => extractArtist(song.nombre) === selectedArtist);
+                        fullPool = bibliotecaArtist.filter(song => extractArtist(song.nombre) === selectedArtist);
                     } else {
-                        availableSongs = [];
+                        fullPool = [];
                     }
                 } else {
-                    availableSongs = [...biblioteca];
+                    fullPool = [...biblioteca];
+                }
+
+                // Filtrar las que ya están en el historial persistente
+                availableSongs = fullPool.filter(song => !persistentHistory.includes(song.nombre));
+
+                // Si después de filtrar no queda ninguna (ya se jugaron todas), reiniciamos el historial
+                if (availableSongs.length === 0 && fullPool.length > 0) {
+                    // Reiniciar historial
+                    persistentHistory = [];
+                    if (currentMode === 'normal') {
+                        playedSongsNormal = [];
+                        localStorage.setItem('playedSongsNormal', JSON.stringify([]));
+                    } else {
+                        playedSongsArtist = [];
+                        localStorage.setItem('playedSongsArtist', JSON.stringify([]));
+                    }
+                    // Volver a llenar con todas
+                    availableSongs = [...fullPool];
                 }
             }
 
@@ -2136,47 +2322,32 @@
                 return;
             }
 
-            let randomIndexInAvailable;
-            let candidateLibraryIndex = -1;
-            let selectedSongCandidate = null;
-            let isRecentlyPlayed = true;
-            let attempts = 0;
-            const availableCount = availableSongs.length;
-            const maxAttempts = availableCount > 2 ? availableCount * 2 : 10; // limite de seguridad
+            // 3. Elegir canción aleatoria de las disponibles
+            // CORREGIDO: Math.floor, Math.random
+            const randomIndexInAvailable = Math.floor(Math.random() * availableSongs.length);
+            const selectedSongCandidate = availableSongs[randomIndexInAvailable];
 
-            // bucle para encontrar una canción que no esté en 'lastTwoIndices'.
-            while (isRecentlyPlayed && attempts < maxAttempts) {
-                // selecciona un índice aleatorio del pool de canciones disponibles para esta sesión.
-                // CORREGIDO: Math.floor, Math.random
-                randomIndexInAvailable = Math.floor(Math.random() * availableSongs.length);
-                selectedSongCandidate = availableSongs[randomIndexInAvailable];
-
-                // encuentra el índice de la canción en la biblioteca principal para el chequeo histórico.
-                // Usar la biblioteca correspondiente
-                const currentLib = currentMode === 'artist' ? bibliotecaArtist : biblioteca;
-                candidateLibraryIndex = currentLib.findIndex(song => song.nombre === selectedSongCandidate.nombre);
-
-                // comprueba si la canción candidata es una de las dos últimas.
-                if (candidateLibraryIndex !== lastTwoIndices[0] && candidateLibraryIndex !== lastTwoIndices[1]) {
-                    isRecentlyPlayed = false;
-                }
-                attempts++;
-
-                // pequeña optimización/seguridad: si la cantidad de canciones disponibles es muy baja (<= 2)
-                // y ya intentamos más veces que el número de canciones, salimos forzadamente para evitar 
-                // un loop y aceptar la repetición si es inevitable (solo quedan las 2 últimas).
-                if (availableCount <= 2 && attempts >= availableCount) {
-                    isRecentlyPlayed = false;
-                }
-            }
-
-            // 3. actualizar la canción actual y el pool de la sesión.
+            // 4. Actualizar canción actual
             currentSong = selectedSongCandidate;
+
+            // 5. Sacarla de availableSongs (para esta sesión)
             availableSongs.splice(randomIndexInAvailable, 1);
 
-            // 4. actualizar el historial global.
-            lastTwoIndices[1] = lastTwoIndices[0];
-            lastTwoIndices[0] = candidateLibraryIndex;
+            // 6. Agregar al historial persistente y guardar
+            persistentHistory.push(currentSong.nombre);
+
+            // NUEVO: Limitar historial a las últimas 20 canciones
+            if (persistentHistory.length > 20) {
+                persistentHistory.shift(); // Eliminar la más antigua
+            }
+
+            if (currentMode === 'normal') {
+                playedSongsNormal = persistentHistory;
+                localStorage.setItem('playedSongsNormal', JSON.stringify(playedSongsNormal));
+            } else {
+                playedSongsArtist = persistentHistory;
+                localStorage.setItem('playedSongsArtist', JSON.stringify(playedSongsArtist));
+            }
         }
 
         function clearGuessBoxes() {
@@ -2534,6 +2705,7 @@
                 updateStreakDisplay();
                 updateStreakSaverUI();
             } else {
+                playSound('gameover');
                 gameResult.textContent = "perdiste crack"; // "game over" o similar
                 gameOverContent.classList.remove('win', 'lose'); // ¡limpia ambas!
                 gameOverContent.classList.add('lose');
@@ -2571,6 +2743,7 @@
 
         // NUEVA FUNCION: handleGuess con la cancion real (llamada por click en la lista)
         function handleGuessFromSelection(selectedSongName) {
+            playSound('click');
             const durations = getDurations();
             if (hasGuessedCorrectly || guessCount >= durations.length) return;
 
@@ -2646,12 +2819,18 @@
 
             // NUEVO: Si está en modo Mandale, enviar intento
             if (isSubmitMode) {
+                // No reproducir sonido aquí, ya lo hace handleGuessFromSelection
                 const val = searchInput.value.trim();
                 if (val) {
                     handleGuessFromSelection(val);
                     disableSubmitMode(); // Resetear botón tras intento
                 }
                 return;
+            }
+
+            // SONIDO: Solo reproducir click si NO es el último skip (para que no se solape con game over)
+            if (guessCount < durations.length - 1) {
+                playSound('click');
             }
 
             const guessBox = document.querySelectorAll('.guess-box')[guessCount];
@@ -2800,11 +2979,82 @@
             winStreak = parseInt(localStorage.getItem('winStreak')) || 0;
             updateStreakDisplay();
             updateStreakSaverUI();
+
+            // Chequear popup de racha
+            checkClaimPopup();
         });
+
+        // LÓGICA POPUP RACHA
+        function checkClaimPopup() {
+            if (!localStorage.getItem('streakClaimed_v1')) {
+                const popup = document.getElementById('streak-claim-popup');
+                if (popup) popup.style.display = 'block';
+            }
+        }
+
+        function claimStreak() {
+            playSound('click');
+            winStreak += 25;
+            streaksavers += 2; // NUEVO: Regalar 2 vidas
+            localStorage.setItem('winStreak', winStreak);
+            localStorage.setItem('streaksavers', streaksavers);
+            updateStreakDisplay();
+            updateStreakSaverUI();
+
+            // Marcar como reclamado
+            localStorage.setItem('streakClaimed_v1', 'true');
+
+            // Ocultar popup
+            const popup = document.getElementById('streak-claim-popup');
+            if (popup) popup.style.display = 'none';
+        }
+
+        function closeClaimPopup() {
+            playSound('click');
+            localStorage.setItem('streakClaimed_v1', 'true'); // No mostrar de nuevo
+            const popup = document.getElementById('streak-claim-popup');
+            if (popup) popup.style.display = 'none';
+        }
 
         window.addEventListener('beforeunload', () => {
             pauseAudioInternal();
         });
+
+        // >>> DEV TOOLS START <<<
+        // Herramientas de desarrollador para pruebas.
+        // Eliminar este bloque si se desea desactivar.
+        window.devTools = {
+            addLife: function () {
+                streaksavers++;
+                localStorage.setItem('streaksavers', streaksavers);
+                updateStreakSaverUI();
+                console.log('Vida añadida. Total:', streaksavers);
+            },
+            setStreak: function (n) {
+                winStreak = n;
+                localStorage.setItem('winStreak', winStreak);
+                updateStreakDisplay();
+                console.log('Racha establecida en:', winStreak);
+            },
+            setSong: function (name) {
+                // Fuerza la siguiente canción (requiere recarga o reset)
+                // Esto es complejo porque la canción se elige al azar.
+                // Mejor: Simular que la canción actual es "name" para ganar fácil?
+                // O mejor: setear la respuesta correcta.
+                console.log('Canción actual:', currentSong.nombre);
+            },
+            win: function () {
+                if (!currentSong.nombre) return;
+                handleGuessFromSelection(currentSong.nombre);
+            },
+            editStreak: function () {
+                const n = prompt("Ingresa la nueva racha:");
+                if (n !== null && !isNaN(n)) {
+                    this.setStreak(parseInt(n));
+                }
+            }
+        };
+        // >>> DEV TOOLS END <<<
     </script>
     <script>
         function ajustarEscala() {
@@ -2818,14 +3068,15 @@
 
             // aplicar solo al contenedor interno
             const ui = document.getElementById("ui-root");
-            ui.style.transform = `scale(${escala})`;
-
-            // centrarlo
-            ui.style.position = "absolute";
-            ui.style.left = `50%`;
-            ui.style.top = `0`;
-            ui.style.transformOrigin = "top center";
-            ui.style.transform = `translateX(-50%) scale(${escala})`;
+            if (ui) {
+                ui.style.transform = `scale(${escala})`;
+                // centrarlo
+                ui.style.position = "absolute";
+                ui.style.left = `50%`;
+                ui.style.top = `0`;
+                ui.style.transformOrigin = "top center";
+                ui.style.transform = `translateX(-50%) scale(${escala})`;
+            }
         }
 
         window.addEventListener("resize", ajustarEscala);
