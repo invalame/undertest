@@ -861,18 +861,18 @@
             }
 
             header {
-                padding: 12px 15px 8px 15px;
+                padding: 8px 15px 5px 15px;
                 width: 100%;
             }
 
             header .logo {
-                font-size: 2.8em;
+                font-size: 3.2em;
             }
 
             #emote-7tv {
-                width: 130px;
-                height: 38px;
-                margin-top: 5px;
+                width: 150px;
+                height: 44px;
+                margin-top: 3px;
             }
 
             .mode-selector {
@@ -1815,6 +1815,10 @@
                 // Restaurar el tiempo de inicio aleatorio guardado, o usar 0 por defecto
                 gameStartTime = state.gameStartTime !== undefined ? state.gameStartTime : 0;
 
+                // FIX: Limpiar el listener onloadedmetadata de resetGame para evitar que sobrescriba
+                // el gameStartTime guardado con un nuevo valor aleatorio
+                audioPlayer.onloadedmetadata = null;
+
                 // Cargar canción con blob (ofuscación)
                 if (currentBlobUrl) {
                     URL.revokeObjectURL(currentBlobUrl);
@@ -1884,6 +1888,9 @@
 
         function switchMode(mode) {
             if (currentMode === mode) return;
+
+            // FIX: Detener reproducción y limpiar barra al cambiar de modo
+            pauseAudioInternal();
 
             // Guardar estado del modo actual antes de cambiar
             saveModeState(currentMode);
@@ -2382,10 +2389,11 @@
             let currentOffset = audioPlayer.currentTime - gameStartTime;
             const tolerance = 0.1; // tolerancia de 100ms
 
-            // FIX MOBILE: Para tiempos muy cortos (0.1s y 0.5s), SIEMPRE reiniciar desde el principio.
+            // FIX MOBILE: Para tiempos muy cortos (<=0.5s), SIEMPRE reiniciar desde el principio.
             // Esto evita problemas de sincronización en móviles donde la latencia puede causar
             // que la barra no llegue al 100% antes de pausarse.
-            const isShortDuration = guessCount <= 1; // 0.1s y 0.5s son los primeros dos
+            // Usamos la duración real para que funcione tanto en modo Normal (0.1s, 0.5s) como Artista (0.1s).
+            const isShortDuration = totalDurationForGuess <= 0.5;
 
             // Si estamos al final del segmento actual (o nos pasamos), o antes del inicio, reiniciar.
             // Esto permite que si el usuario vuelve a dar play tras terminar el segmento, se escuche todo de nuevo.
