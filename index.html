@@ -2353,6 +2353,21 @@
 
 
         function finishSnippet() {
+            // FIX: Asegurar que la barra de progreso llegue al 100% del segmento actual
+            // antes de pausar. Esto soluciona el problema en móviles donde el interval
+            // no actualiza la barra lo suficientemente rápido para duraciones cortas (0.1s, 0.5s).
+            const durations = getDurations();
+            let totalDurationForGuess = durations[guessCount] || getTotalGameDuration();
+
+            // Aplicar la misma "mentirita" que playSnippet para calcular el target correcto
+            if (guessCount === 0 && totalDurationForGuess === 0.1) {
+                // El target visual sigue siendo 0.1s, aunque la reproducción real fue 0.2s
+                totalDurationForGuess = 0.1; // Para la barra, mostrar 0.1s
+            }
+
+            const targetPercentage = getPercentage(totalDurationForGuess);
+            progressBarFill.style.width = targetPercentage + '%';
+
             pauseAudioInternal();
             snippetRemainingMs = 0;
             // NO resetear currentTime - mantener donde terminó para reproducción continua
