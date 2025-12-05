@@ -409,6 +409,8 @@
             /* overflow: hidden; REMOVED to allow songs-list to show outside/above */
             position: relative;
             /* Ensure absolute child positions are relative to this */
+            align-items: center;
+            /* Ensure icon is centered vertically */
         }
 
         .search-container.disabled {
@@ -887,9 +889,12 @@
         /* === MOBILE PHONE SPECIFIC === */
         @media (max-width: 480px) {
             body {
-                overflow-y: hidden;
-                height: 100vh;
-                height: 100dvh;
+                overflow-y: auto;
+                /* Habilitar scroll */
+                height: auto;
+                /* Quitar altura fija */
+                min-height: 100vh;
+                /* Altura mínima */
                 /* Dynamic viewport height for mobile browsers */
                 /* Dynamic viewport height for mobile browsers */
                 display: flex;
@@ -1401,136 +1406,134 @@
     </style>
 </head>
 
-<body>
-    <button class="reset-button" onclick="fullReset()">REINICIAR</button>
 
-    <header>
-        <div class="logo">UnderLess</div>
-        <img id="emote-7tv" src="img/peepo-band.gif" alt="peepo band">
+<header>
+    <div class="logo">UnderLess</div>
+    <img id="emote-7tv" src="img/peepo-band.gif" alt="peepo band">
 
-        <!-- MODE SELECTOR -->
-        <div class="mode-selector">
-            <button id="mode-normal" class="mode-button active" onclick="switchMode('normal')">Normal</button>
-            <button id="mode-artist" class="mode-button" onclick="switchMode('artist')">Artista</button>
+    <!-- MODE SELECTOR -->
+    <div class="mode-selector">
+        <button id="mode-normal" class="mode-button active" onclick="switchMode('normal')">Normal</button>
+        <button id="mode-artist" class="mode-button" onclick="switchMode('artist')">Artista</button>
+    </div>
+</header>
+
+<div id="ui-root">
+    <!-- Aquí todo tu header, main, botones, etc. -->
+</div>
+
+<div class="volume-container" title="volumen">
+    <svg class="volume-icon" viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M3 9v6h4l5 5V4L7 9H3z" />
+    </svg>
+    <input id="volume-slider" class="volume-slider" type="range" min="0" max="1" step="0.01" value="0.8"
+        aria-label="volumen">
+</div>
+
+<main>
+    <!-- SECCIÓN DE ARTISTA (NUEVO) -->
+    <div id="artist-section">
+        <div id="current-artist-display">Selecciona un artista</div>
+        <div class="artist-search-container">
+            <div class="search-container">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path
+                        d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79L20.29 21l.71-.71L15.5 14zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 14z" />
+                </svg>
+                <input type="text" class="search-input" id="artist-search-input" placeholder="Buscar artista..."
+                    autocomplete="off">
+            </div>
+            <div id="artist-list" class="songs-list"></div>
         </div>
-    </header>
-
-    <div id="ui-root">
-        <!-- Aquí todo tu header, main, botones, etc. -->
     </div>
 
-    <div class="volume-container" title="volumen">
-        <svg class="volume-icon" viewBox="0 0 24 24" aria-hidden="true">
-            <path d="M3 9v6h4l5 5V4L7 9H3z" />
+    <div class="guess-boxes" id="guess-boxes">
+        <div class="guess-box"></div>
+        <div class="guess-box"></div>
+        <div class="guess-box"></div>
+        <div class="guess-box"></div>
+        <div class="guess-box"></div>
+        <div class="guess-box"></div>
+    </div>
+
+
+    <div class="progress-bar-container" id="progress-bar">
+        <div class="segments-overlay" id="segments-overlay"></div>
+        <div class="progress-bar-fill" id="progress-bar-fill"></div>
+        <span class="timer-text" id="current-timer-text" style="left:0%">0.1s</span>
+    </div>
+    <div id="streak">Racha: 0</div>
+    <button class="play-button" id="play-button" onclick="playSnippet()" disabled aria-label="escuchar fragmento">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M8 5v14l11-7z" />
         </svg>
-        <input id="volume-slider" class="volume-slider" type="range" min="0" max="1" step="0.01" value="0.8"
-            aria-label="volumen">
-    </div>
+    </button>
 
-    <main>
-        <!-- SECCIÓN DE ARTISTA (NUEVO) -->
-        <div id="artist-section">
-            <div id="current-artist-display">Selecciona un artista</div>
-            <div class="artist-search-container">
-                <div class="search-container">
-                    <svg viewBox="0 0 24 24" aria-hidden="true">
-                        <path
-                            d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79L20.29 21l.71-.71L15.5 14zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 14z" />
-                    </svg>
-                    <input type="text" class="search-input" id="artist-search-input" placeholder="Buscar artista..."
-                        autocomplete="off">
-                </div>
-                <div id="artist-list" class="songs-list"></div>
+    <div class="search-controls-container">
+        <div class="controls-row">
+            <div class="search-container" id="search-container">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path
+                        d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79L20.29 21l.71-.71L15.5 14zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z" />
+                </svg>
+                <input type="text" class="search-input" id="search-input" placeholder="Busca un banger"
+                    autocomplete="off">
+                <div id="songs-list" class="songs-list" aria-hidden="true"></div>
             </div>
-        </div>
-
-        <div class="guess-boxes" id="guess-boxes">
-            <div class="guess-box"></div>
-            <div class="guess-box"></div>
-            <div class="guess-box"></div>
-            <div class="guess-box"></div>
-            <div class="guess-box"></div>
-            <div class="guess-box"></div>
-        </div>
-
-
-        <div class="progress-bar-container" id="progress-bar">
-            <div class="segments-overlay" id="segments-overlay"></div>
-            <div class="progress-bar-fill" id="progress-bar-fill"></div>
-            <span class="timer-text" id="current-timer-text" style="left:0%">0.1s</span>
-        </div>
-        <div id="streak">Racha: 0</div>
-        <button class="play-button" id="play-button" onclick="playSnippet()" disabled aria-label="escuchar fragmento">
-            <svg viewBox="0 0 24 24" aria-hidden="true">
-                <path d="M8 5v14l11-7z" />
-            </svg>
-        </button>
-
-        <div class="search-controls-container">
-            <div class="controls-row">
-                <div class="search-container" id="search-container">
-                    <svg viewBox="0 0 24 24" aria-hidden="true">
-                        <path
-                            d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79L20.29 21l.71-.71L15.5 14zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z" />
-                    </svg>
-                    <input type="text" class="search-input" id="search-input" placeholder="Busca un banger"
-                        autocomplete="off">
-                    <div id="songs-list" class="songs-list" aria-hidden="true"></div>
-                </div>
-                <button id="skip-button-standalone" onclick="handleSkip()">Skip</button>
-            </div>
-        </div>
-        <div id="streak-saver-ui">salvadores de racha: 3</div>
-    </main>
-
-    <!-- POPUP RECLAMAR RACHA -->
-    <div id="streak-claim-popup" class="streak-popup" style="display: none;">
-        <button class="close-popup" onclick="closeClaimPopup()">×</button>
-        <div class="popup-title">Reclamar 25 de racha</div>
-        <div class="popup-text">Por la cantidad de bugs te regalamos esto</div>
-        <button class="claim-button" onclick="claimStreak()">Reclamar</button>
-    </div>
-
-    <div id="game-over-message" role="dialog" aria-modal="true">
-        <div class="game-over-content" id="game-over-content">
-            <div class="game-over-header">
-                <h2 id="game-result"></h2>
-            </div>
-
-            <div class="game-over-body">
-                <div id="correct-answer-container">
-                    <span class="label" id="answer-label"></span>
-                    <span id="correct-answer"></span>
-                </div>
-
-                <div class="full-player-container">
-                    <div class="full-player-bar">
-                        <input type="range" id="full-song-seeker" min="0" max="100" value="0">
-                    </div>
-                    <div class="full-player-controls">
-                        <button class="action-button mini-play-button" id="full-song-toggle" onclick="toggleFullSong()">
-                            <span id="full-song-icon-play">
-                                <svg viewBox="0 0 24 24" aria-hidden="true">
-                                    <path d="M8 5v14l11-7z" />
-                                </svg>
-                            </span>
-                            <span id="full-song-icon-pause" style="display: none;">
-                                <svg viewBox="0 0 24 24" aria-hidden="true">
-                                    <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z" />
-                                </svg>
-                            </span>
-                        </button>
-                        <span id="full-song-time">0:00 / 0:00</span>
-                    </div>
-                </div>
-                <button class="action-button play-again-button" onclick="resetGame(true)">una ma</button>
-            </div>
+            <button id="skip-button-standalone" onclick="handleSkip()">Skip</button>
         </div>
     </div>
-    <!-- Removed audio tag from DOM -->
+    <div id="streak-saver-ui">salvadores de racha: 3</div>
+</main>
 
-    <script>
-        // -----------------------------------------------------
+<!-- POPUP RECLAMAR RACHA -->
+<div id="streak-claim-popup" class="streak-popup" style="display: none;">
+    <button class="close-popup" onclick="closeClaimPopup()">×</button>
+    <div class="popup-title">Reclamar 25 de racha</div>
+    <div class="popup-text">Por la cantidad de bugs te regalamos esto</div>
+    <button class="claim-button" onclick="claimStreak()">Reclamar</button>
+</div>
+
+<div id="game-over-message" role="dialog" aria-modal="true">
+    <div class="game-over-content" id="game-over-content">
+        <div class="game-over-header">
+            <h2 id="game-result"></h2>
+        </div>
+
+        <div class="game-over-body">
+            <div id="correct-answer-container">
+                <span class="label" id="answer-label"></span>
+                <span id="correct-answer"></span>
+            </div>
+
+            <div class="full-player-container">
+                <div class="full-player-bar">
+                    <input type="range" id="full-song-seeker" min="0" max="100" value="0">
+                </div>
+                <div class="full-player-controls">
+                    <button class="action-button mini-play-button" id="full-song-toggle" onclick="toggleFullSong()">
+                        <span id="full-song-icon-play">
+                            <svg viewBox="0 0 24 24" aria-hidden="true">
+                                <path d="M8 5v14l11-7z" />
+                            </svg>
+                        </span>
+                        <span id="full-song-icon-pause" style="display: none;">
+                            <svg viewBox="0 0 24 24" aria-hidden="true">
+                                <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z" />
+                            </svg>
+                        </span>
+                    </button>
+                    <span id="full-song-time">0:00 / 0:00</span>
+                </div>
+            </div>
+            <button class="action-button play-again-button" onclick="resetGame(true)">una ma</button>
+        </div>
+    </div>
+</div>
+<!-- Removed audio tag from DOM -->
+
+<script>
+    // -----------------------------------------------------
 
 
         const biblioteca = [
@@ -1570,1280 +1573,1265 @@
 
 
         // -----------------------------------------------------
-        // Variables
-        let audioPlayer = new Audio(); // Created in memory, not in DOM
-        let currentSong = {};
-        let guessCount = 0;
+    // Variables
+    let audioPlayer = new Audio(); // Created in memory, not in DOM
+    let currentSong = {};
+    let guessCount = 0;
 
-        // Duraciones de intentos (DINÁMICO)
-        function getDurations() {
-            if (currentMode === 'artist') {
-                return [0.1, 2, 4];
-            }
-            return [0.1, 0.5, 2, 4, 8, 15];
+    // Duraciones de intentos (DINÁMICO)
+    function getDurations() {
+        if (currentMode === 'artist') {
+            return [0.1, 2, 4];
         }
+        return [0.1, 0.5, 2, 4, 8, 15];
+    }
 
-        function getTotalGameDuration() {
-            const durations = getDurations();
-            return durations[durations.length - 1];
+    function getTotalGameDuration() {
+        const durations = getDurations();
+        return durations[durations.length - 1];
+    }
+
+    // const targetDurations = [0.1, 0.5, 2, 4, 8, 15]; // ELIMINADO
+    // const totalGameDuration = 15; // ELIMINADO
+
+    let hasGuessedCorrectly = false;
+    let availableSongs = [];
+
+    // =====================================================
+    // AUDIO PLAYER SYSTEM - Mobile-Optimized v2.0
+    // =====================================================
+    // Uses audio timeupdate events + requestAnimationFrame
+    // instead of setTimeout/setInterval for reliable mobile playback
+
+    // Snippet playback state
+    let snippetState = 'idle'; // 'idle' | 'playing' | 'paused'
+    let snippetTargetTime = 0; // The exact audio time where snippet should stop
+    let animationFrameId = null; // For requestAnimationFrame cleanup
+
+    // Core audio variables
+    let gameStartTime = 0; // Random start point within the song
+    let isFullSongPlaying = false;
+    let fullPlayerInterval = null;
+
+    // nuevo: historial para evitar repetición entre juegos.
+    let lastTwoIndices = [-1, -1]; // almacena los índices de las dos últimas canciones jugadas de 'biblioteca'
+    let currentBlobUrl = null; // Para ocultar la URL del archivo
+
+    // HISTORIAL PERSISTENTE DE CANCIONES JUGADAS
+    // Se guardan los nombres de las canciones ya jugadas para no repetir hasta completar la lista
+    let playedSongsNormal = JSON.parse(localStorage.getItem('playedSongsNormal')) || [];
+    let playedSongsArtist = JSON.parse(localStorage.getItem('playedSongsArtist')) || [];
+
+    // NUEVO: Sistema de rachas
+    let winStreak = parseInt(localStorage.getItem('winStreak')) || 0;
+    let artistStreak = parseInt(localStorage.getItem('artistStreak')) || 0; // NUEVO
+    const streakEl = document.getElementById('streak');
+
+    // NUEVO: Sistema salva rachas
+    let streaksavers = parseInt(localStorage.getItem('streaksavers')) || 0;
+    const minstreak = 13;
+
+    // NUEVO: Variables para Modo Artista
+    let currentMode = 'normal'; // 'normal' | 'artist'
+    let selectedArtist = null;
+    let artists = new Set();
+    let artistList = []; // Array ordenado de artistas para búsqueda
+
+    // dom
+    const playButton = document.getElementById('play-button');
+    const skipButton = document.getElementById('skip-button-standalone');
+    const searchInput = document.getElementById('search-input');
+    const songsList = document.getElementById('songs-list');
+    const progressBarFill = document.getElementById('progress-bar-fill');
+    const segmentsOverlay = document.getElementById('segments-overlay');
+    const timerTextEl = document.getElementById('current-timer-text');
+    const volumeSlider = document.getElementById('volume-slider');
+    const gameOverMessage = document.getElementById('game-over-message');
+    const gameOverContent = document.getElementById('game-over-content'); // nuevo
+    const gameResult = document.getElementById('game-result');
+    const answerLabel = document.getElementById('answer-label'); // nuevo
+    const correctAnswerEl = document.getElementById('correct-answer'); // renombrado
+
+    // nuevos elementos del reproductor completo
+    const fullSongIconPlay = document.getElementById('full-song-icon-play');
+    const fullSongIconPause = document.getElementById('full-song-icon-pause');
+    const fullSongSeeker = document.getElementById('full-song-seeker');
+    const fullSongTime = document.getElementById('full-song-time');
+
+    // elementos modo artista
+    const artistSection = document.getElementById('artist-section');
+    const artistSearchInput = document.getElementById('artist-search-input');
+    const artistListEl = document.getElementById('artist-list');
+    const currentArtistDisplay = document.getElementById('current-artist-display');
+    const modeNormalBtn = document.getElementById('mode-normal');
+    const modeArtistBtn = document.getElementById('mode-artist');
+
+    // iconos svg para el boton (con bordes redondeados sutiles)
+    const iconPlay = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z" stroke="white" stroke-width="2" stroke-linejoin="round" /></svg>';
+    const iconPause = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z" stroke="white" stroke-width="2" stroke-linejoin="round" /></svg>';
+
+    // SOUND EFFECTS
+    const soundClick = new Audio('sounds/sound_click.mp3');
+    const soundGameOver = new Audio('sounds/sound_game_over.mp3');
+
+    function playSound(type) {
+        // Reset to start to allow rapid re-play
+        if (type === 'click') {
+            soundClick.currentTime = 0;
+            soundClick.play().catch(e => console.warn('Error playing click sound:', e));
+        } else if (type === 'gameover') {
+            soundGameOver.currentTime = 0;
+            soundGameOver.play().catch(e => console.warn('Error playing gameover sound:', e));
         }
+    }
 
-        // const targetDurations = [0.1, 0.5, 2, 4, 8, 15]; // ELIMINADO
-        // const totalGameDuration = 15; // ELIMINADO
+    // -----------------------------------------------------
+    // helpers
+    function formatSeconds(value) {
+        // CORREGIDO: Number.isInteger, toFixed
+        return Number.isInteger(value) ? `${value}s` : `${value.toFixed(1)}s`;
+    }
 
-        let hasGuessedCorrectly = false;
-        let availableSongs = [];
+    // nueva función: formatear tiempo a mm:ss
+    function formatTime(seconds) {
+        // CORREGIDO: isNaN, Math.floor
+        if (isNaN(seconds) || seconds < 0) return "0:00";
+        const minutes = Math.floor(seconds / 60);
+        const remainingSeconds = Math.floor(seconds % 60);
+        return `${minutes}:${remainingSeconds < 10 ? '0' : ''}${remainingSeconds}`;
+    }
 
-        // =====================================================
-        // AUDIO PLAYER SYSTEM - Mobile-Optimized v2.0
-        // =====================================================
-        // Uses audio timeupdate events + requestAnimationFrame
-        // instead of setTimeout/setInterval for reliable mobile playback
+    // calcula el porcentaje en la barra basado en el tiempo total del juego
+    function getPercentage(timeinseconds) {
+        return (timeinseconds / getTotalGameDuration()) * 100;
+    }
 
-        // Snippet playback state
-        let snippetState = 'idle'; // 'idle' | 'playing' | 'paused'
-        let snippetTargetTime = 0; // The exact audio time where snippet should stop
-        let animationFrameId = null; // For requestAnimationFrame cleanup
+    // visual: renderiza las divisiones de la barra de progreso
+    function renderProgressSegments() {
+        if (!segmentsOverlay) return;
+        segmentsOverlay.innerHTML = "";
+        const durations = getDurations();
+        const total = getTotalGameDuration();
 
-        // Core audio variables
-        let gameStartTime = 0; // Random start point within the song
-        let isFullSongPlaying = false;
-        let fullPlayerInterval = null;
+        let previousCumulativeTime = 0;
+        durations.forEach((cumulativeTime, index) => {
+            const segmentTime = cumulativeTime - previousCumulativeTime;
 
-        // nuevo: historial para evitar repetición entre juegos.
-        let lastTwoIndices = [-1, -1]; // almacena los índices de las dos últimas canciones jugadas de 'biblioteca'
-        let currentBlobUrl = null; // Para ocultar la URL del archivo
+            const segment = document.createElement('div');
+            segment.classList.add('progress-segment');
+            segment.style.width = `${(segmentTime / total) * 100}%`;
+            segmentsOverlay.appendChild(segment);
+            previousCumulativeTime = cumulativeTime;
 
-        // HISTORIAL PERSISTENTE DE CANCIONES JUGADAS
-        // Se guardan los nombres de las canciones ya jugadas para no repetir hasta completar la lista
-        let playedSongsNormal = JSON.parse(localStorage.getItem('playedSongsNormal')) || [];
-        let playedSongsArtist = JSON.parse(localStorage.getItem('playedSongsArtist')) || [];
+            if (index < durations.length - 1) {
+                const percentage = getPercentage(cumulativeTime);
 
-        // NUEVO: Sistema de rachas
-        let winStreak = parseInt(localStorage.getItem('winStreak')) || 0;
-        let artistStreak = parseInt(localStorage.getItem('artistStreak')) || 0; // NUEVO
-        const streakEl = document.getElementById('streak');
+                const divider = document.createElement('div');
+                divider.classList.add('segment-divider');
 
-        // NUEVO: Sistema salva rachas
-        let streaksavers = parseInt(localStorage.getItem('streaksavers')) || 0;
-        const minstreak = 13;
-
-        // NUEVO: Variables para Modo Artista
-        let currentMode = 'normal'; // 'normal' | 'artist'
-        let selectedArtist = null;
-        let artists = new Set();
-        let artistList = []; // Array ordenado de artistas para búsqueda
-
-        // dom
-        const playButton = document.getElementById('play-button');
-        const skipButton = document.getElementById('skip-button-standalone');
-        const searchInput = document.getElementById('search-input');
-        const songsList = document.getElementById('songs-list');
-        const progressBarFill = document.getElementById('progress-bar-fill');
-        const segmentsOverlay = document.getElementById('segments-overlay');
-        const timerTextEl = document.getElementById('current-timer-text');
-        const volumeSlider = document.getElementById('volume-slider');
-        const gameOverMessage = document.getElementById('game-over-message');
-        const gameOverContent = document.getElementById('game-over-content'); // nuevo
-        const gameResult = document.getElementById('game-result');
-        const answerLabel = document.getElementById('answer-label'); // nuevo
-        const correctAnswerEl = document.getElementById('correct-answer'); // renombrado
-
-        // nuevos elementos del reproductor completo
-        const fullSongIconPlay = document.getElementById('full-song-icon-play');
-        const fullSongIconPause = document.getElementById('full-song-icon-pause');
-        const fullSongSeeker = document.getElementById('full-song-seeker');
-        const fullSongTime = document.getElementById('full-song-time');
-
-        // elementos modo artista
-        const artistSection = document.getElementById('artist-section');
-        const artistSearchInput = document.getElementById('artist-search-input');
-        const artistListEl = document.getElementById('artist-list');
-        const currentArtistDisplay = document.getElementById('current-artist-display');
-        const modeNormalBtn = document.getElementById('mode-normal');
-        const modeArtistBtn = document.getElementById('mode-artist');
-
-        // iconos svg para el boton (con bordes redondeados sutiles)
-        const iconPlay = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z" stroke="white" stroke-width="2" stroke-linejoin="round" /></svg>';
-        const iconPause = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z" stroke="white" stroke-width="2" stroke-linejoin="round" /></svg>';
-
-        // SOUND EFFECTS
-        const soundClick = new Audio('sounds/sound_click.mp3');
-        const soundGameOver = new Audio('sounds/sound_game_over.mp3');
-
-        function playSound(type) {
-            // Reset to start to allow rapid re-play
-            if (type === 'click') {
-                soundClick.currentTime = 0;
-                soundClick.play().catch(e => console.warn('Error playing click sound:', e));
-            } else if (type === 'gameover') {
-                soundGameOver.currentTime = 0;
-                soundGameOver.play().catch(e => console.warn('Error playing gameover sound:', e));
-            }
-        }
-
-        // -----------------------------------------------------
-        // helpers
-        function formatSeconds(value) {
-            // CORREGIDO: Number.isInteger, toFixed
-            return Number.isInteger(value) ? `${value}s` : `${value.toFixed(1)}s`;
-        }
-
-        // nueva función: formatear tiempo a mm:ss
-        function formatTime(seconds) {
-            // CORREGIDO: isNaN, Math.floor
-            if (isNaN(seconds) || seconds < 0) return "0:00";
-            const minutes = Math.floor(seconds / 60);
-            const remainingSeconds = Math.floor(seconds % 60);
-            return `${minutes}:${remainingSeconds < 10 ? '0' : ''}${remainingSeconds}`;
-        }
-
-        // calcula el porcentaje en la barra basado en el tiempo total del juego
-        function getPercentage(timeinseconds) {
-            return (timeinseconds / getTotalGameDuration()) * 100;
-        }
-
-        // visual: renderiza las divisiones de la barra de progreso
-        function renderProgressSegments() {
-            if (!segmentsOverlay) return;
-            segmentsOverlay.innerHTML = "";
-            const durations = getDurations();
-            const total = getTotalGameDuration();
-
-            let previousCumulativeTime = 0;
-            durations.forEach((cumulativeTime, index) => {
-                const segmentTime = cumulativeTime - previousCumulativeTime;
-
-                const segment = document.createElement('div');
-                segment.classList.add('progress-segment');
-                segment.style.width = `${(segmentTime / total) * 100}%`;
-                segmentsOverlay.appendChild(segment);
-                previousCumulativeTime = cumulativeTime;
-
-                if (index < durations.length - 1) {
-                    const percentage = getPercentage(cumulativeTime);
-
-                    const divider = document.createElement('div');
-                    divider.classList.add('segment-divider');
+                // FIX: Visual adjustment for the first divider (0.1s)
+                if (index === 0) {
+                    divider.style.left = `calc(${percentage}% + 3px)`; // Shift right slightly
+                } else {
                     divider.style.left = `${percentage}%`;
-                    segmentsOverlay.appendChild(divider);
-                }
-            });
-        }
-
-        // NUEVO: Renderizar cajas de intentos dinámicamente
-        function renderGuessBoxes() {
-            const container = document.getElementById('guess-boxes');
-            if (!container) return;
-            container.innerHTML = '';
-
-            const durations = getDurations();
-            const count = durations.length;
-
-            for (let i = 0; i < count; i++) {
-                const box = document.createElement('div');
-                box.className = 'guess-box';
-                container.appendChild(box);
-            }
-        }
-
-        // NUEVA FUNCIÓN MEJORADA PARA RACHA CON DEGRADADO PROGRESIVO SUAVE
-        function updateStreakDisplay() {
-            const currentStreak = currentMode === 'normal' ? winStreak : artistStreak;
-            streakEl.textContent = `Racha: ${currentStreak}`;
-
-            let color = '';
-
-            if (currentStreak === 0) {
-                color = 'var(--muted)'; // gris
-            }
-            else if (currentStreak <= 5) {
-                // Verde puro a verde-amarillo (1-5)
-                const progress = (currentStreak - 1) / 4; // 0 a 1
-                color = lerpColor("#55b725", "#7db800", progress);
-            }
-            else if (currentStreak <= 10) {
-                // Verde-amarillo a amarillo brillante (6-10)
-                const progress = (currentStreak - 5) / 5;
-                color = lerpColor("#7db800", "#ffd000", progress);
-            }
-            else if (currentStreak <= 15) {
-                // Amarillo a naranja (11-15)
-                const progress = (currentStreak - 10) / 5;
-                color = lerpColor("#ffd000", "#ff8800", progress);
-            }
-            else if (currentStreak <= 20) {
-                // Naranja a rojo (16-20)
-                const progress = (currentStreak - 15) / 5;
-                color = lerpColor("#ff8800", "#ff3300", progress);
-            }
-            else if (currentStreak <= 25) {
-                // Rojo a rojo oscuro (21-25)
-                const progress = (currentStreak - 20) / 5;
-                color = lerpColor("#ff3300", "#990000", progress);
-            }
-            else if (currentStreak <= 30) {
-                // Rojo oscuro a violeta suave (26-30)
-                const progress = (currentStreak - 25) / 5;
-                color = lerpColor("#990000", "#b14aed", progress);
-            }
-            else if (currentStreak <= 35) {
-                // Violeta suave a violeta intenso (31-35)
-                const progress = (currentStreak - 30) / 5;
-                color = lerpColor("#b14aed", "#8a2be2", progress);
-            }
-            else if (currentStreak <= 170) {
-                // 36-170: violeta intenso con glow
-                color = 'var(--streak-max)';
-                streakEl.style.textShadow = '0 0 12px rgba(138, 43, 226, 0.7)';
-            }
-            else {
-                // Más de 170: celeste piola con glow más intenso
-                color = 'var(--streak-cyan)';
-                streakEl.style.textShadow = '0 0 15px rgba(0, 212, 255, 0.8)';
-            }
-
-            streakEl.style.color = color;
-
-            // Quitar el brillo cuando la racha es menor a 36
-            if (currentStreak < 36) {
-                streakEl.style.textShadow = 'none';
-            }
-        }
-
-        // Función auxiliar para interpolar colores (degradado suave)
-        function lerpColor(color1, color2, factor) {
-            const hex = (c) => {
-                const hex = c.replace('#', '');
-                return [parseInt(hex.substr(0, 2), 16), parseInt(hex.substr(2, 2), 16), parseInt(hex.substr(4, 2), 16)];
-            };
-            const rgb1 = hex(color1);
-            const rgb2 = hex(color2);
-            const result = rgb1.map((c, i) => Math.round(c + factor * (rgb2[i] - c)));
-            return `rgb(${result[0]}, ${result[1]}, ${result[2]})`;
-        }
-
-        // NUEVA: Función para actualizar UI de salva rachas (con PNGs)
-        function updateStreakSaverUI() {
-            const streakSaverEl = document.getElementById('streak-saver-ui');
-            if (!streakSaverEl) return;
-
-            // En modo artista no usamos salva rachas por ahora (o sí? el usuario no especificó, asumimos que sí pero con su racha)
-            // Para simplificar, lo mostramos igual.
-
-            const currentStreak = currentMode === 'normal' ? winStreak : artistStreak;
-
-            if (currentStreak < minstreak) {
-                streakSaverEl.style.display = 'none';
-                return;
-            }
-
-            streakSaverEl.style.display = 'block';
-            let html = 'Vidas: ';
-            const maxSavers = 3;
-            for (let i = 0; i < maxSavers; i++) {
-                const src = (i < streaksavers) ? 'img/racha_color.png' : 'img/racha_nocolor.png';
-                html += `<img src="${src}" alt="salva racha">`;
-            }
-            streakSaverEl.innerHTML = html;
-        }
-
-        // -----------------------------------------------------
-        // LÓGICA MODO ARTISTA
-
-        function extractArtist(songName) {
-            // El artista son las palabras que esten antes de una "," o un "-"
-            // Prioridad: coma, luego guion.
-            let separatorIndex = songName.indexOf(',');
-            if (separatorIndex === -1) {
-                separatorIndex = songName.indexOf('-');
-            }
-
-            if (separatorIndex !== -1) {
-                return songName.substring(0, separatorIndex).trim();
-            }
-            return ""; // Fallback o si no tiene separador (raro en este formato)
-        }
-
-        // NUEVO: Helper específico para la lógica de "guess box amarilla"
-        // Solo considera el guion como separador, ignorando comas.
-        function extractArtistForGuess(songName) {
-            let separatorIndex = songName.indexOf('-');
-            if (separatorIndex !== -1) {
-                return songName.substring(0, separatorIndex).trim();
-            }
-            return "";
-        }
-
-        function populateArtists() {
-            artists.clear();
-            // Usar bibliotecaArtist para poblar la lista de artistas
-            bibliotecaArtist.forEach(song => {
-                const artist = extractArtist(song.nombre);
-                if (artist) {
-                    artists.add(artist);
-                }
-            });
-            artistList = Array.from(artists).sort();
-        }
-
-        // PERSISTENCIA DE ESTADO
-        let normalModeState = null;
-        let artistModeState = null;
-
-        function saveModeState(mode) {
-            const state = {
-                currentSong: currentSong,
-                guessCount: guessCount,
-                hasGuessedCorrectly: hasGuessedCorrectly,
-                availableSongs: [...availableSongs],
-                guesses: getGuessStates(), // Guardar estado visual
-                gameStartTime: gameStartTime // Guardar tiempo de inicio aleatorio
-            };
-
-            if (mode === 'artist') {
-                state.selectedArtist = selectedArtist;
-                artistModeState = state;
-            } else {
-                normalModeState = state;
-            }
-
-            // PERSISTENCIA: Guardar en localStorage
-            const fullState = {
-                normal: normalModeState,
-                artist: artistModeState,
-                currentMode: currentMode
-            };
-            localStorage.setItem('underless_save_v1', JSON.stringify(fullState));
-        }
-
-        function loadFromLocalStorage() {
-            const saved = localStorage.getItem('underless_save_v1');
-            if (saved) {
-                try {
-                    const parsed = JSON.parse(saved);
-                    normalModeState = parsed.normal;
-                    artistModeState = parsed.artist;
-                    if (parsed.currentMode) {
-                        currentMode = parsed.currentMode;
-                    }
-                } catch (e) {
-                    console.error("Error loading game state:", e);
-                    localStorage.removeItem('underless_save_v1');
-                }
-            }
-        }
-
-        async function restoreModeState(mode) {
-            const state = mode === 'artist' ? artistModeState : normalModeState;
-
-            // FIX: Renderizar UI siempre para asegurar que coincida con el modo actual
-            renderGuessBoxes();
-            renderProgressSegments();
-
-            if (!state) {
-                // Si no hay estado guardado, resetear de cero
-                availableSongs = [];
-                if (mode === 'artist') selectedArtist = null;
-                resetGame(true);
-                return;
-            }
-
-            // Restaurar variables
-            currentSong = state.currentSong;
-            guessCount = state.guessCount;
-            hasGuessedCorrectly = state.hasGuessedCorrectly;
-            availableSongs = state.availableSongs;
-            if (mode === 'artist') {
-                selectedArtist = state.selectedArtist;
-                if (selectedArtist) {
-                    currentArtistDisplay.textContent = `Artista: ${selectedArtist}`;
-
-                    // BUGFIX: Sanitize availableSongs to ensure they belong to the selected artist
-                    if (availableSongs && availableSongs.length > 0) {
-                        const isConsistent = availableSongs.every(s => extractArtist(s.nombre) === selectedArtist);
-                        if (!isConsistent) {
-                            console.warn("Detected inconsistent songs in artist mode state. Resetting pool.");
-                            availableSongs = [];
-                        }
-                    }
-                } else {
-                    currentArtistDisplay.textContent = "Selecciona un artista";
-                    availableSongs = [];
-                }
-            }
-
-            // Restaurar casillas visualmente
-            const boxes = document.querySelectorAll('.guess-box');
-            // Limpiar primero
-            boxes.forEach(b => { b.className = 'guess-box'; b.textContent = ''; });
-
-            // NUEVO: Restaurar estado visual exacto
-            if (state.guesses) {
-                restoreGuessStates(state.guesses);
-            } else if (state.guessBoxStates) {
-                // Fallback para compatibilidad con versiones anteriores de guardado
-                restoreGuessStates(state.guessBoxStates);
-            }
-
-            // Restaurar audio con blob para mantener ofuscación
-            if (currentSong.archivo) {
-                // Restaurar el tiempo de inicio aleatorio guardado, o usar 0 por defecto
-                gameStartTime = state.gameStartTime !== undefined ? state.gameStartTime : 0;
-
-                // FIX: Limpiar el listener onloadedmetadata de resetGame para evitar que sobrescriba
-                // el gameStartTime guardado con un nuevo valor aleatorio
-                audioPlayer.onloadedmetadata = null;
-
-                // Cargar canción con blob (ofuscación)
-                if (currentBlobUrl) {
-                    URL.revokeObjectURL(currentBlobUrl);
-                    currentBlobUrl = null;
                 }
 
-                // BUGFIX: Skip fetch on file protocol to avoid console errors (spoilers)
-                if (window.location.protocol !== 'file:') {
-                    try {
-                        const response = await fetch(currentSong.archivo);
-                        const blob = await response.blob();
-                        currentBlobUrl = URL.createObjectURL(blob);
-                        audioPlayer.src = currentBlobUrl;
-                    } catch (e) {
-                        console.error("Error loading audio blob:", e);
-                        audioPlayer.src = currentSong.archivo;
-                    }
-                } else {
-                    // Local file: use direct path
-                    audioPlayer.src = currentSong.archivo;
-                }
-
-                audioPlayer.currentTime = gameStartTime;
-                audioPlayer.load();
-
-                // Activar botón play cuando el audio esté listo
-                audioPlayer.oncanplaythrough = () => {
-                    audioPlayer.currentTime = gameStartTime;
-                    playButton.removeAttribute('disabled');
-                    audioPlayer.oncanplaythrough = null;
-                };
-                // No reproducimos automáticamente, el usuario debe dar play
-            } else {
-                // Si no había canción (ej. artista no seleccionado), resetear UI
-                if (mode === 'artist' && !selectedArtist) {
-                    document.getElementById('search-container').classList.add('disabled');
-                }
+                segmentsOverlay.appendChild(divider);
             }
+        });
+    }
 
-            // Actualizar marcador de tiempo
-            updateTimeMarker(guessCount);
+    // NUEVO: Renderizar cajas de intentos dinámicamente
+    function renderGuessBoxes() {
+        const container = document.getElementById('guess-boxes');
+        if (!container) return;
+        container.innerHTML = '';
 
-            // Actualizar estado de botones
-            if (hasGuessedCorrectly) {
-                document.getElementById('search-container').classList.add('disabled');
-                playButton.setAttribute('disabled', '');
-                skipButton.disabled = true;
-            } else {
-                if (currentSong.archivo) {
-                    document.getElementById('search-container').classList.remove('disabled');
-                    playButton.removeAttribute('disabled');
-                    skipButton.disabled = false;
-                }
-            }
+        const durations = getDurations();
+        const count = durations.length;
 
-            updateStreakDisplay();
-            updateStreakSaverUI();
+        for (let i = 0; i < count; i++) {
+            const box = document.createElement('div');
+            box.className = 'guess-box';
+            container.appendChild(box);
+        }
+    }
 
-            // NUEVO: Si el juego terminó, mostrar el modal de nuevo
-            if (hasGuessedCorrectly) {
-                showGameOver(true);
-            } else if (guessCount >= getDurations().length) {
-                showGameOver(false);
-            }
+    // NUEVA FUNCIÓN MEJORADA PARA RACHA CON DEGRADADO PROGRESIVO SUAVE
+    function updateStreakDisplay() {
+        const currentStreak = currentMode === 'normal' ? winStreak : artistStreak;
+        streakEl.textContent = `Racha: ${currentStreak}`;
+
+        let color = '';
+
+        if (currentStreak === 0) {
+            color = 'var(--muted)'; // gris
+        }
+        else if (currentStreak <= 5) {
+            // Verde puro a verde-amarillo (1-5)
+            const progress = (currentStreak - 1) / 4; // 0 a 1
+            color = lerpColor("#55b725", "#7db800", progress);
+        }
+        else if (currentStreak <= 10) {
+            // Verde-amarillo a amarillo brillante (6-10)
+            const progress = (currentStreak - 5) / 5;
+            color = lerpColor("#7db800", "#ffd000", progress);
+        }
+        else if (currentStreak <= 15) {
+            // Amarillo a naranja (11-15)
+            const progress = (currentStreak - 10) / 5;
+            color = lerpColor("#ffd000", "#ff8800", progress);
+        }
+        else if (currentStreak <= 20) {
+            // Naranja a rojo (16-20)
+            const progress = (currentStreak - 15) / 5;
+            color = lerpColor("#ff8800", "#ff3300", progress);
+        }
+        else if (currentStreak <= 25) {
+            // Rojo a rojo oscuro (21-25)
+            const progress = (currentStreak - 20) / 5;
+            color = lerpColor("#ff3300", "#990000", progress);
+        }
+        else if (currentStreak <= 30) {
+            // Rojo oscuro a violeta suave (26-30)
+            const progress = (currentStreak - 25) / 5;
+            color = lerpColor("#990000", "#b14aed", progress);
+        }
+        else if (currentStreak <= 35) {
+            // Violeta suave a violeta intenso (31-35)
+            const progress = (currentStreak - 30) / 5;
+            color = lerpColor("#b14aed", "#8a2be2", progress);
+        }
+        else if (currentStreak <= 170) {
+            // 36-170: violeta intenso con glow
+            color = 'var(--streak-max)';
+            streakEl.style.textShadow = '0 0 12px rgba(138, 43, 226, 0.7)';
+        }
+        else {
+            // Más de 170: celeste piola con glow más intenso
+            color = 'var(--streak-cyan)';
+            streakEl.style.textShadow = '0 0 15px rgba(0, 212, 255, 0.8)';
         }
 
+        streakEl.style.color = color;
 
-        function switchMode(mode) {
-            playSound('click');
-            if (currentMode === mode) return;
+        // Quitar el brillo cuando la racha es menor a 36
+        if (currentStreak < 36) {
+            streakEl.style.textShadow = 'none';
+        }
+    }
 
-            // FIX: Detener reproducción y limpiar barra al cambiar de modo
-            pauseAudioInternal();
+    // Función auxiliar para interpolar colores (degradado suave)
+    function lerpColor(color1, color2, factor) {
+        const hex = (c) => {
+            const hex = c.replace('#', '');
+            return [parseInt(hex.substr(0, 2), 16), parseInt(hex.substr(2, 2), 16), parseInt(hex.substr(4, 2), 16)];
+        };
+        const rgb1 = hex(color1);
+        const rgb2 = hex(color2);
+        const result = rgb1.map((c, i) => Math.round(c + factor * (rgb2[i] - c)));
+        return `rgb(${result[0]}, ${result[1]}, ${result[2]})`;
+    }
 
-            // Guardar estado del modo actual antes de cambiar
-            saveModeState(currentMode);
+    // NUEVA: Función para actualizar UI de salva rachas (con PNGs)
+    function updateStreakSaverUI() {
+        const streakSaverEl = document.getElementById('streak-saver-ui');
+        if (!streakSaverEl) return;
 
-            currentMode = mode;
+        // En modo artista no usamos salva rachas por ahora (o sí? el usuario no especificó, asumimos que sí pero con su racha)
+        // Para simplificar, lo mostramos igual.
 
-            // Actualizar botones
-            if (mode === 'normal') {
-                modeNormalBtn.classList.add('active');
-                modeArtistBtn.classList.remove('active');
-                artistSection.classList.remove('show');
-            } else {
-                modeNormalBtn.classList.remove('active');
-                modeArtistBtn.classList.add('active');
-                artistSection.classList.add('show');
-                populateArtists();
+        const currentStreak = currentMode === 'normal' ? winStreak : artistStreak;
+
+        if (currentStreak < minstreak) {
+            streakSaverEl.style.display = 'none';
+            return;
+        }
+
+        streakSaverEl.style.display = 'block';
+        let html = 'Vidas: ';
+        const maxSavers = 3;
+        for (let i = 0; i < maxSavers; i++) {
+            const src = (i < streaksavers) ? 'img/racha_color.png' : 'img/racha_nocolor.png';
+            html += `<img src="${src}" alt="salva racha">`;
+        }
+        streakSaverEl.innerHTML = html;
+    }
+
+    // -----------------------------------------------------
+    // LÓGICA MODO ARTISTA
+
+    function extractArtist(songName) {
+        // El artista son las palabras que esten antes de una "," o un "-"
+        // Prioridad: coma, luego guion.
+        let separatorIndex = songName.indexOf(',');
+        if (separatorIndex === -1) {
+            separatorIndex = songName.indexOf('-');
+        }
+
+        if (separatorIndex !== -1) {
+            return songName.substring(0, separatorIndex).trim();
+        }
+        return ""; // Fallback o si no tiene separador (raro en este formato)
+    }
+
+    // NUEVO: Helper específico para la lógica de "guess box amarilla"
+    // Solo considera el guion como separador, ignorando comas.
+    function extractArtistForGuess(songName) {
+        let separatorIndex = songName.indexOf('-');
+        if (separatorIndex !== -1) {
+            return songName.substring(0, separatorIndex).trim();
+        }
+        return "";
+    }
+
+    function populateArtists() {
+        artists.clear();
+        // Usar bibliotecaArtist para poblar la lista de artistas
+        bibliotecaArtist.forEach(song => {
+            const artist = extractArtist(song.nombre);
+            if (artist) {
+                artists.add(artist);
             }
+        });
+        artistList = Array.from(artists).sort();
+    }
 
-            // Restaurar estado del nuevo modo
-            restoreModeState(mode);
+    // PERSISTENCIA DE ESTADO
+    let normalModeState = null;
+    let artistModeState = null;
+
+    function saveModeState(mode) {
+        const state = {
+            currentSong: currentSong,
+            guessCount: guessCount,
+            hasGuessedCorrectly: hasGuessedCorrectly,
+            availableSongs: [...availableSongs],
+            guesses: getGuessStates(), // Guardar estado visual
+            gameStartTime: gameStartTime // Guardar tiempo de inicio aleatorio
+        };
+
+        if (mode === 'artist') {
+            state.selectedArtist = selectedArtist;
+            artistModeState = state;
+        } else {
+            normalModeState = state;
         }
 
-        function filterArtists(query) {
-            if (!query) return [];
-            const lowerQuery = query.toLowerCase();
-            return artistList.filter(artist => artist.toLowerCase().includes(lowerQuery));
+        // PERSISTENCIA: Guardar en localStorage
+        const fullState = {
+            normal: normalModeState,
+            artist: artistModeState,
+            currentMode: currentMode
+        };
+        localStorage.setItem('underless_save_v1', JSON.stringify(fullState));
+    }
+
+    function loadFromLocalStorage() {
+        const saved = localStorage.getItem('underless_save_v1');
+        if (saved) {
+            try {
+                const parsed = JSON.parse(saved);
+                normalModeState = parsed.normal;
+                artistModeState = parsed.artist;
+                if (parsed.currentMode) {
+                    currentMode = parsed.currentMode;
+                }
+            } catch (e) {
+                console.error("Error loading game state:", e);
+                localStorage.removeItem('underless_save_v1');
+            }
         }
+    }
 
-        function selectArtist(artist) {
-            selectedArtist = artist;
-            currentArtistDisplay.textContent = `Artista: ${artist}`;
-            artistSearchInput.value = "";
-            artistListEl.classList.remove('show');
+    async function restoreModeState(mode) {
+        const state = mode === 'artist' ? artistModeState : normalModeState;
 
-            // Resetear juego para empezar con el artista seleccionado
-            availableSongs = []; // Limpiar pool para obligar a recargar con el nuevo artista
+        // FIX: Renderizar UI siempre para asegurar que coincida con el modo actual
+        renderGuessBoxes();
+        renderProgressSegments();
+
+        if (!state) {
+            // Si no hay estado guardado, resetear de cero
+            availableSongs = [];
+            if (mode === 'artist') selectedArtist = null;
             resetGame(true);
-            saveModeState('artist'); // Guardar selección de artista
+            return;
         }
 
-        // Event Listeners para búsqueda de artista
-        artistSearchInput.addEventListener('input', (e) => {
-            const query = e.target.value;
-            const matches = filterArtists(query);
+        // Restaurar variables
+        currentSong = state.currentSong;
+        guessCount = state.guessCount;
+        hasGuessedCorrectly = state.hasGuessedCorrectly;
+        availableSongs = state.availableSongs;
+        if (mode === 'artist') {
+            selectedArtist = state.selectedArtist;
+            if (selectedArtist) {
+                currentArtistDisplay.textContent = `Artista: ${selectedArtist}`;
 
-            artistListEl.innerHTML = '';
-            if (matches.length > 0) {
-                matches.forEach(artist => {
-                    const div = document.createElement('div');
-                    div.className = 'suggestion-item';
-                    div.textContent = artist;
-                    div.onclick = () => selectArtist(artist);
-                    artistListEl.appendChild(div);
-                });
-                artistListEl.classList.add('show');
+                // BUGFIX: Sanitize availableSongs to ensure they belong to the selected artist
+                if (availableSongs && availableSongs.length > 0) {
+                    const isConsistent = availableSongs.every(s => extractArtist(s.nombre) === selectedArtist);
+                    if (!isConsistent) {
+                        console.warn("Detected inconsistent songs in artist mode state. Resetting pool.");
+                        availableSongs = [];
+                    }
+                }
             } else {
-                artistListEl.classList.remove('show');
+                currentArtistDisplay.textContent = "Selecciona un artista";
+                availableSongs = [];
             }
-        });
+        }
 
-        // Cerrar lista al hacer click fuera
-        document.addEventListener('click', (e) => {
-            if (!artistSearchInput.contains(e.target) && !artistListEl.contains(e.target)) {
-                artistListEl.classList.remove('show');
-            }
-        });
+        // Restaurar casillas visualmente
+        const boxes = document.querySelectorAll('.guess-box');
+        // Limpiar primero
+        boxes.forEach(b => { b.className = 'guess-box'; b.textContent = ''; });
 
-        // -----------------------------------------------------
-        // game / audio logic
-        async function resetGame(forceNew = false) {
-            pauseAudioInternal();
-            isFullSongPlaying = false;
+        // NUEVO: Restaurar estado visual exacto
+        if (state.guesses) {
+            restoreGuessStates(state.guesses);
+        } else if (state.guessBoxStates) {
+            // Fallback para compatibilidad con versiones anteriores de guardado
+            restoreGuessStates(state.guessBoxStates);
+        }
 
-            // nuevo: limpiar el intervalo del reproductor completo
-            if (fullPlayerInterval) clearInterval(fullPlayerInterval);
-            fullPlayerInterval = null;
-            if (fullSongSeeker) fullSongSeeker.value = 0;
-            if (fullSongTime) fullSongTime.textContent = '0:00 / 0:00';
-            audioPlayer.onloadedmetadata = null; // limpiar listeners
-            audioPlayer.onended = null;
-            if (fullSongIconPlay) updateFullPlayerIcon(false);
+        // Restaurar audio con blob para mantener ofuscación
+        if (currentSong.archivo) {
+            // Restaurar el tiempo de inicio aleatorio guardado, o usar 0 por defecto
+            gameStartTime = state.gameStartTime !== undefined ? state.gameStartTime : 0;
 
-            isSnippetPlaying = false;
-            snippetRemainingMs = 0;
-            snippetDurationMs = 0;
+            // FIX: Limpiar el listener onloadedmetadata de resetGame para evitar que sobrescriba
+            // el gameStartTime guardado con un nuevo valor aleatorio
+            audioPlayer.onloadedmetadata = () => {
+                // Enforce saved start time after metadata loads
+                if (isFinite(audioPlayer.duration)) {
+                    audioPlayer.currentTime = gameStartTime;
+                }
+                audioPlayer.onloadedmetadata = null;
+            };
 
-            // Si se fuerza un juego nuevo (botón reset/play again), borramos la canción guardada
-            if (forceNew) {
-                playSound('click');
-                localStorage.removeItem('savedSong');
-            }
-
-            // availableSongs se rellena dentro de selectRandomSong si está vacío
-            selectRandomSong();
-
-            guessCount = 0;
-            hasGuessedCorrectly = false;
-            searchInput.value = "";
-            songsList.classList.remove('show');
-            gameOverMessage.classList.remove('show');
-
-            // DELAYED: Clean up colors (so they don't flash during fade out)
-            setTimeout(() => {
-                gameOverContent.classList.remove('win', 'lose');
-            }, 300);
-
-            // Si no hay canción seleccionada (modo artista sin artista), deshabilitar búsqueda
-            if (!currentSong.archivo) {
-                document.getElementById('search-container').classList.add('disabled');
-            } else {
-                document.getElementById('search-container').classList.remove('disabled');
-            }
-
-            // corrección: desactivar botón al principio, se activará al cargar el audio
-            playButton.setAttribute('disabled', '');
-            skipButton.disabled = false;
-
-            clearGuessBoxes();
-
-            // MODIFICADO: Inicializar en 0, se calculará aleatoriamente al cargar metadatos
-            gameStartTime = 0;
-
-            updateTimeMarker(0);
-            updatePlayIcon(false);
-
-            // OBFUSCATION: Fetch as blob to hide filename
+            // Cargar canción con blob (ofuscación)
             if (currentBlobUrl) {
                 URL.revokeObjectURL(currentBlobUrl);
                 currentBlobUrl = null;
             }
 
-            if (currentSong.archivo) {
-                // BUGFIX: Skip fetch on file protocol to avoid console errors (spoilers)
-                if (window.location.protocol !== 'file:') {
-                    try {
-                        const response = await fetch(currentSong.archivo);
-                        const blob = await response.blob();
-                        currentBlobUrl = URL.createObjectURL(blob);
-                        audioPlayer.src = currentBlobUrl;
-                    } catch (e) {
-                        console.error("Error loading audio blob:", e);
-                        audioPlayer.src = currentSong.archivo; // Fallback
-                    }
-                } else {
-                    // Local file: use direct path
+            // BUGFIX: Skip fetch on file protocol to avoid console errors (spoilers)
+            if (window.location.protocol !== 'file:') {
+                try {
+                    const response = await fetch(currentSong.archivo);
+                    const blob = await response.blob();
+                    currentBlobUrl = URL.createObjectURL(blob);
+                    audioPlayer.src = currentBlobUrl;
+                } catch (e) {
+                    console.error("Error loading audio blob:", e);
                     audioPlayer.src = currentSong.archivo;
                 }
             } else {
-                audioPlayer.src = "";
+                // Local file: use direct path
+                audioPlayer.src = currentSong.archivo;
             }
 
             audioPlayer.currentTime = gameStartTime;
+            audioPlayer.load();
 
-            // Configurar listener para calcular inicio aleatorio cuando tengamos la duración
-            audioPlayer.onloadedmetadata = () => {
-                const duration = audioPlayer.duration;
-                if (isFinite(duration) && duration > 15) {
-                    // Random start time: from 0 to duration - 15
-                    gameStartTime = Math.random() * (duration - 15);
-                } else {
-                    gameStartTime = 0;
-                }
-                // console.log("Random start time:", gameStartTime, "Duration:", duration);
-
-                audioPlayer.currentTime = gameStartTime;
-                // Limpiar listener para evitar ejecuciones múltiples
-                audioPlayer.onloadedmetadata = null;
-            };
-
-            audioPlayer.load(); // forzar la carga de la nueva fuente
-
-            // corrección: usar oncanplaythrough para activar el botón solo cuando el audio está listo
+            // Activar botón play cuando el audio esté listo
             audioPlayer.oncanplaythrough = () => {
-                // re-establecer currentTime con el valor aleatorio calculado
                 audioPlayer.currentTime = gameStartTime;
                 playButton.removeAttribute('disabled');
-                audioPlayer.oncanplaythrough = null; // limpiar el listener
+                audioPlayer.oncanplaythrough = null;
             };
-
-            // NUEVO: Actualizar display de racha al reset
-            updateStreakDisplay();
-            updateStreakSaverUI();
-
-            // PERSISTENCIA: Guardar estado inmediatamente al iniciar nuevo juego
-            saveModeState(currentMode);
+            // No reproducimos automáticamente, el usuario debe dar play
+        } else {
+            // Si no había canción (ej. artista no seleccionado), resetear UI
+            if (mode === 'artist' && !selectedArtist) {
+                document.getElementById('search-container').classList.add('disabled');
+            }
         }
 
-        // Nueva función para reseteo completo (botón REINICIAR)
-        function fullReset() {
-            if (currentMode === 'normal') {
-                winStreak = 0;
-                streaksavers = 0;
-                localStorage.setItem('winStreak', winStreak);
-                localStorage.setItem('streaksavers', streaksavers);
+        // Actualizar marcador de tiempo
+        updateTimeMarker(guessCount);
+
+        // Actualizar estado de botones
+        if (hasGuessedCorrectly) {
+            document.getElementById('search-container').classList.add('disabled');
+            playButton.setAttribute('disabled', '');
+            skipButton.disabled = true;
+        } else {
+            if (currentSong.archivo) {
+                document.getElementById('search-container').classList.remove('disabled');
+                playButton.removeAttribute('disabled');
+                skipButton.disabled = false;
+            }
+        }
+
+        updateStreakDisplay();
+        updateStreakSaverUI();
+
+        // NUEVO: Si el juego terminó, mostrar el modal de nuevo
+        if (hasGuessedCorrectly) {
+            showGameOver(true);
+        } else if (guessCount >= getDurations().length) {
+            showGameOver(false);
+        }
+    }
+
+
+    function switchMode(mode) {
+        playSound('click');
+        if (currentMode === mode) return;
+
+        // FIX: Detener reproducción y limpiar barra al cambiar de modo
+        pauseAudioInternal();
+
+        // Guardar estado del modo actual antes de cambiar
+        saveModeState(currentMode);
+
+        currentMode = mode;
+
+        // Actualizar botones
+        if (mode === 'normal') {
+            modeNormalBtn.classList.add('active');
+            modeArtistBtn.classList.remove('active');
+            artistSection.classList.remove('show');
+        } else {
+            modeNormalBtn.classList.remove('active');
+            modeArtistBtn.classList.add('active');
+            artistSection.classList.add('show');
+            populateArtists();
+        }
+
+        // Restaurar estado del nuevo modo
+        restoreModeState(mode);
+    }
+
+    function filterArtists(query) {
+        if (!query) return [];
+        const lowerQuery = query.toLowerCase();
+        return artistList.filter(artist => artist.toLowerCase().includes(lowerQuery));
+    }
+
+    function selectArtist(artist) {
+        selectedArtist = artist;
+        currentArtistDisplay.textContent = `Artista: ${artist}`;
+        artistSearchInput.value = "";
+        artistListEl.classList.remove('show');
+
+        // Resetear juego para empezar con el artista seleccionado
+        availableSongs = []; // Limpiar pool para obligar a recargar con el nuevo artista
+        resetGame(true);
+        saveModeState('artist'); // Guardar selección de artista
+    }
+
+    // Event Listeners para búsqueda de artista
+    artistSearchInput.addEventListener('input', (e) => {
+        const query = e.target.value;
+        const matches = filterArtists(query);
+
+        artistListEl.innerHTML = '';
+        if (matches.length > 0) {
+            matches.forEach(artist => {
+                const div = document.createElement('div');
+                div.className = 'suggestion-item';
+                div.textContent = artist;
+                div.onclick = () => selectArtist(artist);
+                artistListEl.appendChild(div);
+            });
+            artistListEl.classList.add('show');
+        } else {
+            artistListEl.classList.remove('show');
+        }
+    });
+
+    // Cerrar lista al hacer click fuera
+    document.addEventListener('click', (e) => {
+        if (!artistSearchInput.contains(e.target) && !artistListEl.contains(e.target)) {
+            artistListEl.classList.remove('show');
+        }
+    });
+
+    // -----------------------------------------------------
+    // game / audio logic
+    async function resetGame(forceNew = false) {
+        pauseAudioInternal();
+        isFullSongPlaying = false;
+
+        // nuevo: limpiar el intervalo del reproductor completo
+        if (fullPlayerInterval) clearInterval(fullPlayerInterval);
+        fullPlayerInterval = null;
+        if (fullSongSeeker) fullSongSeeker.value = 0;
+        if (fullSongTime) fullSongTime.textContent = '0:00 / 0:00';
+        audioPlayer.onloadedmetadata = null; // limpiar listeners
+        audioPlayer.onended = null;
+        if (fullSongIconPlay) updateFullPlayerIcon(false);
+
+        isSnippetPlaying = false;
+        snippetRemainingMs = 0;
+        snippetDurationMs = 0;
+
+        // Si se fuerza un juego nuevo (botón reset/play again), borramos la canción guardada
+        if (forceNew) {
+            playSound('click');
+            localStorage.removeItem('savedSong');
+        }
+
+        // availableSongs se rellena dentro de selectRandomSong si está vacío
+        selectRandomSong();
+
+        guessCount = 0;
+        hasGuessedCorrectly = false;
+        searchInput.value = "";
+        songsList.classList.remove('show');
+        gameOverMessage.classList.remove('show');
+
+        // DELAYED: Clean up colors (so they don't flash during fade out)
+        setTimeout(() => {
+            gameOverContent.classList.remove('win', 'lose');
+        }, 300);
+
+        // Si no hay canción seleccionada (modo artista sin artista), deshabilitar búsqueda
+        if (!currentSong.archivo) {
+            document.getElementById('search-container').classList.add('disabled');
+        } else {
+            document.getElementById('search-container').classList.remove('disabled');
+        }
+
+        // corrección: desactivar botón al principio, se activará al cargar el audio
+        playButton.setAttribute('disabled', '');
+        skipButton.disabled = false;
+
+        clearGuessBoxes();
+
+        // MODIFICADO: Inicializar en 0, se calculará aleatoriamente al cargar metadatos
+        gameStartTime = 0;
+
+        updateTimeMarker(0);
+        if (progressBarFill) progressBarFill.style.width = '0%'; // FIX: Reset progress bar visual
+        updatePlayIcon(false);
+
+        // OBFUSCATION: Fetch as blob to hide filename
+        if (currentBlobUrl) {
+            URL.revokeObjectURL(currentBlobUrl);
+            currentBlobUrl = null;
+        }
+
+        if (currentSong.archivo) {
+            // BUGFIX: Skip fetch on file protocol to avoid console errors (spoilers)
+            if (window.location.protocol !== 'file:') {
+                try {
+                    const response = await fetch(currentSong.archivo);
+                    const blob = await response.blob();
+                    currentBlobUrl = URL.createObjectURL(blob);
+                    audioPlayer.src = currentBlobUrl;
+                } catch (e) {
+                    console.error("Error loading audio blob:", e);
+                    audioPlayer.src = currentSong.archivo; // Fallback
+                }
             } else {
-                artistStreak = 0;
-                localStorage.setItem('artistStreak', artistStreak);
+                // Local file: use direct path
+                audioPlayer.src = currentSong.archivo;
             }
-
-            // Limpiar estado guardado del juego
-            localStorage.removeItem('underless_save_v1');
-            normalModeState = null;
-            artistModeState = null;
-
-            // Llamar al reset normal del juego
-            resetGame(true);
+        } else {
+            audioPlayer.src = "";
         }
 
-        function cheatStreak() {
-            winStreak = 37;
+        audioPlayer.currentTime = gameStartTime;
+
+        // Configurar listener para calcular inicio aleatorio cuando tengamos la duración
+        audioPlayer.onloadedmetadata = () => {
+            const duration = audioPlayer.duration;
+            if (isFinite(duration) && duration > 15) {
+                // Random start time: from 0 to duration - 15
+                gameStartTime = Math.random() * (duration - 15);
+            } else {
+                gameStartTime = 0;
+            }
+            // console.log("Random start time:", gameStartTime, "Duration:", duration);
+
+            audioPlayer.currentTime = gameStartTime;
+
+            // FIX: Guardar estado AQUÍ, después de calcular el tiempo aleatorio
+            saveModeState(currentMode);
+
+            // Limpiar listener para evitar ejecuciones múltiples
+            audioPlayer.onloadedmetadata = null;
+        };
+
+        audioPlayer.load(); // forzar la carga de la nueva fuente
+
+        // corrección: usar oncanplaythrough para activar el botón solo cuando el audio está listo
+        audioPlayer.oncanplaythrough = () => {
+            // re-establecer currentTime con el valor aleatorio calculado
+            audioPlayer.currentTime = gameStartTime;
+            playButton.removeAttribute('disabled');
+            audioPlayer.oncanplaythrough = null; // limpiar el listener
+        };
+
+        // NUEVO: Actualizar display de racha al reset
+        updateStreakDisplay();
+        updateStreakSaverUI();
+
+        // PERSISTENCIA: Guardar estado inmediatamente al iniciar nuevo juego
+        saveModeState(currentMode);
+    }
+
+    // Nueva función para reseteo completo (botón REINICIAR)
+    function fullReset() {
+        if (currentMode === 'normal') {
+            winStreak = 0;
+            streaksavers = 0;
             localStorage.setItem('winStreak', winStreak);
-            updateStreakDisplay();
-            updateStreakSaverUI();
+            localStorage.setItem('streaksavers', streaksavers);
+        } else {
+            artistStreak = 0;
+            localStorage.setItem('artistStreak', artistStreak);
         }
 
-        function selectRandomSong() {
-            // 1. Determinar qué historial usar
-            let persistentHistory = currentMode === 'normal' ? playedSongsNormal : playedSongsArtist;
-            const currentLib = currentMode === 'artist' ? bibliotecaArtist : biblioteca;
+        // Limpiar estado guardado del juego
+        localStorage.removeItem('underless_save_v1');
+        normalModeState = null;
+        artistModeState = null;
 
-            // 2. Si availableSongs está vacío, llenarlo filtrando las ya jugadas
-            if (!availableSongs || availableSongs.length === 0) {
-                let fullPool = [];
-                if (currentMode === 'artist') {
-                    if (selectedArtist) {
-                        fullPool = bibliotecaArtist.filter(song => extractArtist(song.nombre) === selectedArtist);
-                    } else {
-                        fullPool = [];
-                    }
+        // Llamar al reset normal del juego
+        resetGame(true);
+    }
+
+    function cheatStreak() {
+        winStreak = 37;
+        localStorage.setItem('winStreak', winStreak);
+        updateStreakDisplay();
+        updateStreakSaverUI();
+    }
+
+    function selectRandomSong() {
+        // 1. Determinar qué historial usar
+        let persistentHistory = currentMode === 'normal' ? playedSongsNormal : playedSongsArtist;
+        const currentLib = currentMode === 'artist' ? bibliotecaArtist : biblioteca;
+
+        // 2. Si availableSongs está vacío, llenarlo filtrando las ya jugadas
+        if (!availableSongs || availableSongs.length === 0) {
+            let fullPool = [];
+            if (currentMode === 'artist') {
+                if (selectedArtist) {
+                    fullPool = bibliotecaArtist.filter(song => extractArtist(song.nombre) === selectedArtist);
                 } else {
-                    fullPool = [...biblioteca];
+                    fullPool = [];
                 }
-
-                // Filtrar las que ya están en el historial persistente
-                availableSongs = fullPool.filter(song => !persistentHistory.includes(song.nombre));
-
-                // Si después de filtrar no queda ninguna (ya se jugaron todas), reiniciamos el historial
-                if (availableSongs.length === 0 && fullPool.length > 0) {
-                    // Reiniciar historial
-                    persistentHistory = [];
-                    if (currentMode === 'normal') {
-                        playedSongsNormal = [];
-                        localStorage.setItem('playedSongsNormal', JSON.stringify([]));
-                    } else {
-                        playedSongsArtist = [];
-                        localStorage.setItem('playedSongsArtist', JSON.stringify([]));
-                    }
-                    // Volver a llenar con todas
-                    availableSongs = [...fullPool];
-                }
+            } else {
+                fullPool = [...biblioteca];
             }
 
-            // Si no hay canciones disponibles (ej. modo artista sin artista seleccionado), salir
-            if (availableSongs.length === 0) {
-                currentSong = {};
+            // Filtrar las que ya están en el historial persistente
+            availableSongs = fullPool.filter(song => !persistentHistory.includes(song.nombre));
+
+            // Si después de filtrar no queda ninguna (ya se jugaron todas), reiniciamos el historial
+            if (availableSongs.length === 0 && fullPool.length > 0) {
+                // Reiniciar historial
+                persistentHistory = [];
+                if (currentMode === 'normal') {
+                    playedSongsNormal = [];
+                    localStorage.setItem('playedSongsNormal', JSON.stringify([]));
+                } else {
+                    playedSongsArtist = [];
+                    localStorage.setItem('playedSongsArtist', JSON.stringify([]));
+                }
+                // Volver a llenar con todas
+                availableSongs = [...fullPool];
+            }
+        }
+
+        // Si no hay canciones disponibles (ej. modo artista sin artista seleccionado), salir
+        if (availableSongs.length === 0) {
+            currentSong = {};
+            return;
+        }
+
+        // 3. Elegir canción aleatoria de las disponibles
+        // CORREGIDO: Math.floor, Math.random
+        const randomIndexInAvailable = Math.floor(Math.random() * availableSongs.length);
+        const selectedSongCandidate = availableSongs[randomIndexInAvailable];
+
+        // 4. Actualizar canción actual
+        currentSong = selectedSongCandidate;
+
+        // 5. Sacarla de availableSongs (para esta sesión)
+        availableSongs.splice(randomIndexInAvailable, 1);
+
+        // 6. Agregar al historial persistente y guardar
+        persistentHistory.push(currentSong.nombre);
+
+        // NUEVO: Limitar historial a las últimas 20 canciones
+        if (persistentHistory.length > 20) {
+            persistentHistory.shift(); // Eliminar la más antigua
+        }
+
+        if (currentMode === 'normal') {
+            playedSongsNormal = persistentHistory;
+            localStorage.setItem('playedSongsNormal', JSON.stringify(playedSongsNormal));
+        } else {
+            playedSongsArtist = persistentHistory;
+            localStorage.setItem('playedSongsArtist', JSON.stringify(playedSongsArtist));
+        }
+    }
+
+    function clearGuessBoxes() {
+        const boxes = document.querySelectorAll('.guess-box');
+        boxes.forEach(box => {
+            box.textContent = "";
+            box.classList.remove('correct');
+            box.classList.remove('incorrect');
+            box.classList.remove('skipped');
+            box.classList.remove('partial'); // CORRECCION: Limpiar también la clase partial (amarillo)
+        });
+    }
+
+    // NUEVO: Helpers para persistencia visual
+    function getGuessStates() {
+        const boxes = document.querySelectorAll('.guess-box');
+        return Array.from(boxes).map(box => ({
+            text: box.textContent,
+            classes: [...box.classList].filter(c => c !== 'guess-box')
+        }));
+    }
+
+    function restoreGuessStates(guesses) {
+        const boxes = document.querySelectorAll('.guess-box');
+        guesses.forEach((guess, i) => {
+            if (boxes[i]) {
+                boxes[i].textContent = guess.text;
+                guess.classes.forEach(c => boxes[i].classList.add(c));
+            }
+        });
+    }
+
+    // =====================================================
+    // AUDIO PLAYER - Core Functions (Mobile-Optimized v2.0)
+    // =====================================================
+
+    /**
+     * Stops the audio and cleans up all playback state.
+     * @param {boolean} resetToIdle - If true, resets state to 'idle'. If false, sets to 'paused'.
+     */
+    function pauseAudioInternal(resetToIdle = true) {
+        // 1. Pause the audio
+        audioPlayer.pause();
+
+        // 2. Stop animation loop
+        stopAnimationLoop();
+
+        // 3. Update state
+        snippetState = resetToIdle ? 'idle' : 'paused';
+
+        // 4. Update UI
+        updatePlayIcon(false);
+    }
+
+    // nuevas funciones para reproductor completo
+    function updateFullPlayerIcon(playing) {
+        if (playing) {
+            fullSongIconPlay.style.display = 'none';
+            fullSongIconPause.style.display = 'inline-block';
+        } else {
+            fullSongIconPlay.style.display = 'inline-block';
+            fullSongIconPause.style.display = 'none';
+        }
+    }
+
+    // intervalo para actualizar el tiempo y la barra
+    function startFullPlayerUpdate() {
+        if (fullPlayerInterval) clearInterval(fullPlayerInterval);
+
+        fullPlayerInterval = setInterval(() => {
+            const currentTime = audioPlayer.currentTime;
+            const duration = audioPlayer.duration;
+
+            if (audioPlayer.paused || audioPlayer.ended) {
+                if (audioPlayer.ended) {
+                    isFullSongPlaying = false;
+                    updateFullPlayerIcon(false);
+                    audioPlayer.currentTime = 0;
+                    if (fullSongSeeker) fullSongSeeker.value = 0;
+                }
+                clearInterval(fullPlayerInterval);
+                fullPlayerInterval = null;
                 return;
             }
 
-            // 3. Elegir canción aleatoria de las disponibles
-            // CORREGIDO: Math.floor, Math.random
-            const randomIndexInAvailable = Math.floor(Math.random() * availableSongs.length);
-            const selectedSongCandidate = availableSongs[randomIndexInAvailable];
-
-            // 4. Actualizar canción actual
-            currentSong = selectedSongCandidate;
-
-            // 5. Sacarla de availableSongs (para esta sesión)
-            availableSongs.splice(randomIndexInAvailable, 1);
-
-            // 6. Agregar al historial persistente y guardar
-            persistentHistory.push(currentSong.nombre);
-
-            // NUEVO: Limitar historial a las últimas 20 canciones
-            if (persistentHistory.length > 20) {
-                persistentHistory.shift(); // Eliminar la más antigua
+            if (isFinite(duration) && duration > 0 && fullSongSeeker && fullSongTime) {
+                const percentage = (currentTime / duration) * 100;
+                fullSongSeeker.value = percentage;
+                fullSongTime.textContent = `${formatTime(currentTime)} / ${formatTime(duration)}`;
             }
+        }, 500); // actualizar dos veces por segundo
+    }
 
-            if (currentMode === 'normal') {
-                playedSongsNormal = persistentHistory;
-                localStorage.setItem('playedSongsNormal', JSON.stringify(playedSongsNormal));
-            } else {
-                playedSongsArtist = persistentHistory;
-                localStorage.setItem('playedSongsArtist', JSON.stringify(playedSongsArtist));
-            }
-        }
+    // listener para el slider de búsqueda (seeker)
+    function setupFullSongSeeker() {
+        if (!fullSongSeeker || fullSongSeeker.dataset.listenerSet) return;
 
-        function clearGuessBoxes() {
-            const boxes = document.querySelectorAll('.guess-box');
-            boxes.forEach(box => {
-                box.textContent = "";
-                box.classList.remove('correct');
-                box.classList.remove('incorrect');
-                box.classList.remove('skipped');
-                box.classList.remove('partial'); // CORRECCION: Limpiar también la clase partial (amarillo)
-            });
-        }
+        // al mover el slider (input), solo actualiza el tiempo en pantalla
+        fullSongSeeker.addEventListener('input', function () {
+            const duration = audioPlayer.duration || 0;
+            const seekTo = duration * (this.value / 100);
+            fullSongTime.textContent = `${formatTime(seekTo)} / ${formatTime(duration)}`;
+        });
 
-        // NUEVO: Helpers para persistencia visual
-        function getGuessStates() {
-            const boxes = document.querySelectorAll('.guess-box');
-            return Array.from(boxes).map(box => ({
-                text: box.textContent,
-                classes: [...box.classList].filter(c => c !== 'guess-box')
-            }));
-        }
+        // al soltar el slider (change), busca la posición y reproduce si estaba pausado
+        fullSongSeeker.addEventListener('change', function () {
+            const duration = audioPlayer.duration || 0;
+            const seekTo = duration * (this.value / 100);
 
-        function restoreGuessStates(guesses) {
-            const boxes = document.querySelectorAll('.guess-box');
-            guesses.forEach((guess, i) => {
-                if (boxes[i]) {
-                    boxes[i].textContent = guess.text;
-                    guess.classes.forEach(c => boxes[i].classList.add(c));
+            if (audioPlayer.readyState >= 2) {
+                audioPlayer.currentTime = seekTo;
+                // si no estaba reproduciendo, iniciar la reproducción y el tracking
+                if (!isFullSongPlaying && audioPlayer.paused) {
+                    audioPlayer.play().catch(e => console.warn('fallo al reproducir después de buscar:', e));
+                    isFullSongPlaying = true;
+                    updateFullPlayerIcon(true);
+                    startFullPlayerUpdate();
                 }
-            });
-        }
+            }
+        });
 
-        // =====================================================
-        // AUDIO PLAYER - Core Functions (Mobile-Optimized v2.0)
-        // =====================================================
+        fullSongSeeker.dataset.listenerSet = true;
+    }
 
-        /**
-         * Stops the audio and cleans up all playback state.
-         * @param {boolean} resetToIdle - If true, resets state to 'idle'. If false, sets to 'paused'.
-         */
-        function pauseAudioInternal(resetToIdle = true) {
-            // 1. Pause the audio
-            audioPlayer.pause();
+    // inicialización del reproductor completo cuando el modal se abre
+    function initializeFullPlayer() {
+        // detener reproductor de snippet si aún estaba activo
+        pauseAudioInternal();
 
-            // 2. Stop animation loop
-            stopAnimationLoop();
+        // resetear el estado del reproductor completo
+        isFullSongPlaying = false;
+        updateFullPlayerIcon(false);
+        if (fullPlayerInterval) clearInterval(fullPlayerInterval);
+        fullPlayerInterval = null;
 
-            // 3. Update state
-            snippetState = resetToIdle ? 'idle' : 'paused';
-
-            // 4. Update UI
-            updatePlayIcon(false);
-        }
-
-        // nuevas funciones para reproductor completo
-        function updateFullPlayerIcon(playing) {
-            if (playing) {
-                fullSongIconPlay.style.display = 'none';
-                fullSongIconPause.style.display = 'inline-block';
+        // cargar el archivo completo (desde el inicio, no desde gameStartTime)
+        // Usamos el blob ya cargado si existe
+        if (currentBlobUrl) {
+            audioPlayer.src = currentBlobUrl;
+        } else {
+            // BUGFIX: Skip fetch on file protocol to avoid console errors (spoilers)
+            if (window.location.protocol !== 'file:') {
+                audioPlayer.src = currentSong.archivo;
             } else {
-                fullSongIconPlay.style.display = 'inline-block';
-                fullSongIconPause.style.display = 'none';
+                audioPlayer.src = currentSong.archivo;
             }
         }
+        audioPlayer.currentTime = 0;
+        audioPlayer.load(); // forzar la carga de metadatos (duración)
 
-        // intervalo para actualizar el tiempo y la barra
-        function startFullPlayerUpdate() {
+        // configurar el seeker
+        setupFullSongSeeker();
+        if (fullSongSeeker) fullSongSeeker.value = 0;
+
+        // esperar a que se carguen los metadatos para obtener la duración
+        audioPlayer.onloadedmetadata = () => {
+            const duration = audioPlayer.duration;
+            if (fullSongTime) fullSongTime.textContent = `0:00 / ${formatTime(duration)}`;
+            audioPlayer.onloadedmetadata = null; // limpiar para evitar múltiples llamadas
+        };
+
+        // configurar el evento de finalización
+        audioPlayer.onended = () => {
+            isFullSongPlaying = false;
+            updateFullPlayerIcon(false);
+            audioPlayer.currentTime = 0;
+            if (fullSongSeeker) fullSongSeeker.value = 0;
+            if (fullSongTime) fullSongTime.textContent = `0:00 / ${formatTime(audioPlayer.duration)}`;
             if (fullPlayerInterval) clearInterval(fullPlayerInterval);
+            fullPlayerInterval = null;
+        };
+    }
 
-            fullPlayerInterval = setInterval(() => {
-                const currentTime = audioPlayer.currentTime;
-                const duration = audioPlayer.duration;
+    function toggleFullSong() {
+        if (!currentSong.archivo) return;
 
-                if (audioPlayer.paused || audioPlayer.ended) {
-                    if (audioPlayer.ended) {
-                        isFullSongPlaying = false;
-                        updateFullPlayerIcon(false);
-                        audioPlayer.currentTime = 0;
-                        if (fullSongSeeker) fullSongSeeker.value = 0;
-                    }
-                    clearInterval(fullPlayerInterval);
-                    fullPlayerInterval = null;
-                    return;
-                }
-
-                if (isFinite(duration) && duration > 0 && fullSongSeeker && fullSongTime) {
-                    const percentage = (currentTime / duration) * 100;
-                    fullSongSeeker.value = percentage;
-                    fullSongTime.textContent = `${formatTime(currentTime)} / ${formatTime(duration)}`;
-                }
-            }, 500); // actualizar dos veces por segundo
-        }
-
-        // listener para el slider de búsqueda (seeker)
-        function setupFullSongSeeker() {
-            if (!fullSongSeeker || fullSongSeeker.dataset.listenerSet) return;
-
-            // al mover el slider (input), solo actualiza el tiempo en pantalla
-            fullSongSeeker.addEventListener('input', function () {
-                const duration = audioPlayer.duration || 0;
-                const seekTo = duration * (this.value / 100);
-                fullSongTime.textContent = `${formatTime(seekTo)} / ${formatTime(duration)}`;
-            });
-
-            // al soltar el slider (change), busca la posición y reproduce si estaba pausado
-            fullSongSeeker.addEventListener('change', function () {
-                const duration = audioPlayer.duration || 0;
-                const seekTo = duration * (this.value / 100);
-
-                if (audioPlayer.readyState >= 2) {
-                    audioPlayer.currentTime = seekTo;
-                    // si no estaba reproduciendo, iniciar la reproducción y el tracking
-                    if (!isFullSongPlaying && audioPlayer.paused) {
-                        audioPlayer.play().catch(e => console.warn('fallo al reproducir después de buscar:', e));
-                        isFullSongPlaying = true;
-                        updateFullPlayerIcon(true);
-                        startFullPlayerUpdate();
-                    }
-                }
-            });
-
-            fullSongSeeker.dataset.listenerSet = true;
-        }
-
-        // inicialización del reproductor completo cuando el modal se abre
-        function initializeFullPlayer() {
-            // detener reproductor de snippet si aún estaba activo
-            pauseAudioInternal();
-
-            // resetear el estado del reproductor completo
+        if (isFullSongPlaying) {
+            audioPlayer.pause();
             isFullSongPlaying = false;
             updateFullPlayerIcon(false);
             if (fullPlayerInterval) clearInterval(fullPlayerInterval);
             fullPlayerInterval = null;
+        } else {
+            pauseAudioInternal(); // detener el snippet si estaba sonando
 
-            // cargar el archivo completo (desde el inicio, no desde gameStartTime)
-            // Usamos el blob ya cargado si existe
-            if (currentBlobUrl) {
-                audioPlayer.src = currentBlobUrl;
+            // si está pausada y no en el inicio, reanudar
+            if (audioPlayer.paused && audioPlayer.currentTime > 0) {
+                audioPlayer.play().catch(e => console.warn('fallo al reanudar canción completa:', e));
             } else {
-                // BUGFIX: Skip fetch on file protocol to avoid console errors (spoilers)
-                if (window.location.protocol !== 'file:') {
-                    audioPlayer.src = currentSong.archivo;
-                } else {
-                    audioPlayer.src = currentSong.archivo;
-                }
-            }
-            audioPlayer.currentTime = 0;
-            audioPlayer.load(); // forzar la carga de metadatos (duración)
-
-            // configurar el seeker
-            setupFullSongSeeker();
-            if (fullSongSeeker) fullSongSeeker.value = 0;
-
-            // esperar a que se carguen los metadatos para obtener la duración
-            audioPlayer.onloadedmetadata = () => {
-                const duration = audioPlayer.duration;
-                if (fullSongTime) fullSongTime.textContent = `0:00 / ${formatTime(duration)}`;
-                audioPlayer.onloadedmetadata = null; // limpiar para evitar múltiples llamadas
-            };
-
-            // configurar el evento de finalización
-            audioPlayer.onended = () => {
-                isFullSongPlaying = false;
-                updateFullPlayerIcon(false);
+                // si está en el inicio (0:00) o terminó, empezar desde el principio (ya cargado por initializeFullPlayer)
                 audioPlayer.currentTime = 0;
-                if (fullSongSeeker) fullSongSeeker.value = 0;
-                if (fullSongTime) fullSongTime.textContent = `0:00 / ${formatTime(audioPlayer.duration)}`;
-                if (fullPlayerInterval) clearInterval(fullPlayerInterval);
-                fullPlayerInterval = null;
-            };
-        }
-
-        function toggleFullSong() {
-            if (!currentSong.archivo) return;
-
-            if (isFullSongPlaying) {
-                audioPlayer.pause();
-                isFullSongPlaying = false;
-                updateFullPlayerIcon(false);
-                if (fullPlayerInterval) clearInterval(fullPlayerInterval);
-                fullPlayerInterval = null;
-            } else {
-                pauseAudioInternal(); // detener el snippet si estaba sonando
-
-                // si está pausada y no en el inicio, reanudar
-                if (audioPlayer.paused && audioPlayer.currentTime > 0) {
-                    audioPlayer.play().catch(e => console.warn('fallo al reanudar canción completa:', e));
-                } else {
-                    // si está en el inicio (0:00) o terminó, empezar desde el principio (ya cargado por initializeFullPlayer)
-                    audioPlayer.currentTime = 0;
-                    audioPlayer.play().catch(e => console.warn('fallo al reproducir canción completa:', e));
-                }
-
-                isFullSongPlaying = true;
-                updateFullPlayerIcon(true);
-                startFullPlayerUpdate();
-            }
-        }
-
-        /**
-         * Updates the play button icon
-         */
-        function updatePlayIcon(playing) {
-            playButton.innerHTML = playing ? iconPause : iconPlay;
-            playButton.setAttribute('aria-label', playing ? 'pausar fragmento' : 'escuchar fragmento');
-        }
-
-        /**
-         * Finishes snippet playback - called when target time is reached
-         */
-        function finishSnippet() {
-            pauseAudioInternal(true);
-            // Don't reset currentTime - keep position for potential resume after skip
-        }
-
-        /**
-         * Continuous animation loop for smooth progress bar updates.
-         * Runs at 60fps using requestAnimationFrame.
-         * Also monitors audio position to stop at target time (replaces setTimeout).
-         */
-        function animationLoop() {
-            // Stop if not playing
-            if (snippetState !== 'playing') {
-                animationFrameId = null;
-                return;
+                audioPlayer.play().catch(e => console.warn('fallo al reproducir canción completa:', e));
             }
 
-            const currentTime = audioPlayer.currentTime;
+            isFullSongPlaying = true;
+            updateFullPlayerIcon(true);
+            startFullPlayerUpdate();
+        }
+    }
 
-            // Check if we've reached or passed the target time
-            if (currentTime >= snippetTargetTime) {
-                // Ensure bar is at exactly 100% of segment before pausing
-                const targetPercentage = getPercentage(snippetTargetTime - gameStartTime);
-                progressBarFill.style.width = targetPercentage + '%';
+    /**
+     * Updates the play button icon
+     */
+    function updatePlayIcon(playing) {
+        playButton.innerHTML = playing ? iconPause : iconPlay;
+        playButton.setAttribute('aria-label', playing ? 'pausar fragmento' : 'escuchar fragmento');
+    }
 
-                // Stop playback
-                finishSnippet();
-                return;
-            }
+    /**
+     * Finishes snippet playback - called when target time is reached
+     */
+    function finishSnippet() {
+        pauseAudioInternal(true);
+        // Don't reset currentTime - keep position for potential resume after skip
+    }
 
-            // Update progress bar
-            const elapsedFromStart = Math.max(0, currentTime - gameStartTime);
-            const targetDuration = snippetTargetTime - gameStartTime;
-            const percentage = getPercentage(Math.min(elapsedFromStart, targetDuration));
-            progressBarFill.style.width = percentage + '%';
-
-            // Continue the loop
-            animationFrameId = requestAnimationFrame(animationLoop);
+    /**
+     * Continuous animation loop for smooth progress bar updates.
+     * Runs at 60fps using requestAnimationFrame.
+     * Also monitors audio position to stop at target time (replaces setTimeout).
+     */
+    function animationLoop() {
+        // Stop if not playing
+        if (snippetState !== 'playing') {
+            animationFrameId = null;
+            return;
         }
 
-        /**
-         * Starts the animation loop for smooth progress updates
-         */
-        function startAnimationLoop() {
-            if (animationFrameId) {
-                cancelAnimationFrame(animationFrameId);
-            }
-            animationFrameId = requestAnimationFrame(animationLoop);
-        }
+        const currentTime = audioPlayer.currentTime;
 
-        /**
-         * Stops the animation loop
-         */
-        function stopAnimationLoop() {
-            if (animationFrameId) {
-                cancelAnimationFrame(animationFrameId);
-                animationFrameId = null;
-            }
-        }
+        // Check if we've reached or passed the target time
+        if (currentTime >= snippetTargetTime) {
+            // Ensure bar is at exactly 100% of segment before pausing
+            const targetPercentage = getPercentage(snippetTargetTime - gameStartTime);
 
-        /**
-         * Main playback function - Mobile-Optimized v2.0
-         * Uses audio events instead of timers for reliable mobile playback
-         */
-        function playSnippet() {
-            if (hasGuessedCorrectly || playButton.hasAttribute('disabled')) return;
+            // FIX: Clamping visual width to prevent overshoot
+            // Especially for 0.1s, ensure it doesn't exceed the visual marker
+            progressBarFill.style.width = targetPercentage + '%';
 
-            const durations = getDurations();
-            let targetDuration = durations[guessCount] || getTotalGameDuration();
-
-            // "Mentira" del 0.2s: visual shows 0.1s but plays 0.2s
-            if (guessCount === 0 && targetDuration === 0.1) {
-                targetDuration = 0.2;
-            }
-
-            // Toggle pause if already playing
-            if (snippetState === 'playing') {
-                pauseAudioInternal(false); // pause, don't reset to idle
-                return;
-            }
-
-            // Calculate the absolute target time in the audio
-            snippetTargetTime = gameStartTime + targetDuration;
-
-            // Determine if we should restart or resume
-            const currentTime = audioPlayer.currentTime;
-            const tolerance = 0.05; // 50ms tolerance
-
-            // Always restart from beginning for short durations (mobile fix)
-            // Or if we're past the target, or before gameStartTime
-            const isShortDuration = targetDuration <= 0.5;
-            const isPastTarget = currentTime >= snippetTargetTime - tolerance;
-            const isBeforeStart = currentTime < gameStartTime - tolerance;
-
-            if (isShortDuration || isPastTarget || isBeforeStart) {
-                audioPlayer.currentTime = gameStartTime;
-            }
-
-            // Start playback
-            audioPlayer.play()
-                .then(() => {
-                    snippetState = 'playing';
-                    updatePlayIcon(true);
-
-                    // Start the smooth animation loop
-                    startAnimationLoop();
-                })
-                .catch(e => {
-                    console.warn('Error starting playback:', e);
-                    snippetState = 'idle';
-                    updatePlayIcon(false);
-                });
-        }
-
-        let isGameOver = false;
-
-        // función de game over modificada
-        function showGameOver(won) {
+            // Stop playback
             finishSnippet();
+            return;
+        }
 
-            // inicializar el reproductor completo antes de mostrar el modal
-            initializeFullPlayer();
+        // Update progress bar
+        // Update progress bar
+        const elapsedFromStart = Math.max(0, currentTime - gameStartTime);
+        const targetDuration = snippetTargetTime - gameStartTime;
 
-            if (won) {
-                gameResult.textContent = "ganaste gg"; // TEXTO SOLICITADO
-                gameOverContent.classList.remove('win', 'lose'); // ¡limpia ambas!
-                gameOverContent.classList.add('win');
-                answerLabel.textContent = "la cancion era"; // etiqueta simple
+        // FIX: Clamp elapsed time to target duration to prevent visual overshoot during frame interpolation
+        const clampedElapsed = Math.min(elapsedFromStart, targetDuration);
 
-                // NUEVO: Incrementar racha al ganar (dependiendo del modo)
-                if (currentMode === 'normal') {
-                    winStreak++;
-                    localStorage.setItem('winStreak', winStreak);
-                    // Recompensas de Streak Save (solo en normal)
-                    if (winStreak === 10 || winStreak === 20 || winStreak === 37) {
-                        streaksavers++;
-                        localStorage.setItem('streaksavers', streaksavers);
-                    }
-                } else {
-                    artistStreak++;
-                    localStorage.setItem('artistStreak', artistStreak);
+        const percentage = getPercentage(clampedElapsed);
+        progressBarFill.style.width = percentage + '%';
+
+        // Continue the loop
+        animationFrameId = requestAnimationFrame(animationLoop);
+    }
+
+    /**
+     * Starts the animation loop for smooth progress updates
+     */
+    function startAnimationLoop() {
+        if (animationFrameId) {
+            cancelAnimationFrame(animationFrameId);
+        }
+        animationFrameId = requestAnimationFrame(animationLoop);
+    }
+
+    /**
+     * Stops the animation loop
+     */
+    function stopAnimationLoop() {
+        if (animationFrameId) {
+            cancelAnimationFrame(animationFrameId);
+            animationFrameId = null;
+        }
+    }
+
+    /**
+     * Main playback function - Mobile-Optimized v2.0
+     * Uses audio events instead of timers for reliable mobile playback
+     */
+    function playSnippet() {
+        if (hasGuessedCorrectly || playButton.hasAttribute('disabled')) return;
+
+        const durations = getDurations();
+        let targetDuration = durations[guessCount] || getTotalGameDuration();
+
+        // "Mentira" del 0.2s: visual shows 0.1s but plays 0.2s
+        if (guessCount === 0 && targetDuration === 0.1) {
+            targetDuration = 0.2;
+        }
+
+        // Toggle pause if already playing
+        if (snippetState === 'playing') {
+            pauseAudioInternal(false); // pause, don't reset to idle
+            return;
+        }
+
+        // Calculate the absolute target time in the audio
+        snippetTargetTime = gameStartTime + targetDuration;
+
+        // Determine if we should restart or resume
+        const currentTime = audioPlayer.currentTime;
+        const tolerance = 0.05; // 50ms tolerance
+
+        // Always restart from beginning for short durations (mobile fix)
+        // Or if we're past the target, or before gameStartTime
+        const isShortDuration = targetDuration <= 0.5;
+        const isPastTarget = currentTime >= snippetTargetTime - tolerance;
+        const isBeforeStart = currentTime < gameStartTime - tolerance;
+
+        if (isShortDuration || isPastTarget || isBeforeStart) {
+            audioPlayer.currentTime = gameStartTime;
+        }
+
+        // Start playback
+        audioPlayer.play()
+            .then(() => {
+                snippetState = 'playing';
+                updatePlayIcon(true);
+
+                // Start the smooth animation loop
+                startAnimationLoop();
+            })
+            .catch(e => {
+                console.warn('Error starting playback:', e);
+                snippetState = 'idle';
+                updatePlayIcon(false);
+            });
+    }
+
+    let isGameOver = false;
+
+    // función de game over modificada
+    function showGameOver(won) {
+        finishSnippet();
+
+        // inicializar el reproductor completo antes de mostrar el modal
+        initializeFullPlayer();
+
+        if (won) {
+            gameResult.textContent = "ganaste gg"; // TEXTO SOLICITADO
+            gameOverContent.classList.remove('win', 'lose'); // ¡limpia ambas!
+            gameOverContent.classList.add('win');
+            answerLabel.textContent = "la cancion era"; // etiqueta simple
+
+            // NUEVO: Incrementar racha al ganar (dependiendo del modo)
+            if (currentMode === 'normal') {
+                winStreak++;
+                localStorage.setItem('winStreak', winStreak);
+                // Recompensas de Streak Save (solo en normal)
+                if (winStreak === 10 || winStreak === 20 || winStreak === 37) {
+                    streaksavers++;
+                    localStorage.setItem('streaksavers', streaksavers);
                 }
-
-                updateStreakDisplay();
-                updateStreakSaverUI();
             } else {
-                playSound('gameover');
-                gameResult.textContent = "perdiste crack"; // "game over" o similar
-                gameOverContent.classList.remove('win', 'lose'); // ¡limpia ambas!
-                gameOverContent.classList.add('lose');
-                answerLabel.textContent = "la cancion era"; // etiqueta simple
-
-                // NUEVO: Lógica de salva rachas al perder
-                if (currentMode === 'normal') {
-                    // Si tienes vidas y superas el minstreak, se consume una vida y NO se resetea.
-                    if (winStreak >= minstreak && streaksavers > 0) {
-                        streaksavers--;
-                        localStorage.setItem('streaksavers', streaksavers);
-                        // Vida consumida, racha salvada.
-                    } else {
-                        // Si no hay vidas o no llegamos al minstreak, reset fatal.
-                        winStreak = 0;
-                        localStorage.setItem('winStreak', winStreak);
-                    }
-                } else {
-                    // En modo artista no hay salva rachas (por ahora), reset directo
-                    artistStreak = 0;
-                    localStorage.setItem('artistStreak', artistStreak);
-                }
-
-                updateStreakDisplay();
-                updateStreakSaverUI();
+                artistStreak++;
+                localStorage.setItem('artistStreak', artistStreak);
             }
 
-            correctAnswerEl.textContent = (currentSong.nombre || "");
-            gameOverMessage.classList.add('show');
+            updateStreakDisplay();
+            updateStreakSaverUI();
+        } else {
+            playSound('gameover');
+            gameResult.textContent = "perdiste crack"; // "game over" o similar
+            gameOverContent.classList.remove('win', 'lose'); // ¡limpia ambas!
+            gameOverContent.classList.add('lose');
+            answerLabel.textContent = "la cancion era"; // etiqueta simple
 
+            // NUEVO: Lógica de salva rachas al perder
+            if (currentMode === 'normal') {
+                // Si tienes vidas y superas el minstreak, se consume una vida y NO se resetea.
+                if (winStreak >= minstreak && streaksavers > 0) {
+                    streaksavers--;
+                    localStorage.setItem('streaksavers', streaksavers);
+                    // Vida consumida, racha salvada.
+                } else {
+                    // Si no hay vidas o no llegamos al minstreak, reset fatal.
+                    winStreak = 0;
+                    localStorage.setItem('winStreak', winStreak);
+                }
+            } else {
+                // En modo artista no hay salva rachas (por ahora), reset directo
+                artistStreak = 0;
+                localStorage.setItem('artistStreak', artistStreak);
+            }
+
+            updateStreakDisplay();
+            updateStreakSaverUI();
+        }
+
+        correctAnswerEl.textContent = (currentSong.nombre || "");
+        gameOverMessage.classList.add('show');
+
+        document.getElementById('search-container').classList.add('disabled');
+        playButton.setAttribute('disabled', '');
+        skipButton.disabled = true;
+    }
+
+    // NUEVA FUNCION: handleGuess con la cancion real (llamada por click en la lista)
+    function handleGuessFromSelection(selectedSongName) {
+        playSound('click');
+        const durations = getDurations();
+        if (hasGuessedCorrectly || guessCount >= durations.length) return;
+
+        const correctAnswer = (currentSong.nombre || "").trim();
+        const guessBox = document.querySelectorAll('.guess-box')[guessCount];
+        songsList.classList.remove('show');
+
+        guessBox.classList.remove('incorrect', 'skipped');
+
+        const isCorrect = selectedSongName.toLowerCase() === correctAnswer.toLowerCase();
+
+        if (isCorrect) {
+            guessBox.textContent = currentSong.nombre;
+            guessBox.classList.add('correct');
+            hasGuessedCorrectly = true;
+
+            // CAMBIO: Deshabilitar inmediatamente y añadir el retraso de 1.5s
             document.getElementById('search-container').classList.add('disabled');
             playButton.setAttribute('disabled', '');
             skipButton.disabled = true;
-        }
 
-        // NUEVA FUNCION: handleGuess con la cancion real (llamada por click en la lista)
-        function handleGuessFromSelection(selectedSongName) {
-            playSound('click');
-            const durations = getDurations();
-            if (hasGuessedCorrectly || guessCount >= durations.length) return;
+            setTimeout(() => {
+                showGameOver(true);
+            }, 1500); // Retraso de 1.5 segundos
 
-            const correctAnswer = (currentSong.nombre || "").trim();
-            const guessBox = document.querySelectorAll('.guess-box')[guessCount];
-            songsList.classList.remove('show');
+        } else {
+            // si falla, se pone el nombre seleccionado en la casilla
+            guessBox.textContent = selectedSongName || "intento fallido";
 
-            guessBox.classList.remove('incorrect', 'skipped');
+            // Lógica de coincidencia parcial (solo modo normal)
+            let isPartial = false;
+            if (currentMode === 'normal') {
+                // Obtener string completo de artistas (antes del guion)
+                const guessedArtistStr = extractArtistForGuess(selectedSongName);
+                const correctArtistStr = extractArtistForGuess(correctAnswer);
 
-            const isCorrect = selectedSongName.toLowerCase() === correctAnswer.toLowerCase();
+                if (guessedArtistStr && correctArtistStr) {
+                    // Separar por comas y limpiar espacios
+                    const guessedArtists = guessedArtistStr.split(',').map(a => a.trim().toLowerCase());
+                    const correctArtists = correctArtistStr.split(',').map(a => a.trim().toLowerCase());
 
-            if (isCorrect) {
-                guessBox.textContent = currentSong.nombre;
-                guessBox.classList.add('correct');
-                hasGuessedCorrectly = true;
-
-                // CAMBIO: Deshabilitar inmediatamente y añadir el retraso de 1.5s
-                document.getElementById('search-container').classList.add('disabled');
-                playButton.setAttribute('disabled', '');
-                skipButton.disabled = true;
-
-                setTimeout(() => {
-                    showGameOver(true);
-                }, 1500); // Retraso de 1.5 segundos
-
-            } else {
-                // si falla, se pone el nombre seleccionado en la casilla
-                guessBox.textContent = selectedSongName || "intento fallido";
-
-                // Lógica de coincidencia parcial (solo modo normal)
-                let isPartial = false;
-                if (currentMode === 'normal') {
-                    // Obtener string completo de artistas (antes del guion)
-                    const guessedArtistStr = extractArtistForGuess(selectedSongName);
-                    const correctArtistStr = extractArtistForGuess(correctAnswer);
-
-                    if (guessedArtistStr && correctArtistStr) {
-                        // Separar por comas y limpiar espacios
-                        const guessedArtists = guessedArtistStr.split(',').map(a => a.trim().toLowerCase());
-                        const correctArtists = correctArtistStr.split(',').map(a => a.trim().toLowerCase());
-
-                        // Verificar si hay ALGUNA coincidencia
-                        // Si algún artista de la canción adivinada está en la lista de artistas de la correcta
-                        const match = guessedArtists.some(g => correctArtists.includes(g));
-                        if (match) {
-                            isPartial = true;
-                        }
+                    // Verificar si hay ALGUNA coincidencia
+                    // Si algún artista de la canción adivinada está en la lista de artistas de la correcta
+                    const match = guessedArtists.some(g => correctArtists.includes(g));
+                    if (match) {
+                        isPartial = true;
                     }
                 }
-
-                if (isPartial) {
-                    guessBox.classList.add('partial'); // Amarillo
-                } else {
-                    guessBox.classList.add('incorrect'); // Rojo
-                }
-
-                guessCount++;
-                if (guessCount < durations.length) {
-                    updateTimeMarker(guessCount);
-                    finishSnippet();
-                } else {
-                    showGameOver(false);
-                }
-            }
-            document.getElementById('search-input').value = "";
-            saveModeState(currentMode); // Guardar estado tras intento
-        }
-
-
-        function handleSkip() {
-            const durations = getDurations();
-            if (hasGuessedCorrectly || guessCount >= durations.length) return;
-
-            // NUEVO: Si está en modo Mandale, enviar intento
-            if (isSubmitMode) {
-                // No reproducir sonido aquí, ya lo hace handleGuessFromSelection
-                const val = searchInput.value.trim();
-                if (val) {
-                    handleGuessFromSelection(val);
-                    disableSubmitMode(); // Resetear botón tras intento
-                }
-                return;
             }
 
-            // SONIDO: Solo reproducir click si NO es el último skip (para que no se solape con game over)
-            if (guessCount < durations.length - 1) {
-                playSound('click');
+            if (isPartial) {
+                guessBox.classList.add('partial'); // Amarillo
+            } else {
+                guessBox.classList.add('incorrect'); // Rojo
             }
-
-            const guessBox = document.querySelectorAll('.guess-box')[guessCount];
-
-            // >>> INICIO MODIFICACIÓN JS PARA SKIP <<<
-            guessBox.textContent = "Skipped";
-            guessBox.classList.remove('incorrect', 'correct'); // asegurar que no tiene rojo ni verde
-            guessBox.classList.add('skipped'); // nuevo: usa el gris oscuro
-            // >>> FIN MODIFICACIÓN JS PARA SKIP <<<
 
             guessCount++;
             if (guessCount < durations.length) {
@@ -2852,252 +2840,299 @@
             } else {
                 showGameOver(false);
             }
-            document.getElementById('search-input').value = "";
-            songsList.classList.remove('show');
-            saveModeState(currentMode); // Guardar estado tras skip
+        }
+        document.getElementById('search-input').value = "";
+        saveModeState(currentMode); // Guardar estado tras intento
+    }
+
+
+    function handleSkip() {
+        const durations = getDurations();
+        if (hasGuessedCorrectly || guessCount >= durations.length) return;
+
+        // NUEVO: Si está en modo Mandale, enviar intento
+        if (isSubmitMode) {
+            // No reproducir sonido aquí, ya lo hace handleGuessFromSelection
+            const val = searchInput.value.trim();
+            if (val) {
+                handleGuessFromSelection(val);
+                disableSubmitMode(); // Resetear botón tras intento
+            }
+            return;
         }
 
-        // volumen
-        if (volumeSlider) {
+        // SONIDO: Solo reproducir click si NO es el último skip (para que no se solape con game over)
+        if (guessCount < durations.length - 1) {
+            playSound('click');
+        }
+
+        const guessBox = document.querySelectorAll('.guess-box')[guessCount];
+
+        // >>> INICIO MODIFICACIÓN JS PARA SKIP <<<
+        guessBox.textContent = "Skipped";
+        guessBox.classList.remove('incorrect', 'correct'); // asegurar que no tiene rojo ni verde
+        guessBox.classList.add('skipped'); // nuevo: usa el gris oscuro
+        // >>> FIN MODIFICACIÓN JS PARA SKIP <<<
+
+        guessCount++;
+        if (guessCount < durations.length) {
+            updateTimeMarker(guessCount);
+            finishSnippet();
+        } else {
+            showGameOver(false);
+        }
+        document.getElementById('search-input').value = "";
+        songsList.classList.remove('show');
+        saveModeState(currentMode); // Guardar estado tras skip
+    }
+
+    // volumen
+    if (volumeSlider) {
+        // CORREGIDO: parseFloat
+        audioPlayer.volume = parseFloat(volumeSlider.value);
+        volumeSlider.addEventListener("input", e => {
             // CORREGIDO: parseFloat
-            audioPlayer.volume = parseFloat(volumeSlider.value);
-            volumeSlider.addEventListener("input", e => {
-                // CORREGIDO: parseFloat
-                audioPlayer.volume = parseFloat(e.target.value);
-            });
+            audioPlayer.volume = parseFloat(e.target.value);
+        });
+    }
+
+    // fix visual: sincroniza marcador visual estatico (la flecha)
+    function updateTimeMarker(index) {
+        const durations = getDurations();
+        // CORREGIDO: Math.min
+        const safeIndex = Math.min(index, durations.length - 1);
+        const targetTime = durations[safeIndex];
+        const percentage = getPercentage(targetTime);
+
+        // FIX: Ajuste visual para que la flecha no parezca adelantada en 0.1s
+        // Si es el primer segmento (0.1s), le restamos un pelín
+        let visualPercentage = percentage;
+        if (safeIndex === 0) visualPercentage -= 0.5; // Ajuste fino
+
+        timerTextEl.style.left = visualPercentage + '%';
+        timerTextEl.textContent = formatSeconds(targetTime);
+
+        const prevDuration = safeIndex > 0 ? durations[safeIndex - 1] : 0;
+
+        const startPercentage = getPercentage(prevDuration);
+        // FIX: Don't update progress bar fill on skip, only the arrow.
+        // progressBarFill.style.width = startPercentage + '%';
+    }
+
+    // OLD TIMER-BASED FUNCTIONS REMOVED:
+    // startTimeMarkerUpdate and stopTimeMarkerUpdate are replaced by
+    // handleSnippetTimeUpdate and updateProgressBarVisuals using timeupdate events
+
+    // -----------------------------------------------------
+    // buscador y eventos
+    // NUEVO: Variable para controlar el modo del botón Skip
+    let isSubmitMode = false;
+
+    function enableSubmitMode() {
+        isSubmitMode = true;
+        skipButton.textContent = "mandale";
+        skipButton.classList.add('submit-mode');
+    }
+
+    function disableSubmitMode() {
+        isSubmitMode = false;
+        skipButton.textContent = "Skip";
+        skipButton.classList.remove('submit-mode');
+    }
+
+    searchInput.addEventListener('input', function () {
+        // Si el usuario escribe, desactivar modo Mandale
+        disableSubmitMode();
+
+        // no eliminar funcion de tolowercase aqui, es necesaria para la busqueda
+        const query = (this.value || '').toLowerCase();
+        songsList.innerHTML = '';
+        if (query.length < 2) { songsList.classList.remove('show'); return; }
+
+        let pool = currentMode === 'artist' ? bibliotecaArtist : biblioteca;
+
+        if (currentMode === 'artist' && selectedArtist) {
+            pool = pool.filter(s => extractArtist(s.nombre) === selectedArtist);
         }
 
-        // fix visual: sincroniza marcador visual estatico (la flecha)
-        function updateTimeMarker(index) {
-            const durations = getDurations();
-            // CORREGIDO: Math.min
-            const safeIndex = Math.min(index, durations.length - 1);
-            const targetTime = durations[safeIndex];
-            const percentage = getPercentage(targetTime);
+        const filtered = pool.filter(s => s.nombre.toLowerCase().includes(query));
+        if (filtered.length > 0) {
+            // CORREGIDO: forEach, appendChild, slice
+            filtered.forEach(song => {
+                const div = document.createElement('div');
+                div.classList.add('suggestion-item');
+                div.textContent = song.nombre;
 
-            timerTextEl.style.left = percentage + '%';
-            timerTextEl.textContent = formatSeconds(targetTime);
+                // EVENTO IMPORTANTE: AHORA LLAMA A LA NUEVA FUNCIÓN DE ADIVINANZA
+                div.addEventListener('click', () => {
+                    // primero se rellena el input con el valor seleccionado
+                    searchInput.value = song.nombre;
+                    songsList.classList.remove('show');
 
-            const prevDuration = safeIndex > 0 ? durations[safeIndex - 1] : 0;
-
-            const startPercentage = getPercentage(prevDuration);
-            progressBarFill.style.width = startPercentage + '%';
-        }
-
-        // OLD TIMER-BASED FUNCTIONS REMOVED:
-        // startTimeMarkerUpdate and stopTimeMarkerUpdate are replaced by
-        // handleSnippetTimeUpdate and updateProgressBarVisuals using timeupdate events
-
-        // -----------------------------------------------------
-        // buscador y eventos
-        // NUEVO: Variable para controlar el modo del botón Skip
-        let isSubmitMode = false;
-
-        function enableSubmitMode() {
-            isSubmitMode = true;
-            skipButton.textContent = "mandale";
-            skipButton.classList.add('submit-mode');
-        }
-
-        function disableSubmitMode() {
-            isSubmitMode = false;
-            skipButton.textContent = "Skip";
-            skipButton.classList.remove('submit-mode');
-        }
-
-        searchInput.addEventListener('input', function () {
-            // Si el usuario escribe, desactivar modo Mandale
-            disableSubmitMode();
-
-            // no eliminar funcion de tolowercase aqui, es necesaria para la busqueda
-            const query = (this.value || '').toLowerCase();
-            songsList.innerHTML = '';
-            if (query.length < 2) { songsList.classList.remove('show'); return; }
-
-            let pool = currentMode === 'artist' ? bibliotecaArtist : biblioteca;
-
-            if (currentMode === 'artist' && selectedArtist) {
-                pool = pool.filter(s => extractArtist(s.nombre) === selectedArtist);
-            }
-
-            const filtered = pool.filter(s => s.nombre.toLowerCase().includes(query));
-            if (filtered.length > 0) {
-                // CORREGIDO: forEach, appendChild, slice
-                filtered.forEach(song => {
-                    const div = document.createElement('div');
-                    div.classList.add('suggestion-item');
-                    div.textContent = song.nombre;
-
-                    // EVENTO IMPORTANTE: AHORA LLAMA A LA NUEVA FUNCIÓN DE ADIVINANZA
-                    div.addEventListener('click', () => {
-                        // primero se rellena el input con el valor seleccionado
-                        searchInput.value = song.nombre;
-                        songsList.classList.remove('show');
-
-                        // CAMBIO: En lugar de adivinar directo, activar modo Mandale
-                        enableSubmitMode();
-                    });
-                    songsList.appendChild(div);
+                    // CAMBIO: En lugar de adivinar directo, activar modo Mandale
+                    enableSubmitMode();
                 });
-                songsList.classList.add('show');
-            } else songsList.classList.remove('show');
-        });
+                songsList.appendChild(div);
+            });
+            songsList.classList.add('show');
+        } else songsList.classList.remove('show');
+    });
 
-        document.addEventListener('click', (event) => {
-            if (!event.target.closest('.search-container') && !event.target.closest('#songs-list')) {
-                songsList.classList.remove('show');
-            }
-        });
+    document.addEventListener('click', (event) => {
+        if (!event.target.closest('.search-container') && !event.target.closest('#songs-list')) {
+            songsList.classList.remove('show');
+        }
+    });
 
-        // CAMBIO IMPORTANTE: ESTE LISTENER FUE MODIFICADO
-        searchInput.addEventListener('keypress', function (event) {
-            if (event.key === 'Enter') {
-                event.preventDefault();
-                // no hace nada, bloquea el enter para forzar la selección de la lista
-            }
-        });
+    // CAMBIO IMPORTANTE: ESTE LISTENER FUE MODIFICADO
+    searchInput.addEventListener('keypress', function (event) {
+        if (event.key === 'Enter') {
+            event.preventDefault();
+            // no hace nada, bloquea el enter para forzar la selección de la lista
+        }
+    });
 
-        // -----------------------------------------------------
-        // init
-        window.addEventListener('load', () => {
-            renderGuessBoxes(); // Inicializar cajas
-            renderProgressSegments();
-            updateTimeMarker(0);
-            if (volumeSlider) audioPlayer.volume = parseFloat(volumeSlider.value);
+    // -----------------------------------------------------
+    // init
+    window.addEventListener('load', () => {
+        renderGuessBoxes(); // Inicializar cajas
+        renderProgressSegments();
+        updateTimeMarker(0);
+        if (volumeSlider) audioPlayer.volume = parseFloat(volumeSlider.value);
 
-            // PERSISTENCIA: Cargar estado guardado
-            loadFromLocalStorage();
+        // PERSISTENCIA: Cargar estado guardado
+        loadFromLocalStorage();
 
-            // Restaurar UI según el modo cargado
-            if (currentMode === 'artist') {
-                modeNormalBtn.classList.remove('active');
-                modeArtistBtn.classList.add('active');
-                artistSection.classList.add('show');
-                populateArtists();
-                restoreModeState('artist');
-            } else {
-                restoreModeState('normal');
-            }
-
-            // Cargar racha inicial (si no se cargó ya en restoreModeState -> resetGame)
-            winStreak = parseInt(localStorage.getItem('winStreak')) || 0;
-            updateStreakDisplay();
-            updateStreakSaverUI();
-
-            // Chequear popup de racha
-            checkClaimPopup();
-        });
-
-        // LÓGICA POPUP RACHA
-        function checkClaimPopup() {
-            if (!localStorage.getItem('streakClaimed_v1')) {
-                const popup = document.getElementById('streak-claim-popup');
-                if (popup) popup.style.display = 'block';
-            }
+        // Restaurar UI según el modo cargado
+        if (currentMode === 'artist') {
+            modeNormalBtn.classList.remove('active');
+            modeArtistBtn.classList.add('active');
+            artistSection.classList.add('show');
+            populateArtists();
+            restoreModeState('artist');
+        } else {
+            restoreModeState('normal');
         }
 
-        function claimStreak() {
-            playSound('click');
-            winStreak += 25;
-            streaksavers += 2; // NUEVO: Regalar 2 vidas
-            localStorage.setItem('winStreak', winStreak);
+        // Cargar racha inicial (si no se cargó ya en restoreModeState -> resetGame)
+        winStreak = parseInt(localStorage.getItem('winStreak')) || 0;
+        updateStreakDisplay();
+        updateStreakSaverUI();
+
+        // Chequear popup de racha
+        checkClaimPopup();
+    });
+
+    // LÓGICA POPUP RACHA
+    function checkClaimPopup() {
+        if (!localStorage.getItem('streakClaimed_v1')) {
+            const popup = document.getElementById('streak-claim-popup');
+            if (popup) popup.style.display = 'block';
+        }
+    }
+
+    function claimStreak() {
+        playSound('click');
+        winStreak += 25;
+        streaksavers += 2; // NUEVO: Regalar 2 vidas
+        localStorage.setItem('winStreak', winStreak);
+        localStorage.setItem('streaksavers', streaksavers);
+        updateStreakDisplay();
+        updateStreakSaverUI();
+
+        // Marcar como reclamado
+        localStorage.setItem('streakClaimed_v1', 'true');
+
+        // Ocultar popup
+        const popup = document.getElementById('streak-claim-popup');
+        if (popup) popup.style.display = 'none';
+    }
+
+    function closeClaimPopup() {
+        playSound('click');
+        localStorage.setItem('streakClaimed_v1', 'true'); // No mostrar de nuevo
+        const popup = document.getElementById('streak-claim-popup');
+        if (popup) popup.style.display = 'none';
+    }
+
+    window.addEventListener('beforeunload', () => {
+        pauseAudioInternal();
+    });
+
+    // >>> DEV TOOLS START <<<
+    // Herramientas de desarrollador para pruebas.
+    // Eliminar este bloque si se desea desactivar.
+    window.devTools = {
+        addLife: function () {
+            streaksavers++;
             localStorage.setItem('streaksavers', streaksavers);
-            updateStreakDisplay();
             updateStreakSaverUI();
-
-            // Marcar como reclamado
-            localStorage.setItem('streakClaimed_v1', 'true');
-
-            // Ocultar popup
-            const popup = document.getElementById('streak-claim-popup');
-            if (popup) popup.style.display = 'none';
-        }
-
-        function closeClaimPopup() {
-            playSound('click');
-            localStorage.setItem('streakClaimed_v1', 'true'); // No mostrar de nuevo
-            const popup = document.getElementById('streak-claim-popup');
-            if (popup) popup.style.display = 'none';
-        }
-
-        window.addEventListener('beforeunload', () => {
-            pauseAudioInternal();
-        });
-
-        // >>> DEV TOOLS START <<<
-        // Herramientas de desarrollador para pruebas.
-        // Eliminar este bloque si se desea desactivar.
-        window.devTools = {
-            addLife: function () {
-                streaksavers++;
-                localStorage.setItem('streaksavers', streaksavers);
-                updateStreakSaverUI();
-                console.log('Vida añadida. Total:', streaksavers);
-            },
-            setStreak: function (n) {
-                winStreak = n;
-                localStorage.setItem('winStreak', winStreak);
-                updateStreakDisplay();
-                console.log('Racha establecida en:', winStreak);
-            },
-            setSong: function (name) {
-                // Fuerza la siguiente canción (requiere recarga o reset)
-                // Esto es complejo porque la canción se elige al azar.
-                // Mejor: Simular que la canción actual es "name" para ganar fácil?
-                // O mejor: setear la respuesta correcta.
-                console.log('Canción actual:', currentSong.nombre);
-            },
-            win: function () {
-                if (!currentSong.nombre) return;
-                handleGuessFromSelection(currentSong.nombre);
-            },
-            editStreak: function () {
-                const n = prompt("Ingresa la nueva racha:");
-                if (n !== null && !isNaN(n)) {
-                    this.setStreak(parseInt(n));
-                }
+            console.log('Vida añadida. Total:', streaksavers);
+        },
+        setStreak: function (n) {
+            winStreak = n;
+            localStorage.setItem('winStreak', winStreak);
+            updateStreakDisplay();
+            console.log('Racha establecida en:', winStreak);
+        },
+        setSong: function (name) {
+            // Fuerza la siguiente canción (requiere recarga o reset)
+            // Esto es complejo porque la canción se elige al azar.
+            // Mejor: Simular que la canción actual es "name" para ganar fácil?
+            // O mejor: setear la respuesta correcta.
+            console.log('Canción actual:', currentSong.nombre);
+        },
+        win: function () {
+            if (!currentSong.nombre) return;
+            handleGuessFromSelection(currentSong.nombre);
+        },
+        editStreak: function () {
+            const n = prompt("Ingresa la nueva racha:");
+            if (n !== null && !isNaN(n)) {
+                this.setStreak(parseInt(n));
             }
-        };
-        // >>> DEV TOOLS END <<<
-    </script>
-    <script>
-        function ajustarEscala() {
-            // DISABLE ON MOBILE/TABLET
-            if (window.innerWidth < 850) {
-                const ui = document.getElementById("ui-root");
-                if (ui) {
-                    ui.style.transform = '';
-                    ui.style.position = '';
-                    ui.style.left = '';
-                    ui.style.top = '';
-                }
-                return;
-            }
-
-            const baseAncho = 900;
-            const baseAlto = 950;
-
-            const escala = Math.min(
-                window.innerWidth / baseAncho,
-                window.innerHeight / baseAlto
-            );
-
-            // aplicar solo al contenedor interno
+        }
+    };
+    // >>> DEV TOOLS END <<<
+</script>
+<script>
+    function ajustarEscala() {
+        // DISABLE ON MOBILE/TABLET
+        if (window.innerWidth < 850) {
             const ui = document.getElementById("ui-root");
             if (ui) {
-                ui.style.transform = `scale(${escala})`;
-                // centrarlo
-                ui.style.position = "absolute";
-                ui.style.left = `50%`;
-                ui.style.top = `0`;
-                ui.style.transformOrigin = "top center";
-                ui.style.transform = `translateX(-50%) scale(${escala})`;
+                ui.style.transform = '';
+                ui.style.position = '';
+                ui.style.left = '';
+                ui.style.top = '';
             }
+            return;
         }
 
-        window.addEventListener("resize", ajustarEscala);
-        window.addEventListener("load", ajustarEscala);
-    </script>
+        const baseAncho = 900;
+        const baseAlto = 950;
+
+        const escala = Math.min(
+            window.innerWidth / baseAncho,
+            window.innerHeight / baseAlto
+        );
+
+        // aplicar solo al contenedor interno
+        const ui = document.getElementById("ui-root");
+        if (ui) {
+            ui.style.transform = `scale(${escala})`;
+            // centrarlo
+            ui.style.position = "absolute";
+            ui.style.left = `50%`;
+            ui.style.top = `0`;
+            ui.style.transformOrigin = "top center";
+            ui.style.transform = `translateX(-50%) scale(${escala})`;
+        }
+    }
+
+    window.addEventListener("resize", ajustarEscala);
+    window.addEventListener("load", ajustarEscala);
+</script>
 </body>
 
 </html>
