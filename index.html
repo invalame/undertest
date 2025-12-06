@@ -1403,6 +1403,104 @@
         .close-popup:hover {
             color: var(--white);
         }
+
+        /* MODAL INFO VIDAS */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 3000;
+            backdrop-filter: blur(2px);
+        }
+
+        .modal-content {
+            background-color: var(--panel);
+            border: 2px solid var(--grisesito);
+            border-radius: 15px;
+            padding: 30px;
+            max-width: 400px;
+            width: 90%;
+            position: relative;
+            font-family: 'PoppinsFont', sans-serif;
+            text-align: center;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+            animation: popIn 0.3s ease-out;
+        }
+
+        .modal-content h2 {
+            margin-top: 0;
+            color: var(--white);
+            margin-bottom: 15px;
+        }
+
+        .modal-content p {
+            color: var(--muted);
+            margin-bottom: 20px;
+            font-size: 0.95em;
+        }
+
+        .life-milestones {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            text-align: left;
+        }
+
+        .life-milestones li {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 12px;
+            padding: 6px 15px;
+            background-color: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+        }
+
+        .milestone-badge {
+            background-color: var(--accent);
+            color: white;
+            font-weight: bold;
+            padding: 4px 8px;
+            border-radius: 6px;
+            min-width: 30px;
+            text-align: center;
+            font-size: 0.9em;
+        }
+
+        .milestone-hearts {
+            display: flex;
+            gap: 5px;
+        }
+
+        .milestone-hearts img {
+            width: 22px;
+            height: 22px;
+            object-fit: contain;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            background: none;
+            border: none;
+            color: var(--muted);
+            font-size: 1.8em;
+            cursor: pointer;
+            line-height: 1;
+            padding: 0;
+            transition: color 0.2s;
+        }
+
+        .close-modal:hover {
+            color: var(--white);
+        }
     </style>
 </head>
 
@@ -1483,15 +1581,55 @@
             <button id="skip-button-standalone" onclick="handleSkip()">Skip</button>
         </div>
     </div>
-    <div id="streak-saver-ui">salvadores de racha: 3</div>
+    <div id="streak-saver-ui" onclick="openLifeModal()" style="cursor: pointer;" title="Ver info de vidas">salvadores de
+        racha: 3</div>
 </main>
 
 <!-- POPUP RECLAMAR RACHA -->
 <div id="streak-claim-popup" class="streak-popup" style="display: none;">
     <button class="close-popup" onclick="closeClaimPopup()">×</button>
     <div class="popup-title">Reclamar 25 de racha</div>
-    <div class="popup-text">Por la cantidad de bugs te regalé esto</div>
-    <button class="claim-button" onclick="claimStreak()">regalito de navidad</button>
+    <div class="popup-text">Por la cantidad de bugs te regalamos esto</div>
+    <button class="claim-button" onclick="claimStreak()">Reclamar</button>
+</div>
+
+<!-- MODAL INFO VIDAS -->
+<div id="life-info-modal" class="modal-overlay" style="display: none;">
+    <div class="modal-content">
+        <button class="close-modal" onclick="closeLifeModal()">×</button>
+        <h2>Sistema de Vidas</h2>
+        <p>Consigue vidas extra al alcanzar estas rachas:</p>
+        <ul class="life-milestones">
+            <li>
+                <span class="milestone-badge" style="background-color: #55b725; color: #ffffff;">10</span>
+                <div class="milestone-hearts">
+                    <img src="img/racha_color.png"><img src="img/racha_nocolor.png"><img
+                        src="img/racha_nocolor.png"><img src="img/racha_nocolor.png">
+                </div>
+            </li>
+            <li>
+                <span class="milestone-badge" style="background-color: #ff9900;">20</span>
+                <div class="milestone-hearts">
+                    <img src="img/racha_color.png"><img src="img/racha_color.png"><img src="img/racha_nocolor.png"><img
+                        src="img/racha_nocolor.png">
+                </div>
+            </li>
+            <li>
+                <span class="milestone-badge" style="background-color: #8a2be2;">40</span>
+                <div class="milestone-hearts">
+                    <img src="img/racha_color.png"><img src="img/racha_color.png"><img src="img/racha_color.png"><img
+                        src="img/racha_nocolor.png">
+                </div>
+            </li>
+            <li>
+                <span class="milestone-badge" style="background-color: #2b90e2;">100</span>
+                <div class="milestone-hearts">
+                    <img src="img/racha_color.png"><img src="img/racha_color.png"><img src="img/racha_color.png"><img
+                        src="img/racha_color.png">
+                </div>
+            </li>
+        </ul>
+    </div>
 </div>
 
 <div id="game-over-message" role="dialog" aria-modal="true">
@@ -2720,6 +2858,7 @@
     // -----------------------------------------------------
     // game / audio logic
     async function resetGame(forceNew = false) {
+        isGameOver = false;
         pauseAudioInternal();
         isFullSongPlaying = false;
 
@@ -3065,6 +3204,31 @@
 
     // inicialización del reproductor completo cuando el modal se abre
     function initializeFullPlayer() {
+        // CONTINUOUS PLAYBACK: If game over, don't stop audio, just sync UI
+        if (isGameOver) {
+            // NEW: Auto-resume if paused
+            if (audioPlayer.paused) {
+                audioPlayer.play().catch(e => console.warn('Auto-resume failed:', e));
+            }
+
+            isFullSongPlaying = true;
+            updateFullPlayerIcon(true);
+            startFullPlayerUpdate();
+            setupFullSongSeeker();
+
+            // Ensure onended is set to handle when song finishes naturally
+            audioPlayer.onended = () => {
+                isFullSongPlaying = false;
+                updateFullPlayerIcon(false);
+                audioPlayer.currentTime = 0;
+                if (fullSongSeeker) fullSongSeeker.value = 0;
+                if (fullSongTime) fullSongTime.textContent = `0:00 / ${formatTime(audioPlayer.duration)}`;
+                if (fullPlayerInterval) clearInterval(fullPlayerInterval);
+                fullPlayerInterval = null;
+            };
+            return;
+        }
+
         // detener reproductor de snippet si aún estaba activo
         pauseAudioInternal();
 
@@ -3168,6 +3332,12 @@
         }
 
         const currentTime = audioPlayer.currentTime;
+
+        // CONTINUOUS PLAYBACK: Stop checking limits if game is over
+        if (isGameOver) {
+            animationFrameId = null;
+            return;
+        }
 
         // Check if we've reached or passed the target time
         if (currentTime >= snippetTargetTime) {
@@ -3275,8 +3445,9 @@
     let isGameOver = false;
 
     // función de game over modificada
+    // función de game over modificada
     function showGameOver(won) {
-        finishSnippet();
+        isGameOver = true;
 
         // inicializar el reproductor completo antes de mostrar el modal
         initializeFullPlayer();
@@ -3292,7 +3463,7 @@
                 winStreak++;
                 localStorage.setItem('winStreak', winStreak);
                 // Recompensas de Streak Save (solo en normal)
-                if (winStreak === 10 || winStreak === 20 || winStreak === 37) {
+                if (winStreak === 10 || winStreak === 20 || winStreak === 40 || winStreak === 100) {
                     streaksavers++;
                     localStorage.setItem('streaksavers', streaksavers);
                 }
@@ -3620,6 +3791,31 @@
         const popup = document.getElementById('streak-claim-popup');
         if (popup) popup.style.display = 'none';
     }
+
+    // LÓGICA MODAL INFO VIDAS
+    function openLifeModal() {
+        playSound('click');
+        const modal = document.getElementById('life-info-modal');
+        if (modal) {
+            modal.style.display = 'flex';
+        }
+    }
+
+    function closeLifeModal() {
+        playSound('click');
+        const modal = document.getElementById('life-info-modal');
+        if (modal) {
+            modal.style.display = 'none';
+        }
+    }
+
+    // Cerrar modal al hacer click fuera del contenido
+    window.addEventListener('click', (e) => {
+        const modal = document.getElementById('life-info-modal');
+        if (e.target === modal) {
+            closeLifeModal();
+        }
+    });
 
     window.addEventListener('beforeunload', () => {
         pauseAudioInternal();
