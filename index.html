@@ -889,236 +889,191 @@
         /* === MOBILE PHONE SPECIFIC === */
         @media (max-width: 480px) {
             body {
+                overflow-x: hidden;
+                /* Prevent horizontal scroll */
                 overflow-y: auto;
-                /* Habilitar scroll */
                 height: auto;
-                /* Quitar altura fija */
                 min-height: 100vh;
-                /* Altura mínima */
-                /* Dynamic viewport height for mobile browsers */
-                /* Dynamic viewport height for mobile browsers */
                 display: flex;
                 flex-direction: column;
                 justify-content: flex-start;
-                /* Centrar verticalmente -> CAMBIADO A FLEX-START */
                 align-items: center;
-                padding-top: 30px;
-                /* Espacio superior */
+                padding-top: 15px;
+                /* Reduced top padding */
             }
-
-            /* Pop animation removed from here (moved to global) */
 
             #ui-root {
                 width: 100%;
                 height: auto;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                /* Ensure children are centered */
             }
 
             header {
-                padding: 8px 15px 5px 15px;
-                width: 100%;
-            }
-
-            header .logo {
-                font-size: 3.2em;
-            }
-
-            #emote-7tv {
-                width: 150px;
-                height: 44px;
-                margin-top: 3px;
-            }
-
-            .mode-selector {
-                margin-top: 10px;
-                padding: 4px;
-                gap: 8px;
-            }
-
-            .mode-button {
-                padding: 8px 16px;
-                font-size: 0.95em;
-            }
-
-            main {
-                margin-top: 15px;
-                padding: 0 15px 15px 15px;
-                flex-grow: 0;
+                padding: 5px 15px;
                 width: 100%;
                 display: flex;
                 flex-direction: column;
                 align-items: center;
             }
 
-            /* Guess boxes - más anchas para aprovechar espacio */
-            .guess-boxes {
-                margin-bottom: 20px;
-                max-width: 100%;
+            header .logo {
+                font-size: 2.5em;
+                /* Reduced from 3.2em */
+                margin-bottom: 5px;
+            }
+
+            #emote-7tv {
+                width: 120px;
+                /* Reduced from 150px */
+                height: auto;
+                margin-top: 0;
+            }
+
+            .mode-selector {
+                margin-top: 8px;
+                padding: 3px;
+                gap: 5px;
+            }
+
+            .mode-button {
+                padding: 6px 12px;
+                font-size: 0.85em;
+            }
+
+            main {
+                margin-top: 10px;
+                padding: 0 10px 30px 10px;
+                /* Reduced padding */
                 width: 100%;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+
+            /* Guess boxes */
+            .guess-boxes {
+                margin-bottom: 15px;
+                width: 100%;
+                max-width: 100%;
             }
 
             .guess-box {
-                padding: 10px 15px;
-                margin-bottom: 5px;
-                height: 12px;
-                font-size: 1em;
+                padding: 8px 10px;
+                margin-bottom: 4px;
+                height: auto;
+                /* Allow auto height */
+                min-height: 15px;
+                font-size: 0.9em;
+                /* Reduced font size */
             }
 
-            /* Progress bar - más ancha */
+            /* Progress bar */
             .progress-bar-container {
-                max-width: 100%;
                 width: 100%;
-                height: 22px;
-                margin-bottom: 18px;
+                height: 18px;
+                /* Slightly thinner */
+                margin-bottom: 15px;
             }
 
             .timer-text {
-                font-size: 0.8em;
-                top: -28px;
+                font-size: 0.75em;
+                top: -25px;
             }
 
             /* Racha */
             #streak {
-                font-size: 1.1em;
-                margin-top: 8px;
+                font-size: 1em;
+                margin-top: 5px;
             }
 
-            /* Botón play - tamaño bueno para touch */
+            /* Play button */
             button.play-button {
-                width: 50px;
-                height: 50px;
-                margin-top: 8px;
-                margin-bottom: 18px;
+                width: 45px;
+                height: 45px;
+                margin-top: 5px;
+                margin-bottom: 15px;
             }
 
             button.play-button svg {
-                width: 26px;
-                height: 26px;
-            }
-
-            /* Search controls - más anchos */
-            .search-controls-container {
-                max-width: 100%;
-                width: 100%;
-                gap: 10px;
-            }
-
-            .controls-row {
-                gap: 8px;
-                width: 100%;
-            }
-
-            .search-container {
-                flex-grow: 1;
-                max-width: none;
-            }
-
-            .search-input {
-                padding: 12px 15px;
-                font-size: 1em;
-            }
-
-            #skip-button-standalone {
-                padding: 12px 20px;
-                font-size: 1em;
-            }
-
-            #songs-list {
-                max-width: 100%;
-                width: calc(100% - 90px);
-                max-height: 180px;
-            }
-
-            .suggestion-item {
-                padding: 10px 15px;
-                font-size: 1em;
-            }
-
-            /* Streak saver UI */
-            #streak-saver-ui {
-                font-size: 0.95em;
-                padding: 6px 10px;
-                margin-top: 10px;
-                width: 100%;
-                max-width: 100%;
-            }
-
-            #streak-saver-ui img {
                 width: 20px;
                 height: 20px;
             }
 
-            /* Reset button */
-            .reset-button {
-                top: 12px;
-                left: 10px;
-                padding: 6px 12px;
-                font-size: 0.8em;
+            /* Search controls */
+            .search-controls-container {
+                width: 100%;
+                gap: 8px;
             }
 
-            /* Artist section */
-            #artist-section {
-                margin-bottom: 15px;
-                gap: 8px;
+            .search-container {
+                height: 40px;
+                /* Define height */
+            }
+
+            .search-input {
+                padding: 8px 12px;
+                font-size: 0.9em;
+                height: 100%;
+                box-sizing: border-box;
+            }
+
+            #skip-button-standalone {
+                padding: 0 15px;
+                font-size: 0.9em;
+                height: 40px;
+                /* Match input height */
+            }
+
+            #songs-list {
                 width: 100%;
-                max-width: 100%;
+                /* Match parent width logic */
+                max-width: none;
+                max-height: 160px;
+            }
+
+            /* Artist section adjustments */
+            #artist-section {
+                margin-bottom: 10px;
             }
 
             #current-artist-display {
-                font-size: 1.1em;
-                margin-bottom: 5px;
-            }
-
-            /* Game over modal */
-            .game-over-content {
-                width: 92%;
-                max-width: 350px;
-            }
-
-            .game-over-header {
-                padding: 15px 20px;
-            }
-
-            #game-result {
-                font-size: 1.8em;
-            }
-
-            .game-over-body {
-                padding: 20px;
-                gap: 15px;
-            }
-
-            #correct-answer-container {
                 font-size: 1em;
             }
 
-            .full-player-container {
-                padding: 10px 0 5px 0;
+            /* Streaks & Lives UI */
+            #streak-saver-ui {
+                font-size: 0.85em;
+                padding: 4px 8px;
                 margin-top: 8px;
             }
 
-            .mini-play-button {
-                width: 35px;
-                height: 35px;
-                min-width: 35px;
-                min-height: 35px;
-            }
-
-            .mini-play-button svg {
+            #streak-saver-ui img {
                 width: 16px;
                 height: 16px;
             }
 
-            #full-song-time {
-                font-size: 0.9em;
+            /* Reset button */
+            .reset-button {
+                top: 10px;
+                left: 10px;
+                padding: 5px 10px;
+                font-size: 0.75em;
             }
 
-            .action-button {
-                padding: 12px 20px;
-                font-size: 1em;
+            /* Game Over Modal Mobile Opt */
+            .game-over-content {
+                width: 85%;
             }
 
-            .play-again-button {
-                margin-top: 8px;
+            .game-over-header {
+                padding: 10px 15px;
+            }
+
+            #game-result {
+                font-size: 1.5em;
             }
         }
 
@@ -2029,7 +1984,7 @@
         { nombre: "vahel, pachudani - loquita", archivo: "musicartist/vahel, pachudani - loquita.mp3", inicios: [0, 0.5, 1, 1.5, 2, 2.5] },
         { nombre: "vahel - PLAN B", archivo: "musicartist/vahel - PLAN B.mp3", inicios: [0, 0.5, 1, 1.5, 2, 2.5] },
         { nombre: "pa2k, enzocerobulto - BOYFRIEND", archivo: "musicartist/pa2k, enzocerobulto - BOYFRIEND.mp3", inicios: [0, 0.5, 1, 1.5, 2, 2.5] },
-        { nombre: "Pa2k, cero - Rn", archivo: "musicartist/Pa2k, cero - Rn.mp3", inicios: [0, 0.5, 1, 1.5, 2, 2.5] },
+        { nombre: "pa2k, cero - Rn", archivo: "musicartist/pa2k, cero - Rn.mp3", inicios: [0, 0.5, 1, 1.5, 2, 2.5] },
         { nombre: "pa2k, enzocerobulto - RIGHT NOW", archivo: "musicartist/pa2k, enzocerobulto - RIGHT NOW.mp3", inicios: [0, 0.5, 1, 1.5, 2, 2.5] },
         { nombre: "papirola - sos mi papirola", archivo: "musicartist/papirola - sos mi papirola.mp3", inicios: [0, 0.5, 1, 1.5, 2, 2.5] },
         { nombre: "cero, TURROBABY - Slat", archivo: "musicartist/cero, TURROBABY - Slat.mp3", inicios: [0, 0.5, 1, 1.5, 2, 2.5] },
@@ -2264,6 +2219,22 @@
         { nombre: "laura sad - PUCCA", archivo: "musicartist/laura sad - PUCCA.mp3", inicios: [0, 0.5, 1, 1.5, 2, 2.5] },
         { nombre: "laura sad - mochila", archivo: "musicartist/laura sad - mochila.mp3", inicios: [0, 0.5, 1, 1.5, 2, 2.5] },
         { nombre: "laura sad, MAGNESIO - Perdon Mama", archivo: "musicartist/laura sad, MAGNESIO - Perdon Mama.mp3", inicios: [0, 0.5, 1, 1.5, 2, 2.5] },
+        { nombre: "SixUp - Mortedor", archivo: "musicartist/SixUp - Mortedor.mp3", inicios: [0, 0.5, 1, 1.5, 2, 2.5] },
+        { nombre: "SixUp - 10 tucas", archivo: "musicartist/SixUp - 10 tucas.mp3", inicios: [0, 0.5, 1, 1.5, 2, 2.5] },
+        { nombre: "SixUp - Falso", archivo: "musicartist/SixUp - Falso.mp3", inicios: [0, 0.5, 1, 1.5, 2, 2.5] },
+        { nombre: "", archivo: "musicartist/.mp3", inicios: [0, 0.5, 1, 1.5, 2, 2.5] },
+        { nombre: "", archivo: "musicartist/.mp3", inicios: [0, 0.5, 1, 1.5, 2, 2.5] },
+        { nombre: "", archivo: "musicartist/.mp3", inicios: [0, 0.5, 1, 1.5, 2, 2.5] },
+        { nombre: "", archivo: "musicartist/.mp3", inicios: [0, 0.5, 1, 1.5, 2, 2.5] },
+        { nombre: "", archivo: "musicartist/.mp3", inicios: [0, 0.5, 1, 1.5, 2, 2.5] },
+        { nombre: "", archivo: "musicartist/.mp3", inicios: [0, 0.5, 1, 1.5, 2, 2.5] },
+        { nombre: "", archivo: "musicartist/.mp3", inicios: [0, 0.5, 1, 1.5, 2, 2.5] },
+        { nombre: "", archivo: "musicartist/.mp3", inicios: [0, 0.5, 1, 1.5, 2, 2.5] },
+        { nombre: "", archivo: "musicartist/.mp3", inicios: [0, 0.5, 1, 1.5, 2, 2.5] },
+        { nombre: "", archivo: "musicartist/.mp3", inicios: [0, 0.5, 1, 1.5, 2, 2.5] },
+        { nombre: "", archivo: "musicartist/.mp3", inicios: [0, 0.5, 1, 1.5, 2, 2.5] },
+        { nombre: "", archivo: "musicartist/.mp3", inicios: [0, 0.5, 1, 1.5, 2, 2.5] },
+
         // Ejemplo: { nombre: "Artista - Cancion", archivo: "musicartist/Artista - Cancion.mp3", inicios: [0, 0.5, 1, 1.5, 2, 2.5] }
     ];
 
@@ -2842,13 +2813,11 @@
     }
 
     // Event Listeners para búsqueda de artista
-    artistSearchInput.addEventListener('input', (e) => {
-        const query = e.target.value;
-        const matches = filterArtists(query);
-
+    // Helper para renderizar la lista de artistas
+    function renderArtistSuggestions(list) {
         artistListEl.innerHTML = '';
-        if (matches.length > 0) {
-            matches.forEach(artist => {
+        if (list && list.length > 0) {
+            list.forEach(artist => {
                 const div = document.createElement('div');
                 div.className = 'suggestion-item';
                 div.textContent = artist;
@@ -2859,6 +2828,21 @@
         } else {
             artistListEl.classList.remove('show');
         }
+    }
+
+    // Event Listeners para búsqueda de artista
+    artistSearchInput.addEventListener('input', (e) => {
+        const query = e.target.value;
+        // Si hay texto, filtra. Si está vacío, muestra todos.
+        const matches = query ? filterArtists(query) : artistList;
+        renderArtistSuggestions(matches);
+    });
+
+    // Mostrar todos al hacer click (focus)
+    artistSearchInput.addEventListener('click', () => {
+        const query = artistSearchInput.value;
+        const matches = query ? filterArtists(query) : artistList;
+        renderArtistSuggestions(matches);
     });
 
     // Cerrar lista al hacer click fuera
