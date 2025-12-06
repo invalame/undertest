@@ -1005,26 +1005,43 @@
             /* Search controls */
             .search-controls-container {
                 width: 100%;
-                gap: 8px;
+                gap: 5px;
+            }
+
+            .controls-row {
+                width: 100%;
+                display: flex;
+                gap: 5px;
+                /* Reduce gap */
+                align-items: center;
             }
 
             .search-container {
-                height: 40px;
-                /* Define height */
+                flex: 1;
+                /* Take remaining space */
+                min-width: 0;
+                /* Prevent flex overflow */
+                height: 36px;
+                /* Reduced height from 40px */
             }
 
             .search-input {
-                padding: 8px 12px;
-                font-size: 0.9em;
+                padding: 6px 10px;
+                font-size: 0.85em;
                 height: 100%;
                 box-sizing: border-box;
+                width: 100%;
             }
 
             #skip-button-standalone {
-                padding: 0 15px;
-                font-size: 0.9em;
-                height: 40px;
+                padding: 0 12px;
+                font-size: 0.85em;
+                height: 36px;
                 /* Match input height */
+                white-space: nowrap;
+                /* Prevent text wrap */
+                flex-shrink: 0;
+                /* Don't shrink button */
             }
 
             #songs-list {
