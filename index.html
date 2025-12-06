@@ -1006,92 +1006,93 @@
             .search-controls-container {
                 width: 100%;
                 gap: 5px;
+                /* Increased height to separate from play button */
+                margin-top: 5px;
             }
 
             .controls-row {
                 width: 100%;
                 display: flex;
-                gap: 5px;
-                /* Reduce gap */
+                gap: 8px;
+                /* Slightly increased gap */
                 align-items: center;
             }
 
             .search-container {
                 flex: 1;
-                /* Take remaining space */
                 min-width: 0;
-                /* Prevent flex overflow */
-                height: 36px;
-                /* Reduced height from 40px */
+                height: 42px;
+                /* Increased from 36px to 42px (larger than original 40px) */
             }
 
             .search-input {
-                padding: 6px 10px;
-                font-size: 0.85em;
+                padding: 8px 12px;
+                font-size: 0.95em;
+                /* Increased font size */
                 height: 100%;
                 box-sizing: border-box;
                 width: 100%;
             }
 
             #skip-button-standalone {
-                padding: 0 12px;
-                font-size: 0.85em;
-                height: 36px;
-                /* Match input height */
+                padding: 0 16px;
+                /* Wider padding */
+                font-size: 0.95em;
+                height: 42px;
+                /* Match new input height */
                 white-space: nowrap;
-                /* Prevent text wrap */
                 flex-shrink: 0;
-                /* Don't shrink button */
             }
+        }
 
-            #songs-list {
-                width: 100%;
-                /* Match parent width logic */
-                max-width: none;
-                max-height: 160px;
-            }
+        #songs-list {
+            width: 100%;
+            /* Match parent width logic */
+            max-width: none;
+            max-height: 160px;
+        }
 
-            /* Artist section adjustments */
-            #artist-section {
-                margin-bottom: 10px;
-            }
+        /* Artist section adjustments */
+        #artist-section {
+            margin-bottom: 10px;
+        }
 
-            #current-artist-display {
-                font-size: 1em;
-            }
+        #current-artist-display {
+            font-size: 1em;
+        }
 
-            /* Streaks & Lives UI */
-            #streak-saver-ui {
-                font-size: 0.85em;
-                padding: 4px 8px;
-                margin-top: 8px;
-            }
+        /* Streaks & Lives UI */
+        #streak-saver-ui {
+            font-size: 0.85em;
+            padding: 4px 8px;
+            margin-top: 8px;
+        }
 
-            #streak-saver-ui img {
-                width: 16px;
-                height: 16px;
-            }
+        #streak-saver-ui img {
+            width: 16px;
+            height: 16px;
+        }
 
-            /* Reset button */
-            .reset-button {
-                top: 10px;
-                left: 10px;
-                padding: 5px 10px;
-                font-size: 0.75em;
-            }
+        /* Reset button */
+        .reset-button {
+            top: 10px;
+            left: 10px;
+            padding: 5px 10px;
+            font-size: 0.75em;
+        }
 
-            /* Game Over Modal Mobile Opt */
-            .game-over-content {
-                width: 85%;
-            }
+        /* Game Over Modal Mobile Opt */
+        .game-over-content {
+            width: 85%;
+        }
 
-            .game-over-header {
-                padding: 10px 15px;
-            }
+        .game-over-header {
+            padding: 10px 15px;
+        }
 
-            #game-result {
-                font-size: 1.5em;
-            }
+        #game-result {
+            font-size: 1.5em;
+        }
         }
 
         /* Extra small phones */
@@ -2699,6 +2700,24 @@
         } else if (state.guessBoxStates) {
             // Fallback para compatibilidad con versiones anteriores de guardado
             restoreGuessStates(state.guessBoxStates);
+        }
+
+
+        // VALIDATION: Ensure restored song belongs to the current mode
+        if (currentSong && currentSong.archivo) {
+            const isArtistSong = currentSong.archivo.includes('musicartist/');
+            if (mode === 'normal' && isArtistSong) {
+                console.warn("Found artist song in normal mode state. Purging state.");
+                availableSongs = [];
+                resetGame(true);
+                return;
+            }
+            if (mode === 'artist' && !isArtistSong) {
+                console.warn("Found normal song in artist mode state. Purging state.");
+                availableSongs = [];
+                resetGame(true);
+                return;
+            }
         }
 
         // Restaurar audio con blob para mantener ofuscación
