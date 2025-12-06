@@ -1874,7 +1874,6 @@
         { nombre: "TURROBABY - Cornudo Consciente", archivo: "music/TURROBABY - Cornudo Consciente.mp3", inicios: [0, 0.5, 1, 1.5, 2, 2.5] },
         { nombre: "TURROBABY - Bajo El Sol", archivo: "music/TURROBABY - Bajo El Sol.mp3", inicios: [0, 0.5, 1, 1.5, 2, 2.5] },
         { nombre: "TURROBABY - COLOMBIANA HOODTRAP", archivo: "music/TURROBABY - COLOMBIANA HOODTRAP.mp3", inicios: [0, 0.5, 1, 1.5, 2, 2.5] },
-        { nombre: "Cluster - JEFFES", archivo: "music/Cluster - JEFFES.mp3", inicios: [0, 0.5, 1, 1.5, 2, 2.5] },
         { nombre: "Cluster, enzocerobulto - FFumando", archivo: "music/Cluster, enzocerobulto - FFumando.mp3", inicios: [0, 0.5, 1, 1.5, 2, 2.5] },
         { nombre: "EL DOCTOR - STARBOY", archivo: "music/EL DOCTOR - STARBOY.mp3", inicios: [0, 0.5, 1, 1.5, 2, 2.5] },
         { nombre: "AGUSFORTNITE2008, Stiffy - GUISO", archivo: "music/AGUSFORTNITE2008, Stiffy - GUISO.mp3", inicios: [0, 0.5, 1, 1.5, 2, 2.5] },
@@ -1882,7 +1881,7 @@
         { nombre: "Cluster, Duki - aGaRRo La PLaTa", archivo: "music/Cluster, Duki - aGaRRo La PLaTa.mp3", inicios: [0, 0.5, 1, 1.5, 2, 2.5] },
         { nombre: "laura sad - chupavrga", archivo: "music/laura sad - chupavrga.mp3", inicios: [0, 0.5, 1, 1.5, 2, 2.5] },
         { nombre: "laura sad, LOLO - Joseador Boy", archivo: "music/laura sad, LOLO - Joseador Boy.mp3", inicios: [0, 0.5, 1, 1.5, 2, 2.5] },
-        { nombre: "laura sad - Laurie", archivo: "music/laura sad - Laurie.mp3", inicios: [0, 0.5, 1, 1.5, 2, 2.5] },
+        { nombre: "laura sad - i Laurie", archivo: "music/laura sad - i Laurie.mp3", inicios: [0, 0.5, 1, 1.5, 2, 2.5] },
         { nombre: "laura sad, MAGNESIO - Perdon Mama", archivo: "music/laura sad, MAGNESIO - Perdon Mama.mp3", inicios: [0, 0.5, 1, 1.5, 2, 2.5] },
 
         // { nombre: "", archivo: "music/.mp3", inicios: [0, 0.5, 1, 1.5, 2, 2.5] },
@@ -2234,7 +2233,7 @@
         { nombre: "laura sad - chupavrga", archivo: "musicartist/laura sad - chupavrga.mp3", inicios: [0, 0.5, 1, 1.5, 2, 2.5] },
         { nombre: "laura sad, LOLO - Joseador Boy", archivo: "musicartist/laura sad, LOLO - Joseador Boy.mp3", inicios: [0, 0.5, 1, 1.5, 2, 2.5] },
         { nombre: "laura sad - todos pvtos", archivo: "musicartist/laura sad - todos pvtos.mp3", inicios: [0, 0.5, 1, 1.5, 2, 2.5] },
-        { nombre: "laura sad - Laurie", archivo: "musicartist/laura sad - Laurie.mp3", inicios: [0, 0.5, 1, 1.5, 2, 2.5] },
+        { nombre: "laura sad - i Laurie", archivo: "musicartist/laura sad - i Laurie.mp3", inicios: [0, 0.5, 1, 1.5, 2, 2.5] },
         { nombre: "laura sad - capitulo perdido", archivo: "musicartist/laura sad - capitulo perdido.mp3", inicios: [0, 0.5, 1, 1.5, 2, 2.5] },
         { nombre: "laura sad - PUCCA", archivo: "musicartist/laura sad - PUCCA.mp3", inicios: [0, 0.5, 1, 1.5, 2, 2.5] },
         { nombre: "laura sad - mochila", archivo: "musicartist/laura sad - mochila.mp3", inicios: [0, 0.5, 1, 1.5, 2, 2.5] },
@@ -2500,13 +2499,13 @@
             const progress = (currentStreak - 30) / 5;
             color = lerpColor("#b14aed", "#8a2be2", progress);
         }
-        else if (currentStreak <= 170) {
-            // 36-170: violeta intenso con glow
+        else if (currentStreak <= 99) {
+            // 36-99: violeta intenso con glow
             color = 'var(--streak-max)';
             streakEl.style.textShadow = '0 0 12px rgba(138, 43, 226, 0.7)';
         }
         else {
-            // Más de 170: celeste piola con glow más intenso
+            // 100 o más: celeste piola con glow más intenso
             color = 'var(--streak-cyan)';
             streakEl.style.textShadow = '0 0 15px rgba(0, 212, 255, 0.8)';
         }
