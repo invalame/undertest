@@ -894,7 +894,6 @@
                 height: auto;
                 min-height: 100vh;
                 min-height: 100dvh;
-                /* Dynamic viewport height for mobile browsers */
                 display: flex;
                 flex-direction: column;
                 justify-content: flex-start;
@@ -920,61 +919,92 @@
 
             header .logo {
                 font-size: 2.8em;
-                /* Slightly larger logo */
                 margin-bottom: 3px;
             }
 
             #emote-7tv {
                 width: 130px;
-                /* Slightly larger */
                 height: auto;
                 margin-top: 0;
             }
 
             .mode-selector {
-                margin-top: 8px;
+                margin-top: 10px;
+                margin-bottom: 5px;
                 padding: 4px;
                 gap: 6px;
             }
 
             .mode-button {
                 padding: 8px 16px;
-                /* Bigger touch targets */
                 font-size: 0.95em;
             }
 
             main {
-                margin-top: 8px;
-                padding: 0 12px 20px 12px;
+                margin-top: 15px;
+                /* More spacing from header */
+                padding: 0 15px 25px 15px;
+                /* More horizontal padding */
                 width: 100%;
                 display: flex;
                 flex-direction: column;
                 align-items: center;
             }
 
-            /* Guess boxes - bigger and more prominent */
+            /* Artist section - CENTERED */
+            #artist-section {
+                margin-bottom: 18px;
+                /* More space below */
+                width: 100%;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                /* Force center */
+            }
+
+            .artist-search-container {
+                width: 100%;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                /* Center the search container */
+            }
+
+            .artist-search-container .search-container {
+                width: 100%;
+                /* Full width */
+                max-width: 100%;
+            }
+
+            #current-artist-display {
+                font-size: 1.1em;
+                margin-bottom: 10px;
+                text-align: center;
+                width: 100%;
+            }
+
+            /* Guess boxes */
             .guess-boxes {
-                margin-bottom: 12px;
+                margin-bottom: 18px;
+                /* More space */
                 width: 100%;
                 max-width: 100%;
             }
 
             .guess-box {
                 padding: 12px 14px;
-                /* Larger padding */
-                margin-bottom: 5px;
+                margin-bottom: 6px;
                 height: auto;
                 min-height: 20px;
                 font-size: 1em;
-                /* Full size font */
             }
 
-            /* Progress bar - more prominent */
+            /* Progress bar */
             .progress-bar-container {
                 width: 100%;
                 height: 22px;
-                /* Thicker bar */
-                margin-bottom: 12px;
+                margin-bottom: 15px;
+                /* More space */
             }
 
             .timer-text {
@@ -982,58 +1012,65 @@
                 top: -26px;
             }
 
-            /* Racha - larger */
+            /* Racha */
             #streak {
                 font-size: 1.15em;
-                margin-top: 4px;
-                margin-bottom: 4px;
+                margin-top: 8px;
+                margin-bottom: 10px;
+                /* More space */
             }
 
-            /* Play button - bigger for easy tapping */
+            /* Play button */
             button.play-button {
-                width: 55px;
-                height: 55px;
-                margin-top: 8px;
-                margin-bottom: 20px;
+                width: 60px;
+                /* Bigger */
+                height: 60px;
+                margin-top: 10px;
+                margin-bottom: 25px;
+                /* More space below */
             }
 
             button.play-button svg {
-                width: 24px;
-                height: 24px;
+                width: 26px;
+                height: 26px;
             }
 
-            /* Search controls - larger for touch */
+            /* Search controls - LARGER */
             .search-controls-container {
                 width: 100%;
-                gap: 6px;
+                gap: 8px;
+                margin-top: 5px;
             }
 
             .controls-row {
                 width: 100%;
                 display: flex;
-                gap: 6px;
+                gap: 8px;
                 align-items: center;
+                justify-content: center;
+                /* Center the row */
             }
 
             .search-container {
                 flex: 1;
                 min-width: 0;
-                height: 50px;
+                height: 55px;
                 /* Bigger search bar */
             }
 
             .search-input {
-                padding: 10px 14px;
-                font-size: 1em;
+                padding: 12px 16px;
+                font-size: 1.05em;
                 height: 100%;
                 box-sizing: border-box;
                 width: 100%;
             }
 
             #skip-button-standalone {
-                padding: 0 18px;
-                font-size: 1em;
-                height: 50px;
+                padding: 0 20px;
+                font-size: 1.05em;
+                height: 55px;
+                /* Match search bar */
                 white-space: nowrap;
                 flex-shrink: 0;
             }
@@ -1042,7 +1079,6 @@
                 width: 100%;
                 max-width: none;
                 max-height: 200px;
-                /* Allow more suggestions visible */
             }
 
             .suggestion-item {
@@ -1050,22 +1086,12 @@
                 font-size: 1em;
             }
 
-            /* Artist section adjustments */
-            #artist-section {
-                margin-bottom: 8px;
-                width: 100%;
-            }
-
-            #current-artist-display {
-                font-size: 1.1em;
-                margin-bottom: 6px;
-            }
-
             /* Streaks & Lives UI */
             #streak-saver-ui {
                 font-size: 0.95em;
-                padding: 6px 10px;
-                margin-top: 10px;
+                padding: 8px 12px;
+                margin-top: 15px;
+                /* More space */
             }
 
             #streak-saver-ui img {
@@ -1081,7 +1107,7 @@
                 font-size: 0.8em;
             }
 
-            /* Game Over Modal - fill more screen */
+            /* Game Over Modal */
             .game-over-content {
                 width: 92%;
                 max-width: 400px;
