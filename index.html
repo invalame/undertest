@@ -1503,6 +1503,87 @@
         aria-label="volumen">
 </div>
 
+<!-- YOUTUBE BUTTON -->
+<div class="youtube-container">
+    <a href="https://www.youtube.com/@UnderLesss" target="_blank" rel="noopener noreferrer" class="youtube-btn"
+        aria-label="YouTube Channel">
+        <svg viewBox="0 0 24 24" fill="white" width="24" height="24">
+            <path
+                d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
+        </svg>
+    </a>
+</div>
+
+<style>
+    .youtube-container {
+        position: fixed;
+        top: 50px;
+        right: 30px;
+        z-index: 1000;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+    }
+
+    .youtube-btn {
+        width: 35px;
+        height: 35px;
+        background: #ff0000;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: transform 0.2s, background-color 0.2s;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+        text-decoration: none;
+    }
+
+    .youtube-btn:hover {
+        transform: scale(1.1);
+        background: #cc0000;
+    }
+
+    .youtube-container .tooltip {
+        visibility: hidden;
+        width: max-content;
+        background-color: #333;
+        color: #fff;
+        text-align: center;
+        border-radius: 4px;
+        padding: 5px 10px;
+        position: absolute;
+        top: 100%;
+        right: 0;
+        margin-top: 5px;
+        opacity: 0;
+        transition: opacity 0.3s;
+        font-size: 0.8em;
+        pointer-events: none;
+        white-space: nowrap;
+    }
+
+    .youtube-container:hover .tooltip {
+        visibility: visible;
+        opacity: 1;
+    }
+
+    /* Mobile adjustments */
+    @media (max-width: 480px) {
+        .youtube-container {
+            right: 15px;
+            top: 55px;
+            align-items: center;
+        }
+
+        .youtube-container .tooltip {
+            right: auto;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+    }
+</style>
+
 <main>
     <!-- SECCIÓN DE ARTISTA (NUEVO) -->
     <div id="artist-section">
@@ -2241,18 +2322,6 @@
         { nombre: "SixUp - Mortedor", archivo: "musicartist/SixUp - Mortedor.mp3", inicios: [0, 0.5, 1, 1.5, 2, 2.5] },
         { nombre: "SixUp - 10 tucas", archivo: "musicartist/SixUp - 10 tucas.mp3", inicios: [0, 0.5, 1, 1.5, 2, 2.5] },
         { nombre: "SixUp - Falso", archivo: "musicartist/SixUp - Falso.mp3", inicios: [0, 0.5, 1, 1.5, 2, 2.5] },
-        { nombre: "", archivo: "musicartist/.mp3", inicios: [0, 0.5, 1, 1.5, 2, 2.5] },
-        { nombre: "", archivo: "musicartist/.mp3", inicios: [0, 0.5, 1, 1.5, 2, 2.5] },
-        { nombre: "", archivo: "musicartist/.mp3", inicios: [0, 0.5, 1, 1.5, 2, 2.5] },
-        { nombre: "", archivo: "musicartist/.mp3", inicios: [0, 0.5, 1, 1.5, 2, 2.5] },
-        { nombre: "", archivo: "musicartist/.mp3", inicios: [0, 0.5, 1, 1.5, 2, 2.5] },
-        { nombre: "", archivo: "musicartist/.mp3", inicios: [0, 0.5, 1, 1.5, 2, 2.5] },
-        { nombre: "", archivo: "musicartist/.mp3", inicios: [0, 0.5, 1, 1.5, 2, 2.5] },
-        { nombre: "", archivo: "musicartist/.mp3", inicios: [0, 0.5, 1, 1.5, 2, 2.5] },
-        { nombre: "", archivo: "musicartist/.mp3", inicios: [0, 0.5, 1, 1.5, 2, 2.5] },
-        { nombre: "", archivo: "musicartist/.mp3", inicios: [0, 0.5, 1, 1.5, 2, 2.5] },
-        { nombre: "", archivo: "musicartist/.mp3", inicios: [0, 0.5, 1, 1.5, 2, 2.5] },
-        { nombre: "", archivo: "musicartist/.mp3", inicios: [0, 0.5, 1, 1.5, 2, 2.5] },
 
         // Ejemplo: { nombre: "Artista - Cancion", archivo: "musicartist/Artista - Cancion.mp3", inicios: [0, 0.5, 1, 1.5, 2, 2.5] }
     ];
