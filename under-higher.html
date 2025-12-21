@@ -1,0 +1,897 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Under/Higher - UnderLess</title>
+    <meta name="description" content="¿Cuál artista tiene más oyentes mensuales?">
+    <link rel="icon" href="underless.ico">
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <script src="sample-artists.js"></script>
+    <style>
+        @font-face {
+            font-family: 'UnderLessFont';
+            src: url('fonts/UnderLess_font.ttf') format('truetype');
+            font-weight: 800;
+            font-style: normal;
+        }
+
+        @font-face {
+            font-family: 'OtherTextFont';
+            src: url('fonts/other_text.ttf') format('truetype');
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        @font-face {
+            font-family: 'PoppinsFont';
+            src: url('fonts/Poppins-Regular.ttf') format('truetype');
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        @font-face {
+            font-family: 'PoppinsFont';
+            src: url('fonts/Poppins-Bold.ttf') format('truetype');
+            font-weight: bold;
+            font-style: normal;
+        }
+
+        :root {
+            --bg: #161819;
+            --panel: #242829;
+            --muted: #b3b3b3;
+            --accent: #55b725;
+            --white: #ffffff;
+            --red: #b42828;
+            --divider: #3a3d3f;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--white);
+            font-family: 'PoppinsFont', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 30px 20px;
+            overflow-x: hidden;
+        }
+
+        /* ===== HEADER ===== */
+        .game-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .game-title {
+            font-family: 'UnderLessFont', sans-serif;
+            font-size: 3.5em;
+            font-weight: 800;
+            letter-spacing: -1px;
+            margin-bottom: 15px;
+            user-select: none;
+        }
+
+        .game-question {
+            font-size: 1.4em;
+            font-weight: normal;
+            color: var(--white);
+            font-style: italic;
+        }
+
+        .game-question .highlight {
+            color: var(--accent);
+            font-weight: bold;
+            font-style: normal;
+        }
+
+        /* ===== SCORE DISPLAY ===== */
+        .score-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 30px;
+            gap: 15px;
+        }
+
+        .score-circle {
+            width: 50px;
+            height: 50px;
+            background-color: var(--white);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5em;
+            font-weight: bold;
+            color: var(--bg);
+        }
+
+        /* ===== CARDS CONTAINER ===== */
+        .cards-container {
+            display: flex;
+            gap: 30px;
+            justify-content: center;
+            align-items: flex-start;
+            max-width: 900px;
+            width: 100%;
+            position: relative;
+        }
+
+        /* ===== INDIVIDUAL CARD ===== */
+        .artist-card {
+            background-color: var(--bg);
+            border-radius: 8px;
+            overflow: visible;
+            cursor: pointer;
+            transition: transform 0.4s ease, box-shadow 0.2s ease, opacity 0.4s ease;
+            flex: 1;
+            min-width: 280px;
+            max-width: 400px;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        .artist-card:hover:not(.revealed):not(.locked) {
+            transform: translateY(-5px);
+        }
+
+        .artist-card.revealed,
+        .artist-card.locked {
+            cursor: default;
+        }
+
+        .artist-card.locked {
+            pointer-events: none;
+        }
+
+        /* Slide to left animation */
+        .artist-card.slide-to-left {
+            animation: slideToLeft 0.6s ease forwards;
+        }
+
+        @keyframes slideToLeft {
+            0% {
+                transform: translateX(0);
+                opacity: 1;
+            }
+
+            50% {
+                transform: translateX(-50px);
+                opacity: 0.5;
+            }
+
+            100% {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        /* New challenger fade in */
+        .artist-card.fade-in {
+            animation: fadeInRight 0.5s ease forwards;
+        }
+
+        @keyframes fadeInRight {
+            0% {
+                transform: translateX(50px);
+                opacity: 0;
+            }
+
+            100% {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        /* ===== CARD IMAGE ===== */
+        .card-image-container {
+            width: 100%;
+            aspect-ratio: 1 / 1;
+            overflow: hidden;
+            position: relative;
+            border-radius: 8px;
+        }
+
+        .card-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        /* ===== CARD INFO - DIVIDED SECTIONS ===== */
+        .card-info {
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            background-color: var(--bg);
+        }
+
+        .artist-name-section {
+            padding: 15px 20px;
+            text-align: center;
+            border-bottom: 1px solid var(--divider);
+        }
+
+        .artist-name {
+            font-family: 'OtherTextFont', sans-serif;
+            font-size: 1.3em;
+            color: var(--white);
+            margin: 0;
+        }
+
+        .listeners-section {
+            padding: 15px 20px;
+            text-align: center;
+            border-left: 3px solid var(--divider);
+            min-height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* ===== LISTENERS COUNT ===== */
+        .listeners-container {
+            opacity: 0;
+            transform: translateY(15px);
+            transition: opacity 0.4s ease-out, transform 0.4s ease-out;
+        }
+
+        .listeners-container.revealed {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .listeners-count {
+            font-family: 'OtherTextFont', sans-serif;
+            font-size: 2em;
+            font-weight: bold;
+            color: var(--white);
+        }
+
+        /* ===== OVERLAYS ===== */
+        .card-image-container {
+            position: relative;
+        }
+
+        .result-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+            z-index: 10;
+            border-radius: 8px;
+        }
+
+        .result-overlay.wrong {
+            background-color: rgba(180, 40, 40, 0.85);
+        }
+
+        .result-overlay.correct {
+            background-color: rgba(85, 183, 37, 0.85);
+        }
+
+        .result-overlay.show {
+            opacity: 1;
+        }
+
+        .result-icon {
+            font-size: 6em;
+            color: white;
+            font-weight: bold;
+        }
+
+        /* ===== VS DIVIDER ===== */
+        .vs-divider {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5em;
+            font-weight: bold;
+            color: var(--muted);
+            user-select: none;
+            min-width: 50px;
+            align-self: center;
+        }
+
+        /* ===== GAME OVER MODAL ===== */
+        .game-over-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+
+        .game-over-modal.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-content {
+            background-color: var(--panel);
+            border-radius: 12px;
+            padding: 0;
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+            max-width: 400px;
+            width: 90%;
+            transform: scale(0.9);
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border: 2px solid var(--red);
+        }
+
+        .game-over-modal.show .modal-content {
+            transform: scale(1);
+        }
+
+        .modal-header {
+            background-color: var(--red);
+            padding: 25px;
+            text-align: center;
+        }
+
+        .modal-header h2 {
+            font-family: 'UnderLessFont', sans-serif;
+            font-size: 2em;
+            margin: 0;
+            color: white;
+        }
+
+        .modal-body {
+            padding: 30px;
+            text-align: center;
+        }
+
+        .final-score {
+            font-size: 1.2em;
+            color: var(--muted);
+            margin-bottom: 10px;
+        }
+
+        .final-score span {
+            font-size: 2em;
+            font-weight: bold;
+            color: var(--white);
+            display: block;
+            margin-top: 5px;
+        }
+
+        .play-again-btn {
+            background-color: var(--accent);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.1em;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: background-color 0.2s ease;
+            font-family: 'PoppinsFont', sans-serif;
+        }
+
+        .play-again-btn:hover {
+            background-color: #4a9e20;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 700px) {
+            body {
+                padding: 15px 12px;
+                min-height: 100dvh;
+            }
+
+            .game-header {
+                margin-bottom: 15px;
+            }
+
+            .game-title {
+                font-size: 2em;
+                margin-bottom: 8px;
+            }
+
+            .game-question {
+                font-size: 0.95em;
+            }
+
+            .score-container {
+                margin-bottom: 15px;
+            }
+
+            .score-circle {
+                width: 42px;
+                height: 42px;
+                font-size: 1.3em;
+            }
+
+            .cards-container {
+                flex-direction: column;
+                align-items: center;
+                gap: 0;
+                width: 100%;
+                padding: 0;
+            }
+
+            .artist-card {
+                max-width: 280px;
+                width: 90%;
+                min-width: unset;
+                flex: none;
+            }
+
+            .card-info {
+                border-radius: 0 0 8px 8px;
+                border: 1px solid var(--divider);
+                border-top: none;
+            }
+
+            .card-image-container {
+                aspect-ratio: 1 / 1;
+                border-radius: 8px;
+            }
+
+            .card-image {
+                border-radius: 8px;
+            }
+
+            .artist-name-section {
+                padding: 10px 12px;
+            }
+
+            .artist-name {
+                font-size: 1.1em;
+            }
+
+            .listeners-section {
+                padding: 10px 12px;
+                min-height: 45px;
+            }
+
+            .listeners-count {
+                font-size: 1.5em;
+            }
+
+            .result-icon {
+                font-size: 4em;
+            }
+
+            /* VS Divider visible on mobile as a badge */
+            .vs-divider {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                width: 45px;
+                height: 45px;
+                background-color: var(--panel);
+                border-radius: 50%;
+                font-size: 1em;
+                font-weight: bold;
+                color: var(--white);
+                margin: -18px 0;
+                z-index: 5;
+                border: 3px solid var(--bg);
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+            }
+
+            /* Adjust slide animations for vertical layout */
+            @keyframes slideToLeft {
+                0% {
+                    transform: translateY(0);
+                    opacity: 1;
+                }
+
+                50% {
+                    transform: translateY(-30px);
+                    opacity: 0.5;
+                }
+
+                100% {
+                    transform: translateY(0);
+                    opacity: 1;
+                }
+            }
+
+            @keyframes fadeInRight {
+                0% {
+                    transform: translateY(30px);
+                    opacity: 0;
+                }
+
+                100% {
+                    transform: translateY(0);
+                    opacity: 1;
+                }
+            }
+
+            /* Modal adjustments */
+            .modal-content {
+                max-width: 320px;
+            }
+
+            .modal-header {
+                padding: 18px;
+            }
+
+            .modal-header h2 {
+                font-size: 1.6em;
+            }
+
+            .modal-body {
+                padding: 20px;
+            }
+
+            .final-score {
+                font-size: 1em;
+            }
+
+            .final-score span {
+                font-size: 1.8em;
+            }
+
+            .play-again-btn {
+                padding: 12px 30px;
+                font-size: 1em;
+                width: 100%;
+            }
+        }
+
+        /* Extra small phones */
+        @media (max-width: 380px) {
+            body {
+                padding: 10px 8px;
+            }
+
+            .game-title {
+                font-size: 1.7em;
+            }
+
+            .game-question {
+                font-size: 0.85em;
+            }
+
+            .score-circle {
+                width: 38px;
+                height: 38px;
+                font-size: 1.2em;
+            }
+
+            .artist-card {
+                max-width: 250px;
+            }
+
+            .artist-name {
+                font-size: 1em;
+            }
+
+            .listeners-count {
+                font-size: 1.3em;
+            }
+
+            .vs-divider {
+                width: 40px;
+                height: 40px;
+                font-size: 0.9em;
+                margin: -15px 0;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- AUDIO -->
+    <audio id="game-over-sound" src="sounds/fail.mp3" preload="auto"></audio>
+
+    <!-- HEADER -->
+    <header class="game-header">
+        <h1 class="game-title">Under/Higher</h1>
+        <p class="game-question">¿Cuál tiene <span class="highlight">MÁS</span> oyentes mensuales?</p>
+    </header>
+
+    <!-- SCORE -->
+    <div class="score-container">
+        <div class="score-circle" id="score-display">0</div>
+    </div>
+
+    <!-- CARDS -->
+    <main class="cards-container" id="cards-container">
+        <!-- Card Left (current champion) -->
+        <div class="artist-card" id="card-left" onclick="handleCardClick('left')">
+            <div class="card-image-container">
+                <div class="result-overlay wrong" id="overlay-left-wrong">
+                    <span class="result-icon">✗</span>
+                </div>
+                <div class="result-overlay correct" id="overlay-left-correct">
+                    <span class="result-icon">✓</span>
+                </div>
+                <img class="card-image" id="img-left" src="" alt="Artista 1">
+            </div>
+            <div class="card-info">
+                <div class="artist-name-section">
+                    <p class="artist-name" id="name-left">"Artista"</p>
+                </div>
+                <div class="listeners-section">
+                    <div class="listeners-container" id="listeners-left">
+                        <p class="listeners-count" id="count-left">0</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- VS Divider -->
+        <div class="vs-divider">VS</div>
+
+        <!-- Card Right (challenger) -->
+        <div class="artist-card" id="card-right" onclick="handleCardClick('right')">
+            <div class="card-image-container">
+                <div class="result-overlay wrong" id="overlay-right-wrong">
+                    <span class="result-icon">✗</span>
+                </div>
+                <div class="result-overlay correct" id="overlay-right-correct">
+                    <span class="result-icon">✓</span>
+                </div>
+                <img class="card-image" id="img-right" src="" alt="Artista 2">
+            </div>
+            <div class="card-info">
+                <div class="artist-name-section">
+                    <p class="artist-name" id="name-right">"Artista"</p>
+                </div>
+                <div class="listeners-section">
+                    <div class="listeners-container" id="listeners-right">
+                        <p class="listeners-count" id="count-right">0</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- GAME OVER MODAL -->
+    <div class="game-over-modal" id="game-over-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>¡Perdiste!</h2>
+            </div>
+            <div class="modal-body">
+                <p class="final-score">Tu racha fue de<span id="final-score-value">0</span></p>
+                <button class="play-again-btn" onclick="restartGame()">Jugar de nuevo</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ===== GAME STATE =====
+        let score = 0;
+        let currentLeft = null;
+        let currentRight = null;
+        let isRevealed = false;
+        let usedArtists = [];
+        let gameOver = false;
+
+        // ===== DOM ELEMENTS =====
+        const cardLeft = document.getElementById('card-left');
+        const cardRight = document.getElementById('card-right');
+        const imgLeft = document.getElementById('img-left');
+        const imgRight = document.getElementById('img-right');
+        const nameLeft = document.getElementById('name-left');
+        const nameRight = document.getElementById('name-right');
+        const countLeft = document.getElementById('count-left');
+        const countRight = document.getElementById('count-right');
+        const listenersLeft = document.getElementById('listeners-left');
+        const listenersRight = document.getElementById('listeners-right');
+        const scoreDisplay = document.getElementById('score-display');
+        const overlayLeftWrong = document.getElementById('overlay-left-wrong');
+        const overlayLeftCorrect = document.getElementById('overlay-left-correct');
+        const overlayRightWrong = document.getElementById('overlay-right-wrong');
+        const overlayRightCorrect = document.getElementById('overlay-right-correct');
+        const gameOverModal = document.getElementById('game-over-modal');
+        const finalScoreValue = document.getElementById('final-score-value');
+        const gameOverSound = document.getElementById('game-over-sound');
+
+        // ===== UTILITY FUNCTIONS =====
+        function formatNumber(num) {
+            return num.toLocaleString('es-AR');
+        }
+
+        function getRandomArtist() {
+            let available = UNDERLESS_ARTISTS.filter(a => !usedArtists.includes(a.name));
+
+            if (available.length === 0) {
+                usedArtists = currentLeft ? [currentLeft.name] : [];
+                available = UNDERLESS_ARTISTS.filter(a => !usedArtists.includes(a.name));
+            }
+
+            const idx = Math.floor(Math.random() * available.length);
+            return available[idx];
+        }
+
+        function animateCount(element, targetValue, duration = 1000) {
+            const startTime = performance.now();
+            const startValue = 0;
+
+            function update(currentTime) {
+                const elapsed = currentTime - startTime;
+                const progress = Math.min(elapsed / duration, 1);
+                const easeOut = 1 - Math.pow(1 - progress, 3);
+                const currentValue = Math.floor(startValue + (targetValue - startValue) * easeOut);
+                element.textContent = formatNumber(currentValue);
+
+                if (progress < 1) {
+                    requestAnimationFrame(update);
+                }
+            }
+
+            requestAnimationFrame(update);
+        }
+
+        // ===== GAME FUNCTIONS =====
+        function initGame() {
+            score = 0;
+            usedArtists = [];
+            gameOver = false;
+            scoreDisplay.textContent = '0';
+
+            const artist1 = getRandomArtist();
+            usedArtists.push(artist1.name);
+            const artist2 = getRandomArtist();
+            usedArtists.push(artist2.name);
+
+            currentLeft = artist1;
+            currentRight = artist2;
+
+            updateLeftCard(currentLeft, true);
+            updateRightCard(currentRight, false);
+
+            resetCardStates();
+        }
+
+        function updateLeftCard(artist, showListeners) {
+            imgLeft.src = 'img/' + artist.img;
+            nameLeft.textContent = '"' + artist.name + '"';
+            countLeft.textContent = formatNumber(artist.monthly_listeners);
+
+            if (showListeners) {
+                listenersLeft.classList.add('revealed');
+            } else {
+                listenersLeft.classList.remove('revealed');
+            }
+        }
+
+        function updateRightCard(artist, showListeners) {
+            imgRight.src = 'img/' + artist.img;
+            nameRight.textContent = '"' + artist.name + '"';
+            countRight.textContent = formatNumber(artist.monthly_listeners);
+
+            if (showListeners) {
+                listenersRight.classList.add('revealed');
+            } else {
+                listenersRight.classList.remove('revealed');
+            }
+        }
+
+        function resetCardStates() {
+            isRevealed = false;
+            cardLeft.classList.remove('revealed', 'locked', 'slide-to-left', 'fade-in');
+            cardRight.classList.remove('revealed', 'locked', 'fade-in');
+            overlayLeftWrong.classList.remove('show');
+            overlayLeftCorrect.classList.remove('show');
+            overlayRightWrong.classList.remove('show');
+            overlayRightCorrect.classList.remove('show');
+        }
+
+        function handleCardClick(side) {
+            if (isRevealed || gameOver) return;
+            isRevealed = true;
+
+            cardLeft.classList.add('revealed');
+            cardRight.classList.add('revealed');
+
+            listenersRight.classList.add('revealed');
+            animateCount(countRight, currentRight.monthly_listeners, 1200);
+
+            const leftHasMore = currentLeft.monthly_listeners >= currentRight.monthly_listeners;
+            const playerChoseCorrectly = (side === 'left' && leftHasMore) || (side === 'right' && !leftHasMore);
+
+            setTimeout(() => {
+                if (playerChoseCorrectly) {
+                    handleCorrectGuess(side);
+                } else {
+                    handleWrongGuess(side);
+                }
+            }, 1400);
+        }
+
+        function handleCorrectGuess(side) {
+            score++;
+            scoreDisplay.textContent = score;
+
+            // Show green check on the correct choice
+            if (side === 'left') {
+                overlayLeftCorrect.classList.add('show');
+            } else {
+                overlayRightCorrect.classList.add('show');
+            }
+
+            const winner = (side === 'left') ? currentLeft : currentRight;
+
+            setTimeout(() => {
+                // Remove check overlay
+                overlayLeftCorrect.classList.remove('show');
+                overlayRightCorrect.classList.remove('show');
+
+                // Animate slide
+                cardLeft.classList.add('slide-to-left');
+                cardRight.classList.add('fade-in');
+
+                setTimeout(() => {
+                    currentLeft = winner;
+                    usedArtists.push(winner.name);
+                    updateLeftCard(currentLeft, true);
+
+                    currentRight = getRandomArtist();
+                    usedArtists.push(currentRight.name);
+                    updateRightCard(currentRight, false);
+
+                    resetCardStates();
+                }, 400);
+            }, 800);
+        }
+
+        function handleWrongGuess(side) {
+            if (side === 'left') {
+                overlayLeftWrong.classList.add('show');
+            } else {
+                overlayRightWrong.classList.add('show');
+            }
+
+            gameOverSound.currentTime = 0;
+            gameOverSound.play().catch(() => { });
+
+            gameOver = true;
+            finalScoreValue.textContent = score;
+
+            setTimeout(() => {
+                gameOverModal.classList.add('show');
+            }, 800);
+        }
+
+        function restartGame() {
+            gameOverModal.classList.remove('show');
+            setTimeout(() => {
+                initGame();
+            }, 300);
+        }
+
+        // ===== INITIALIZE =====
+        document.addEventListener('DOMContentLoaded', () => {
+            initGame();
+        });
+    </script>
+</body>
+
+</html>
