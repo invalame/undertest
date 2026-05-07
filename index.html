@@ -13,9 +13,23 @@
     <title>UnderLess</title>
     <meta name="description" content="en UnderLess tenés que adivinar artistas y canciones del under argentino.">
     <meta property="og:title" content="UnderLess">
+    <meta property="og:description" content="en UnderLess tenés que adivinar artistas y canciones del under argentino.">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="https://invalame.github.io/UnderLess/img/home_underless.png">
     <meta name="application-name" content="UnderLess">
-    <link rel="icon" href="underless.ico">
-    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <meta name="google-site-verification" content="wJNtyF9L8PONkSvZSHAbqFFadmZrDmITZJYvXF0eivQ">
+    <!-- Favicon - single declaration with correct format -->
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
+    <!-- Structured Data for Google - Site Name -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "name": "UnderLess",
+        "url": "https://invalame.github.io/UnderLess/"
+    }
+    </script>
     <!-- UnderLess Sidebar Styles (scoped) -->
     <link rel="stylesheet" href="underless-sidebar.css">
     <style>
@@ -5211,6 +5225,7 @@
         applySlowScroll(document.getElementById('songs-list'));
         applySlowScroll(document.getElementById('artist-list'));
         applySlowScroll(document.getElementById('album-list'));
+        applySlowScroll(document.getElementById('uoh-artist-list'));
     });
 
     window.addEventListener("resize", ajustarEscala);
@@ -5257,33 +5272,78 @@
     <!-- Overlay (darkens background when sidebar open) -->
     <div class="underless-overlay" aria-hidden="true"></div>
 
-    <!-- Sidebar Panel - TEXT ONLY mode selection -->
+    <!-- Sidebar Panel - Mode selection with icons -->
     <nav class="underless-sidebar" aria-label="Menu de modos de juego">
+        <p class="underless-sidebar-label">MODOS DE JUEGO</p>
+
         <div class="underless-mode-option underless-mode-normal active" aria-label="Modo UnderLess Normal">
-            UNDERLESS
+            <img src="img/home_underless.png" alt="" class="mode-icon">
+            <span>UNDERLESS</span>
         </div>
         <div class="underless-mode-option underless-mode-underorhigher" aria-label="Modo Under or Higher">
-            UNDER/HIGHER
+            <img src="img/home_underhigher.png" alt="" class="mode-icon">
+            <span>UNDER/HIGHER</span>
         </div>
 
         <!-- Social Buttons -->
         <div class="underless-social-buttons">
-            <a href="https://x.com/Invalame" target="_blank"
-                class="underless-social-btn underless-twitter-btn">Twitter</a>
+            <p class="underless-sidebar-label">REDES</p>
+            <a href="https://x.com/Invalame" target="_blank" class="underless-social-btn underless-twitter-btn">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+                    <path
+                        d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+                </svg>
+                Twitter
+            </a>
             <a href="https://youtube.com/@UnderLesss" target="_blank"
-                class="underless-social-btn underless-youtube-btn">YouTube</a>
+                class="underless-social-btn underless-youtube-btn">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+                    <path
+                        d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
+                </svg>
+                YouTube
+            </a>
         </div>
     </nav>
 
     <!-- Under or Higher Game -->
     <div class="underless-uoh-game">
-        <!-- Left side: hamburger button -->
+        <!-- Left side: hamburger button + search button -->
         <div class="uoh-top-left">
             <button class="uoh-back-btn" id="uoh-back-btn" aria-label="Menu" onclick="toggleSidebar()">
                 <span></span>
                 <span></span>
                 <span></span>
             </button>
+            <!-- Search button (PC only) -->
+            <button class="uoh-search-btn" id="uoh-search-btn" aria-label="Buscar artistas"
+                onclick="toggleArtistSearch()">
+                <svg viewBox="0 0 24 24" fill="white" width="20" height="20">
+                    <path
+                        d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z" />
+                </svg>
+            </button>
+        </div>
+
+        <!-- Artist Search Overlay (darkens background) -->
+        <div class="uoh-artist-search-overlay" id="uoh-artist-search-overlay" onclick="toggleArtistSearch()"></div>
+
+        <!-- Artist Search Panel (PC only) -->
+        <div class="uoh-artist-search-panel" id="uoh-artist-search-panel">
+            <div class="uoh-artist-search-header">
+                <div>
+                    <h3>Buscador de artistas</h3>
+                    <p class="uoh-artist-search-subtitle">Esta seccion es para que corrobores si está (o no) un artista
+                        en el Under/Higher</p>
+                </div>
+                <button class="uoh-artist-search-close" onclick="toggleArtistSearch()">×</button>
+            </div>
+            <div class="uoh-artist-search-input-wrapper">
+                <input type="text" id="uoh-artist-search-input" placeholder="Buscar artista..." autocomplete="off">
+            </div>
+            <div class="uoh-artist-list" id="uoh-artist-list">
+                <!-- Artists will be populated by JS -->
+            </div>
         </div>
 
         <!-- Right side: same buttons as normal mode -->

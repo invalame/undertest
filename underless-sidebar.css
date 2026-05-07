@@ -121,15 +121,27 @@
     z-index: 7000;
     pointer-events: auto;
     overflow-y: auto;
-    padding: 80px 25px 30px 25px;
+    padding: 60px 20px 25px 20px;
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 10px;
 }
 
 #underless-sidebar-root.underless-open .underless-sidebar {
     transform: translateX(0);
+}
+
+/* Sidebar section labels */
+#underless-sidebar-root .underless-sidebar-label {
+    font-family: 'PoppinsFont', sans-serif;
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: var(--ul-muted);
+    margin: 0 0 8px 0;
+    padding-left: 4px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
 }
 
 /* ========================================
@@ -137,23 +149,42 @@
    ======================================== */
 #underless-sidebar-root .underless-mode-option {
     background: transparent;
-    border: none;
-    padding: 12px 15px;
-    border-radius: 6px;
+    border: 1px solid transparent;
+    padding: 12px 14px;
+    border-radius: 8px;
     cursor: pointer;
     font-family: 'UnderLessFont', sans-serif;
-    font-size: 1.6rem;
+    font-size: 1.3rem;
     color: var(--ul-white);
     text-align: left;
-    transition: background 0.15s ease;
+    transition: all 0.15s ease;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+}
+
+#underless-sidebar-root .underless-mode-option .mode-icon {
+    width: 36px;
+    height: 36px;
+    object-fit: contain;
+    flex-shrink: 0;
+    order: 2;
+}
+
+/* UnderLess icon needs to be bigger */
+#underless-sidebar-root .underless-mode-normal .mode-icon {
+    width: 44px;
+    height: 44px;
 }
 
 #underless-sidebar-root .underless-mode-option:hover {
-    background: rgba(255, 255, 255, 0.08);
+    background: rgba(255, 255, 255, 0.06);
 }
 
 #underless-sidebar-root .underless-mode-option.active {
-    background: rgba(255, 255, 255, 0.12);
+    background: rgba(85, 183, 37, 0.1);
+    border-color: var(--ul-accent);
 }
 
 /* ========================================
@@ -162,36 +193,40 @@
 #underless-sidebar-root .underless-social-buttons {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 6px;
     margin-top: auto;
-    padding-top: 30px;
+    padding-top: 20px;
 }
 
 #underless-sidebar-root .underless-social-btn {
-    display: block;
-    padding: 12px 20px;
-    border: 1px solid var(--ul-border);
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 10px;
+    padding: 10px 14px;
+    border: none;
     border-radius: 6px;
     text-decoration: none;
     font-family: 'PoppinsFont', sans-serif;
-    font-size: 0.95rem;
-    font-weight: 600;
-    text-align: center;
+    font-size: 0.85rem;
+    font-weight: 500;
     color: var(--ul-muted);
     background: transparent;
-    transition: all 0.2s ease;
+    transition: all 0.15s ease;
+}
+
+#underless-sidebar-root .underless-social-btn svg {
+    flex-shrink: 0;
 }
 
 #underless-sidebar-root .underless-twitter-btn:hover {
-    background: #000000;
-    color: #ffffff;
-    border-color: #000000;
+    background: rgba(255, 255, 255, 0.06);
+    color: var(--ul-white);
 }
 
 #underless-sidebar-root .underless-youtube-btn:hover {
-    background: #FF0000;
-    color: #ffffff;
-    border-color: #FF0000;
+    background: rgba(255, 0, 0, 0.1);
+    color: #ff4444;
 }
 
 /* ========================================
@@ -214,6 +249,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
     padding: 10px 20px 40px 20px;
 }
 
@@ -245,6 +281,216 @@
     width: 20px;
     height: 2px;
     background: var(--ul-white);
+}
+
+/* ===== UOH SEARCH BUTTON (PC only) ===== */
+#underless-sidebar-root .uoh-search-btn {
+    width: 40px;
+    height: 40px;
+    background: var(--ul-panel);
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 8px;
+    margin-top: 10px;
+    transition: background 0.2s;
+}
+
+#underless-sidebar-root .uoh-search-btn:hover {
+    background: #333;
+}
+
+#underless-sidebar-root .uoh-search-btn svg {
+    fill: var(--ul-white);
+}
+
+/* ===== ARTIST SEARCH PANEL ===== */
+
+/* Overlay when panel is open */
+#underless-sidebar-root .uoh-artist-search-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.4);
+    z-index: 6001;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+    pointer-events: none;
+}
+
+#underless-sidebar-root .uoh-artist-search-overlay.show {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+}
+
+#underless-sidebar-root .uoh-artist-search-panel {
+    position: fixed;
+    top: 0;
+    left: -380px;
+    width: 380px;
+    height: 100%;
+    background: var(--ul-panel);
+    z-index: 6002;
+    display: flex;
+    flex-direction: column;
+    transition: left 0.3s ease;
+    box-shadow: 4px 0 20px rgba(0, 0, 0, 0.3);
+}
+
+#underless-sidebar-root .uoh-artist-search-panel.open {
+    left: 0;
+}
+
+#underless-sidebar-root .uoh-artist-search-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 20px;
+    border-bottom: 1px solid var(--ul-border);
+    gap: 10px;
+}
+
+#underless-sidebar-root .uoh-artist-search-header h3 {
+    margin: 0;
+    color: var(--ul-white);
+    font-family: 'PoppinsFont', sans-serif;
+    font-size: 1.1em;
+    font-weight: 600;
+}
+
+#underless-sidebar-root .uoh-artist-search-subtitle {
+    margin: 8px 0 0 0;
+    color: var(--ul-muted);
+    font-family: 'PoppinsFont', sans-serif;
+    font-size: 0.75em;
+    line-height: 1.4;
+}
+
+#underless-sidebar-root .uoh-artist-search-close {
+    background: none;
+    border: none;
+    color: var(--ul-muted);
+    font-size: 1.8em;
+    cursor: pointer;
+    line-height: 1;
+    padding: 0;
+    transition: color 0.2s;
+    flex-shrink: 0;
+}
+
+#underless-sidebar-root .uoh-artist-search-close:hover {
+    color: var(--ul-white);
+}
+
+#underless-sidebar-root .uoh-artist-search-input-wrapper {
+    padding: 15px 20px;
+    border-bottom: 1px solid var(--ul-border);
+}
+
+#underless-sidebar-root .uoh-artist-search-input-wrapper input {
+    width: 100%;
+    padding: 10px 15px;
+    background: var(--ul-bg);
+    border: 1px solid var(--ul-border);
+    border-radius: 6px;
+    color: var(--ul-white);
+    font-family: 'PoppinsFont', sans-serif;
+    font-size: 0.95em;
+    outline: none;
+    box-sizing: border-box;
+}
+
+#underless-sidebar-root .uoh-artist-search-input-wrapper input:focus {
+    border-color: var(--ul-accent);
+}
+
+#underless-sidebar-root .uoh-artist-search-input-wrapper input::placeholder {
+    color: var(--ul-muted);
+}
+
+#underless-sidebar-root .uoh-artist-list {
+    flex: 1;
+    overflow-y: auto;
+    padding: 10px 0;
+}
+
+#underless-sidebar-root .uoh-artist-item {
+    display: flex;
+    align-items: center;
+    padding: 10px 20px;
+    gap: 12px;
+    transition: background 0.15s;
+    cursor: default;
+}
+
+#underless-sidebar-root .uoh-artist-item:hover {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+#underless-sidebar-root .uoh-artist-item img {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    object-fit: cover;
+    flex-shrink: 0;
+}
+
+#underless-sidebar-root .uoh-artist-item-info {
+    flex: 1;
+    min-width: 0;
+}
+
+#underless-sidebar-root .uoh-artist-item-name {
+    color: var(--ul-white);
+    font-family: 'PoppinsFont', sans-serif;
+    font-size: 0.95em;
+    font-weight: 500;
+    margin: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+#underless-sidebar-root .uoh-artist-item-listeners {
+    color: var(--ul-muted);
+    font-family: 'PoppinsFont', sans-serif;
+    font-size: 0.8em;
+    margin: 2px 0 0 0;
+}
+
+/* Add artist item - now at top */
+#underless-sidebar-root .uoh-artist-item.uoh-add-artist {
+    cursor: pointer;
+    margin-bottom: 10px;
+    border-bottom: 1px solid var(--ul-border);
+    padding-bottom: 15px;
+}
+
+#underless-sidebar-root .uoh-artist-item.uoh-add-artist img {
+    background: #444;
+    border: 2px solid var(--ul-white);
+    padding: 8px;
+    box-sizing: border-box;
+}
+
+#underless-sidebar-root .uoh-artist-item.uoh-add-artist .uoh-artist-item-name {
+    color: var(--ul-accent);
+}
+
+/* Hide search panel and button on mobile */
+@media (max-width: 700px) {
+
+    #underless-sidebar-root .uoh-search-btn,
+    #underless-sidebar-root .uoh-artist-search-panel {
+        display: none !important;
+    }
 }
 
 /* ===== UOH TOP RIGHT (same buttons as normal) ===== */
@@ -519,32 +765,46 @@
 /* Mobile phones */
 @media (max-width: 700px) {
     #underless-sidebar-root .underless-uoh-game.active {
-        padding: 5px;
-        padding-top: 45px;
+        padding: 8px;
+        padding-top: 10px;
         padding-bottom: 10px;
         overflow-y: auto;
+        justify-content: flex-start;
     }
 
     #underless-sidebar-root .cards-container {
         flex-direction: column;
-        gap: 8px;
-        padding: 5px;
+        gap: 10px;
+        padding: 0 10px;
         align-items: center;
         min-height: auto;
+        width: 100%;
+        margin-top: 5px;
     }
 
     #underless-sidebar-root .artist-card {
-        max-width: 280px;
-        width: 100%;
-        box-shadow: 0 3px 12px rgba(0, 0, 0, 0.3);
+        max-width: 85% !important;
+        width: 85% !important;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+        height: auto !important;
+        flex: 0 0 auto !important;
     }
 
     #underless-sidebar-root .card-image-container {
-        max-height: 140px;
+        height: 250px !important;
+        max-height: 250px !important;
+        aspect-ratio: unset !important;
     }
 
     #underless-sidebar-root .card-image {
-        max-height: 140px;
+        height: 100% !important;
+        max-height: 250px !important;
+        object-fit: cover !important;
+        object-position: top !important;
+    }
+
+    #underless-sidebar-root .listeners-section.revealed {
+        max-height: 55px;
     }
 
     #underless-sidebar-root .vs-divider {
@@ -552,50 +812,46 @@
     }
 
     #underless-sidebar-root .game-title {
-        font-size: 1.8em;
+        font-size: 2.2em;
         letter-spacing: 0.5px;
-        margin-bottom: 0;
+        margin-bottom: 2px;
     }
 
     #underless-sidebar-root .game-question {
-        font-size: 0.8em;
-        opacity: 0.85;
-        margin-top: 2px;
+        font-size: 0.85em;
+        opacity: 0.9;
+        margin-top: 3px;
     }
 
     #underless-sidebar-root .game-header {
-        margin-bottom: 3px;
+        margin-bottom: 5px;
     }
 
     #underless-sidebar-root .score-container {
-        margin-bottom: 3px;
+        margin-bottom: 8px;
     }
 
     #underless-sidebar-root .score-circle {
-        width: 38px;
-        height: 38px;
-        font-size: 1.2em;
-        box-shadow: 0 2px 6px rgba(85, 183, 37, 0.3);
+        width: 42px;
+        height: 42px;
+        font-size: 1.3em;
+        box-shadow: 0 2px 8px rgba(85, 183, 37, 0.35);
     }
 
     #underless-sidebar-root .artist-name {
-        font-size: 1.1em;
+        font-size: 1.25em;
     }
 
     #underless-sidebar-root .listeners-count {
-        font-size: 1.5em;
+        font-size: 1.7em;
     }
 
     #underless-sidebar-root .artist-name-section {
-        padding: 6px 12px;
-    }
-
-    #underless-sidebar-root .listeners-section {
-        min-height: 40px;
+        padding: 8px 14px;
     }
 
     #underless-sidebar-root .listeners-container {
-        padding: 5px 12px;
+        padding: 6px 14px;
     }
 
     #underless-sidebar-root .uoh-top-left,
@@ -621,7 +877,7 @@
         min-height: 350px;
         padding: 35px 20px;
         box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-        max-width: 340px;
+        max-width: 85%;
     }
 
     #underless-sidebar-root .uoh-lose-title {
@@ -664,27 +920,38 @@
 /* Very small phones */
 @media (max-width: 400px) {
     #underless-sidebar-root .game-title {
-        font-size: 2.2em;
+        font-size: 2em;
+    }
+
+    #underless-sidebar-root .game-question {
+        font-size: 0.8em;
     }
 
     #underless-sidebar-root .artist-card {
-        max-width: 100%;
+        max-width: 90%;
+        width: 90%;
     }
 
     #underless-sidebar-root .card-image-container {
-        max-height: 220px;
+        max-height: 180px;
     }
 
     #underless-sidebar-root .card-image {
-        max-height: 220px;
+        max-height: 180px;
     }
 
     #underless-sidebar-root .artist-name {
-        font-size: 1.3em;
+        font-size: 1.2em;
     }
 
     #underless-sidebar-root .listeners-count {
-        font-size: 1.9em;
+        font-size: 1.6em;
+    }
+
+    #underless-sidebar-root .score-circle {
+        width: 38px;
+        height: 38px;
+        font-size: 1.2em;
     }
 
     #underless-sidebar-root .uoh-lose-title {
@@ -693,6 +960,10 @@
 
     #underless-sidebar-root .uoh-lose-score-value {
         font-size: 2.5rem;
+    }
+
+    #underless-sidebar-root .uoh-lose-screen {
+        max-width: 95%;
     }
 }
 

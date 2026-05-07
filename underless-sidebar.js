@@ -362,7 +362,14 @@ const UnderlessSidebar = (function () {
     function initSettingsSliders() {
         const musicSlider = document.getElementById('underless-music-vol');
         if (musicSlider) {
-            musicSlider.value = getStoredVolume('underless_music_vol', 1);
+            const savedVol = getStoredVolume('underless_music_vol', 1);
+            musicSlider.value = savedVol;
+
+            // Apply saved volume to audio player immediately
+            if (typeof audioPlayer !== 'undefined') {
+                audioPlayer.volume = savedVol;
+            }
+
             musicSlider.addEventListener('input', function () {
                 const val = parseFloat(this.value);
                 localStorage.setItem('underless_music_vol', val);
@@ -860,9 +867,141 @@ window.openUOHSidebar = function () {
     UnderlessSidebar.toggleSidebar();
 };
 
+// ========================================
+// ARTIST SEARCH PANEL (PC only)
+// ========================================
+
+let isArtistSearchOpen = false;
+
+window.toggleArtistSearch = function () {
+    const panel = document.getElementById('uoh-artist-search-panel');
+    const overlay = document.getElementById('uoh-artist-search-overlay');
+    if (!panel) return;
+
+    isArtistSearchOpen = !isArtistSearchOpen;
+
+    if (isArtistSearchOpen) {
+        panel.classList.add('open');
+        if (overlay) overlay.classList.add('show');
+        populateArtistList();
+
+        // Focus search input
+        const input = document.getElementById('uoh-artist-search-input');
+        if (input) {
+            setTimeout(() => input.focus(), 300);
+        }
+    } else {
+        panel.classList.remove('open');
+        if (overlay) overlay.classList.remove('show');
+        // Clear search input
+        const input = document.getElementById('uoh-artist-search-input');
+        if (input) input.value = '';
+    }
+};
+
+function closeArtistSearch() {
+    const panel = document.getElementById('uoh-artist-search-panel');
+    const overlay = document.getElementById('uoh-artist-search-overlay');
+    if (panel && isArtistSearchOpen) {
+        panel.classList.remove('open');
+        if (overlay) overlay.classList.remove('show');
+        isArtistSearchOpen = false;
+        // Clear search input
+        const input = document.getElementById('uoh-artist-search-input');
+        if (input) input.value = '';
+    }
+}
+
+function populateArtistList(filter = '') {
+    const listContainer = document.getElementById('uoh-artist-list');
+    if (!listContainer) return;
+
+    listContainer.innerHTML = '';
+
+    if (typeof UNDERLESS_ARTISTS === 'undefined' || !Array.isArray(UNDERLESS_ARTISTS)) {
+        listContainer.innerHTML = '<p style="color:#888;padding:20px;text-align:center;">No hay artistas disponibles</p>';
+        return;
+    }
+
+    // Artists to exclude from the list
+    const excludedArtists = ['playboi carti', 'bbtrickz', 'cosmic kid'];
+
+    // Sort alphabetically and exclude certain artists
+    const sorted = [...UNDERLESS_ARTISTS]
+        .filter(a => !excludedArtists.includes(a.name.toLowerCase()))
+        .sort((a, b) => a.name.localeCompare(b.name));
+
+    // Filter if search query
+    const filtered = filter
+        ? sorted.filter(a => a.name.toLowerCase().includes(filter.toLowerCase()))
+        : sorted;
+
+    if (filtered.length === 0 && filter) {
+        listContainer.innerHTML = '<p style="color:#888;padding:20px;text-align:center;">No se encontraron artistas</p>';
+        // Still add the "Agregar artista" button
+        addAgregarArtistaItem(listContainer);
+        return;
+    }
+
+    // Add "Agregar artista" at the top
+    addAgregarArtistaItem(listContainer);
+
+    filtered.forEach(artist => {
+        const item = document.createElement('div');
+        item.className = 'uoh-artist-item';
+        item.innerHTML = `
+            <img src="${artist.img}" alt="${artist.name}" onerror="this.src='img/img_artista/default.png'">
+            <div class="uoh-artist-item-info">
+                <p class="uoh-artist-item-name">${artist.name}</p>
+            </div>
+        `;
+        listContainer.appendChild(item);
+    });
+}
+
+function addAgregarArtistaItem(container) {
+    const addItem = document.createElement('div');
+    addItem.className = 'uoh-artist-item uoh-add-artist';
+    addItem.innerHTML = `
+        <img src="img/add_artist.png" alt="Agregar artista" onerror="this.style.background='#444'">
+        <div class="uoh-artist-item-info">
+            <p class="uoh-artist-item-name">Agregar artista</p>
+        </div>
+    `;
+    addItem.addEventListener('click', () => {
+        window.open('https://x.com/Invalame/status/1997739527235047739', '_blank');
+    });
+    container.appendChild(addItem);
+}
+
+// Initialize search input listener and click outside handler
+document.addEventListener('DOMContentLoaded', function () {
+    const searchInput = document.getElementById('uoh-artist-search-input');
+    if (searchInput) {
+        searchInput.addEventListener('input', function () {
+            populateArtistList(this.value);
+        });
+    }
+
+    // Close panel when clicking outside
+    document.addEventListener('click', function (e) {
+        if (!isArtistSearchOpen) return;
+
+        const panel = document.getElementById('uoh-artist-search-panel');
+        const searchBtn = document.getElementById('uoh-search-btn');
+
+        // Don't close if clicking inside panel or on the search button
+        if (panel && panel.contains(e.target)) return;
+        if (searchBtn && searchBtn.contains(e.target)) return;
+
+        closeArtistSearch();
+    });
+});
+
 // Initialize
 if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', UnderlessSidebar.init);
 } else {
     UnderlessSidebar.init();
 }
+
