@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 
 <head>
@@ -2807,8 +2807,59 @@
     // -----------------------------------------------------
     // Variables
 
-    // -----------------------------------------------------
-    // Variables
+    // === RESOLVER DE AUDIO ===
+    const GITHUB_RAW_BASE = "https://raw.githubusercontent.com/invalame/undertest/main/"; // <- UPDATE HERE IF REPO CHANGES
+    let USE_GITHUB_RAW = false; // Mantenlo en false en local, cámbialo a true para Vercel/GitHub Raw
+
+    function resolveAudioUrl(song) {
+        if (!song) return "";
+        let finalPath = "";
+        if (song.file_slug) {
+            const fileName = song.file_slug + (song.extension || ".mp3");
+            finalPath = song.folder + "/" + fileName;
+        } else if (song.archivo) {
+            // FALLBACK: si el navegador cargó un currentSong viejo desde LocalStorage sin file_slug
+            const parts = song.archivo.split('/');
+            const resolvedParts = parts.map(part => {
+                 const dotIndex = part.lastIndexOf('.');
+                 if (dotIndex > 0) {
+                     const name = part.substring(0, dotIndex);
+                     const ext = part.substring(dotIndex).toLowerCase();
+                     return slugifyUrlFragment(name) + ext;
+                 }
+                 return slugifyUrlFragment(part);
+            });
+            finalPath = resolvedParts.join('/');
+        }
+        return USE_GITHUB_RAW ? (GITHUB_RAW_BASE + finalPath) : finalPath;
+    }
+
+    function slugifyUrlFragment(text) {
+        if (!text) return '';
+        return text.toString().toLowerCase()
+            .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+            .replace(/[^a-z0-9\-]/g, '-')
+            .replace(/-+/g, '-')
+            .replace(/^-+|-+$/g, '');
+    }
+
+    function resolveImageUrl(imgPath) {
+        if (!imgPath) return "";
+        const parts = imgPath.split('/');
+        const resolvedParts = parts.map(part => {
+             const dotIndex = part.lastIndexOf('.');
+             if (dotIndex > 0) {
+                 const name = part.substring(0, dotIndex);
+                 const ext = part.substring(dotIndex).toLowerCase();
+                 return slugifyUrlFragment(name) + ext;
+             }
+             return slugifyUrlFragment(part);
+        });
+        const finalPath = resolvedParts.join('/');
+        return USE_GITHUB_RAW ? (GITHUB_RAW_BASE + finalPath) : finalPath;
+    }
+    // ===========================
+
     let audioPlayer = new Audio(); // Created in memory, not in DOM
     let currentSong = {};
     let guessCount = 0;
@@ -3234,7 +3285,7 @@
                 const img = document.createElement('img');
                 img.className = 'album-item-image';
                 if (albumInfo && albumInfo.cover) {
-                    img.src = albumInfo.cover;
+                    img.src = resolveImageUrl(albumInfo.cover);
                     img.alt = albumName;
                 } else {
                     img.style.display = 'none';
@@ -3272,7 +3323,7 @@
             const albumArtDisplay = document.getElementById('album-art-display');
 
             if (albumInfo.cover && container && albumArtDisplay && albumNameDisplay) {
-                albumArtDisplay.src = albumInfo.cover;
+                albumArtDisplay.src = resolveImageUrl(albumInfo.cover);
                 albumNameDisplay.textContent = albumName;
                 container.classList.add('show');
             } else if (container) {
@@ -3462,7 +3513,7 @@
                 const albumArtDisplay = document.getElementById('album-art-display');
 
                 if (albumInfo && albumInfo.cover && container && albumArtDisplay && albumNameDisplay) {
-                    albumArtDisplay.src = albumInfo.cover;
+                    albumArtDisplay.src = resolveImageUrl(albumInfo.cover);
                     albumNameDisplay.textContent = selectedAlbum;
                     container.classList.add('show');
                 }
@@ -3512,19 +3563,20 @@
             }
 
             // BUGFIX: Skip fetch on file protocol to avoid console errors (spoilers)
+            const resolvedUrl = resolveAudioUrl(currentSong);
             if (window.location.protocol !== 'file:') {
                 try {
-                    const response = await fetch(currentSong.archivo);
+                    const response = await fetch(resolvedUrl);
                     const blob = await response.blob();
                     currentBlobUrl = URL.createObjectURL(blob);
                     audioPlayer.src = currentBlobUrl;
                 } catch (e) {
                     console.error("Error loading audio blob:", e);
-                    audioPlayer.src = currentSong.archivo;
+                    audioPlayer.src = resolvedUrl;
                 }
             } else {
                 // Local file: use direct path
-                audioPlayer.src = currentSong.archivo;
+                audioPlayer.src = resolvedUrl;
             }
 
             audioPlayer.currentTime = gameStartTime;
@@ -3794,9 +3846,10 @@
             currentBlobUrl = null;
         }
 
-        if (currentSong.archivo) {
+        if (currentSong && currentSong.nombre) {
             // FIX: Encode URL to handle spaces and special chars on GitHub Pages
-            const encodedPath = encodeURI(currentSong.archivo);
+            const resolvedUrl = resolveAudioUrl(currentSong);
+            const encodedPath = encodeURI(resolvedUrl);
 
             if (window.location.protocol !== 'file:') {
                 try {
@@ -3810,7 +3863,7 @@
                 }
             } else {
                 // Local file: use direct path
-                audioPlayer.src = currentSong.archivo;
+                audioPlayer.src = resolvedUrl;
             }
         } else {
             audioPlayer.src = "";
@@ -4148,10 +4201,11 @@
         if (currentBlobUrl) {
             audioPlayer.src = currentBlobUrl;
         } else {
+            const resolvedUrl = resolveAudioUrl(currentSong);
             if (window.location.protocol !== 'file:') {
-                audioPlayer.src = currentSong.archivo;
+                audioPlayer.src = resolvedUrl;
             } else {
-                audioPlayer.src = currentSong.archivo;
+                audioPlayer.src = resolvedUrl;
             }
         }
         audioPlayer.currentTime = 0;
