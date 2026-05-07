@@ -1,4 +1,4 @@
-﻿const MUSIC_BASE_URL = "https://pub-21c1e63680a74b79900551b233c7ec24.r2.dev/";
+const MUSIC_BASE_URL = "https://pub-21c1e63680a74b79900551b233c7ec24.r2.dev/";
 
 const biblioteca = [
     {

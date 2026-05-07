@@ -1,4 +1,4 @@
-﻿
+
     // -----------------------------------------------------
     // Variables
 
@@ -710,13 +710,20 @@
             const encodedPath = encodeURI(currentSong.archivo);
             if (window.location.protocol !== 'file:') {
                 try {
-                    const response = await fetch(encodedPath);
-                    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+                    const response = await fetch(encodedPath, { mode: 'cors' });
+                    if (!response.ok) {
+                        if (response.status === 404) {
+                            throw new Error(`Error 404: No encontrado en R2 - Verifica que el archivo exista en la ruta ${encodedPath}`);
+                        } else {
+                            throw new Error(`Error HTTP: ${response.status}`);
+                        }
+                    }
                     const blob = await response.blob();
                     currentBlobUrl = URL.createObjectURL(blob);
                     audioPlayer.src = currentBlobUrl;
                 } catch (e) {
-                    console.error("Error loading audio blob (restore):", e);
+                    console.error("Error loading audio blob (restore). Detalles del error:", e.message || e);
+                    console.error("Si el error no indica el status HTTP, probablemente sea un problema de CORS (Cross-Origin Resource Sharing) no configurado en tu bucket de Cloudflare R2.");
                     audioPlayer.src = encodedPath; // Fallback to direct path
                 }
             } else {
@@ -1015,12 +1022,20 @@
 
             if (window.location.protocol !== 'file:') {
                 try {
-                    const response = await fetch(encodedPath);
+                    const response = await fetch(encodedPath, { mode: 'cors' });
+                    if (!response.ok) {
+                        if (response.status === 404) {
+                            throw new Error(`Error 404: No encontrado en R2 - Verifica que el archivo exista en la ruta ${encodedPath}`);
+                        } else {
+                            throw new Error(`Error HTTP: ${response.status}`);
+                        }
+                    }
                     const blob = await response.blob();
                     currentBlobUrl = URL.createObjectURL(blob);
                     audioPlayer.src = currentBlobUrl;
                 } catch (e) {
-                    console.error("Error loading audio blob:", e);
+                    console.error("Error loading audio blob. Detalles del error:", e.message || e);
+                    console.error("Si el error no indica el status HTTP, probablemente sea un problema de CORS (Cross-Origin Resource Sharing) no configurado en tu bucket de Cloudflare R2.");
                     audioPlayer.src = encodedPath; // Fallback
                 }
             } else {
