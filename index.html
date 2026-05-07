@@ -2401,11 +2401,12 @@
     <div class="landing-content">
         <h1 class="landing-logo">UnderLess</h1>
         <p class="landing-subtitle">El under argentino en juego</p>
-        
+
         <div class="landing-buttons">
             <button id="btn-login" class="landing-btn login-btn" onclick="supabaseLogin()">
                 <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
-                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm0-14c-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4zm0 6c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2z"/>
+                    <path
+                        d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm0-14c-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4zm0 6c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2z" />
                 </svg>
                 Iniciar Sesión
             </button>
@@ -2418,56 +2419,94 @@
 
 <!-- ESTILOS Y LÓGICA LANDING -->
 <style>
-.landing-overlay {
-    position: fixed;
-    top: 0; left: 0; width: 100vw; height: 100vh;
-    background-color: var(--bg);
-    z-index: 9999;
-    display: flex;
-    justify-content: center; align-items: center;
-    transition: opacity 0.5s ease, visibility 0.5s ease;
-}
-.landing-overlay.hidden {
-    opacity: 0; visibility: hidden; pointer-events: none;
-}
-.landing-content {
-    background: var(--panel);
-    padding: 3rem; border-radius: 12px;
-    border: 2px solid var(--grisesito);
-    text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-    max-width: 400px;
-}
-.landing-logo {
-    font-family: 'UnderLessFont', sans-serif;
-    font-size: 3.5em; color: var(--white);
-    margin: 0 0 10px 0;
-}
-.landing-subtitle {
-    font-family: 'PoppinsFont', sans-serif;
-    color: var(--muted); margin-bottom: 30px;
-}
-.landing-buttons {
-    display: flex; flex-direction: column; gap: 15px;
-}
-.landing-btn {
-    padding: 12px 20px; font-size: 1.1em; font-weight: bold;
-    border-radius: 6px; cursor: pointer; border: none;
-    transition: transform 0.2s, filter 0.2s;
-    font-family: 'PoppinsFont', sans-serif;
-    display: flex; align-items: center; justify-content: center; gap: 10px;
-}
-.landing-btn:hover { filter: brightness(1.2); transform: translateY(-2px); }
-.login-btn { background-color: var(--accent); color: white; }
-.offline-btn { background-color: var(--panel); border: 2px solid var(--grisesito); color: var(--white); }
+    .landing-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background-color: var(--bg);
+        z-index: 9999;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        transition: opacity 0.5s ease, visibility 0.5s ease;
+    }
+
+    .landing-overlay.hidden {
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+    }
+
+    .landing-content {
+        background: var(--panel);
+        padding: 3rem;
+        border-radius: 12px;
+        border: 2px solid var(--grisesito);
+        text-align: center;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        max-width: 400px;
+    }
+
+    .landing-logo {
+        font-family: 'UnderLessFont', sans-serif;
+        font-size: 3.5em;
+        color: var(--white);
+        margin: 0 0 10px 0;
+    }
+
+    .landing-subtitle {
+        font-family: 'PoppinsFont', sans-serif;
+        color: var(--muted);
+        margin-bottom: 30px;
+    }
+
+    .landing-buttons {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .landing-btn {
+        padding: 12px 20px;
+        font-size: 1.1em;
+        font-weight: bold;
+        border-radius: 6px;
+        cursor: pointer;
+        border: none;
+        transition: transform 0.2s, filter 0.2s;
+        font-family: 'PoppinsFont', sans-serif;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+    }
+
+    .landing-btn:hover {
+        filter: brightness(1.2);
+        transform: translateY(-2px);
+    }
+
+    .login-btn {
+        background-color: var(--accent);
+        color: white;
+    }
+
+    .offline-btn {
+        background-color: var(--panel);
+        border: 2px solid var(--grisesito);
+        color: var(--white);
+    }
 </style>
 
 <script>
-function startOfflineMode() {
-    document.getElementById('landing-menu').classList.add('hidden');
-}
-function supabaseLogin() {
-    alert("Próximamente: Integración con Supabase para perfiles.");
-}
+    function startOfflineMode() {
+        document.getElementById('landing-menu').classList.add('hidden');
+    }
+    function supabaseLogin() {
+        alert("Próximamente: Integración con Supabase para perfiles.");
+    }
 </script>
 
 <header>
@@ -2882,8 +2921,8 @@ function supabaseLogin() {
     // Variables
 
     // === RESOLVER DE AUDIO ===
-    const GITHUB_RAW_BASE = "https://github.com/invalame/undertest/raw/refs/heads/main/"; // <- UPDATE HERE IF REPO CHANGES
-    let USE_GITHUB_RAW = true; // Forzado a true para Vercel
+    const GITHUB_RAW_BASE = "https://raw.githubusercontent.com/invalame/undertest/main/"; // CORS-safe GitHub RAW
+    let USE_GITHUB_RAW = true; // Siempre true para Vercel
 
     function resolveAudioUrl(song) {
         if (!song) return "";
@@ -2895,13 +2934,13 @@ function supabaseLogin() {
             // FALLBACK: si el navegador cargó un currentSong viejo desde LocalStorage sin file_slug
             const parts = song.archivo.split('/');
             const resolvedParts = parts.map(part => {
-                 const dotIndex = part.lastIndexOf('.');
-                 if (dotIndex > 0) {
-                     const name = part.substring(0, dotIndex);
-                     const ext = part.substring(dotIndex).toLowerCase();
-                     return slugifyUrlFragment(name) + ext;
-                 }
-                 return slugifyUrlFragment(part);
+                const dotIndex = part.lastIndexOf('.');
+                if (dotIndex > 0) {
+                    const name = part.substring(0, dotIndex);
+                    const ext = part.substring(dotIndex).toLowerCase();
+                    return slugifyUrlFragment(name) + ext;
+                }
+                return slugifyUrlFragment(part);
             });
             finalPath = resolvedParts.join('/');
         }
@@ -2921,34 +2960,38 @@ function supabaseLogin() {
         if (!imgPath) return "";
         const parts = imgPath.split('/');
         const resolvedParts = parts.map(part => {
-             const dotIndex = part.lastIndexOf('.');
-             if (dotIndex > 0) {
-                 const name = part.substring(0, dotIndex);
-                 const ext = part.substring(dotIndex).toLowerCase();
-                 return slugifyUrlFragment(name) + ext;
-             }
-             return slugifyUrlFragment(part);
+            const dotIndex = part.lastIndexOf('.');
+            if (dotIndex > 0) {
+                const name = part.substring(0, dotIndex);
+                const ext = part.substring(dotIndex).toLowerCase();
+                return slugifyUrlFragment(name) + ext;
+            }
+            return slugifyUrlFragment(part);
         });
         const finalPath = resolvedParts.join('/');
         return USE_GITHUB_RAW ? (GITHUB_RAW_BASE + finalPath) : finalPath;
     }
     // ===========================
 
-    let audioPlayer = new Audio(); // Created in memory, not in DOM
-    
-    // Bloquear metadatos Media Session API para que no salgan nombres falsos en iOS/Auriculares
-    audioPlayer.addEventListener('play', () => {
+    // Bloquear metadatos de auriculares/OS antes de reproducir (anti-spoiler)
+    function blockAudioMetadata() {
         if ('mediaSession' in navigator) {
             navigator.mediaSession.metadata = new MediaMetadata({
-                title: '🎵 Jugando...',
+                title: 'Jugando UnderLess...',
                 artist: 'UnderLess',
                 album: 'Adivina qué suena',
                 artwork: [
                     { src: 'https://invalame.github.io/UnderLess/img/home_underless.png', sizes: '512x512', type: 'image/png' }
                 ]
             });
+            // Bloquear controles de media del OS (prev/next pueden filtrar info)
+            navigator.mediaSession.setActionHandler('previoustrack', null);
+            navigator.mediaSession.setActionHandler('nexttrack', null);
         }
-    });
+    }
+
+    let audioPlayer = new Audio(); // Created in memory, not in DOM
+    audioPlayer.addEventListener('play', blockAudioMetadata); // Siempre bloquear al reproducir
 
     let currentSong = {};
     let guessCount = 0;
@@ -3651,21 +3694,20 @@ function supabaseLogin() {
                 currentBlobUrl = null;
             }
 
-            // BUGFIX: Skip fetch on file protocol to avoid console errors (spoilers)
-            const resolvedUrl = resolveAudioUrl(currentSong);
-            if (window.location.protocol !== 'file:') {
-                try {
-                    const response = await fetch(resolvedUrl);
-                    const blob = await response.blob();
-                    currentBlobUrl = URL.createObjectURL(blob);
-                    audioPlayer.src = currentBlobUrl;
-                } catch (e) {
-                    console.error("Error loading audio blob:", e);
-                    audioPlayer.src = resolvedUrl;
-                }
-            } else {
-                // Local file: use direct path
-                audioPlayer.src = resolvedUrl;
+            // Bloquear metadatos ANTES de cualquier intento de carga (anti-spoiler)
+            blockAudioMetadata();
+
+            // Siempre usar GitHub RAW (CORS-safe, Vercel no sirve audios locales)
+            const resolvedUrl = encodeURI(resolveAudioUrl(currentSong));
+            try {
+                const response = await fetch(resolvedUrl, { mode: 'cors' });
+                if (!response.ok) throw new Error(`HTTP ${response.status}`);
+                const blob = await response.blob();
+                currentBlobUrl = URL.createObjectURL(blob);
+                audioPlayer.src = currentBlobUrl;
+            } catch (e) {
+                console.error("Error cargando audio:", e);
+                audioPlayer.src = resolvedUrl; // Fallback directo
             }
 
             audioPlayer.currentTime = gameStartTime;
@@ -3936,23 +3978,19 @@ function supabaseLogin() {
         }
 
         if (currentSong && currentSong.nombre) {
-            // FIX: Encode URL to handle spaces and special chars on GitHub Pages
-            const resolvedUrl = resolveAudioUrl(currentSong);
-            const encodedPath = encodeURI(resolvedUrl);
+            // Bloquear metadatos ANTES del fetch para que no filtren nombre real (anti-spoiler)
+            blockAudioMetadata();
 
-            if (window.location.protocol !== 'file:') {
-                try {
-                    const response = await fetch(encodedPath);
-                    const blob = await response.blob();
-                    currentBlobUrl = URL.createObjectURL(blob);
-                    audioPlayer.src = currentBlobUrl;
-                } catch (e) {
-                    console.error("Error loading audio blob:", e);
-                    audioPlayer.src = encodedPath; // Fallback
-                }
-            } else {
-                // Local file: use direct path
-                audioPlayer.src = resolvedUrl;
+            const resolvedUrl = encodeURI(resolveAudioUrl(currentSong));
+            try {
+                const response = await fetch(resolvedUrl, { mode: 'cors' });
+                if (!response.ok) throw new Error(`HTTP ${response.status}`);
+                const blob = await response.blob();
+                currentBlobUrl = URL.createObjectURL(blob);
+                audioPlayer.src = currentBlobUrl;
+            } catch (e) {
+                console.error("Error cargando audio:", e);
+                audioPlayer.src = resolvedUrl; // Fallback directo
             }
         } else {
             audioPlayer.src = "";
