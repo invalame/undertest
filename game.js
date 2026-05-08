@@ -113,14 +113,21 @@ async function loadAudioLevel(songFile, level) {
         currentBlobUrl = URL.createObjectURL(blob);
         audioPlayer.src = currentBlobUrl;
         
+        // Worker blobs siempre empiezan en 0
+        gameStartTime = 0;
+        
+        // Configurar snippet target para este nivel
+        const durations = getDurations();
+        let targetDur = durations[level - 1] || 15;
+        if (level === 1 && targetDur === 0.1) targetDur = 0.2; // "mentira" del 0.1s
+        snippetTargetTime = targetDur;
+        
         // Pequeño delay para que el browser procese el blob
         await new Promise(resolve => setTimeout(resolve, 30));
         
         audioPlayer.onerror = () => {
             console.warn(`[Audio] Error en level ${level}`);
         };
-        
-        audioPlayer.play().catch(e => console.log("Autoplay prevented:", e));
 
     } catch (e) {
         console.error("Error loading audio level:", e);
@@ -760,18 +767,8 @@ async function restoreModeState(mode) {
 
     // Restaurar audio con blob para mantener ofuscaciÃƒÂƒÃ‚Â³n
     if (currentSong.archivo) {
-        // Restaurar el tiempo de inicio aleatorio guardado, o usar 0 por defecto
-        gameStartTime = state.gameStartTime !== undefined ? state.gameStartTime : 0;
-
-        // FIX: Limpiar el listener onloadedmetadata de resetGame para evitar que sobrescriba
-        // el gameStartTime guardado con un nuevo valor aleatorio
-        audioPlayer.onloadedmetadata = () => {
-            // Enforce saved start time after metadata loads
-            if (isFinite(audioPlayer.duration)) {
-                audioPlayer.currentTime = gameStartTime;
-            }
-            audioPlayer.onloadedmetadata = null;
-        };
+        // Worker blobs siempre empiezan en 0
+        gameStartTime = 0;
 
         // Cargar canción con blob (ofuscación)
         await cleanupAudio(false); // NO es nueva canción, es restore
@@ -782,11 +779,11 @@ async function restoreModeState(mode) {
 
         loadAudioLevel(currentSong.archivo, guessCount + 1);
 
-        audioPlayer.currentTime = gameStartTime;
+        audioPlayer.currentTime = 0;
 
         // FIX: Only enable play button when audio is actually ready
         const enablePlayOnRestore = () => {
-            audioPlayer.currentTime = gameStartTime;
+            audioPlayer.currentTime = 0;
             playButton.removeAttribute('disabled');
             skipButton.disabled = false;
             updatePlayIcon(false);
@@ -1034,7 +1031,7 @@ async function resetGame(forceNew = false) {
         gameOverContent.classList.remove('win', 'lose');
     }, 300);
 
-    // Si no hay canciÃƒÂƒÃ‚Â³n seleccionada (modo artista sin artista), deshabilitar bÃƒÂƒÃ‚Âºsqueda
+    // Si no hay canción seleccionada (modo artista sin artista), deshabilitar búsqueda
     if (!currentSong.archivo) {
         document.getElementById('search-container').classList.add('disabled');
     } else {
@@ -1042,22 +1039,17 @@ async function resetGame(forceNew = false) {
     }
 
     playButton.setAttribute('disabled', '');
-    // Disable skip while loading
     skipButton.disabled = true;
-    // Show loader
     playButton.innerHTML = '<div class="loader"></div>';
 
     clearGuessBoxes();
-
 
     gameStartTime = 0;
 
     updateTimeMarker(0);
     if (progressBarFill) progressBarFill.style.width = '0%';
-    // updatePlayIcon(false); // REMOVED: This was overwriting the loader immediately!
 
     await cleanupAudio(true);
-    currentStartByte = null;
     currentBlobUrl = null;
 
     if (currentSong.archivo) {
@@ -1066,35 +1058,13 @@ async function resetGame(forceNew = false) {
         audioPlayer.src = "";
     }
 
-    audioPlayer.currentTime = gameStartTime;
+    audioPlayer.currentTime = 0;
 
-    // Configurar listener para calcular inicio aleatorio cuando tengamos la duraciÃƒÂƒÃ‚Â³n
-    audioPlayer.onloadedmetadata = () => {
-        const duration = audioPlayer.duration;
-        if (isFinite(duration) && duration > 15) {
-            // Random start time: from 0 to duration - 15
-            gameStartTime = Math.random() * (duration - 15);
-        } else {
-            gameStartTime = 0;
-        }
-        // console.log("Random start time:", gameStartTime, "Duration:", duration);
-
-        audioPlayer.currentTime = gameStartTime;
-
-        saveModeState(currentMode);
-
-        // Limpiar listener para evitar ejecuciones mÃƒÆ’Ã‚Âºltiples
-        audioPlayer.onloadedmetadata = null;
-    };
-
-    // correcciÃ³n: usar oncanplaythrough para activar el botÃ³n solo cuando el audio estÃ¡ listo
+    // Activar el botón solo cuando el audio esté listo
     const enablePlayOnReset = () => {
-        // re-establecer currentTime con el valor aleatorio calculado
-        audioPlayer.currentTime = gameStartTime;
+        audioPlayer.currentTime = 0;
         playButton.removeAttribute('disabled');
-        // Enable skip
         skipButton.disabled = false;
-        // Restore play icon
         updatePlayIcon(false);
         audioPlayer.oncanplaythrough = null;
         audioPlayer.oncanplay = null;
@@ -1487,7 +1457,8 @@ function updatePlayIcon(playing) {
  */
 function finishSnippet() {
     pauseAudioInternal(true);
-    // Don't reset currentTime - keep position for potential resume after skip
+    // Worker blobs: siempre resetear a 0 porque cada nivel es un blob nuevo
+    audioPlayer.currentTime = 0;
 }
 
 
@@ -1521,19 +1492,14 @@ function animationLoop() {
         return;
     }
 
-    // Update progress bar
-    const elapsedFromStart = Math.max(0, currentTime - gameStartTime);
-
-    // Use VISUAL duration for progress bar, not actual playback duration
-    // This prevents the bar from overshooting the visual 0.1s divider when playing 0.2s
+    // Update progress bar — Worker blobs start at 0, so currentTime IS elapsed
     const durations = getDurations();
     const visualDuration = durations[guessCount] || getTotalGameDuration();
-    const actualDuration = snippetTargetTime - gameStartTime;
+    const actualDuration = snippetTargetTime; // blob starts at 0
 
     // Scale elapsed time to visual duration
-    // If we're playing 0.2s but showing 0.1s, scale proportionally
     const scaleFactor = visualDuration / actualDuration;
-    const visualElapsed = Math.min(elapsedFromStart * scaleFactor, visualDuration);
+    const visualElapsed = Math.min(currentTime * scaleFactor, visualDuration);
 
     const percentage = getPercentage(visualElapsed);
     progressBarFill.style.width = percentage + '%';
@@ -1572,33 +1538,17 @@ function playSnippet() {
 
     if (hasGuessedCorrectly || playButton.hasAttribute('disabled')) return;
 
-    const durations = getDurations();
-    let targetDuration = durations[guessCount] || getTotalGameDuration();
-
-    // "Mentira" del 0.2s: visual shows 0.1s but plays 0.2s
-    if (guessCount === 0 && targetDuration === 0.1) {
-        targetDuration = 0.2;
-    }
-
     // Toggle pause if already playing
     if (snippetState === 'playing') {
         pauseAudioInternal(false); // pause, don't reset to idle
         return;
     }
 
-    // Calculate the absolute target time in the audio
-    snippetTargetTime = gameStartTime + targetDuration;
-
-    // Determine if we should restart or resume
+    // Worker blobs start at 0, snippetTargetTime ya fue configurado por loadAudioLevel
+    // Si el audio ya pasó el target o está al final, reiniciar desde 0
     const currentTime = audioPlayer.currentTime;
-    const tolerance = 0.05; // 50ms tolerance
-
-    const isShortDuration = targetDuration <= 0.5;
-    const isPastTarget = currentTime >= snippetTargetTime - tolerance;
-    const isBeforeStart = currentTime < gameStartTime - tolerance;
-
-    if (isShortDuration || isPastTarget || isBeforeStart) {
-        audioPlayer.currentTime = gameStartTime;
+    if (currentTime >= snippetTargetTime - 0.05 || currentTime < 0) {
+        audioPlayer.currentTime = 0;
     }
 
     // Start playback
@@ -1606,8 +1556,6 @@ function playSnippet() {
         .then(() => {
             snippetState = 'playing';
             updatePlayIcon(true);
-
-            // Start the smooth animation loop
             startAnimationLoop();
         })
         .catch(e => {
@@ -1891,14 +1839,7 @@ function handleSkip() {
 
         loadAudioLevel(currentSong.archivo, guessCount + 1);
 
-        // FIX: Actualizar snippetTargetTime al nuevo lÃƒÂƒÃ‚Â­mite del segmento desbloqueado
-        // para que el audio no se pause al llegar al lÃƒÂƒÃ‚Â­mite del segmento anterior
-        let newTargetDuration = durations[guessCount];
-        // "Mentira" del 0.2s: visual shows 0.1s but plays 0.2s
-        if (guessCount === 0 && newTargetDuration === 0.1) {
-            newTargetDuration = 0.2;
-        }
-        snippetTargetTime = gameStartTime + newTargetDuration;
+        // snippetTargetTime se configura automáticamente dentro de loadAudioLevel
     } else {
         showGameOver(false);
     }
