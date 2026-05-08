@@ -11,6 +11,8 @@ let guessCount = 0;
 // VARIABLE GLOBAL PARA EL COMANDO SECRETO
 window.kinoUnlocked = false;
 
+
+
 // Duraciones de intentos (DINÃƒÂƒÃ‚ÂMICO)
 function getDurations() {
     if (currentMode === 'artist' || currentMode === 'album') {
@@ -52,44 +54,74 @@ audioPlayer.addEventListener('timeupdate', () => {
 
 // nuevo: historial para evitar repeticiÃƒÂƒÃ‚Â³n entre juegos.
 let lastTwoIndices = [-1, -1]; // almacena los ÃƒÂƒÃ‚Â­ndices de las dos ÃƒÂƒÃ‚Âºltimas canciones jugadas de 'biblioteca'
-let currentBlobUrl = null; // Para ocultar la URL del archivo
+// Variables de audio para Cloudflare Worker
+let currentBlobUrl = null;
 let currentStartByte = null;
+
+async function cleanupAudio(isNewSong = false) {
+    if (typeof audioPlayer !== 'undefined' && audioPlayer) {
+        audioPlayer.pause();
+        if (currentBlobUrl) {
+            URL.revokeObjectURL(currentBlobUrl);
+            currentBlobUrl = null;
+        }
+        audioPlayer.src = '';
+    }
+    if (isNewSong) {
+        currentStartByte = null;
+    }
+}
 
 async function loadAudioLevel(songFile, level) {
     if (!songFile) return;
-    
+
+    await cleanupAudio(level === 1);
+
+    console.log("loadAudioLevel recibió:", songFile);
+
+    if (songFile.includes("http")) {
+        songFile = songFile.split('/').pop();
+        try { songFile = decodeURIComponent(songFile); } catch (e) { }
+    } else if (songFile.includes("/")) {
+        songFile = songFile.split('/').pop();
+    }
+
     console.log(`Cargando level ${level} - start: ${currentStartByte || 'random'}`);
-    
+
     const encodedPath = encodeURIComponent(songFile);
     let fetchUrl = `${WORKER_URL}?id=${encodedPath}&level=${level}`;
-    
+
     if (level > 1 && currentStartByte !== null) {
         fetchUrl += `&start=${currentStartByte}`;
     }
-    
+
     try {
         const response = await fetch(fetchUrl);
         if (!response.ok) {
             throw new Error(`HTTP Error: ${response.status}`);
         }
-        
+
         if (level === 1) {
             const startByte = response.headers.get('X-Start-Byte');
             if (startByte) {
                 currentStartByte = parseInt(startByte, 10);
             }
         }
-        
+
         const blob = await response.blob();
         
-        if (currentBlobUrl) {
-            URL.revokeObjectURL(currentBlobUrl);
-        }
         currentBlobUrl = URL.createObjectURL(blob);
         audioPlayer.src = currentBlobUrl;
         
-        audioPlayer.play().catch(e => console.log("Autoplay prevented:", e));
+        // Pequeño delay para que el browser procese el blob
+        await new Promise(resolve => setTimeout(resolve, 30));
         
+        audioPlayer.onerror = () => {
+            console.warn(`[Audio] Error en level ${level}`);
+        };
+        
+        audioPlayer.play().catch(e => console.log("Autoplay prevented:", e));
+
     } catch (e) {
         console.error("Error loading audio level:", e);
     }
@@ -571,7 +603,8 @@ function saveModeState(mode) {
         hasGuessedCorrectly: hasGuessedCorrectly,
         availableSongs: [...availableSongs],
         guesses: getGuessStates(), // Guardar estado visual
-        gameStartTime: gameStartTime // Guardar tiempo de inicio aleatorio
+        gameStartTime: gameStartTime, // Guardar tiempo de inicio aleatorio
+        currentStartByte: currentStartByte // Persistir byte de inicio del Worker
     };
 
     if (mode === 'artist') {
@@ -740,17 +773,16 @@ async function restoreModeState(mode) {
             audioPlayer.onloadedmetadata = null;
         };
 
-        // Cargar canciÃƒÆ’Ã‚Â³n con blob (ofuscaciÃƒÆ’Ã‚Â³n)
-        if (currentBlobUrl) {
-            URL.revokeObjectURL(currentBlobUrl);
-            currentBlobUrl = null;
-        }
+        // Cargar canción con blob (ofuscación)
+        await cleanupAudio(false); // NO es nueva canción, es restore
+        currentBlobUrl = null;
+        
+        // Restaurar el startByte guardado para que los skips funcionen post-F5
+        currentStartByte = state.currentStartByte !== undefined ? state.currentStartByte : null;
 
-        currentStartByte = null;
         loadAudioLevel(currentSong.archivo, guessCount + 1);
 
         audioPlayer.currentTime = gameStartTime;
-        audioPlayer.load();
 
         // FIX: Only enable play button when audio is actually ready
         const enablePlayOnRestore = () => {
@@ -769,7 +801,7 @@ async function restoreModeState(mode) {
 
         // FIX: Handle audio load errors (e.g. 404, corrupted file)
         audioPlayer.onerror = () => {
-            console.error("Audio error on restore for:", currentSong.archivo);
+            console.error("Audio error on restore - Song:", currentSong.nombre);
             playButton.setAttribute('disabled', '');
             updatePlayIcon(false);
             audioPlayer.oncanplaythrough = null;
@@ -827,11 +859,7 @@ async function switchMode(mode) {
     pauseAudioInternal();
 
     // CRITICAL FIX: Stop everything and CLEAR SOURCE immediately to prevent ghost audio
-    audioPlayer.src = "";
-    if (currentBlobUrl) {
-        URL.revokeObjectURL(currentBlobUrl);
-        currentBlobUrl = null;
-    }
+    await cleanupAudio(true);
 
     // FIX: Reset progress bar visually when switching modes
     if (progressBarFill) progressBarFill.style.width = '0%';
@@ -1028,14 +1056,11 @@ async function resetGame(forceNew = false) {
     if (progressBarFill) progressBarFill.style.width = '0%';
     // updatePlayIcon(false); // REMOVED: This was overwriting the loader immediately!
 
-
-    if (currentBlobUrl) {
-        URL.revokeObjectURL(currentBlobUrl);
-        currentBlobUrl = null;
-    }
+    await cleanupAudio(true);
+    currentStartByte = null;
+    currentBlobUrl = null;
 
     if (currentSong.archivo) {
-        currentStartByte = null;
         loadAudioLevel(currentSong.archivo, 1);
     } else {
         audioPlayer.src = "";
@@ -1062,8 +1087,6 @@ async function resetGame(forceNew = false) {
         audioPlayer.onloadedmetadata = null;
     };
 
-    audioPlayer.load(); // forzar la carga de la nueva fuente
-
     // correcciÃ³n: usar oncanplaythrough para activar el botÃ³n solo cuando el audio estÃ¡ listo
     const enablePlayOnReset = () => {
         // re-establecer currentTime con el valor aleatorio calculado
@@ -1084,7 +1107,7 @@ async function resetGame(forceNew = false) {
 
     // FIX: Handle audio load errors (e.g. 404, corrupted file) â€” prevents infinite loading spinner
     audioPlayer.onerror = () => {
-        console.error("Audio load error for:", currentSong.archivo);
+        console.error("Audio load error on reset - Song:", currentSong.nombre);
         playButton.setAttribute('disabled', '');
         updatePlayIcon(false);
         audioPlayer.oncanplaythrough = null;
@@ -1388,11 +1411,15 @@ function initializeFullPlayer() {
     if (currentBlobUrl) {
         audioPlayer.src = currentBlobUrl;
     } else {
-        if (window.location.protocol !== 'file:') {
-            audioPlayer.src = currentSong.archivo;
-        } else {
-            audioPlayer.src = currentSong.archivo;
+        // En caso de que no haya blob, cargar la canción completa desde el worker
+        let cleanName = currentSong.archivo;
+        if (cleanName.includes("http")) {
+            cleanName = cleanName.split('/').pop();
+            try { cleanName = decodeURIComponent(cleanName); } catch (e) { }
+        } else if (cleanName.includes("/")) {
+            cleanName = cleanName.split('/').pop();
         }
+        audioPlayer.src = `${WORKER_URL}?id=${encodeURIComponent(cleanName)}`;
     }
     audioPlayer.currentTime = 0;
     audioPlayer.load(); // forzar la carga de metadatos (duraciÃƒÂƒÃ‚Â³n)
@@ -1740,7 +1767,7 @@ function showGameOver(won, isDuplicate = false) {
     skipButton.disabled = true;
 }
 
-function handleGuessFromSelection(selectedSongName) {
+async function handleGuessFromSelection(selectedSongName) {
     playSound('click');
     const durations = getDurations();
     if (hasGuessedCorrectly || guessCount >= durations.length) return;
@@ -1757,6 +1784,9 @@ function handleGuessFromSelection(selectedSongName) {
         guessBox.textContent = currentSong.nombre;
         guessBox.classList.add('correct');
         hasGuessedCorrectly = true;
+        
+        // Limpiar audio al ganar
+        await cleanupAudio(true);
 
         // CHECK DUPLICATE WIN (Artist/Album Modes)
         const songName = currentSong.nombre;
@@ -1858,7 +1888,7 @@ function handleSkip() {
     guessCount++;
     if (guessCount < durations.length) {
         updateTimeMarker(guessCount);
-        
+
         loadAudioLevel(currentSong.archivo, guessCount + 1);
 
         // FIX: Actualizar snippetTargetTime al nuevo lÃƒÂƒÃ‚Â­mite del segmento desbloqueado
