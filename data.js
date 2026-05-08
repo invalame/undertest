@@ -1,982 +1,982 @@
-const MUSIC_BASE_URL = "https://pub-21c1e63680a74b79900551b233c7ec24.r2.dev/";
-
+const WORKER_URL = "https://underless-audio.heladoposting.workers.dev/";
+const COVERS_BASE_URL = "./covers/";
 const biblioteca = [
     {
         "nombre": "143LETI - En mis sueños soy tu novia",
-        "archivo": MUSIC_BASE_URL + "music/143LETI - En mis sueños soy tu novia.mp3"
+        "archivo": "143LETI - En mis sueños soy tu novia.mp3"
     },
     {
         "nombre": "143LETI - EU TE AMO",
-        "archivo": MUSIC_BASE_URL + "music/143LETI - EU TE AMO.mp3"
+        "archivo": "143LETI - EU TE AMO.mp3"
     },
     {
         "nombre": "143LETI, VALUTO  - COSAS QUE ESTAN MAL",
-        "archivo": MUSIC_BASE_URL + "music/143LETI, VALUTO  - COSAS QUE ESTAN MAL.mp3"
+        "archivo": "143LETI, VALUTO  - COSAS QUE ESTAN MAL.mp3"
     },
     {
         "nombre": "2UU!, Asan - CELOSA",
-        "archivo": MUSIC_BASE_URL + "music/2UU!, Asan - CELOSA.mp3"
+        "archivo": "2UU!, Asan - CELOSA.mp3"
     },
     {
         "nombre": "2UU!, enzocerobulto, Jugo!, Soowney - ESO QUERE TULI",
-        "archivo": MUSIC_BASE_URL + "music/2UU!, enzocerobulto, Jugo!, Soowney - ESO QUERE TULI.mp3"
+        "archivo": "2UU!, enzocerobulto, Jugo!, Soowney - ESO QUERE TULI.mp3"
     },
     {
         "nombre": "2UU!, turrobaby - LA GATA GOZA",
-        "archivo": MUSIC_BASE_URL + "music/2UU!, turrobaby - LA GATA GOZA.mp3"
+        "archivo": "2UU!, turrobaby - LA GATA GOZA.mp3"
     },
     {
         "nombre": "AFKgoat - 1VUELTAINTERMINABLE",
-        "archivo": MUSIC_BASE_URL + "music/AFKgoat - 1VUELTAINTERMINABLE.mp3"
+        "archivo": "AFKgoat - 1VUELTAINTERMINABLE.mp3"
     },
     {
         "nombre": "AFKgoat - ASI NO",
-        "archivo": MUSIC_BASE_URL + "music/AFKgoat - ASI NO.mp3"
+        "archivo": "AFKgoat - ASI NO.mp3"
     },
     {
         "nombre": "AFKgoat - OSLAVA",
-        "archivo": MUSIC_BASE_URL + "music/AFKgoat - OSLAVA.mp3"
+        "archivo": "AFKgoat - OSLAVA.mp3"
     },
     {
         "nombre": "AFKgoat - Te caigo mas tarde",
-        "archivo": MUSIC_BASE_URL + "music/AFKgoat - Te caigo mas tarde.mp3"
+        "archivo": "AFKgoat - Te caigo mas tarde.mp3"
     },
     {
         "nombre": "AFKgoat, cero  - ME QUEMAN LOS DEDOS",
-        "archivo": MUSIC_BASE_URL + "music/AFKgoat, cero  - ME QUEMAN LOS DEDOS.mp3"
+        "archivo": "AFKgoat, cero  - ME QUEMAN LOS DEDOS.mp3"
     },
     {
         "nombre": "AFKgoat- DEFRENTEMAL",
-        "archivo": MUSIC_BASE_URL + "music/AFKgoat- DEFRENTEMAL.mp3"
+        "archivo": "AFKgoat- DEFRENTEMAL.mp3"
     },
     {
         "nombre": "AGUSFORTNITE2008 - FLEKO",
-        "archivo": MUSIC_BASE_URL + "music/AGUSFORTNITE2008 - FLEKO.mp3"
+        "archivo": "AGUSFORTNITE2008 - FLEKO.mp3"
     },
     {
         "nombre": "AGUSFORTNITE2008 - PASO",
-        "archivo": MUSIC_BASE_URL + "music/AGUSFORTNITE2008 - PASO.mp3"
+        "archivo": "AGUSFORTNITE2008 - PASO.mp3"
     },
     {
         "nombre": "AGUSFORTNITE2008 - SWAGGEANDO EN EL BANDO",
-        "archivo": MUSIC_BASE_URL + "music/AGUSFORTNITE2008 - SWAGGEANDO EN EL BANDO.mp3"
+        "archivo": "AGUSFORTNITE2008 - SWAGGEANDO EN EL BANDO.mp3"
     },
     {
         "nombre": "AGUSFORTNITE2008, Stiffy - 24 7",
-        "archivo": MUSIC_BASE_URL + "music/AGUSFORTNITE2008, Stiffy - 24 7.mp3"
+        "archivo": "AGUSFORTNITE2008, Stiffy - 24 7.mp3"
     },
     {
         "nombre": "AGUSFORTNITE2008, STIFFY - CUANDO QUIERO",
-        "archivo": MUSIC_BASE_URL + "music/AGUSFORTNITE2008, STIFFY - CUANDO QUIERO.mp3"
+        "archivo": "AGUSFORTNITE2008, STIFFY - CUANDO QUIERO.mp3"
     },
     {
         "nombre": "AGUSFORTNITE2008, STIFFY - DISTINTO",
-        "archivo": MUSIC_BASE_URL + "music/AGUSFORTNITE2008, STIFFY - DISTINTO.mp3"
+        "archivo": "AGUSFORTNITE2008, STIFFY - DISTINTO.mp3"
     },
     {
         "nombre": "AGUSFORTNITE2008, STIFFY - GOFUE",
-        "archivo": MUSIC_BASE_URL + "music/AGUSFORTNITE2008, STIFFY - GOFUE.mp3"
+        "archivo": "AGUSFORTNITE2008, STIFFY - GOFUE.mp3"
     },
     {
         "nombre": "AGUSFORTNITE2008, Stiffy - GUISO",
-        "archivo": MUSIC_BASE_URL + "music/AGUSFORTNITE2008, Stiffy - GUISO.mp3"
+        "archivo": "AGUSFORTNITE2008, Stiffy - GUISO.mp3"
     },
     {
         "nombre": "AGUSFORTNITE2008, Stiffy - MUSICA DE ASCENSOR",
-        "archivo": MUSIC_BASE_URL + "music/AGUSFORTNITE2008, Stiffy - MUSICA DE ASCENSOR.mp3"
+        "archivo": "AGUSFORTNITE2008, Stiffy - MUSICA DE ASCENSOR.mp3"
     },
     {
         "nombre": "AGUSFORTNITE2008, Stiffy - PIE EN LA PISTA",
-        "archivo": MUSIC_BASE_URL + "music/AGUSFORTNITE2008, Stiffy - PIE EN LA PISTA.mp3"
+        "archivo": "AGUSFORTNITE2008, Stiffy - PIE EN LA PISTA.mp3"
     },
     {
         "nombre": "AGUSFORTNITE2008, Stiffy, NEO PISTEA - MEJORALITO",
-        "archivo": MUSIC_BASE_URL + "music/AGUSFORTNITE2008, Stiffy, NEO PISTEA - MEJORALITO.mp3"
+        "archivo": "AGUSFORTNITE2008, Stiffy, NEO PISTEA - MEJORALITO.mp3"
     },
     {
         "nombre": "bic - letal",
-        "archivo": MUSIC_BASE_URL + "music/bic - letal.mp3"
+        "archivo": "bic - letal.mp3"
     },
     {
         "nombre": "bic - mis maneras",
-        "archivo": MUSIC_BASE_URL + "music/bic - mis maneras.mp3"
+        "archivo": "bic - mis maneras.mp3"
     },
     {
         "nombre": "bic - phone off",
-        "archivo": MUSIC_BASE_URL + "music/bic - phone off.mp3"
+        "archivo": "bic - phone off.mp3"
     },
     {
         "nombre": "Blagh  - GET IT UP",
-        "archivo": MUSIC_BASE_URL + "music/Blagh  - GET IT UP.mp3"
+        "archivo": "Blagh  - GET IT UP.mp3"
     },
     {
         "nombre": "Blagh  - High",
-        "archivo": MUSIC_BASE_URL + "music/Blagh  - High.mp3"
+        "archivo": "Blagh  - High.mp3"
     },
     {
         "nombre": "Blagh  - No Loyalty",
-        "archivo": MUSIC_BASE_URL + "music/Blagh  - No Loyalty.mp3"
+        "archivo": "Blagh  - No Loyalty.mp3"
     },
     {
         "nombre": "Blagh - 2013",
-        "archivo": MUSIC_BASE_URL + "music/Blagh - 2013.mp3"
+        "archivo": "Blagh - 2013.mp3"
     },
     {
         "nombre": "Blagh - Toxico",
-        "archivo": MUSIC_BASE_URL + "music/Blagh - Toxico.mp3"
+        "archivo": "Blagh - Toxico.mp3"
     },
     {
         "nombre": "Blagh, Agush  - TIBURON",
-        "archivo": MUSIC_BASE_URL + "music/Blagh, Agush  - TIBURON.mp3"
+        "archivo": "Blagh, Agush  - TIBURON.mp3"
     },
     {
         "nombre": "Blagh, Agush - sex",
-        "archivo": MUSIC_BASE_URL + "music/Blagh, Agush - sex.mp3"
+        "archivo": "Blagh, Agush - sex.mp3"
     },
     {
         "nombre": "cero - 1234",
-        "archivo": MUSIC_BASE_URL + "music/cero - 1234.mp3"
+        "archivo": "cero - 1234.mp3"
     },
     {
         "nombre": "cero - como roe",
-        "archivo": MUSIC_BASE_URL + "music/cero - como roe.mp3"
+        "archivo": "cero - como roe.mp3"
     },
     {
         "nombre": "cero - Con frio y calor",
-        "archivo": MUSIC_BASE_URL + "music/cero - Con frio y calor.mp3"
+        "archivo": "cero - Con frio y calor.mp3"
     },
     {
         "nombre": "cero - De moda",
-        "archivo": MUSIC_BASE_URL + "music/cero - De moda.mp3"
+        "archivo": "cero - De moda.mp3"
     },
     {
         "nombre": "Cero - Mr wow",
-        "archivo": MUSIC_BASE_URL + "music/Cero - Mr wow.mp3"
+        "archivo": "Cero - Mr wow.mp3"
     },
     {
         "nombre": "Cero - Sonajero",
-        "archivo": MUSIC_BASE_URL + "music/Cero - Sonajero.mp3"
+        "archivo": "Cero - Sonajero.mp3"
     },
     {
         "nombre": "cero - t2o",
-        "archivo": MUSIC_BASE_URL + "music/cero - t2o.mp3"
+        "archivo": "cero - t2o.mp3"
     },
     {
         "nombre": "cero - xq soy el villano",
-        "archivo": MUSIC_BASE_URL + "music/cero - xq soy el villano.mp3"
+        "archivo": "cero - xq soy el villano.mp3"
     },
     {
         "nombre": "cero, enzocerobulto - De concierto en concierto",
-        "archivo": MUSIC_BASE_URL + "music/cero, enzocerobulto - De concierto en concierto.mp3"
+        "archivo": "cero, enzocerobulto - De concierto en concierto.mp3"
     },
     {
         "nombre": "cero, knak - TOA",
-        "archivo": MUSIC_BASE_URL + "music/cero, knak - TOA.mp3"
+        "archivo": "cero, knak - TOA.mp3"
     },
     {
         "nombre": "cero, TURROBABY - Slat",
-        "archivo": MUSIC_BASE_URL + "music/cero, TURROBABY - Slat.mp3"
+        "archivo": "cero, TURROBABY - Slat.mp3"
     },
     {
         "nombre": "Chiki Wanted - que es el under",
-        "archivo": MUSIC_BASE_URL + "music/Chiki Wanted - que es el under.mp3"
+        "archivo": "Chiki Wanted - que es el under.mp3"
     },
     {
         "nombre": "CHOOSEY , STIFFY - BeastieBoyZZZ",
-        "archivo": MUSIC_BASE_URL + "music/CHOOSEY , STIFFY - BeastieBoyZZZ.mp3"
+        "archivo": "CHOOSEY , STIFFY - BeastieBoyZZZ.mp3"
     },
     {
         "nombre": "CHOOSEY - 1-2 groupie",
-        "archivo": MUSIC_BASE_URL + "music/CHOOSEY - 1-2 groupie.mp3"
+        "archivo": "CHOOSEY - 1-2 groupie.mp3"
     },
     {
         "nombre": "CHOOSEY - 100 LUCHA",
-        "archivo": MUSIC_BASE_URL + "music/CHOOSEY - 100 LUCHA.mp3"
+        "archivo": "CHOOSEY - 100 LUCHA.mp3"
     },
     {
         "nombre": "CHOOSEY - 2 SAMPLEOS",
-        "archivo": MUSIC_BASE_URL + "music/CHOOSEY - 2 SAMPLEOS.mp3"
+        "archivo": "CHOOSEY - 2 SAMPLEOS.mp3"
     },
     {
         "nombre": "CHOOSEY - ADOPTA POSES",
-        "archivo": MUSIC_BASE_URL + "music/CHOOSEY - ADOPTA POSES.mp3"
+        "archivo": "CHOOSEY - ADOPTA POSES.mp3"
     },
     {
         "nombre": "CHOOSEY - ROMPEDISKOTECA",
-        "archivo": MUSIC_BASE_URL + "music/CHOOSEY - ROMPEDISKOTECA.mp3"
+        "archivo": "CHOOSEY - ROMPEDISKOTECA.mp3"
     },
     {
         "nombre": "CHOOSEY - SI NO ME CONOCES",
-        "archivo": MUSIC_BASE_URL + "music/CHOOSEY - SI NO ME CONOCES.mp3"
+        "archivo": "CHOOSEY - SI NO ME CONOCES.mp3"
     },
     {
         "nombre": "Cluster - Muy imbecil",
-        "archivo": MUSIC_BASE_URL + "music/Cluster - Muy imbecil.mp3"
+        "archivo": "Cluster - Muy imbecil.mp3"
     },
     {
         "nombre": "Cluster, Doly Flackko - OREO",
-        "archivo": MUSIC_BASE_URL + "music/Cluster, Doly Flackko - OREO.mp3"
+        "archivo": "Cluster, Doly Flackko - OREO.mp3"
     },
     {
         "nombre": "Cluster, Duki - aGaRRo La PLaTa",
-        "archivo": MUSIC_BASE_URL + "music/Cluster, Duki - aGaRRo La PLaTa.mp3"
+        "archivo": "Cluster, Duki - aGaRRo La PLaTa.mp3"
     },
     {
         "nombre": "Cluster, Frozouda - TOP 1 CHARTS",
-        "archivo": MUSIC_BASE_URL + "music/Cluster, Frozouda - TOP 1 CHARTS.mp3"
+        "archivo": "Cluster, Frozouda - TOP 1 CHARTS.mp3"
     },
     {
         "nombre": "Cluster, Pabloxo - OTRA SEDA",
-        "archivo": MUSIC_BASE_URL + "music/Cluster, Pabloxo - OTRA SEDA.mp3"
+        "archivo": "Cluster, Pabloxo - OTRA SEDA.mp3"
     },
     {
         "nombre": "cybernene, TURROBABY - LEANCOLN REMIX",
-        "archivo": MUSIC_BASE_URL + "music/cybernene, TURROBABY - LEANCOLN REMIX.mp3"
+        "archivo": "cybernene, TURROBABY - LEANCOLN REMIX.mp3"
     },
     {
         "nombre": "Doly Flackko - LEGENDARIO",
-        "archivo": MUSIC_BASE_URL + "music/Doly Flackko - LEGENDARIO.mp3"
+        "archivo": "Doly Flackko - LEGENDARIO.mp3"
     },
     {
         "nombre": "Doly Flackko - PIOLA VAGO",
-        "archivo": MUSIC_BASE_URL + "music/Doly Flackko - PIOLA VAGO.mp3"
+        "archivo": "Doly Flackko - PIOLA VAGO.mp3"
     },
     {
         "nombre": "Doly Flackko - TRES TRISTES TIGUERES",
-        "archivo": MUSIC_BASE_URL + "music/Doly Flackko - TRES TRISTES TIGUERES.mp3"
+        "archivo": "Doly Flackko - TRES TRISTES TIGUERES.mp3"
     },
     {
         "nombre": "Doly Flackko - Uber",
-        "archivo": MUSIC_BASE_URL + "music/Doly Flackko - Uber.mp3"
+        "archivo": "Doly Flackko - Uber.mp3"
     },
     {
         "nombre": "EL DOCTOR - STARBOY",
-        "archivo": MUSIC_BASE_URL + "music/EL DOCTOR - STARBOY.mp3"
+        "archivo": "EL DOCTOR - STARBOY.mp3"
     },
     {
         "nombre": "elchombapolo - CHIQUI TAPIA",
-        "archivo": MUSIC_BASE_URL + "music/elchombapolo - CHIQUI TAPIA.mp3"
+        "archivo": "elchombapolo - CHIQUI TAPIA.mp3"
     },
     {
         "nombre": "elchombapolo - el under me chupa la pija",
-        "archivo": MUSIC_BASE_URL + "music/elchombapolo - el under me chupa la pija.mp3"
+        "archivo": "elchombapolo - el under me chupa la pija.mp3"
     },
     {
         "nombre": "elchombapolo - Estoy En Tu Cesped",
-        "archivo": MUSIC_BASE_URL + "music/elchombapolo - Estoy En Tu Cesped.mp3"
+        "archivo": "elchombapolo - Estoy En Tu Cesped.mp3"
     },
     {
         "nombre": "elchombapolo - UN OSO WACHO",
-        "archivo": MUSIC_BASE_URL + "music/elchombapolo - UN OSO WACHO.mp3"
+        "archivo": "elchombapolo - UN OSO WACHO.mp3"
     },
     {
         "nombre": "enzocerobulto - Falsa tu cara de Cristo",
-        "archivo": MUSIC_BASE_URL + "music/enzocerobulto - Falsa tu cara de Cristo.mp3"
+        "archivo": "enzocerobulto - Falsa tu cara de Cristo.mp3"
     },
     {
         "nombre": "enzocerobulto - Hasta que termine el dia",
-        "archivo": MUSIC_BASE_URL + "music/enzocerobulto - Hasta que termine el dia.mp3"
+        "archivo": "enzocerobulto - Hasta que termine el dia.mp3"
     },
     {
         "nombre": "enzocerobulto - Ocupado en mi droga",
-        "archivo": MUSIC_BASE_URL + "music/enzocerobulto - Ocupado en mi droga.mp3"
+        "archivo": "enzocerobulto - Ocupado en mi droga.mp3"
     },
     {
         "nombre": "enzocerobulto - Un banger tras otro",
-        "archivo": MUSIC_BASE_URL + "music/enzocerobulto - Un banger tras otro.mp3"
+        "archivo": "enzocerobulto - Un banger tras otro.mp3"
     },
     {
         "nombre": "enzocerobulto - una tira",
-        "archivo": MUSIC_BASE_URL + "music/enzocerobulto - una tira.mp3"
+        "archivo": "enzocerobulto - una tira.mp3"
     },
     {
         "nombre": "enzocerobulto, 2UU! - Tanta plata",
-        "archivo": MUSIC_BASE_URL + "music/enzocerobulto, 2UU! - Tanta plata.mp3"
+        "archivo": "enzocerobulto, 2UU! - Tanta plata.mp3"
     },
     {
         "nombre": "enzocerobulto, panchitolefleur - Por un cuarto",
-        "archivo": MUSIC_BASE_URL + "music/enzocerobulto, panchitolefleur - Por un cuarto.mp3"
+        "archivo": "enzocerobulto, panchitolefleur - Por un cuarto.mp3"
     },
     {
         "nombre": "Francis Jeremy, Banatroll - Skibidi Toilet",
-        "archivo": MUSIC_BASE_URL + "music/Francis Jeremy, Banatroll - Skibidi Toilet.mp3"
+        "archivo": "Francis Jeremy, Banatroll - Skibidi Toilet.mp3"
     },
     {
         "nombre": "Frozouda , Cero , Cluster - plinko",
-        "archivo": MUSIC_BASE_URL + "music/Frozouda , Cero , Cluster - plinko.mp3"
+        "archivo": "Frozouda , Cero , Cluster - plinko.mp3"
     },
     {
         "nombre": "Frozouda - doble F con visa",
-        "archivo": MUSIC_BASE_URL + "music/Frozouda - doble F con visa.mp3"
+        "archivo": "Frozouda - doble F con visa.mp3"
     },
     {
         "nombre": "Frozouda - fumamos una ZAZA",
-        "archivo": MUSIC_BASE_URL + "music/Frozouda - fumamos una ZAZA.mp3"
+        "archivo": "Frozouda - fumamos una ZAZA.mp3"
     },
     {
         "nombre": "Frozouda - GAS O PORRO",
-        "archivo": MUSIC_BASE_URL + "music/Frozouda - GAS O PORRO.mp3"
+        "archivo": "Frozouda - GAS O PORRO.mp3"
     },
     {
         "nombre": "Frozouda - hot money",
-        "archivo": MUSIC_BASE_URL + "music/Frozouda - hot money.mp3"
+        "archivo": "Frozouda - hot money.mp3"
     },
     {
         "nombre": "Frozouda - mi RACE",
-        "archivo": MUSIC_BASE_URL + "music/Frozouda - mi RACE.mp3"
+        "archivo": "Frozouda - mi RACE.mp3"
     },
     {
         "nombre": "Frozouda - nicki nicole",
-        "archivo": MUSIC_BASE_URL + "music/Frozouda - nicki nicole.mp3"
+        "archivo": "Frozouda - nicki nicole.mp3"
     },
     {
         "nombre": "Frozouda - quitate las BAPE",
-        "archivo": MUSIC_BASE_URL + "music/Frozouda - quitate las BAPE.mp3"
+        "archivo": "Frozouda - quitate las BAPE.mp3"
     },
     {
         "nombre": "Frozouda - quitate los Jeans",
-        "archivo": MUSIC_BASE_URL + "music/Frozouda - quitate los Jeans.mp3"
+        "archivo": "Frozouda - quitate los Jeans.mp3"
     },
     {
         "nombre": "Frozouda - tatiana !",
-        "archivo": MUSIC_BASE_URL + "music/Frozouda - tatiana !.mp3"
+        "archivo": "Frozouda - tatiana !.mp3"
     },
     {
         "nombre": "Frozouda - TOP !",
-        "archivo": MUSIC_BASE_URL + "music/Frozouda - TOP !.mp3"
+        "archivo": "Frozouda - TOP !.mp3"
     },
     {
         "nombre": "Frozouda - un goat siempre esta busy",
-        "archivo": MUSIC_BASE_URL + "music/Frozouda - un goat siempre esta busy.mp3"
+        "archivo": "Frozouda - un goat siempre esta busy.mp3"
     },
     {
         "nombre": "Frozouda, Cluster - hot box",
-        "archivo": MUSIC_BASE_URL + "music/Frozouda, Cluster - hot box.mp3"
+        "archivo": "Frozouda, Cluster - hot box.mp3"
     },
     {
         "nombre": "Frozouda, Jugo!, KNAK - chirlito",
-        "archivo": MUSIC_BASE_URL + "music/Frozouda, Jugo!, KNAK - chirlito.mp3"
+        "archivo": "Frozouda, Jugo!, KNAK - chirlito.mp3"
     },
     {
         "nombre": "Hepa - Batman",
-        "archivo": MUSIC_BASE_URL + "music/Hepa - Batman.mp3"
+        "archivo": "Hepa - Batman.mp3"
     },
     {
         "nombre": "Hepa - Cuando estas high",
-        "archivo": MUSIC_BASE_URL + "music/Hepa - Cuando estas high.mp3"
+        "archivo": "Hepa - Cuando estas high.mp3"
     },
     {
         "nombre": "Hepa - Lovestar",
-        "archivo": MUSIC_BASE_URL + "music/Hepa - Lovestar.mp3"
+        "archivo": "Hepa - Lovestar.mp3"
     },
     {
         "nombre": "Hepa - Sintonizame",
-        "archivo": MUSIC_BASE_URL + "music/Hepa - Sintonizame.mp3"
+        "archivo": "Hepa - Sintonizame.mp3"
     },
     {
         "nombre": "Hepa - Varios Puntos",
-        "archivo": MUSIC_BASE_URL + "music/Hepa - Varios Puntos.mp3"
+        "archivo": "Hepa - Varios Puntos.mp3"
     },
     {
         "nombre": "huntr - baby boo",
-        "archivo": MUSIC_BASE_URL + "music/huntr - baby boo.mp3"
+        "archivo": "huntr - baby boo.mp3"
     },
     {
         "nombre": "huntr - esta va porque te quiero",
-        "archivo": MUSIC_BASE_URL + "music/huntr - esta va porque te quiero.mp3"
+        "archivo": "huntr - esta va porque te quiero.mp3"
     },
     {
         "nombre": "huntr - partydanc3",
-        "archivo": MUSIC_BASE_URL + "music/huntr - partydanc3.mp3"
+        "archivo": "huntr - partydanc3.mp3"
     },
     {
         "nombre": "ISMA - 2037",
-        "archivo": MUSIC_BASE_URL + "music/ISMA - 2037.mp3"
+        "archivo": "ISMA - 2037.mp3"
     },
     {
         "nombre": "ISMA - Antes del Amanecer",
-        "archivo": MUSIC_BASE_URL + "music/ISMA - Antes del Amanecer.mp3"
+        "archivo": "ISMA - Antes del Amanecer.mp3"
     },
     {
         "nombre": "ISMA - Cuanto va a pasar",
-        "archivo": MUSIC_BASE_URL + "music/ISMA - Cuanto va a pasar.mp3"
+        "archivo": "ISMA - Cuanto va a pasar.mp3"
     },
     {
         "nombre": "ISMA, LOLO  - CUAL ES TU PLAN",
-        "archivo": MUSIC_BASE_URL + "music/ISMA, LOLO  - CUAL ES TU PLAN.mp3"
+        "archivo": "ISMA, LOLO  - CUAL ES TU PLAN.mp3"
     },
     {
         "nombre": "jovenalien - ME PASO LA SEMANA",
-        "archivo": MUSIC_BASE_URL + "music/jovenalien - ME PASO LA SEMANA.mp3"
+        "archivo": "jovenalien - ME PASO LA SEMANA.mp3"
     },
     {
         "nombre": "jovenalien - No vale la pena enojarse",
-        "archivo": MUSIC_BASE_URL + "music/jovenalien - No vale la pena enojarse.mp3"
+        "archivo": "jovenalien - No vale la pena enojarse.mp3"
     },
     {
         "nombre": "jovenalien - tengo hambre",
-        "archivo": MUSIC_BASE_URL + "music/jovenalien - tengo hambre.mp3"
+        "archivo": "jovenalien - tengo hambre.mp3"
     },
     {
         "nombre": "Jugo! , Cluster - Nos retiene el estado",
-        "archivo": MUSIC_BASE_URL + "music/Jugo! , Cluster - Nos retiene el estado.mp3"
+        "archivo": "Jugo! , Cluster - Nos retiene el estado.mp3"
     },
     {
         "nombre": "Jugo! , enzocerobulto - Musicalmente",
-        "archivo": MUSIC_BASE_URL + "music/Jugo! , enzocerobulto - Musicalmente.mp3"
+        "archivo": "Jugo! , enzocerobulto - Musicalmente.mp3"
     },
     {
         "nombre": "Jugo! , YSY A - Todo el dia en el trap",
-        "archivo": MUSIC_BASE_URL + "music/Jugo! , YSY A - Todo el dia en el trap.mp3"
+        "archivo": "Jugo! , YSY A - Todo el dia en el trap.mp3"
     },
     {
         "nombre": "Jugo!, salas flaco - Desfile",
-        "archivo": MUSIC_BASE_URL + "music/Jugo!, salas flaco - Desfile.mp3"
+        "archivo": "Jugo!, salas flaco - Desfile.mp3"
     },
     {
         "nombre": "KERCHAK, Cluster - No Me Pienso Demorar",
-        "archivo": MUSIC_BASE_URL + "music/KERCHAK, Cluster - No Me Pienso Demorar.mp3"
+        "archivo": "KERCHAK, Cluster - No Me Pienso Demorar.mp3"
     },
     {
         "nombre": "KERCHAK - Viviendo Al Corte",
-        "archivo": MUSIC_BASE_URL + "music/KERCHAK - Viviendo Al Corte.mp3"
+        "archivo": "KERCHAK - Viviendo Al Corte.mp3"
     },
     {
         "nombre": "KERCHAK, Cluster - Una Noche Con Los Tios 2",
-        "archivo": MUSIC_BASE_URL + "music/KERCHAK, Cluster - Una Noche Con Los Tios 2.mp3"
+        "archivo": "KERCHAK, Cluster - Una Noche Con Los Tios 2.mp3"
     },
     {
         "nombre": "KERCHAK, enzocerobulto - Chamuyo Habilidoso",
-        "archivo": MUSIC_BASE_URL + "music/KERCHAK, enzocerobulto - Chamuyo Habilidoso.mp3"
+        "archivo": "KERCHAK, enzocerobulto - Chamuyo Habilidoso.mp3"
     },
     {
         "nombre": "KERCHAK, PANCHITOLEFLEUR - ANOTHER NIGHT WITH THE UNCLE",
-        "archivo": MUSIC_BASE_URL + "music/KERCHAK, PANCHITOLEFLEUR - ANOTHER NIGHT WITH THE UNCLE.mp3"
+        "archivo": "KERCHAK, PANCHITOLEFLEUR - ANOTHER NIGHT WITH THE UNCLE.mp3"
     },
     {
         "nombre": "KERCHAK, PANCHITOLEFLEUR - Tamo a Full",
-        "archivo": MUSIC_BASE_URL + "music/KERCHAK, PANCHITOLEFLEUR - Tamo a Full.mp3"
+        "archivo": "KERCHAK, PANCHITOLEFLEUR - Tamo a Full.mp3"
     },
     {
         "nombre": "KERCHAK, TURROBABY, Cluster, Tuw4 - Un picadito",
-        "archivo": MUSIC_BASE_URL + "music/KERCHAK, TURROBABY, Cluster, Tuw4 - Un picadito.mp3"
+        "archivo": "KERCHAK, TURROBABY, Cluster, Tuw4 - Un picadito.mp3"
     },
     {
         "nombre": "laura sad - chupavrga",
-        "archivo": MUSIC_BASE_URL + "music/laura sad - chupavrga.mp3"
+        "archivo": "laura sad - chupavrga.mp3"
     },
     {
         "nombre": "laura sad - i Laurie",
-        "archivo": MUSIC_BASE_URL + "music/laura sad - i Laurie.mp3"
+        "archivo": "laura sad - i Laurie.mp3"
     },
     {
         "nombre": "laura sad, LOLO - Joseador Boy",
-        "archivo": MUSIC_BASE_URL + "music/laura sad, LOLO - Joseador Boy.mp3"
+        "archivo": "laura sad, LOLO - Joseador Boy.mp3"
     },
     {
         "nombre": "laura sad, MAGNESIO - Perdon Mama",
-        "archivo": MUSIC_BASE_URL + "music/laura sad, MAGNESIO - Perdon Mama.mp3"
+        "archivo": "laura sad, MAGNESIO - Perdon Mama.mp3"
     },
     {
         "nombre": "LITTLE BOOGIE - CLICK CLACK",
-        "archivo": MUSIC_BASE_URL + "music/LITTLE BOOGIE - CLICK CLACK.mp3"
+        "archivo": "LITTLE BOOGIE - CLICK CLACK.mp3"
     },
     {
         "nombre": "LITTLE BOOGIE - COMPA LO HICIMOS",
-        "archivo": MUSIC_BASE_URL + "music/LITTLE BOOGIE - COMPA LO HICIMOS.mp3"
+        "archivo": "LITTLE BOOGIE - COMPA LO HICIMOS.mp3"
     },
     {
         "nombre": "LITTLE BOOGIE - DANDO CLASE",
-        "archivo": MUSIC_BASE_URL + "music/LITTLE BOOGIE - DANDO CLASE.mp3"
+        "archivo": "LITTLE BOOGIE - DANDO CLASE.mp3"
     },
     {
         "nombre": "LITTLE BOOGIE - DEJA DE SUFRIR",
-        "archivo": MUSIC_BASE_URL + "music/LITTLE BOOGIE - DEJA DE SUFRIR.mp3"
+        "archivo": "LITTLE BOOGIE - DEJA DE SUFRIR.mp3"
     },
     {
         "nombre": "LITTLE BOOGIE - LITTLE BOOGIE VS EL GOBIERNO",
-        "archivo": MUSIC_BASE_URL + "music/LITTLE BOOGIE - LITTLE BOOGIE VS EL GOBIERNO.mp3"
+        "archivo": "LITTLE BOOGIE - LITTLE BOOGIE VS EL GOBIERNO.mp3"
     },
     {
         "nombre": "LITTLE BOOGIE - LOS DEL BOHIO",
-        "archivo": MUSIC_BASE_URL + "music/LITTLE BOOGIE - LOS DEL BOHIO.mp3"
+        "archivo": "LITTLE BOOGIE - LOS DEL BOHIO.mp3"
     },
     {
         "nombre": "LITTLE BOOGIE - OKUPAS",
-        "archivo": MUSIC_BASE_URL + "music/LITTLE BOOGIE - OKUPAS.mp3"
+        "archivo": "LITTLE BOOGIE - OKUPAS.mp3"
     },
     {
         "nombre": "LITTLE BOOGIE - TODO BIEN TODO CHETO",
-        "archivo": MUSIC_BASE_URL + "music/LITTLE BOOGIE - TODO BIEN TODO CHETO.mp3"
+        "archivo": "LITTLE BOOGIE - TODO BIEN TODO CHETO.mp3"
     },
     {
         "nombre": "LITTLE BOOGIE, DOLY FLACKKO - EL MUNDO ES MIO",
-        "archivo": MUSIC_BASE_URL + "music/LITTLE BOOGIE, DOLY FLACKKO - EL MUNDO ES MIO.mp3"
+        "archivo": "LITTLE BOOGIE, DOLY FLACKKO - EL MUNDO ES MIO.mp3"
     },
     {
         "nombre": "LITTLE BOOGIE, EL DOCTOR - BILLIE JEAN",
-        "archivo": MUSIC_BASE_URL + "music/LITTLE BOOGIE, EL DOCTOR - BILLIE JEAN.mp3"
+        "archivo": "LITTLE BOOGIE, EL DOCTOR - BILLIE JEAN.mp3"
     },
     {
         "nombre": "LITTLE BOOGIE, EL DOCTOR, RUSHERKING - SOY FAMOSO Y TENGO PLATA",
-        "archivo": MUSIC_BASE_URL + "music/LITTLE BOOGIE, EL DOCTOR, RUSHERKING - SOY FAMOSO Y TENGO PLATA.mp3"
+        "archivo": "LITTLE BOOGIE, EL DOCTOR, RUSHERKING - SOY FAMOSO Y TENGO PLATA.mp3"
     },
     {
         "nombre": "LOLO , BANATROLL - HAZ MAS DINERO",
-        "archivo": MUSIC_BASE_URL + "music/LOLO , BANATROLL - HAZ MAS DINERO.mp3"
+        "archivo": "LOLO , BANATROLL - HAZ MAS DINERO.mp3"
     },
     {
         "nombre": "LOLO , BANATROLL - TOY GANADO",
-        "archivo": MUSIC_BASE_URL + "music/LOLO , BANATROLL - TOY GANADO.mp3"
+        "archivo": "LOLO , BANATROLL - TOY GANADO.mp3"
     },
     {
         "nombre": "LOLO , CHOOSEY - QUE PUEDE PASAR",
-        "archivo": MUSIC_BASE_URL + "music/LOLO , CHOOSEY - QUE PUEDE PASAR.mp3"
+        "archivo": "LOLO , CHOOSEY - QUE PUEDE PASAR.mp3"
     },
     {
         "nombre": "LOLO - A TU MODO",
-        "archivo": MUSIC_BASE_URL + "music/LOLO - A TU MODO.mp3"
+        "archivo": "LOLO - A TU MODO.mp3"
     },
     {
         "nombre": "LOLO - EMILIA MERNES",
-        "archivo": MUSIC_BASE_URL + "music/LOLO - EMILIA MERNES.mp3"
+        "archivo": "LOLO - EMILIA MERNES.mp3"
     },
     {
         "nombre": "LOLO - FERNET HIELO",
-        "archivo": MUSIC_BASE_URL + "music/LOLO - FERNET HIELO.mp3"
+        "archivo": "LOLO - FERNET HIELO.mp3"
     },
     {
         "nombre": "LOLO - GASTEMOS MAS",
-        "archivo": MUSIC_BASE_URL + "music/LOLO - GASTEMOS MAS.mp3"
+        "archivo": "LOLO - GASTEMOS MAS.mp3"
     },
     {
         "nombre": "LOLO - HATER",
-        "archivo": MUSIC_BASE_URL + "music/LOLO - HATER.mp3"
+        "archivo": "LOLO - HATER.mp3"
     },
     {
         "nombre": "LOLO - HOY SI QUEMO",
-        "archivo": MUSIC_BASE_URL + "music/LOLO - HOY SI QUEMO.mp3"
+        "archivo": "LOLO - HOY SI QUEMO.mp3"
     },
     {
         "nombre": "LOLO - MINI LOLO",
-        "archivo": MUSIC_BASE_URL + "music/LOLO - MINI LOLO.mp3"
+        "archivo": "LOLO - MINI LOLO.mp3"
     },
     {
         "nombre": "LOLO - OSCUROoOo",
-        "archivo": MUSIC_BASE_URL + "music/LOLO - OSCUROoOo.mp3"
+        "archivo": "LOLO - OSCUROoOo.mp3"
     },
     {
         "nombre": "LOLO - QUIEN FUE",
-        "archivo": MUSIC_BASE_URL + "music/LOLO - QUIEN FUE.mp3"
+        "archivo": "LOLO - QUIEN FUE.mp3"
     },
     {
         "nombre": "LOLO - YO RAPERO ELLA DELANTERA",
-        "archivo": MUSIC_BASE_URL + "music/LOLO - YO RAPERO ELLA DELANTERA.mp3"
+        "archivo": "LOLO - YO RAPERO ELLA DELANTERA.mp3"
     },
     {
         "nombre": "LOLO, 143LETI - LUNES A VIERNES",
-        "archivo": MUSIC_BASE_URL + "music/LOLO, 143LETI - LUNES A VIERNES.mp3"
+        "archivo": "LOLO, 143LETI - LUNES A VIERNES.mp3"
     },
     {
         "nombre": "MAGNESIO - MAS LENTO",
-        "archivo": MUSIC_BASE_URL + "music/MAGNESIO - MAS LENTO.mp3"
+        "archivo": "MAGNESIO - MAS LENTO.mp3"
     },
     {
         "nombre": "MAGNESIO - OLLA POPULAR",
-        "archivo": MUSIC_BASE_URL + "music/MAGNESIO - OLLA POPULAR.mp3"
+        "archivo": "MAGNESIO - OLLA POPULAR.mp3"
     },
     {
         "nombre": "MAGNESIO - WING WANG WOW",
-        "archivo": MUSIC_BASE_URL + "music/MAGNESIO - WING WANG WOW.mp3"
+        "archivo": "MAGNESIO - WING WANG WOW.mp3"
     },
     {
         "nombre": "MAGNESIO - ZLATAN",
-        "archivo": MUSIC_BASE_URL + "music/MAGNESIO - ZLATAN.mp3"
+        "archivo": "MAGNESIO - ZLATAN.mp3"
     },
     {
         "nombre": "MAGNESIO, White! - GOKU",
-        "archivo": MUSIC_BASE_URL + "music/MAGNESIO, White! - GOKU.mp3"
+        "archivo": "MAGNESIO, White! - GOKU.mp3"
     },
     {
         "nombre": "Matias Fisher - Muerte en Halloween",
-        "archivo": MUSIC_BASE_URL + "music/Matias Fisher - Muerte en Halloween.mp3"
+        "archivo": "Matias Fisher - Muerte en Halloween.mp3"
     },
     {
         "nombre": "Nykoo0 - Anorexico",
-        "archivo": MUSIC_BASE_URL + "music/Nykoo0 - Anorexico.mp3"
+        "archivo": "Nykoo0 - Anorexico.mp3"
     },
     {
         "nombre": "Nykoo0 - Que sabes de amor",
-        "archivo": MUSIC_BASE_URL + "music/Nykoo0 - Que sabes de amor.mp3"
+        "archivo": "Nykoo0 - Que sabes de amor.mp3"
     },
     {
         "nombre": "pa2k, cero - Rn",
-        "archivo": MUSIC_BASE_URL + "music/pa2k, cero - Rn.mp3"
+        "archivo": "pa2k, cero - Rn.mp3"
     },
     {
         "nombre": "pa2k, cero - yEye",
-        "archivo": MUSIC_BASE_URL + "music/pa2k, cero - yEye.mp3"
+        "archivo": "pa2k, cero - yEye.mp3"
     },
     {
         "nombre": "pa2k, enzocerobulto - BOYFRIEND",
-        "archivo": MUSIC_BASE_URL + "music/pa2k, enzocerobulto - BOYFRIEND.mp3"
+        "archivo": "pa2k, enzocerobulto - BOYFRIEND.mp3"
     },
     {
         "nombre": "pa2k, enzocerobulto - RIGHT NOW",
-        "archivo": MUSIC_BASE_URL + "music/pa2k, enzocerobulto - RIGHT NOW.mp3"
+        "archivo": "pa2k, enzocerobulto - RIGHT NOW.mp3"
     },
     {
         "nombre": "pabloxo - dosydos",
-        "archivo": MUSIC_BASE_URL + "music/pabloxo - dosydos.mp3"
+        "archivo": "pabloxo - dosydos.mp3"
     },
     {
         "nombre": "pabloxo - lo hago x mi",
-        "archivo": MUSIC_BASE_URL + "music/pabloxo - lo hago x mi.mp3"
+        "archivo": "pabloxo - lo hago x mi.mp3"
     },
     {
         "nombre": "pabloxo - no son dos f son clones",
-        "archivo": MUSIC_BASE_URL + "music/pabloxo - no son dos f son clones.mp3"
+        "archivo": "pabloxo - no son dos f son clones.mp3"
     },
     {
         "nombre": "PANKKY - FREEHOMMIES",
-        "archivo": MUSIC_BASE_URL + "music/PANKKY - FREEHOMMIES.mp3"
+        "archivo": "PANKKY - FREEHOMMIES.mp3"
     },
     {
         "nombre": "PANKKY - GLOPETA",
-        "archivo": MUSIC_BASE_URL + "music/PANKKY - GLOPETA.mp3"
+        "archivo": "PANKKY - GLOPETA.mp3"
     },
     {
         "nombre": "PANKKY - TELL ME",
-        "archivo": MUSIC_BASE_URL + "music/PANKKY - TELL ME.mp3"
+        "archivo": "PANKKY - TELL ME.mp3"
     },
     {
         "nombre": "papirola - sos mi papirola",
-        "archivo": MUSIC_BASE_URL + "music/papirola - sos mi papirola.mp3"
+        "archivo": "papirola - sos mi papirola.mp3"
     },
     {
         "nombre": "salas flaco - PANICO ESCENICO",
-        "archivo": MUSIC_BASE_URL + "music/salas flaco - PANICO ESCENICO.mp3"
+        "archivo": "salas flaco - PANICO ESCENICO.mp3"
     },
     {
         "nombre": "salas flaco - Por Argentina",
-        "archivo": MUSIC_BASE_URL + "music/salas flaco - Por Argentina.mp3"
+        "archivo": "salas flaco - Por Argentina.mp3"
     },
     {
         "nombre": "salas flaco - TAN MALA",
-        "archivo": MUSIC_BASE_URL + "music/salas flaco - TAN MALA.mp3"
+        "archivo": "salas flaco - TAN MALA.mp3"
     },
     {
         "nombre": "salas flaco, Bhavi, Asan - EL DINERO DE INTERNET",
-        "archivo": MUSIC_BASE_URL + "music/salas flaco, Bhavi, Asan - EL DINERO DE INTERNET.mp3"
+        "archivo": "salas flaco, Bhavi, Asan - EL DINERO DE INTERNET.mp3"
     },
     {
         "nombre": "Shako , Jugo! - Medio Tana",
-        "archivo": MUSIC_BASE_URL + "music/Shako , Jugo! - Medio Tana.mp3"
+        "archivo": "Shako , Jugo! - Medio Tana.mp3"
     },
     {
         "nombre": "Shako - 4eva",
-        "archivo": MUSIC_BASE_URL + "music/Shako - 4eva.mp3"
+        "archivo": "Shako - 4eva.mp3"
     },
     {
         "nombre": "Shako - Amigdalas",
-        "archivo": MUSIC_BASE_URL + "music/Shako - Amigdalas.mp3"
+        "archivo": "Shako - Amigdalas.mp3"
     },
     {
         "nombre": "Shako - Hotel",
-        "archivo": MUSIC_BASE_URL + "music/Shako - Hotel.mp3"
+        "archivo": "Shako - Hotel.mp3"
     },
     {
         "nombre": "Shako - RACKLESS",
-        "archivo": MUSIC_BASE_URL + "music/Shako - RACKLESS.mp3"
+        "archivo": "Shako - RACKLESS.mp3"
     },
     {
         "nombre": "Shako - vas a ver el alma mula",
-        "archivo": MUSIC_BASE_URL + "music/Shako - vas a ver el alma mula.mp3"
+        "archivo": "Shako - vas a ver el alma mula.mp3"
     },
     {
         "nombre": "Shako, Bhavi, Seven Kayne - K.O",
-        "archivo": MUSIC_BASE_URL + "music/Shako, Bhavi, Seven Kayne - K.O.mp3"
+        "archivo": "Shako, Bhavi, Seven Kayne - K.O.mp3"
     },
     {
         "nombre": "SixUp - Anti",
-        "archivo": MUSIC_BASE_URL + "music/SixUp - Anti.mp3"
+        "archivo": "SixUp - Anti.mp3"
     },
     {
         "nombre": "SixUp - DobleVaso",
-        "archivo": MUSIC_BASE_URL + "music/SixUp - DobleVaso.mp3"
+        "archivo": "SixUp - DobleVaso.mp3"
     },
     {
         "nombre": "SixUp - TikiTime",
-        "archivo": MUSIC_BASE_URL + "music/SixUp - TikiTime.mp3"
+        "archivo": "SixUp - TikiTime.mp3"
     },
     {
         "nombre": "SixUp - TripleVaso",
-        "archivo": MUSIC_BASE_URL + "music/SixUp - TripleVaso.mp3"
+        "archivo": "SixUp - TripleVaso.mp3"
     },
     {
         "nombre": "Stiffy - FARANDULERO",
-        "archivo": MUSIC_BASE_URL + "music/Stiffy - FARANDULERO.mp3"
+        "archivo": "Stiffy - FARANDULERO.mp3"
     },
     {
         "nombre": "Stiffy - GUAP",
-        "archivo": MUSIC_BASE_URL + "music/Stiffy - GUAP.mp3"
+        "archivo": "Stiffy - GUAP.mp3"
     },
     {
         "nombre": "Stiffy - GUASO BALLS Z",
-        "archivo": MUSIC_BASE_URL + "music/Stiffy - GUASO BALLS Z.mp3"
+        "archivo": "Stiffy - GUASO BALLS Z.mp3"
     },
     {
         "nombre": "Stiffy - MECHINSTRONGAS",
-        "archivo": MUSIC_BASE_URL + "music/Stiffy - MECHINSTRONGAS.mp3"
+        "archivo": "Stiffy - MECHINSTRONGAS.mp3"
     },
     {
         "nombre": "Stiffy - NO ES LO QUE PENSAS",
-        "archivo": MUSIC_BASE_URL + "music/Stiffy - NO ES LO QUE PENSAS.mp3"
+        "archivo": "Stiffy - NO ES LO QUE PENSAS.mp3"
     },
     {
         "nombre": "Stiffy - NO LA CUELGO",
-        "archivo": MUSIC_BASE_URL + "music/Stiffy - NO LA CUELGO.mp3"
+        "archivo": "Stiffy - NO LA CUELGO.mp3"
     },
     {
         "nombre": "Stiffy - SANDRO",
-        "archivo": MUSIC_BASE_URL + "music/Stiffy - SANDRO.mp3"
+        "archivo": "Stiffy - SANDRO.mp3"
     },
     {
         "nombre": "Stiffy - SWAG DE SOSA",
-        "archivo": MUSIC_BASE_URL + "music/Stiffy - SWAG DE SOSA.mp3"
+        "archivo": "Stiffy - SWAG DE SOSA.mp3"
     },
     {
         "nombre": "Stiffy, Agusfortnite2008 - AFIP",
-        "archivo": MUSIC_BASE_URL + "music/Stiffy, Agusfortnite2008 - AFIP.mp3"
+        "archivo": "Stiffy, Agusfortnite2008 - AFIP.mp3"
     },
     {
         "nombre": "Stiffy, AGUSFORTNITE2008 - QUIERE PENE",
-        "archivo": MUSIC_BASE_URL + "music/Stiffy, AGUSFORTNITE2008 - QUIERE PENE.mp3"
+        "archivo": "Stiffy, AGUSFORTNITE2008 - QUIERE PENE.mp3"
     },
     {
         "nombre": "Stiffy, Jon Z - COMO ANTES",
-        "archivo": MUSIC_BASE_URL + "music/Stiffy, Jon Z - COMO ANTES.mp3"
+        "archivo": "Stiffy, Jon Z - COMO ANTES.mp3"
     },
     {
         "nombre": "Stiffy, Rojuu - AMNESIA",
-        "archivo": MUSIC_BASE_URL + "music/Stiffy, Rojuu - AMNESIA.mp3"
+        "archivo": "Stiffy, Rojuu - AMNESIA.mp3"
     },
     {
         "nombre": "STIFFY, TURROBABY, ZELL, AGUSFORTNITE2008 - BABASONICO",
-        "archivo": MUSIC_BASE_URL + "music/STIFFY, TURROBABY, ZELL, AGUSFORTNITE2008 - BABASONICO.mp3"
+        "archivo": "STIFFY, TURROBABY, ZELL, AGUSFORTNITE2008 - BABASONICO.mp3"
     },
     {
         "nombre": "TURROBABY - 2017",
-        "archivo": MUSIC_BASE_URL + "music/TURROBABY - 2017.mp3"
+        "archivo": "TURROBABY - 2017.mp3"
     },
     {
         "nombre": "TURROBABY - Aca y Alla y En Todos Lados",
-        "archivo": MUSIC_BASE_URL + "music/TURROBABY - Aca y Alla y En Todos Lados.mp3"
+        "archivo": "TURROBABY - Aca y Alla y En Todos Lados.mp3"
     },
     {
         "nombre": "TURROBABY - Bajo El Sol",
-        "archivo": MUSIC_BASE_URL + "music/TURROBABY - Bajo El Sol.mp3"
+        "archivo": "TURROBABY - Bajo El Sol.mp3"
     },
     {
         "nombre": "TURROBABY - COLOMBIANA HOODTRAP",
-        "archivo": MUSIC_BASE_URL + "music/TURROBABY - COLOMBIANA HOODTRAP.mp3"
+        "archivo": "TURROBABY - COLOMBIANA HOODTRAP.mp3"
     },
     {
         "nombre": "TURROBABY - Cornudo Consciente",
-        "archivo": MUSIC_BASE_URL + "music/TURROBABY - Cornudo Consciente.mp3"
+        "archivo": "TURROBABY - Cornudo Consciente.mp3"
     },
     {
         "nombre": "TURROBABY - Filmemos Una Peli",
-        "archivo": MUSIC_BASE_URL + "music/TURROBABY - Filmemos Una Peli.mp3"
+        "archivo": "TURROBABY - Filmemos Una Peli.mp3"
     },
     {
         "nombre": "TURROBABY - Sergio Massa",
-        "archivo": MUSIC_BASE_URL + "music/TURROBABY - Sergio Massa.mp3"
+        "archivo": "TURROBABY - Sergio Massa.mp3"
     },
     {
         "nombre": "TURROBABY - SIMO VIANI",
-        "archivo": MUSIC_BASE_URL + "music/TURROBABY - SIMO VIANI.mp3"
+        "archivo": "TURROBABY - SIMO VIANI.mp3"
     },
     {
         "nombre": "TURROBABY - Wacha Flequilluda",
-        "archivo": MUSIC_BASE_URL + "music/TURROBABY - Wacha Flequilluda.mp3"
+        "archivo": "TURROBABY - Wacha Flequilluda.mp3"
     },
     {
         "nombre": "TURROBABY - YPF",
-        "archivo": MUSIC_BASE_URL + "music/TURROBABY - YPF.mp3"
+        "archivo": "TURROBABY - YPF.mp3"
     },
     {
         "nombre": "TURROBABY, Bhavi - Parabrisas",
-        "archivo": MUSIC_BASE_URL + "music/TURROBABY, Bhavi - Parabrisas.mp3"
+        "archivo": "TURROBABY, Bhavi - Parabrisas.mp3"
     },
     {
         "nombre": "TURROBABY, Doble P - ANTO ROCUZZO",
-        "archivo": MUSIC_BASE_URL + "music/TURROBABY, Doble P - ANTO ROCUZZO.mp3"
+        "archivo": "TURROBABY, Doble P - ANTO ROCUZZO.mp3"
     },
     {
         "nombre": "TURROBABY, enzocerobulto - Las Seis",
-        "archivo": MUSIC_BASE_URL + "music/TURROBABY, enzocerobulto - Las Seis.mp3"
+        "archivo": "TURROBABY, enzocerobulto - Las Seis.mp3"
     },
     {
         "nombre": "TURROBABY, Lolo OG - Lovebombing",
-        "archivo": MUSIC_BASE_URL + "music/TURROBABY, Lolo OG - Lovebombing.mp3"
+        "archivo": "TURROBABY, Lolo OG - Lovebombing.mp3"
     },
     {
         "nombre": "TURROBABY, Stiffy - PENDEJO ATREVIDO",
-        "archivo": MUSIC_BASE_URL + "music/TURROBABY, Stiffy - PENDEJO ATREVIDO.mp3"
+        "archivo": "TURROBABY, Stiffy - PENDEJO ATREVIDO.mp3"
     },
     {
         "nombre": "TURROBABY, ZELL - Inter De Miami",
-        "archivo": MUSIC_BASE_URL + "music/TURROBABY, ZELL - Inter De Miami.mp3"
+        "archivo": "TURROBABY, ZELL - Inter De Miami.mp3"
     },
     {
         "nombre": "TURROBABY, ZELL, Stiffy - Cara De Boludo",
-        "archivo": MUSIC_BASE_URL + "music/TURROBABY, ZELL, Stiffy - Cara De Boludo.mp3"
+        "archivo": "TURROBABY, ZELL, Stiffy - Cara De Boludo.mp3"
     },
     {
         "nombre": "vahel - .",
-        "archivo": MUSIC_BASE_URL + "music/vahel - ..mp3"
+        "archivo": "vahel - ..mp3"
     },
     {
         "nombre": "vahel - PLAN B",
-        "archivo": MUSIC_BASE_URL + "music/vahel - PLAN B.mp3"
+        "archivo": "vahel - PLAN B.mp3"
     },
     {
         "nombre": "vahel - tunel",
-        "archivo": MUSIC_BASE_URL + "music/vahel - tunel.mp3"
+        "archivo": "vahel - tunel.mp3"
     },
     {
         "nombre": "vahel, pachudani - loquita",
-        "archivo": MUSIC_BASE_URL + "music/vahel, pachudani - loquita.mp3"
+        "archivo": "vahel, pachudani - loquita.mp3"
     },
     {
         "nombre": "White! - FR",
-        "archivo": MUSIC_BASE_URL + "music/White! - FR.mp3"
+        "archivo": "White! - FR.mp3"
     },
     {
         "nombre": "White! - No lo intentes en tu home",
-        "archivo": MUSIC_BASE_URL + "music/White! - No lo intentes en tu home.mp3"
+        "archivo": "White! - No lo intentes en tu home.mp3"
     },
     {
         "nombre": "White! - X - RAY",
-        "archivo": MUSIC_BASE_URL + "music/White! - X - RAY.mp3"
+        "archivo": "White! - X - RAY.mp3"
     },
     {
         "nombre": "White!, magnesio - Shen Long",
-        "archivo": MUSIC_BASE_URL + "music/White!, magnesio - Shen Long.mp3"
+        "archivo": "White!, magnesio - Shen Long.mp3"
     },
     {
         "nombre": "Zell - ballin de verdad",
-        "archivo": MUSIC_BASE_URL + "music/Zell - ballin de verdad.mp3"
+        "archivo": "Zell - ballin de verdad.mp3"
     },
     {
         "nombre": "Zell - Ballin",
-        "archivo": MUSIC_BASE_URL + "music/Zell - Ballin.mp3"
+        "archivo": "Zell - Ballin.mp3"
     },
     {
         "nombre": "Zell - calvin klein",
-        "archivo": MUSIC_BASE_URL + "music/Zell - calvin klein.mp3"
+        "archivo": "Zell - calvin klein.mp3"
     },
     {
         "nombre": "Zell - diva",
-        "archivo": MUSIC_BASE_URL + "music/Zell - diva.mp3"
+        "archivo": "Zell - diva.mp3"
     },
     {
         "nombre": "Zell - iceberg",
-        "archivo": MUSIC_BASE_URL + "music/Zell - iceberg.mp3"
+        "archivo": "Zell - iceberg.mp3"
     },
     {
         "nombre": "Zell - iPhone",
-        "archivo": MUSIC_BASE_URL + "music/Zell - iPhone.mp3"
+        "archivo": "Zell - iPhone.mp3"
     },
     {
         "nombre": "Zell - Joven Ballin",
-        "archivo": MUSIC_BASE_URL + "music/Zell - Joven Ballin.mp3"
+        "archivo": "Zell - Joven Ballin.mp3"
     },
     {
         "nombre": "Zell - piso 3",
-        "archivo": MUSIC_BASE_URL + "music/Zell - piso 3.mp3"
+        "archivo": "Zell - piso 3.mp3"
     },
     {
         "nombre": "Zell - Ritual",
-        "archivo": MUSIC_BASE_URL + "music/Zell - Ritual.mp3"
+        "archivo": "Zell - Ritual.mp3"
     },
     {
         "nombre": "Zell - Starboy",
-        "archivo": MUSIC_BASE_URL + "music/Zell - Starboy.mp3"
+        "archivo": "Zell - Starboy.mp3"
     },
     {
         "nombre": "Zell - stripper",
-        "archivo": MUSIC_BASE_URL + "music/Zell - stripper.mp3"
+        "archivo": "Zell - stripper.mp3"
     },
     {
         "nombre": "Zell - Uber",
-        "archivo": MUSIC_BASE_URL + "music/Zell - Uber.mp3"
+        "archivo": "Zell - Uber.mp3"
     },
     {
         "nombre": "Zell - vamonos",
-        "archivo": MUSIC_BASE_URL + "music/Zell - vamonos.mp3"
+        "archivo": "Zell - vamonos.mp3"
     },
     {
         "nombre": "Zell - webcam",
-        "archivo": MUSIC_BASE_URL + "music/Zell - webcam.mp3"
+        "archivo": "Zell - webcam.mp3"
     },
     {
         "nombre": "Zell - Whats Up",
-        "archivo": MUSIC_BASE_URL + "music/Zell - Whats Up.mp3"
+        "archivo": "Zell - Whats Up.mp3"
     },
     {
         "nombre": "Zell, KNAK - ZiploK",
-        "archivo": MUSIC_BASE_URL + "music/Zell, KNAK - ZiploK.mp3"
+        "archivo": "Zell, KNAK - ZiploK.mp3"
     },
     {
         "nombre": "Zell, Tiago PZK - xq te enamoraste",
-        "archivo": MUSIC_BASE_URL + "music/Zell, Tiago PZK - xq te enamoraste.mp3"
+        "archivo": "Zell, Tiago PZK - xq te enamoraste.mp3"
     },
     {
         "nombre": "LOLO - OG KUSH",
-        "archivo": MUSIC_BASE_URL + "music/LOLO - OG KUSH.mp3"
+        "archivo": "LOLO - OG KUSH.mp3"
     },
     {
         "nombre": "MAGNESIO - COKER",
-        "archivo": MUSIC_BASE_URL + "music/MAGNESIO - COKER.mp3"
+        "archivo": "MAGNESIO - COKER.mp3"
     },
     {
         "nombre": "PILF - TANTA GIRA",
-        "archivo": MUSIC_BASE_URL + "music/PILF - TANTA GIRA.mp3"
+        "archivo": "PILF - TANTA GIRA.mp3"
     },
     {
         "nombre": "PILF - HIT",
-        "archivo": MUSIC_BASE_URL + "music/PILF - HIT.mp3"
+        "archivo": "PILF - HIT.mp3"
     },
     {
         "nombre": "PILF - FUMO UNO FUMO DOS",
-        "archivo": MUSIC_BASE_URL + "music/PILF - FUMO UNO FUMO DOS.mp3"
+        "archivo": "PILF - FUMO UNO FUMO DOS.mp3"
     },
     {
         "nombre": "PILF - ENTRO A LA CANCHA",
-        "archivo": MUSIC_BASE_URL + "music/PILF - ENTRO A LA CANCHA.mp3"
+        "archivo": "PILF - ENTRO A LA CANCHA.mp3"
     },
     {
         "nombre": "Zell, KNAK - Me Da Igual",
-        "archivo": MUSIC_BASE_URL + "music/Zell, KNAK - Me Da Igual.mp3"
+        "archivo": "Zell, KNAK - Me Da Igual.mp3"
     },
     {
         "nombre": "TURROBABY - Toda La Plata",
-        "archivo": MUSIC_BASE_URL + "music/TURROBABY - Toda La Plata.mp3"
+        "archivo": "TURROBABY - Toda La Plata.mp3"
     },
     {
         "nombre": "Red Shine, MAGNESIO - ELDEN RING",
-        "archivo": MUSIC_BASE_URL + "music/Red Shine, MAGNESIO - ELDEN RING.mp3"
+        "archivo": "Red Shine, MAGNESIO - ELDEN RING.mp3"
     },
     {
         "nombre": "TURROBABY, LITTLE BOOGIE - Emotes",
-        "archivo": MUSIC_BASE_URL + "music/TURROBABY, LITTLE BOOGIE - Emotes.mp3"
+        "archivo": "TURROBABY, LITTLE BOOGIE - Emotes.mp3"
     },
     /*
     {
         "nombre": "",
-        "archivo": MUSIC_BASE_URL + "music/"
+        "archivo": ""
     },
     */
 
@@ -3549,171 +3549,171 @@ const bibliotecaArtist = [
 const albumsData = [
     {
         "name": "Joseo exclusive club",
-        "cover": MUSIC_BASE_URL + "albums/JOSEO EXCLUSIVE CLUB/img_JOSEO EXCLUSIVE CLUB.png",
+        "cover": COVERS_BASE_URL + "img_JOSEO EXCLUSIVE CLUB.png",
         "songs": [
-            { "nombre": "LOLO - MINI LOLO", "archivo": MUSIC_BASE_URL + "albums/JOSEO EXCLUSIVE CLUB/LOLO - MINI LOLO.mp3" },
-            { "nombre": "LOLO - OSCUROoOo", "archivo": MUSIC_BASE_URL + "albums/JOSEO EXCLUSIVE CLUB/LOLO - OSCUROoOo.mp3" },
-            { "nombre": "LOLO - APHEX TWIN", "archivo": MUSIC_BASE_URL + "albums/JOSEO EXCLUSIVE CLUB/LOLO - APHEX TWIN.mp3" },
-            { "nombre": "LOLO - QUIEN FUE", "archivo": MUSIC_BASE_URL + "albums/JOSEO EXCLUSIVE CLUB/LOLO - QUIEN FUE.mp3" },
-            { "nombre": "LOLO - SYDNEY", "archivo": MUSIC_BASE_URL + "albums/JOSEO EXCLUSIVE CLUB/LOLO - SYDNEY.mp3" },
-            { "nombre": "LOLO - GASTEMOS MAS", "archivo": MUSIC_BASE_URL + "albums/JOSEO EXCLUSIVE CLUB/LOLO - GASTEMOS MAS.mp3" },
-            { "nombre": "LOLO - HATER", "archivo": MUSIC_BASE_URL + "albums/JOSEO EXCLUSIVE CLUB/LOLO - HATER.mp3" },
-            { "nombre": "LOLO - ALEJO ISAKK", "archivo": MUSIC_BASE_URL + "albums/JOSEO EXCLUSIVE CLUB/LOLO - ALEJO ISAKK.mp3" },
-            { "nombre": "LOLO - HOY SI QUEMO", "archivo": MUSIC_BASE_URL + "albums/JOSEO EXCLUSIVE CLUB/LOLO - HOY SI QUEMO.mp3" },
-            { "nombre": "LOLO - OG KUSH", "archivo": MUSIC_BASE_URL + "albums/JOSEO EXCLUSIVE CLUB/LOLO - OG KUSH.mp3" },
-            { "nombre": "LOLO - NO WAY", "archivo": MUSIC_BASE_URL + "albums/JOSEO EXCLUSIVE CLUB/LOLO - NO WAY.mp3" },
-            { "nombre": "LOLO - GAS DE ENERO", "archivo": MUSIC_BASE_URL + "albums/JOSEO EXCLUSIVE CLUB/LOLO - GAS DE ENERO.mp3" },
-            { "nombre": "LOLO - POP POP POP", "archivo": MUSIC_BASE_URL + "albums/JOSEO EXCLUSIVE CLUB/LOLO - POP POP POP.mp3" },
-            { "nombre": "LOLO - NOVIEMBRE", "archivo": MUSIC_BASE_URL + "albums/JOSEO EXCLUSIVE CLUB/LOLO - NOVIEMBRE.mp3" },
-            { "nombre": "LOLO - FRIO EN DICIEMBRE", "archivo": MUSIC_BASE_URL + "albums/JOSEO EXCLUSIVE CLUB/LOLO - FRIO EN DICIEMBRE.mp3" },
-            { "nombre": "LOLO - VASO DE A DOS", "archivo": MUSIC_BASE_URL + "albums/JOSEO EXCLUSIVE CLUB/LOLO - VASO DE A DOS.mp3" },
+            { "nombre": "LOLO - MINI LOLO", "archivo": "LOLO - MINI LOLO.mp3" },
+            { "nombre": "LOLO - OSCUROoOo", "archivo": "LOLO - OSCUROoOo.mp3" },
+            { "nombre": "LOLO - APHEX TWIN", "archivo": "LOLO - APHEX TWIN.mp3" },
+            { "nombre": "LOLO - QUIEN FUE", "archivo": "LOLO - QUIEN FUE.mp3" },
+            { "nombre": "LOLO - SYDNEY", "archivo": "LOLO - SYDNEY.mp3" },
+            { "nombre": "LOLO - GASTEMOS MAS", "archivo": "LOLO - GASTEMOS MAS.mp3" },
+            { "nombre": "LOLO - HATER", "archivo": "LOLO - HATER.mp3" },
+            { "nombre": "LOLO - ALEJO ISAKK", "archivo": "LOLO - ALEJO ISAKK.mp3" },
+            { "nombre": "LOLO - HOY SI QUEMO", "archivo": "LOLO - HOY SI QUEMO.mp3" },
+            { "nombre": "LOLO - OG KUSH", "archivo": "LOLO - OG KUSH.mp3" },
+            { "nombre": "LOLO - NO WAY", "archivo": "LOLO - NO WAY.mp3" },
+            { "nombre": "LOLO - GAS DE ENERO", "archivo": "LOLO - GAS DE ENERO.mp3" },
+            { "nombre": "LOLO - POP POP POP", "archivo": "LOLO - POP POP POP.mp3" },
+            { "nombre": "LOLO - NOVIEMBRE", "archivo": "LOLO - NOVIEMBRE.mp3" },
+            { "nombre": "LOLO - FRIO EN DICIEMBRE", "archivo": "LOLO - FRIO EN DICIEMBRE.mp3" },
+            { "nombre": "LOLO - VASO DE A DOS", "archivo": "LOLO - VASO DE A DOS.mp3" },
 
         ]
     },
     {
         "name": "Fro! 2",
-        "cover": MUSIC_BASE_URL + "albums/FRO! 2/img_FRO2.png",
+        "cover": COVERS_BASE_URL + "img_FRO2.png",
         "songs": [
-            { "nombre": "Frozouda - no le di un break", "archivo": MUSIC_BASE_URL + "albums/FRO! 2/Frozouda - no le di un break.mp3" },
-            { "nombre": "Frozouda - quitate las BAPE", "archivo": MUSIC_BASE_URL + "albums/FRO! 2/Frozouda - quitate las BAPE.mp3" },
-            { "nombre": "Frozouda - antipatico", "archivo": MUSIC_BASE_URL + "albums/FRO! 2/Frozouda - antipatico.mp3" },
-            { "nombre": "Frozouda - quitate los Jeans", "archivo": MUSIC_BASE_URL + "albums/FRO! 2/Frozouda - quitate los Jeans.mp3" },
-            { "nombre": "Frozouda - TOP !", "archivo": MUSIC_BASE_URL + "albums/FRO! 2/Frozouda - TOP !.mp3" },
-            { "nombre": "Frozouda , Cero , Cluster - plinko", "archivo": MUSIC_BASE_URL + "albums/FRO! 2/Frozouda , Cero , Cluster - plinko.mp3" },
-            { "nombre": "Frozouda - doble F con visa", "archivo": MUSIC_BASE_URL + "albums/FRO! 2/Frozouda - doble F con visa.mp3" },
+            { "nombre": "Frozouda - no le di un break", "archivo": "Frozouda - no le di un break.mp3" },
+            { "nombre": "Frozouda - quitate las BAPE", "archivo": "Frozouda - quitate las BAPE.mp3" },
+            { "nombre": "Frozouda - antipatico", "archivo": "Frozouda - antipatico.mp3" },
+            { "nombre": "Frozouda - quitate los Jeans", "archivo": "Frozouda - quitate los Jeans.mp3" },
+            { "nombre": "Frozouda - TOP !", "archivo": "Frozouda - TOP !.mp3" },
+            { "nombre": "Frozouda , Cero , Cluster - plinko", "archivo": "Frozouda , Cero , Cluster - plinko.mp3" },
+            { "nombre": "Frozouda - doble F con visa", "archivo": "Frozouda - doble F con visa.mp3" },
         ]
     },
     {
         "name": "Fro!",
-        "cover": MUSIC_BASE_URL + "albums/FRO!/img_FRO.png",
+        "cover": COVERS_BASE_URL + "img_FRO.png",
         "songs": [
-            { "nombre": "Frozouda, Jugo!, KNAK - chirlito", "archivo": MUSIC_BASE_URL + "albums/FRO!/Frozouda, Jugo!, KNAK - chirlito.mp3" },
-            { "nombre": "Frozouda, Cluster - hot box", "archivo": MUSIC_BASE_URL + "albums/FRO!/Frozouda, Cluster - hot box.mp3" },
-            { "nombre": "Frozouda - un goat siempre esta busy", "archivo": MUSIC_BASE_URL + "albums/FRO!/Frozouda - un goat siempre esta busy.mp3" },
-            { "nombre": "Frozouda - nicki nicole", "archivo": MUSIC_BASE_URL + "albums/FRO!/Frozouda - nicki nicole.mp3" },
-            { "nombre": "Frozouda - GAS O PORRO", "archivo": MUSIC_BASE_URL + "albums/FRO!/Frozouda - GAS O PORRO.mp3" },
-            { "nombre": "Frozouda - mama reza por mi", "archivo": MUSIC_BASE_URL + "albums/FRO!/Frozouda - mama reza por mi.mp3" },
-            { "nombre": "Frozouda - poema a mi nena", "archivo": MUSIC_BASE_URL + "albums/FRO!/Frozouda - poema a mi nena.mp3" },
-            { "nombre": "Frozouda - ahorrando para un fennec", "archivo": MUSIC_BASE_URL + "albums/FRO!/Frozouda - ahorrando para un fennec.mp3" },
-            { "nombre": "Frozouda - sugarrrush", "archivo": MUSIC_BASE_URL + "albums/FRO!/Frozouda - sugarrrush.mp3" },
-            { "nombre": "Frozouda, pabloxo - con los duros", "archivo": MUSIC_BASE_URL + "albums/FRO!/Frozouda, pabloxo - con los duros.mp3" },
-            { "nombre": "Frozouda - la cruz como a sampaoli", "archivo": MUSIC_BASE_URL + "albums/FRO!/Frozouda - la cruz como a sampaoli.mp3" },
+            { "nombre": "Frozouda, Jugo!, KNAK - chirlito", "archivo": "Frozouda, Jugo!, KNAK - chirlito.mp3" },
+            { "nombre": "Frozouda, Cluster - hot box", "archivo": "Frozouda, Cluster - hot box.mp3" },
+            { "nombre": "Frozouda - un goat siempre esta busy", "archivo": "Frozouda - un goat siempre esta busy.mp3" },
+            { "nombre": "Frozouda - nicki nicole", "archivo": "Frozouda - nicki nicole.mp3" },
+            { "nombre": "Frozouda - GAS O PORRO", "archivo": "Frozouda - GAS O PORRO.mp3" },
+            { "nombre": "Frozouda - mama reza por mi", "archivo": "Frozouda - mama reza por mi.mp3" },
+            { "nombre": "Frozouda - poema a mi nena", "archivo": "Frozouda - poema a mi nena.mp3" },
+            { "nombre": "Frozouda - ahorrando para un fennec", "archivo": "Frozouda - ahorrando para un fennec.mp3" },
+            { "nombre": "Frozouda - sugarrrush", "archivo": "Frozouda - sugarrrush.mp3" },
+            { "nombre": "Frozouda, pabloxo - con los duros", "archivo": "Frozouda, pabloxo - con los duros.mp3" },
+            { "nombre": "Frozouda - la cruz como a sampaoli", "archivo": "Frozouda - la cruz como a sampaoli.mp3" },
         ]
     },
     {
         "name": "grandes éxitos",
-        "cover": MUSIC_BASE_URL + "albums/GRANDES EXITOS/img_grandesexitos.png",
+        "cover": COVERS_BASE_URL + "img_grandesexitos.png",
         "songs": [
-            { "nombre": "Shako - Con Fines De Lucro", "archivo": MUSIC_BASE_URL + "albums/GRANDES EXITOS/Shako - Con Fines De Lucro.mp3" },
-            { "nombre": "Shako - elvira", "archivo": MUSIC_BASE_URL + "albums/GRANDES EXITOS/Shako - elvira.mp3" },
-            { "nombre": "Shako - es la vencida", "archivo": MUSIC_BASE_URL + "albums/GRANDES EXITOS/Shako - es la vencida.mp3" },
-            { "nombre": "Shako - vas a ver el alma mula", "archivo": MUSIC_BASE_URL + "albums/GRANDES EXITOS/Shako - vas a ver el alma mula.mp3" },
-            { "nombre": "Shako - roli rola", "archivo": MUSIC_BASE_URL + "albums/GRANDES EXITOS/Shako - roli rola.mp3" },
-            { "nombre": "Shako - press play to join party", "archivo": MUSIC_BASE_URL + "albums/GRANDES EXITOS/Shako - press play to join party.mp3" },
-            { "nombre": "Shako - Amigdalas", "archivo": MUSIC_BASE_URL + "albums/GRANDES EXITOS/Shako - Amigdalas.mp3" },
-            { "nombre": "Shako - Hotel", "archivo": MUSIC_BASE_URL + "albums/GRANDES EXITOS/Shako - Hotel.mp3" },
-            { "nombre": "Shako - 2030", "archivo": MUSIC_BASE_URL + "albums/GRANDES EXITOS/Shako - 2030.mp3" },
-            { "nombre": "Shako - Shako West", "archivo": MUSIC_BASE_URL + "albums/GRANDES EXITOS/Shako - Shako West.mp3" },
+            { "nombre": "Shako - Con Fines De Lucro", "archivo": "Shako - Con Fines De Lucro.mp3" },
+            { "nombre": "Shako - elvira", "archivo": "Shako - elvira.mp3" },
+            { "nombre": "Shako - es la vencida", "archivo": "Shako - es la vencida.mp3" },
+            { "nombre": "Shako - vas a ver el alma mula", "archivo": "Shako - vas a ver el alma mula.mp3" },
+            { "nombre": "Shako - roli rola", "archivo": "Shako - roli rola.mp3" },
+            { "nombre": "Shako - press play to join party", "archivo": "Shako - press play to join party.mp3" },
+            { "nombre": "Shako - Amigdalas", "archivo": "Shako - Amigdalas.mp3" },
+            { "nombre": "Shako - Hotel", "archivo": "Shako - Hotel.mp3" },
+            { "nombre": "Shako - 2030", "archivo": "Shako - 2030.mp3" },
+            { "nombre": "Shako - Shako West", "archivo": "Shako - Shako West.mp3" },
         ]
     },
     {
         "name": "Muy Imbecil",
-        "cover": MUSIC_BASE_URL + "albums/MUY IMBECIL/img_muyimbecil.png",
+        "cover": COVERS_BASE_URL + "img_muyimbecil.png",
         "songs": [
-            { "nombre": "Cluster, cero - Imbecil Anthem", "archivo": MUSIC_BASE_URL + "albums/MUY IMBECIL/Cluster, cero - Imbecil Anthem.mp3" },
-            { "nombre": "Cluster, Francis Jeremy - MUY IMBECIL", "archivo": MUSIC_BASE_URL + "albums/MUY IMBECIL/Cluster, Francis Jeremy - MUY IMBECIL.mp3" },
-            { "nombre": "Cluster, Icynico - Slime, slime, slime", "archivo": MUSIC_BASE_URL + "albums/MUY IMBECIL/Cluster, Icynico - Slime, slime, slime.mp3" },
-            { "nombre": "Cluster - Vuelvo a ser yo", "archivo": MUSIC_BASE_URL + "albums/MUY IMBECIL/Cluster - Vuelvo a ser yo.mp3" },
-            { "nombre": "Cluster, Doly Flackko - OREO", "archivo": MUSIC_BASE_URL + "albums/MUY IMBECIL/Cluster, Doly Flackko - OREO.mp3" },
-            { "nombre": "Cluster - Bagg", "archivo": MUSIC_BASE_URL + "albums/MUY IMBECIL/Cluster - Bagg.mp3" },
-            { "nombre": "Cluster, Gllato, Dreiko Estrada - TONTO, RETONTO Y REQUETETONTO", "archivo": MUSIC_BASE_URL + "albums/MUY IMBECIL/Cluster, Gllato, Dreiko Estrada - TONTO, RETONTO Y REQUETETONTO.mp3" },
-            { "nombre": "Cluster, Aleezok - CARGO", "archivo": MUSIC_BASE_URL + "albums/MUY IMBECIL/Cluster, Aleezok - CARGO.mp3" },
-            { "nombre": "Cluster - JUMPOUTHEHOUSE", "archivo": MUSIC_BASE_URL + "albums/MUY IMBECIL/Cluster - JUMPOUTHEHOUSE.mp3" },
-            { "nombre": "Cluster, enzocerobulto - FFumando", "archivo": MUSIC_BASE_URL + "albums/MUY IMBECIL/Cluster, enzocerobulto - FFumando.mp3" },
-            { "nombre": "Cluster - AK de Irak", "archivo": MUSIC_BASE_URL + "albums/MUY IMBECIL/Cluster - AK de Irak.mp3" },
-            { "nombre": "Cluster, Pabloxo - OTRA SEDA", "archivo": MUSIC_BASE_URL + "albums/MUY IMBECIL/Cluster, Pabloxo - OTRA SEDA.mp3" },
-            { "nombre": "Cluster - JEFFES", "archivo": MUSIC_BASE_URL + "albums/MUY IMBECIL/Cluster - JEFFES.mp3" },
-            { "nombre": "Cluster, Frozouda - TOP 1 CHARTS", "archivo": MUSIC_BASE_URL + "albums/MUY IMBECIL/Cluster, Frozouda - TOP 1 CHARTS.mp3" },
-            { "nombre": "Cluster - En cada verbo", "archivo": MUSIC_BASE_URL + "albums/MUY IMBECIL/Cluster - En cada verbo.mp3" },
+            { "nombre": "Cluster, cero - Imbecil Anthem", "archivo": "Cluster, cero - Imbecil Anthem.mp3" },
+            { "nombre": "Cluster, Francis Jeremy - MUY IMBECIL", "archivo": "Cluster, Francis Jeremy - MUY IMBECIL.mp3" },
+            { "nombre": "Cluster, Icynico - Slime, slime, slime", "archivo": "Cluster, Icynico - Slime, slime, slime.mp3" },
+            { "nombre": "Cluster - Vuelvo a ser yo", "archivo": "Cluster - Vuelvo a ser yo.mp3" },
+            { "nombre": "Cluster, Doly Flackko - OREO", "archivo": "Cluster, Doly Flackko - OREO.mp3" },
+            { "nombre": "Cluster - Bagg", "archivo": "Cluster - Bagg.mp3" },
+            { "nombre": "Cluster, Gllato, Dreiko Estrada - TONTO, RETONTO Y REQUETETONTO", "archivo": "Cluster, Gllato, Dreiko Estrada - TONTO, RETONTO Y REQUETETONTO.mp3" },
+            { "nombre": "Cluster, Aleezok - CARGO", "archivo": "Cluster, Aleezok - CARGO.mp3" },
+            { "nombre": "Cluster - JUMPOUTHEHOUSE", "archivo": "Cluster - JUMPOUTHEHOUSE.mp3" },
+            { "nombre": "Cluster, enzocerobulto - FFumando", "archivo": "Cluster, enzocerobulto - FFumando.mp3" },
+            { "nombre": "Cluster - AK de Irak", "archivo": "Cluster - AK de Irak.mp3" },
+            { "nombre": "Cluster, Pabloxo - OTRA SEDA", "archivo": "Cluster, Pabloxo - OTRA SEDA.mp3" },
+            { "nombre": "Cluster - JEFFES", "archivo": "Cluster - JEFFES.mp3" },
+            { "nombre": "Cluster, Frozouda - TOP 1 CHARTS", "archivo": "Cluster, Frozouda - TOP 1 CHARTS.mp3" },
+            { "nombre": "Cluster - En cada verbo", "archivo": "Cluster - En cada verbo.mp3" },
         ]
     },
     {
         "name": "PILF",
-        "cover": MUSIC_BASE_URL + "albums/PILF/img_pilf.png",
+        "cover": COVERS_BASE_URL + "img_pilf.png",
         "songs": [
-            { "nombre": "PILF - ENTRO A LA CANCHA", "archivo": MUSIC_BASE_URL + "albums/PILF/PILF - ENTRO A LA CANCHA.mp3" },
-            { "nombre": "PILF - FUMO UNO FUMO DOS", "archivo": MUSIC_BASE_URL + "albums/PILF/PILF - FUMO UNO FUMO DOS.mp3" },
-            { "nombre": "PILF - HIT", "archivo": MUSIC_BASE_URL + "albums/PILF/PILF - HIT.mp3" },
-            { "nombre": "PILF - MALVIAJAR", "archivo": MUSIC_BASE_URL + "albums/PILF/PILF - MALVIAJAR.mp3" },
-            { "nombre": "PILF - NABO", "archivo": MUSIC_BASE_URL + "albums/PILF/PILF - NABO.mp3" },
-            { "nombre": "PILF - NI ME ACUERDO", "archivo": MUSIC_BASE_URL + "albums/PILF/PILF - NI ME ACUERDO.mp3" },
-            { "nombre": "PILF - PILF", "archivo": MUSIC_BASE_URL + "albums/PILF/PILF - PILF.mp3" },
-            { "nombre": "PILF - ROMANCE TE PUEDO DAR", "archivo": MUSIC_BASE_URL + "albums/PILF/PILF - ROMANCE TE PUEDO DAR.mp3" },
-            { "nombre": "PILF - TANTA GIRA", "archivo": MUSIC_BASE_URL + "albums/PILF/PILF - TANTA GIRA.mp3" },
-            { "nombre": "PILF - YO SOY ASI", "archivo": MUSIC_BASE_URL + "albums/PILF/PILF - YO SOY ASI.mp3" },
+            { "nombre": "PILF - ENTRO A LA CANCHA", "archivo": "PILF - ENTRO A LA CANCHA.mp3" },
+            { "nombre": "PILF - FUMO UNO FUMO DOS", "archivo": "PILF - FUMO UNO FUMO DOS.mp3" },
+            { "nombre": "PILF - HIT", "archivo": "PILF - HIT.mp3" },
+            { "nombre": "PILF - MALVIAJAR", "archivo": "PILF - MALVIAJAR.mp3" },
+            { "nombre": "PILF - NABO", "archivo": "PILF - NABO.mp3" },
+            { "nombre": "PILF - NI ME ACUERDO", "archivo": "PILF - NI ME ACUERDO.mp3" },
+            { "nombre": "PILF - PILF", "archivo": "PILF - PILF.mp3" },
+            { "nombre": "PILF - ROMANCE TE PUEDO DAR", "archivo": "PILF - ROMANCE TE PUEDO DAR.mp3" },
+            { "nombre": "PILF - TANTA GIRA", "archivo": "PILF - TANTA GIRA.mp3" },
+            { "nombre": "PILF - YO SOY ASI", "archivo": "PILF - YO SOY ASI.mp3" },
 
         ]
     },
     {
         "name": "Goat Talk",
-        "cover": MUSIC_BASE_URL + "albums/GOAT TALK/img_goattalk.png",
+        "cover": COVERS_BASE_URL + "img_goattalk.png",
         "songs": [
-            { "nombre": "Zell - Zzz", "archivo": MUSIC_BASE_URL + "albums/GOAT TALK/Zell - Zzz.mp3" },
-            { "nombre": "Zell - iPhone", "archivo": MUSIC_BASE_URL + "albums/GOAT TALK/Zell - iPhone.mp3" },
-            { "nombre": "Zell - Starboy", "archivo": MUSIC_BASE_URL + "albums/GOAT TALK/Zell - Starboy.mp3" },
-            { "nombre": "Zell - Uber", "archivo": MUSIC_BASE_URL + "albums/GOAT TALK/Zell - Uber.mp3" },
-            { "nombre": "Zell - Whats Up", "archivo": MUSIC_BASE_URL + "albums/GOAT TALK/Zell - Whats Up.mp3" },
-            { "nombre": "Zell - Joven Ballin", "archivo": MUSIC_BASE_URL + "albums/GOAT TALK/Zell - Joven Ballin.mp3" },
-            { "nombre": "Zell, Rojuu - Bye Bye", "archivo": MUSIC_BASE_URL + "albums/GOAT TALK/Zell, Rojuu - Bye Bye.mp3" },
-            { "nombre": "Zell - Aura", "archivo": MUSIC_BASE_URL + "albums/GOAT TALK/Zell - Aura.mp3" },
-            { "nombre": "Zell - Cero Cero", "archivo": MUSIC_BASE_URL + "albums/GOAT TALK/Zell - Cero Cero.mp3" },
-            { "nombre": "Zell - Keep It Quiet", "archivo": MUSIC_BASE_URL + "albums/GOAT TALK/Zell - Keep It Quiet.mp3" },
-            { "nombre": "Zell - Kendall", "archivo": MUSIC_BASE_URL + "albums/GOAT TALK/Zell - Kendall.mp3" },
-            { "nombre": "Zell, KNAK - Me Da Igual", "archivo": MUSIC_BASE_URL + "albums/GOAT TALK/Zell, KNAK - Me Da Igual.mp3" },
-            { "nombre": "Zell - Otra Chance", "archivo": MUSIC_BASE_URL + "albums/GOAT TALK/Zell - Otra Chance.mp3" },
+            { "nombre": "Zell - Zzz", "archivo": "Zell - Zzz.mp3" },
+            { "nombre": "Zell - iPhone", "archivo": "Zell - iPhone.mp3" },
+            { "nombre": "Zell - Starboy", "archivo": "Zell - Starboy.mp3" },
+            { "nombre": "Zell - Uber", "archivo": "Zell - Uber.mp3" },
+            { "nombre": "Zell - Whats Up", "archivo": "Zell - Whats Up.mp3" },
+            { "nombre": "Zell - Joven Ballin", "archivo": "Zell - Joven Ballin.mp3" },
+            { "nombre": "Zell, Rojuu - Bye Bye", "archivo": "Zell, Rojuu - Bye Bye.mp3" },
+            { "nombre": "Zell - Aura", "archivo": "Zell - Aura.mp3" },
+            { "nombre": "Zell - Cero Cero", "archivo": "Zell - Cero Cero.mp3" },
+            { "nombre": "Zell - Keep It Quiet", "archivo": "Zell - Keep It Quiet.mp3" },
+            { "nombre": "Zell - Kendall", "archivo": "Zell - Kendall.mp3" },
+            { "nombre": "Zell, KNAK - Me Da Igual", "archivo": "Zell, KNAK - Me Da Igual.mp3" },
+            { "nombre": "Zell - Otra Chance", "archivo": "Zell - Otra Chance.mp3" },
         ]
     },
     {
         "name": "Ballin de verdad",
-        "cover": MUSIC_BASE_URL + "albums/BALLIN DE VERDAD/img_ballinfr.png",
+        "cover": COVERS_BASE_URL + "img_ballinfr.png",
         "songs": [
-            { "nombre": "Zell - que paso ayer", "archivo": MUSIC_BASE_URL + "albums/BALLIN DE VERDAD/Zell - que paso ayer.mp3" },
-            { "nombre": "Zell, Salastkbron - luna", "archivo": MUSIC_BASE_URL + "albums/BALLIN DE VERDAD/Zell, Salastkbron - luna.mp3" },
-            { "nombre": "Zell - ballin de verdad", "archivo": MUSIC_BASE_URL + "albums/BALLIN DE VERDAD/Zell - ballin de verdad.mp3" },
-            { "nombre": "Zell - calvin klein", "archivo": MUSIC_BASE_URL + "albums/BALLIN DE VERDAD/Zell - calvin klein.mp3" },
-            { "nombre": "Zell - diamante", "archivo": MUSIC_BASE_URL + "albums/BALLIN DE VERDAD/Zell - diamante.mp3" },
-            { "nombre": "Zell - diva", "archivo": MUSIC_BASE_URL + "albums/BALLIN DE VERDAD/Zell - diva.mp3" },
-            { "nombre": "Zell - humo", "archivo": MUSIC_BASE_URL + "albums/BALLIN DE VERDAD/Zell - humo.mp3" },
-            { "nombre": "Zell - piso 3", "archivo": MUSIC_BASE_URL + "albums/BALLIN DE VERDAD/Zell - piso 3.mp3" },
-            { "nombre": "Zell - que paso ayer", "archivo": MUSIC_BASE_URL + "albums/BALLIN DE VERDAD/Zell - que paso ayer.mp3" },
-            { "nombre": "Zell - Rainbow", "archivo": MUSIC_BASE_URL + "albums/BALLIN DE VERDAD/Zell - Rainbow.mp3" },
-            { "nombre": "Zell - stripper", "archivo": MUSIC_BASE_URL + "albums/BALLIN DE VERDAD/Zell - stripper.mp3" },
-            { "nombre": "Zell - vamonos", "archivo": MUSIC_BASE_URL + "albums/BALLIN DE VERDAD/Zell - vamonos.mp3" },
-            { "nombre": "Zell - webcam", "archivo": MUSIC_BASE_URL + "albums/BALLIN DE VERDAD/Zell - webcam.mp3" },
-            { "nombre": "Zell, Bhavi - nanana", "archivo": MUSIC_BASE_URL + "albums/BALLIN DE VERDAD/Zell, Bhavi - nanana.mp3" },
-            { "nombre": "Zell, Polima Westcoast - g wagon", "archivo": MUSIC_BASE_URL + "albums/BALLIN DE VERDAD/Zell, Polima Westcoast - g wagon.mp3" },
-            { "nombre": "Zell, Tiago PZK - xq te enamoraste", "archivo": MUSIC_BASE_URL + "albums/BALLIN DE VERDAD/Zell, Tiago PZK - xq te enamoraste.mp3" },
+            { "nombre": "Zell - que paso ayer", "archivo": "Zell - que paso ayer.mp3" },
+            { "nombre": "Zell, Salastkbron - luna", "archivo": "Zell, Salastkbron - luna.mp3" },
+            { "nombre": "Zell - ballin de verdad", "archivo": "Zell - ballin de verdad.mp3" },
+            { "nombre": "Zell - calvin klein", "archivo": "Zell - calvin klein.mp3" },
+            { "nombre": "Zell - diamante", "archivo": "Zell - diamante.mp3" },
+            { "nombre": "Zell - diva", "archivo": "Zell - diva.mp3" },
+            { "nombre": "Zell - humo", "archivo": "Zell - humo.mp3" },
+            { "nombre": "Zell - piso 3", "archivo": "Zell - piso 3.mp3" },
+            { "nombre": "Zell - que paso ayer", "archivo": "Zell - que paso ayer.mp3" },
+            { "nombre": "Zell - Rainbow", "archivo": "Zell - Rainbow.mp3" },
+            { "nombre": "Zell - stripper", "archivo": "Zell - stripper.mp3" },
+            { "nombre": "Zell - vamonos", "archivo": "Zell - vamonos.mp3" },
+            { "nombre": "Zell - webcam", "archivo": "Zell - webcam.mp3" },
+            { "nombre": "Zell, Bhavi - nanana", "archivo": "Zell, Bhavi - nanana.mp3" },
+            { "nombre": "Zell, Polima Westcoast - g wagon", "archivo": "Zell, Polima Westcoast - g wagon.mp3" },
+            { "nombre": "Zell, Tiago PZK - xq te enamoraste", "archivo": "Zell, Tiago PZK - xq te enamoraste.mp3" },
         ]
 
 
     },
     {
         "name": "I Love Wachas",
-        "cover": MUSIC_BASE_URL + "albums/I LOVE WACHAS/img_ilw.png",
+        "cover": COVERS_BASE_URL + "img_ilw.png",
         "songs": [
-            { "nombre": "TURROBABY - Toda La Plata", "archivo": MUSIC_BASE_URL + "albums/I LOVE WACHAS/TURROBABY - Toda La Plata.mp3" },
-            { "nombre": "TURROBABY - Bici Itau", "archivo": MUSIC_BASE_URL + "albums/I LOVE WACHAS/TURROBABY - Bici Itau.mp3" },
-            { "nombre": "TURROBABY - Cornudo Consciente", "archivo": MUSIC_BASE_URL + "albums/I LOVE WACHAS/TURROBABY - Cornudo Consciente.mp3" },
-            { "nombre": "TURROBABY - De Cote", "archivo": MUSIC_BASE_URL + "albums/I LOVE WACHAS/TURROBABY - De Cote.mp3" },
-            { "nombre": "TURROBABY - Franco Colapinto", "archivo": MUSIC_BASE_URL + "albums/I LOVE WACHAS/TURROBABY - Franco Colapinto.mp3" },
-            { "nombre": "TURROBABY - Lgante Y Wanda Nara", "archivo": MUSIC_BASE_URL + "albums/I LOVE WACHAS/TURROBABY - Lgante Y Wanda Nara.mp3" },
-            { "nombre": "TURROBABY - Sergio Massa", "archivo": MUSIC_BASE_URL + "albums/I LOVE WACHAS/TURROBABY - Sergio Massa.mp3" },
-            { "nombre": "TURROBABY - Toda La Plata", "archivo": MUSIC_BASE_URL + "albums/I LOVE WACHAS/TURROBABY - Toda La Plata.mp3" },
-            { "nombre": "TURROBABY - Wacha Flequilluda", "archivo": MUSIC_BASE_URL + "albums/I LOVE WACHAS/TURROBABY - Wacha Flequilluda.mp3" },
-            { "nombre": "TURROBABY, baby cashy - Colorada", "archivo": MUSIC_BASE_URL + "albums/I LOVE WACHAS/TURROBABY, baby cashy - Colorada.mp3" },
-            { "nombre": "TURROBABY, Doble P - ANTO ROCUZZO", "archivo": MUSIC_BASE_URL + "albums/I LOVE WACHAS/TURROBABY, Doble P - ANTO ROCUZZO.mp3" },
-            { "nombre": "TURROBABY, tussiwarriors, Ze Pequeña - Natalia Oreiro", "archivo": MUSIC_BASE_URL + "albums/I LOVE WACHAS/TURROBABY, tussiwarriors, Ze Pequeña - Natalia Oreiro.mp3" },
-            { "nombre": "TURROBABY, ZELL, Stiffy - Cara De Boludo", "archivo": MUSIC_BASE_URL + "albums/I LOVE WACHAS/TURROBABY, ZELL, Stiffy - Cara De Boludo.mp3" },
+            { "nombre": "TURROBABY - Toda La Plata", "archivo": "TURROBABY - Toda La Plata.mp3" },
+            { "nombre": "TURROBABY - Bici Itau", "archivo": "TURROBABY - Bici Itau.mp3" },
+            { "nombre": "TURROBABY - Cornudo Consciente", "archivo": "TURROBABY - Cornudo Consciente.mp3" },
+            { "nombre": "TURROBABY - De Cote", "archivo": "TURROBABY - De Cote.mp3" },
+            { "nombre": "TURROBABY - Franco Colapinto", "archivo": "TURROBABY - Franco Colapinto.mp3" },
+            { "nombre": "TURROBABY - Lgante Y Wanda Nara", "archivo": "TURROBABY - Lgante Y Wanda Nara.mp3" },
+            { "nombre": "TURROBABY - Sergio Massa", "archivo": "TURROBABY - Sergio Massa.mp3" },
+            { "nombre": "TURROBABY - Toda La Plata", "archivo": "TURROBABY - Toda La Plata.mp3" },
+            { "nombre": "TURROBABY - Wacha Flequilluda", "archivo": "TURROBABY - Wacha Flequilluda.mp3" },
+            { "nombre": "TURROBABY, baby cashy - Colorada", "archivo": "TURROBABY, baby cashy - Colorada.mp3" },
+            { "nombre": "TURROBABY, Doble P - ANTO ROCUZZO", "archivo": "TURROBABY, Doble P - ANTO ROCUZZO.mp3" },
+            { "nombre": "TURROBABY, tussiwarriors, Ze Pequeña - Natalia Oreiro", "archivo": "TURROBABY, tussiwarriors, Ze Pequeña - Natalia Oreiro.mp3" },
+            { "nombre": "TURROBABY, ZELL, Stiffy - Cara De Boludo", "archivo": "TURROBABY, ZELL, Stiffy - Cara De Boludo.mp3" },
 
 
 
@@ -3723,35 +3723,35 @@ const albumsData = [
     },
     {
         "name": "Muchas gracias autotune",
-        "cover": MUSIC_BASE_URL + "albums/MUCHAS GRACIAS AUTOTUNE/img_graciastune.png",
+        "cover": COVERS_BASE_URL + "img_graciastune.png",
         "songs": [
-            { "nombre": "TURROBABY - Aca y Alla y En Todos Lados", "archivo": MUSIC_BASE_URL + "albums/MUCHAS GRACIAS AUTOTUNE/TURROBABY - Aca y Alla y En Todos Lados.mp3" },
-            { "nombre": "TURROBABY - Filmemos Una Peli", "archivo": MUSIC_BASE_URL + "albums/MUCHAS GRACIAS AUTOTUNE/TURROBABY - Filmemos Una Peli.mp3" },
-            { "nombre": "TURROBABY - Mañana Me Voy De Gira", "archivo": MUSIC_BASE_URL + "albums/MUCHAS GRACIAS AUTOTUNE/TURROBABY - Mañana Me Voy De Gira.mp3" },
-            { "nombre": "TURROBABY - Yo Te Amo Toda", "archivo": MUSIC_BASE_URL + "albums/MUCHAS GRACIAS AUTOTUNE/TURROBABY - Yo Te Amo Toda.mp3" },
-            { "nombre": "TURROBABY, Bhavi - Parabrisas", "archivo": MUSIC_BASE_URL + "albums/MUCHAS GRACIAS AUTOTUNE/TURROBABY, Bhavi - Parabrisas.mp3" },
-            { "nombre": "TURROBABY, enzocerobulto - Las Seis", "archivo": MUSIC_BASE_URL + "albums/MUCHAS GRACIAS AUTOTUNE/TURROBABY, enzocerobulto - Las Seis.mp3" },
-            { "nombre": "TURROBABY, Lolo OG - Lovebombing", "archivo": MUSIC_BASE_URL + "albums/MUCHAS GRACIAS AUTOTUNE/TURROBABY, Lolo OG - Lovebombing.mp3" },
-            { "nombre": "TURROBABY, ZELL - Inter De Miami", "archivo": MUSIC_BASE_URL + "albums/MUCHAS GRACIAS AUTOTUNE/TURROBABY, ZELL - Inter De Miami.mp3" },
+            { "nombre": "TURROBABY - Aca y Alla y En Todos Lados", "archivo": "TURROBABY - Aca y Alla y En Todos Lados.mp3" },
+            { "nombre": "TURROBABY - Filmemos Una Peli", "archivo": "TURROBABY - Filmemos Una Peli.mp3" },
+            { "nombre": "TURROBABY - Mañana Me Voy De Gira", "archivo": "TURROBABY - Mañana Me Voy De Gira.mp3" },
+            { "nombre": "TURROBABY - Yo Te Amo Toda", "archivo": "TURROBABY - Yo Te Amo Toda.mp3" },
+            { "nombre": "TURROBABY, Bhavi - Parabrisas", "archivo": "TURROBABY, Bhavi - Parabrisas.mp3" },
+            { "nombre": "TURROBABY, enzocerobulto - Las Seis", "archivo": "TURROBABY, enzocerobulto - Las Seis.mp3" },
+            { "nombre": "TURROBABY, Lolo OG - Lovebombing", "archivo": "TURROBABY, Lolo OG - Lovebombing.mp3" },
+            { "nombre": "TURROBABY, ZELL - Inter De Miami", "archivo": "TURROBABY, ZELL - Inter De Miami.mp3" },
         ]
 
 
     },
     {
         "name": "blackalbum",
-        "cover": MUSIC_BASE_URL + "albums/blackalbum/img_blackalbum.png",
+        "cover": COVERS_BASE_URL + "img_blackalbum.png",
         "songs": [
-            { "nombre": "enzocerobulto, liluno - Pullop", "archivo": MUSIC_BASE_URL + "albums/blackalbum/enzocerobulto, liluno - Pullop.mp3" },
-            { "nombre": "enzocerobulto - Comoledoy", "archivo": MUSIC_BASE_URL + "albums/blackalbum/enzocerobulto - Comoledoy.mp3" },
-            { "nombre": "enzocerobulto - Esta nota", "archivo": MUSIC_BASE_URL + "albums/blackalbum/enzocerobulto - Esta nota.mp3" },
-            { "nombre": "enzocerobulto - partexparte", "archivo": MUSIC_BASE_URL + "albums/blackalbum/enzocerobulto - partexparte.mp3" },
-            { "nombre": "enzocerobulto - perdiendo", "archivo": MUSIC_BASE_URL + "albums/blackalbum/enzocerobulto - perdiendo.mp3" },
-            { "nombre": "enzocerobulto - Toda la culpa es mia", "archivo": MUSIC_BASE_URL + "albums/blackalbum/enzocerobulto - Toda la culpa es mia.mp3" },
-            { "nombre": "enzocerobulto - w el filo", "archivo": MUSIC_BASE_URL + "albums/blackalbum/enzocerobulto - w el filo.mp3" },
-            { "nombre": "enzocerobulto, J Bern - xdentromuerto", "archivo": MUSIC_BASE_URL + "albums/blackalbum/enzocerobulto, J Bern - xdentromuerto.mp3" },
-            { "nombre": "enzocerobulto, Komp - Como antes", "archivo": MUSIC_BASE_URL + "albums/blackalbum/enzocerobulto, Komp - Como antes.mp3" },
-            { "nombre": "enzocerobulto, Komp - Fe Intacta", "archivo": MUSIC_BASE_URL + "albums/blackalbum/enzocerobulto, Komp - Fe Intacta.mp3" },
-            { "nombre": "enzocerobulto, pa2k - w el K1", "archivo": MUSIC_BASE_URL + "albums/blackalbum/enzocerobulto, pa2k - w el K1.mp3" },
+            { "nombre": "enzocerobulto, liluno - Pullop", "archivo": "enzocerobulto, liluno - Pullop.mp3" },
+            { "nombre": "enzocerobulto - Comoledoy", "archivo": "enzocerobulto - Comoledoy.mp3" },
+            { "nombre": "enzocerobulto - Esta nota", "archivo": "enzocerobulto - Esta nota.mp3" },
+            { "nombre": "enzocerobulto - partexparte", "archivo": "enzocerobulto - partexparte.mp3" },
+            { "nombre": "enzocerobulto - perdiendo", "archivo": "enzocerobulto - perdiendo.mp3" },
+            { "nombre": "enzocerobulto - Toda la culpa es mia", "archivo": "enzocerobulto - Toda la culpa es mia.mp3" },
+            { "nombre": "enzocerobulto - w el filo", "archivo": "enzocerobulto - w el filo.mp3" },
+            { "nombre": "enzocerobulto, J Bern - xdentromuerto", "archivo": "enzocerobulto, J Bern - xdentromuerto.mp3" },
+            { "nombre": "enzocerobulto, Komp - Como antes", "archivo": "enzocerobulto, Komp - Como antes.mp3" },
+            { "nombre": "enzocerobulto, Komp - Fe Intacta", "archivo": "enzocerobulto, Komp - Fe Intacta.mp3" },
+            { "nombre": "enzocerobulto, pa2k - w el K1", "archivo": "enzocerobulto, pa2k - w el K1.mp3" },
 
 
         ]
@@ -3760,293 +3760,293 @@ const albumsData = [
     },
     {
         "name": "Big Moli 3",
-        "cover": MUSIC_BASE_URL + "albums/Big Moli 3/img_bigmoli.png",
+        "cover": COVERS_BASE_URL + "img_bigmoli.png",
         "songs": [
-            { "nombre": "rageylo - coscu army", "archivo": MUSIC_BASE_URL + "albums/Big Moli 3/rageylo - coscu army.mp3" },
-            { "nombre": "rageylo - Dinero Llueve", "archivo": MUSIC_BASE_URL + "albums/Big Moli 3/rageylo - Dinero Llueve.mp3" },
-            { "nombre": "rageylo, Banatroll - Haz Mas Dinero", "archivo": MUSIC_BASE_URL + "albums/Big Moli 3/rageylo, Banatroll - Haz Mas Dinero.mp3" },
-            { "nombre": "rageylo - Joda estoy Gede", "archivo": MUSIC_BASE_URL + "albums/Big Moli 3/rageylo - Joda estoy Gede.mp3" },
-            { "nombre": "rageylo - Moscu", "archivo": MUSIC_BASE_URL + "albums/Big Moli 3/rageylo - Moscu.mp3" },
-            { "nombre": "rageylo - Quemando Solo", "archivo": MUSIC_BASE_URL + "albums/Big Moli 3/rageylo - Quemando Solo.mp3" },
-            { "nombre": "rageylo, Banatroll - Toy Ganado", "archivo": MUSIC_BASE_URL + "albums/Big Moli 3/rageylo, Banatroll - Toy Ganado.mp3" }
+            { "nombre": "rageylo - coscu army", "archivo": "rageylo - coscu army.mp3" },
+            { "nombre": "rageylo - Dinero Llueve", "archivo": "rageylo - Dinero Llueve.mp3" },
+            { "nombre": "rageylo, Banatroll - Haz Mas Dinero", "archivo": "rageylo, Banatroll - Haz Mas Dinero.mp3" },
+            { "nombre": "rageylo - Joda estoy Gede", "archivo": "rageylo - Joda estoy Gede.mp3" },
+            { "nombre": "rageylo - Moscu", "archivo": "rageylo - Moscu.mp3" },
+            { "nombre": "rageylo - Quemando Solo", "archivo": "rageylo - Quemando Solo.mp3" },
+            { "nombre": "rageylo, Banatroll - Toy Ganado", "archivo": "rageylo, Banatroll - Toy Ganado.mp3" }
         ]
     },
     {
         "name": "Murio la Musica",
-        "cover": MUSIC_BASE_URL + "albums/MURIO LA MUSICA/img_muriomusica.png",
+        "cover": COVERS_BASE_URL + "img_muriomusica.png",
         "songs": [
-            { "nombre": "SWAGGERBOYZ - 24 7", "archivo": MUSIC_BASE_URL + "albums/MURIO LA MUSICA/SWAGGERBOYZ - 24 7.mp3" },
-            { "nombre": "SWAGGERBOYZ - COF COF", "archivo": MUSIC_BASE_URL + "albums/MURIO LA MUSICA/SWAGGERBOYZ - COF COF.mp3" },
-            { "nombre": "SWAGGERBOYZ - ESTOY RE PANCHO", "archivo": MUSIC_BASE_URL + "albums/MURIO LA MUSICA/SWAGGERBOYZ - ESTOY RE PANCHO.mp3" },
-            { "nombre": "SWAGGERBOYZ - GUISO", "archivo": MUSIC_BASE_URL + "albums/MURIO LA MUSICA/SWAGGERBOYZ - GUISO.mp3" },
-            { "nombre": "SWAGGERBOYZ - ME LO MUEVE", "archivo": MUSIC_BASE_URL + "albums/MURIO LA MUSICA/SWAGGERBOYZ - ME LO MUEVE.mp3" },
-            { "nombre": "SWAGGERBOYZ - MEJORES HOES", "archivo": MUSIC_BASE_URL + "albums/MURIO LA MUSICA/SWAGGERBOYZ - MEJORES HOES.mp3" },
-            { "nombre": "SWAGGERBOYZ - MUSICA ANTI VIEJOS", "archivo": MUSIC_BASE_URL + "albums/MURIO LA MUSICA/SWAGGERBOYZ - MUSICA ANTI VIEJOS.mp3" },
-            { "nombre": "SWAGGERBOYZ - PIE EN LA PISTA", "archivo": MUSIC_BASE_URL + "albums/MURIO LA MUSICA/SWAGGERBOYZ - PIE EN LA PISTA.mp3" },
-            { "nombre": "SWAGGERBOYZ - SHH CERRA EL ORTO VIEJO ROCKERO", "archivo": MUSIC_BASE_URL + "albums/MURIO LA MUSICA/SWAGGERBOYZ - SHH CERRA EL ORTO VIEJO ROCKERO.mp3" },
-            { "nombre": "SWAGGERBOYZ - TRES PATITOS", "archivo": MUSIC_BASE_URL + "albums/MURIO LA MUSICA/SWAGGERBOYZ - TRES PATITOS.mp3" },
-            { "nombre": "SWAGGERBOYZ - YO ESTOY", "archivo": MUSIC_BASE_URL + "albums/MURIO LA MUSICA/SWAGGERBOYZ - YO ESTOY.mp3" },
-            { "nombre": "SWAGGERBOYZ, Joshu Joshu - ESTO ES ENCHUFE LA CHUPA EL HIP HOP", "archivo": MUSIC_BASE_URL + "albums/MURIO LA MUSICA/SWAGGERBOYZ, Joshu Joshu - ESTO ES ENCHUFE LA CHUPA EL HIP HOP.mp3" },
-            { "nombre": "SWAGGERBOYZ, Joshu Joshu, Matiasenchufe - FERNET", "archivo": MUSIC_BASE_URL + "albums/MURIO LA MUSICA/SWAGGERBOYZ, Joshu Joshu, Matiasenchufe - FERNET.mp3" },
-            { "nombre": "SWAGGERBOYZ, NEO PISTEA - MEJORALITO", "archivo": MUSIC_BASE_URL + "albums/MURIO LA MUSICA/SWAGGERBOYZ, NEO PISTEA - MEJORALITO.mp3" },
-            { "nombre": "SWAGGERBOYZ, Polus - REMERA I LOVE SWAG", "archivo": MUSIC_BASE_URL + "albums/MURIO LA MUSICA/SWAGGERBOYZ, Polus - REMERA I LOVE SWAG.mp3" },
+            { "nombre": "SWAGGERBOYZ - 24 7", "archivo": "SWAGGERBOYZ - 24 7.mp3" },
+            { "nombre": "SWAGGERBOYZ - COF COF", "archivo": "SWAGGERBOYZ - COF COF.mp3" },
+            { "nombre": "SWAGGERBOYZ - ESTOY RE PANCHO", "archivo": "SWAGGERBOYZ - ESTOY RE PANCHO.mp3" },
+            { "nombre": "SWAGGERBOYZ - GUISO", "archivo": "SWAGGERBOYZ - GUISO.mp3" },
+            { "nombre": "SWAGGERBOYZ - ME LO MUEVE", "archivo": "SWAGGERBOYZ - ME LO MUEVE.mp3" },
+            { "nombre": "SWAGGERBOYZ - MEJORES HOES", "archivo": "SWAGGERBOYZ - MEJORES HOES.mp3" },
+            { "nombre": "SWAGGERBOYZ - MUSICA ANTI VIEJOS", "archivo": "SWAGGERBOYZ - MUSICA ANTI VIEJOS.mp3" },
+            { "nombre": "SWAGGERBOYZ - PIE EN LA PISTA", "archivo": "SWAGGERBOYZ - PIE EN LA PISTA.mp3" },
+            { "nombre": "SWAGGERBOYZ - SHH CERRA EL ORTO VIEJO ROCKERO", "archivo": "SWAGGERBOYZ - SHH CERRA EL ORTO VIEJO ROCKERO.mp3" },
+            { "nombre": "SWAGGERBOYZ - TRES PATITOS", "archivo": "SWAGGERBOYZ - TRES PATITOS.mp3" },
+            { "nombre": "SWAGGERBOYZ - YO ESTOY", "archivo": "SWAGGERBOYZ - YO ESTOY.mp3" },
+            { "nombre": "SWAGGERBOYZ, Joshu Joshu - ESTO ES ENCHUFE LA CHUPA EL HIP HOP", "archivo": "SWAGGERBOYZ, Joshu Joshu - ESTO ES ENCHUFE LA CHUPA EL HIP HOP.mp3" },
+            { "nombre": "SWAGGERBOYZ, Joshu Joshu, Matiasenchufe - FERNET", "archivo": "SWAGGERBOYZ, Joshu Joshu, Matiasenchufe - FERNET.mp3" },
+            { "nombre": "SWAGGERBOYZ, NEO PISTEA - MEJORALITO", "archivo": "SWAGGERBOYZ, NEO PISTEA - MEJORALITO.mp3" },
+            { "nombre": "SWAGGERBOYZ, Polus - REMERA I LOVE SWAG", "archivo": "SWAGGERBOYZ, Polus - REMERA I LOVE SWAG.mp3" },
 
         ]
     },
     {
         "name": "Plug Park",
-        "cover": MUSIC_BASE_URL + "albums/Plug Park/img_plugpark.png",
+        "cover": COVERS_BASE_URL + "img_plugpark.png",
         "songs": [
-            { "nombre": "SWAGGERBOYZ - 8 JEANS", "archivo": MUSIC_BASE_URL + "albums/Plug Park/SWAGGERBOYZ - 8 JEANS.mp3" },
-            { "nombre": "SWAGGERBOYZ - DESDE LOS 14", "archivo": MUSIC_BASE_URL + "albums/Plug Park/SWAGGERBOYZ - DESDE LOS 14.mp3" },
-            { "nombre": "SWAGGERBOYZ - MUSICA DE ASCENSOR", "archivo": MUSIC_BASE_URL + "albums/Plug Park/SWAGGERBOYZ - MUSICA DE ASCENSOR.mp3" },
-            { "nombre": "SWAGGERBOYZ - PETER GRIFFIN", "archivo": MUSIC_BASE_URL + "albums/Plug Park/SWAGGERBOYZ - PETER GRIFFIN.mp3" },
-            { "nombre": "SWAGGERBOYZ - ZAZA", "archivo": MUSIC_BASE_URL + "albums/Plug Park/SWAGGERBOYZ - ZAZA.mp3" },
-            { "nombre": "SWAGGERBOYZ - BB BELT", "archivo": MUSIC_BASE_URL + "albums/Plug Park/SWAGGERBOYZ - BB BELT.mp3" },
-            { "nombre": "SWAGGERBOYZ - DORITOS", "archivo": MUSIC_BASE_URL + "albums/Plug Park/SWAGGERBOYZ - DORITOS.mp3" },
-            { "nombre": "SWAGGERBOYZ - FIDO DIDO", "archivo": MUSIC_BASE_URL + "albums/Plug Park/SWAGGERBOYZ - FIDO DIDO.mp3" },
-            { "nombre": "SWAGGERBOYZ - HOMBRE SWAG", "archivo": MUSIC_BASE_URL + "albums/Plug Park/SWAGGERBOYZ - HOMBRE SWAG.mp3" },
-            { "nombre": "SWAGGERBOYZ - LE PIDO A DIOS", "archivo": MUSIC_BASE_URL + "albums/Plug Park/SWAGGERBOYZ - LE PIDO A DIOS.mp3" },
-            { "nombre": "SWAGGERBOYZ - NO SE", "archivo": MUSIC_BASE_URL + "albums/Plug Park/SWAGGERBOYZ - NO SE.mp3" },
-            { "nombre": "SWAGGERBOYZ - OKAY OKAY", "archivo": MUSIC_BASE_URL + "albums/Plug Park/SWAGGERBOYZ - OKAY OKAY.mp3" },
-            { "nombre": "SWAGGERBOYZ - PALITO DE LA SELVA", "archivo": MUSIC_BASE_URL + "albums/Plug Park/SWAGGERBOYZ - PALITO DE LA SELVA.mp3" },
-            { "nombre": "SWAGGERBOYZ - SWAGBOI", "archivo": MUSIC_BASE_URL + "albums/Plug Park/SWAGGERBOYZ - SWAGBOI.mp3" },
-            { "nombre": "SWAGGERBOYZ - Otro idioma", "archivo": MUSIC_BASE_URL + "albums/Plug Park/SWAGGERBOYZ - Otro idioma.mp3" },
-            { "nombre": "SWAGGERBOYZ - FIDO DIDO", "archivo": MUSIC_BASE_URL + "albums/Plug Park/SWAGGERBOYZ - FIDO DIDO.mp3" },
+            { "nombre": "SWAGGERBOYZ - 8 JEANS", "archivo": "SWAGGERBOYZ - 8 JEANS.mp3" },
+            { "nombre": "SWAGGERBOYZ - DESDE LOS 14", "archivo": "SWAGGERBOYZ - DESDE LOS 14.mp3" },
+            { "nombre": "SWAGGERBOYZ - MUSICA DE ASCENSOR", "archivo": "SWAGGERBOYZ - MUSICA DE ASCENSOR.mp3" },
+            { "nombre": "SWAGGERBOYZ - PETER GRIFFIN", "archivo": "SWAGGERBOYZ - PETER GRIFFIN.mp3" },
+            { "nombre": "SWAGGERBOYZ - ZAZA", "archivo": "SWAGGERBOYZ - ZAZA.mp3" },
+            { "nombre": "SWAGGERBOYZ - BB BELT", "archivo": "SWAGGERBOYZ - BB BELT.mp3" },
+            { "nombre": "SWAGGERBOYZ - DORITOS", "archivo": "SWAGGERBOYZ - DORITOS.mp3" },
+            { "nombre": "SWAGGERBOYZ - FIDO DIDO", "archivo": "SWAGGERBOYZ - FIDO DIDO.mp3" },
+            { "nombre": "SWAGGERBOYZ - HOMBRE SWAG", "archivo": "SWAGGERBOYZ - HOMBRE SWAG.mp3" },
+            { "nombre": "SWAGGERBOYZ - LE PIDO A DIOS", "archivo": "SWAGGERBOYZ - LE PIDO A DIOS.mp3" },
+            { "nombre": "SWAGGERBOYZ - NO SE", "archivo": "SWAGGERBOYZ - NO SE.mp3" },
+            { "nombre": "SWAGGERBOYZ - OKAY OKAY", "archivo": "SWAGGERBOYZ - OKAY OKAY.mp3" },
+            { "nombre": "SWAGGERBOYZ - PALITO DE LA SELVA", "archivo": "SWAGGERBOYZ - PALITO DE LA SELVA.mp3" },
+            { "nombre": "SWAGGERBOYZ - SWAGBOI", "archivo": "SWAGGERBOYZ - SWAGBOI.mp3" },
+            { "nombre": "SWAGGERBOYZ - Otro idioma", "archivo": "SWAGGERBOYZ - Otro idioma.mp3" },
+            { "nombre": "SWAGGERBOYZ - FIDO DIDO", "archivo": "SWAGGERBOYZ - FIDO DIDO.mp3" },
         ]
     },
     {
         "name": "Hacelos Concha Agus",
-        "cover": MUSIC_BASE_URL + "albums/Hacelos Concha Agus/img_hacelosconcha.png",
+        "cover": COVERS_BASE_URL + "img_hacelosconcha.png",
         "songs": [
-            { "nombre": "AGUSFORTNITE2008 - DEJO EL HUMO", "archivo": MUSIC_BASE_URL + "albums/Hacelos Concha Agus/AGUSFORTNITE2008 - DEJO EL HUMO.mp3" },
-            { "nombre": "AGUSFORTNITE2008 - ELLA ME LLAMA", "archivo": MUSIC_BASE_URL + "albums/Hacelos Concha Agus/AGUSFORTNITE2008 - ELLA ME LLAMA.mp3" },
-            { "nombre": "AGUSFORTNITE2008 - ENCONTRATE A VOS", "archivo": MUSIC_BASE_URL + "albums/Hacelos Concha Agus/AGUSFORTNITE2008 - ENCONTRATE A VOS.mp3" },
-            { "nombre": "AGUSFORTNITE2008 - MENTIR", "archivo": MUSIC_BASE_URL + "albums/Hacelos Concha Agus/AGUSFORTNITE2008 - MENTIR.mp3" },
-            { "nombre": "AGUSFORTNITE2008 - VIP DEL VIP", "archivo": MUSIC_BASE_URL + "albums/Hacelos Concha Agus/AGUSFORTNITE2008 - VIP DEL VIP.mp3" },
-            { "nombre": "AGUSFORTNITE2008 - YO ESTOY EN UNA Y ELLA EN 4", "archivo": MUSIC_BASE_URL + "albums/Hacelos Concha Agus/AGUSFORTNITE2008 - YO ESTOY EN UNA Y ELLA EN 4.mp3" },
-            { "nombre": "AGUSFORTNITE2008 - HOTEL EN HOTEL", "archivo": MUSIC_BASE_URL + "albums/Hacelos Concha Agus/AGUSFORTNITE2008 - HOTEL EN HOTEL.mp3" },
-            { "nombre": "AGUSFORTNITE2008 - VUELVO A FUMAR", "archivo": MUSIC_BASE_URL + "albums/Hacelos Concha Agus/AGUSFORTNITE2008 - VUELVO A FUMAR.mp3" },
-            { "nombre": "AGUSFORTNITE2008, Stiffy, DILLOM - EL MOROCHO EL RUBIO Y EL COLO", "archivo": MUSIC_BASE_URL + "albums/Hacelos Concha Agus/AGUSFORTNITE2008, Stiffy, DILLOM - EL MOROCHO EL RUBIO Y EL COLO.mp3" },
-            { "nombre": "AGUSFORTNITE2008, Stiffy - GOFUE", "archivo": MUSIC_BASE_URL + "albums/Hacelos Concha Agus/AGUSFORTNITE2008, Stiffy - GOFUE.mp3" },
-            { "nombre": "AGUSFORTNITE2008 - SWAGGEANDO EN EL BANDO", "archivo": MUSIC_BASE_URL + "albums/Hacelos Concha Agus/AGUSFORTNITE2008 - SWAGGEANDO EN EL BANDO.mp3" },
-            { "nombre": "AGUSFORTNITE2008 - LOS HAGO CONCHA", "archivo": MUSIC_BASE_URL + "albums/Hacelos Concha Agus/AGUSFORTNITE2008 - LOS HAGO CONCHA.mp3" },
+            { "nombre": "AGUSFORTNITE2008 - DEJO EL HUMO", "archivo": "AGUSFORTNITE2008 - DEJO EL HUMO.mp3" },
+            { "nombre": "AGUSFORTNITE2008 - ELLA ME LLAMA", "archivo": "AGUSFORTNITE2008 - ELLA ME LLAMA.mp3" },
+            { "nombre": "AGUSFORTNITE2008 - ENCONTRATE A VOS", "archivo": "AGUSFORTNITE2008 - ENCONTRATE A VOS.mp3" },
+            { "nombre": "AGUSFORTNITE2008 - MENTIR", "archivo": "AGUSFORTNITE2008 - MENTIR.mp3" },
+            { "nombre": "AGUSFORTNITE2008 - VIP DEL VIP", "archivo": "AGUSFORTNITE2008 - VIP DEL VIP.mp3" },
+            { "nombre": "AGUSFORTNITE2008 - YO ESTOY EN UNA Y ELLA EN 4", "archivo": "AGUSFORTNITE2008 - YO ESTOY EN UNA Y ELLA EN 4.mp3" },
+            { "nombre": "AGUSFORTNITE2008 - HOTEL EN HOTEL", "archivo": "AGUSFORTNITE2008 - HOTEL EN HOTEL.mp3" },
+            { "nombre": "AGUSFORTNITE2008 - VUELVO A FUMAR", "archivo": "AGUSFORTNITE2008 - VUELVO A FUMAR.mp3" },
+            { "nombre": "AGUSFORTNITE2008, Stiffy, DILLOM - EL MOROCHO EL RUBIO Y EL COLO", "archivo": "AGUSFORTNITE2008, Stiffy, DILLOM - EL MOROCHO EL RUBIO Y EL COLO.mp3" },
+            { "nombre": "AGUSFORTNITE2008, Stiffy - GOFUE", "archivo": "AGUSFORTNITE2008, Stiffy - GOFUE.mp3" },
+            { "nombre": "AGUSFORTNITE2008 - SWAGGEANDO EN EL BANDO", "archivo": "AGUSFORTNITE2008 - SWAGGEANDO EN EL BANDO.mp3" },
+            { "nombre": "AGUSFORTNITE2008 - LOS HAGO CONCHA", "archivo": "AGUSFORTNITE2008 - LOS HAGO CONCHA.mp3" },
         ]
     },
     {
         "name": "Hacelos Concha Stiffy",
-        "cover": MUSIC_BASE_URL + "albums/Hacelos Concha Stiffy/img_hacelosconchast.png",
+        "cover": COVERS_BASE_URL + "img_hacelosconchast.png",
         "songs": [
-            { "nombre": "Stiffy - DISFRUTAR", "archivo": MUSIC_BASE_URL + "albums/Hacelos Concha Stiffy/Stiffy - DISFRUTAR.mp3" },
-            { "nombre": "Stiffy - escudo y espada", "archivo": MUSIC_BASE_URL + "albums/Hacelos Concha Stiffy/Stiffy - escudo y espada.mp3" },
-            { "nombre": "Stiffy - GUASO BALLS Z", "archivo": MUSIC_BASE_URL + "albums/Hacelos Concha Stiffy/Stiffy - GUASO BALLS Z.mp3" },
-            { "nombre": "Stiffy - LOS DOS", "archivo": MUSIC_BASE_URL + "albums/Hacelos Concha Stiffy/Stiffy - LOS DOS.mp3" },
-            { "nombre": "Stiffy - NO ME CANSO", "archivo": MUSIC_BASE_URL + "albums/Hacelos Concha Stiffy/Stiffy - NO ME CANSO.mp3" },
-            { "nombre": "Stiffy - SIEMPRE FUMO PORRO", "archivo": MUSIC_BASE_URL + "albums/Hacelos Concha Stiffy/Stiffy - SIEMPRE FUMO PORRO.mp3" },
-            { "nombre": "Stiffy - YA CASI", "archivo": MUSIC_BASE_URL + "albums/Hacelos Concha Stiffy/Stiffy - YA CASI.mp3" },
-            { "nombre": "Stiffy - MECHINSTRONGAS", "archivo": MUSIC_BASE_URL + "albums/Hacelos Concha Stiffy/Stiffy - MECHINSTRONGAS.mp3" },
-            { "nombre": "Stiffy - NO ES LO QUE PENSAS", "archivo": MUSIC_BASE_URL + "albums/Hacelos Concha Stiffy/Stiffy - NO ES LO QUE PENSAS.mp3" },
-            { "nombre": "Stiffy - NO LA CUELGO", "archivo": MUSIC_BASE_URL + "albums/Hacelos Concha Stiffy/Stiffy - NO LA CUELGO.mp3" },
-            { "nombre": "Stiffy - PEGO FLORES", "archivo": MUSIC_BASE_URL + "albums/Hacelos Concha Stiffy/Stiffy - PEGO FLORES.mp3" },
-            { "nombre": "Stiffy - SIEMPRE FUMO PORRO", "archivo": MUSIC_BASE_URL + "albums/Hacelos Concha Stiffy/Stiffy - SIEMPRE FUMO PORRO.mp3" },
-            { "nombre": "Stiffy - WACHA LOCA", "archivo": MUSIC_BASE_URL + "albums/Hacelos Concha Stiffy/Stiffy - WACHA LOCA.mp3" },
-            { "nombre": "Stiffy - WACKAFLOKA", "archivo": MUSIC_BASE_URL + "albums/Hacelos Concha Stiffy/Stiffy - WACKAFLOKA.mp3" },
-            { "nombre": "Stiffy, AGUSFORTNITE2008 - CON PEDRO Y CON LA DROGA", "archivo": MUSIC_BASE_URL + "albums/Hacelos Concha Stiffy/Stiffy, AGUSFORTNITE2008 - CON PEDRO Y CON LA DROGA.mp3" },
-            { "nombre": "Stiffy, AGUSFORTNITE2008 - QUIERE PENE", "archivo": MUSIC_BASE_URL + "albums/Hacelos Concha Stiffy/Stiffy, AGUSFORTNITE2008 - QUIERE PENE.mp3" },
-            { "nombre": "Stiffy, Rojuu - AMNESIA", "archivo": MUSIC_BASE_URL + "albums/Hacelos Concha Stiffy/Stiffy, Rojuu - AMNESIA.mp3" },
-            { "nombre": "Stiffy, TURROBABY, ZELL, AGUSFORTNITE2008 - BABASONICO", "archivo": MUSIC_BASE_URL + "albums/Hacelos Concha Stiffy/Stiffy, TURROBABY, ZELL, AGUSFORTNITE2008 - BABASONICO.mp3" },
+            { "nombre": "Stiffy - DISFRUTAR", "archivo": "Stiffy - DISFRUTAR.mp3" },
+            { "nombre": "Stiffy - escudo y espada", "archivo": "Stiffy - escudo y espada.mp3" },
+            { "nombre": "Stiffy - GUASO BALLS Z", "archivo": "Stiffy - GUASO BALLS Z.mp3" },
+            { "nombre": "Stiffy - LOS DOS", "archivo": "Stiffy - LOS DOS.mp3" },
+            { "nombre": "Stiffy - NO ME CANSO", "archivo": "Stiffy - NO ME CANSO.mp3" },
+            { "nombre": "Stiffy - SIEMPRE FUMO PORRO", "archivo": "Stiffy - SIEMPRE FUMO PORRO.mp3" },
+            { "nombre": "Stiffy - YA CASI", "archivo": "Stiffy - YA CASI.mp3" },
+            { "nombre": "Stiffy - MECHINSTRONGAS", "archivo": "Stiffy - MECHINSTRONGAS.mp3" },
+            { "nombre": "Stiffy - NO ES LO QUE PENSAS", "archivo": "Stiffy - NO ES LO QUE PENSAS.mp3" },
+            { "nombre": "Stiffy - NO LA CUELGO", "archivo": "Stiffy - NO LA CUELGO.mp3" },
+            { "nombre": "Stiffy - PEGO FLORES", "archivo": "Stiffy - PEGO FLORES.mp3" },
+            { "nombre": "Stiffy - SIEMPRE FUMO PORRO", "archivo": "Stiffy - SIEMPRE FUMO PORRO.mp3" },
+            { "nombre": "Stiffy - WACHA LOCA", "archivo": "Stiffy - WACHA LOCA.mp3" },
+            { "nombre": "Stiffy - WACKAFLOKA", "archivo": "Stiffy - WACKAFLOKA.mp3" },
+            { "nombre": "Stiffy, AGUSFORTNITE2008 - CON PEDRO Y CON LA DROGA", "archivo": "Stiffy, AGUSFORTNITE2008 - CON PEDRO Y CON LA DROGA.mp3" },
+            { "nombre": "Stiffy, AGUSFORTNITE2008 - QUIERE PENE", "archivo": "Stiffy, AGUSFORTNITE2008 - QUIERE PENE.mp3" },
+            { "nombre": "Stiffy, Rojuu - AMNESIA", "archivo": "Stiffy, Rojuu - AMNESIA.mp3" },
+            { "nombre": "Stiffy, TURROBABY, ZELL, AGUSFORTNITE2008 - BABASONICO", "archivo": "Stiffy, TURROBABY, ZELL, AGUSFORTNITE2008 - BABASONICO.mp3" },
         ]
     },
     {
         "name": "Sentimental Gangster 2",
-        "cover": MUSIC_BASE_URL + "albums/Sentimental Gangster 2/img_sentimentalgn2.png",
+        "cover": COVERS_BASE_URL + "img_sentimentalgn2.png",
         "songs": [
-            { "nombre": "Jugo! - Desde cba", "archivo": MUSIC_BASE_URL + "albums/Sentimental Gangster 2/Jugo! - Desde cba.mp3" },
-            { "nombre": "Jugo! - Es una obsesion", "archivo": MUSIC_BASE_URL + "albums/Sentimental Gangster 2/Jugo! - Es una obsesion.mp3" },
-            { "nombre": "Jugo! - Esto es transitorio", "archivo": MUSIC_BASE_URL + "albums/Sentimental Gangster 2/Jugo! - Esto es transitorio.mp3" },
-            { "nombre": "Jugo! - Maradona", "archivo": MUSIC_BASE_URL + "albums/Sentimental Gangster 2/Jugo! - Maradona.mp3" },
-            { "nombre": "Jugo! - Me neutralice", "archivo": MUSIC_BASE_URL + "albums/Sentimental Gangster 2/Jugo! - Me neutralice.mp3" },
-            { "nombre": "Jugo! - Sube la sintonia", "archivo": MUSIC_BASE_URL + "albums/Sentimental Gangster 2/Jugo! - Sube la sintonia.mp3" },
-            { "nombre": "Jugo! - Tengo que hacerlo", "archivo": MUSIC_BASE_URL + "albums/Sentimental Gangster 2/Jugo! - Tengo que hacerlo.mp3" },
-            { "nombre": "Jugo! - Un solo cable", "archivo": MUSIC_BASE_URL + "albums/Sentimental Gangster 2/Jugo! - Un solo cable.mp3" },
-            { "nombre": "Jugo! - Nunca me vire", "archivo": MUSIC_BASE_URL + "albums/Sentimental Gangster 2/Jugo! - Nunca me vire.mp3" },
-            { "nombre": "Jugo! - Todo el año", "archivo": MUSIC_BASE_URL + "albums/Sentimental Gangster 2/Jugo! - Todo el año.mp3" },
-            { "nombre": "Jugo! , Cluster - Nos retiene el estado", "archivo": MUSIC_BASE_URL + "albums/Sentimental Gangster 2/Jugo! , Cluster - Nos retiene el estado.mp3" },
-            { "nombre": "Jugo! , enzocerobulto - Musicalmente", "archivo": MUSIC_BASE_URL + "albums/Sentimental Gangster 2/Jugo! , enzocerobulto - Musicalmente.mp3" },
-            { "nombre": "Jugo! , YSY A - Todo el dia en el trap", "archivo": MUSIC_BASE_URL + "albums/Sentimental Gangster 2/Jugo! , YSY A - Todo el dia en el trap.mp3" },
-            { "nombre": "Jugo!, bic - Hard", "archivo": MUSIC_BASE_URL + "albums/Sentimental Gangster 2/Jugo!, bic - Hard.mp3" },
-            { "nombre": "Jugo!, Emirsito, Frozouda - Parece que entreno", "archivo": MUSIC_BASE_URL + "albums/Sentimental Gangster 2/Jugo!, Emirsito, Frozouda - Parece que entreno.mp3" },
-            { "nombre": "Jugo!, Emirsito, Mhtresuno - Estimulos", "archivo": MUSIC_BASE_URL + "albums/Sentimental Gangster 2/Jugo!, Emirsito, Mhtresuno - Estimulos.mp3" },
-            { "nombre": "Jugo!, LuchoSSJ, KNAK - Reviento el spot", "archivo": MUSIC_BASE_URL + "albums/Sentimental Gangster 2/Jugo!, LuchoSSJ, KNAK - Reviento el spot.mp3" },
-            { "nombre": "Jugo!, Neo Pistea - Quieren aparentar", "archivo": MUSIC_BASE_URL + "albums/Sentimental Gangster 2/Jugo!, Neo Pistea - Quieren aparentar.mp3" },
-            { "nombre": "Jugo!, pabloxo - Nunca va a ser igual el esfuerzo", "archivo": MUSIC_BASE_URL + "albums/Sentimental Gangster 2/Jugo!, pabloxo - Nunca va a ser igual el esfuerzo.mp3" },
-            { "nombre": "Jugo!, TURROBABY - Zafiros", "archivo": MUSIC_BASE_URL + "albums/Sentimental Gangster 2/Jugo!, TURROBABY - Zafiros.mp3" },
+            { "nombre": "Jugo! - Desde cba", "archivo": "Jugo! - Desde cba.mp3" },
+            { "nombre": "Jugo! - Es una obsesion", "archivo": "Jugo! - Es una obsesion.mp3" },
+            { "nombre": "Jugo! - Esto es transitorio", "archivo": "Jugo! - Esto es transitorio.mp3" },
+            { "nombre": "Jugo! - Maradona", "archivo": "Jugo! - Maradona.mp3" },
+            { "nombre": "Jugo! - Me neutralice", "archivo": "Jugo! - Me neutralice.mp3" },
+            { "nombre": "Jugo! - Sube la sintonia", "archivo": "Jugo! - Sube la sintonia.mp3" },
+            { "nombre": "Jugo! - Tengo que hacerlo", "archivo": "Jugo! - Tengo que hacerlo.mp3" },
+            { "nombre": "Jugo! - Un solo cable", "archivo": "Jugo! - Un solo cable.mp3" },
+            { "nombre": "Jugo! - Nunca me vire", "archivo": "Jugo! - Nunca me vire.mp3" },
+            { "nombre": "Jugo! - Todo el año", "archivo": "Jugo! - Todo el año.mp3" },
+            { "nombre": "Jugo! , Cluster - Nos retiene el estado", "archivo": "Jugo! , Cluster - Nos retiene el estado.mp3" },
+            { "nombre": "Jugo! , enzocerobulto - Musicalmente", "archivo": "Jugo! , enzocerobulto - Musicalmente.mp3" },
+            { "nombre": "Jugo! , YSY A - Todo el dia en el trap", "archivo": "Jugo! , YSY A - Todo el dia en el trap.mp3" },
+            { "nombre": "Jugo!, bic - Hard", "archivo": "Jugo!, bic - Hard.mp3" },
+            { "nombre": "Jugo!, Emirsito, Frozouda - Parece que entreno", "archivo": "Jugo!, Emirsito, Frozouda - Parece que entreno.mp3" },
+            { "nombre": "Jugo!, Emirsito, Mhtresuno - Estimulos", "archivo": "Jugo!, Emirsito, Mhtresuno - Estimulos.mp3" },
+            { "nombre": "Jugo!, LuchoSSJ, KNAK - Reviento el spot", "archivo": "Jugo!, LuchoSSJ, KNAK - Reviento el spot.mp3" },
+            { "nombre": "Jugo!, Neo Pistea - Quieren aparentar", "archivo": "Jugo!, Neo Pistea - Quieren aparentar.mp3" },
+            { "nombre": "Jugo!, pabloxo - Nunca va a ser igual el esfuerzo", "archivo": "Jugo!, pabloxo - Nunca va a ser igual el esfuerzo.mp3" },
+            { "nombre": "Jugo!, TURROBABY - Zafiros", "archivo": "Jugo!, TURROBABY - Zafiros.mp3" },
 
         ]
     },
     {
         "name": "PERNOCTANDO EN EL BALCON",
-        "cover": MUSIC_BASE_URL + "albums/PERNOCTANDO EN EL BALCON/img_pernoctando.png",
+        "cover": COVERS_BASE_URL + "img_pernoctando.png",
         "songs": [
-            { "nombre": "AFKgoat - ASI DE DESCONFIADO", "archivo": MUSIC_BASE_URL + "albums/PERNOCTANDO EN EL BALCON/AFKgoat - ASI DE DESCONFIADO.mp3" },
-            { "nombre": "AFKgoat - ASI NO", "archivo": MUSIC_BASE_URL + "albums/PERNOCTANDO EN EL BALCON/AFKgoat - ASI NO.mp3" },
-            { "nombre": "AFKgoat - BANCAR EL PARCHE", "archivo": MUSIC_BASE_URL + "albums/PERNOCTANDO EN EL BALCON/AFKgoat - BANCAR EL PARCHE.mp3" },
-            { "nombre": "AFKgoat - HACERME TRAICIONAR", "archivo": MUSIC_BASE_URL + "albums/PERNOCTANDO EN EL BALCON/AFKgoat - HACERME TRAICIONAR.mp3" },
-            { "nombre": "AFKgoat - PERNOCTANDO EN EL BALCON", "archivo": MUSIC_BASE_URL + "albums/PERNOCTANDO EN EL BALCON/AFKgoat - PERNOCTANDO EN EL BALCON.mp3" },
-            { "nombre": "AFKgoat, cero  - ME QUEMAN LOS DEDOS", "archivo": MUSIC_BASE_URL + "albums/PERNOCTANDO EN EL BALCON/AFKgoat, cero  - ME QUEMAN LOS DEDOS.mp3" },
+            { "nombre": "AFKgoat - ASI DE DESCONFIADO", "archivo": "AFKgoat - ASI DE DESCONFIADO.mp3" },
+            { "nombre": "AFKgoat - ASI NO", "archivo": "AFKgoat - ASI NO.mp3" },
+            { "nombre": "AFKgoat - BANCAR EL PARCHE", "archivo": "AFKgoat - BANCAR EL PARCHE.mp3" },
+            { "nombre": "AFKgoat - HACERME TRAICIONAR", "archivo": "AFKgoat - HACERME TRAICIONAR.mp3" },
+            { "nombre": "AFKgoat - PERNOCTANDO EN EL BALCON", "archivo": "AFKgoat - PERNOCTANDO EN EL BALCON.mp3" },
+            { "nombre": "AFKgoat, cero  - ME QUEMAN LOS DEDOS", "archivo": "AFKgoat, cero  - ME QUEMAN LOS DEDOS.mp3" },
         ]
     },
     {
         "name": "La Ultima Gota",
-        "cover": MUSIC_BASE_URL + "albums/La ultima gota/img_ultimagota.png",
+        "cover": COVERS_BASE_URL + "img_ultimagota.png",
         "songs": [
-            { "nombre": "enzocerobulto - Como Lastima", "archivo": MUSIC_BASE_URL + "albums/La ultima gota/enzocerobulto - Como Lastima.mp3" },
-            { "nombre": "enzocerobulto - En donde", "archivo": MUSIC_BASE_URL + "albums/La ultima gota/enzocerobulto - En donde.mp3" },
-            { "nombre": "enzocerobulto - Como se lo hago", "archivo": MUSIC_BASE_URL + "albums/La ultima gota/enzocerobulto - Como se lo hago.mp3" },
-            { "nombre": "enzocerobulto - De vuelta", "archivo": MUSIC_BASE_URL + "albums/La ultima gota/enzocerobulto - De vuelta.mp3" },
-            { "nombre": "enzocerobulto - Diez en la trampa", "archivo": MUSIC_BASE_URL + "albums/La ultima gota/enzocerobulto - Diez en la trampa.mp3" },
-            { "nombre": "enzocerobulto - Lo que fumo lo que tomo", "archivo": MUSIC_BASE_URL + "albums/La ultima gota/enzocerobulto - Lo que fumo lo que tomo.mp3" },
-            { "nombre": "enzocerobulto - Quien tiene la mirada mas cansada", "archivo": MUSIC_BASE_URL + "albums/La ultima gota/enzocerobulto - Quien tiene la mirada mas cansada.mp3" },
-            { "nombre": "enzocerobulto - De capital al Sifon", "archivo": MUSIC_BASE_URL + "albums/La ultima gota/enzocerobulto - De capital al Sifon.mp3" },
-            { "nombre": "enzocerobulto - Falsa tu cara de Cristo", "archivo": MUSIC_BASE_URL + "albums/La ultima gota/enzocerobulto - Falsa tu cara de Cristo.mp3" },
-            { "nombre": "enzocerobulto - Hasta que termine el dia", "archivo": MUSIC_BASE_URL + "albums/La ultima gota/enzocerobulto - Hasta que termine el dia.mp3" },
-            { "nombre": "enzocerobulto - una tira", "archivo": MUSIC_BASE_URL + "albums/La ultima gota/enzocerobulto - una tira.mp3" },
-            { "nombre": "enzocerobulto - Mi computadora", "archivo": MUSIC_BASE_URL + "albums/La ultima gota/enzocerobulto - Mi computadora.mp3" },
+            { "nombre": "enzocerobulto - Como Lastima", "archivo": "enzocerobulto - Como Lastima.mp3" },
+            { "nombre": "enzocerobulto - En donde", "archivo": "enzocerobulto - En donde.mp3" },
+            { "nombre": "enzocerobulto - Como se lo hago", "archivo": "enzocerobulto - Como se lo hago.mp3" },
+            { "nombre": "enzocerobulto - De vuelta", "archivo": "enzocerobulto - De vuelta.mp3" },
+            { "nombre": "enzocerobulto - Diez en la trampa", "archivo": "enzocerobulto - Diez en la trampa.mp3" },
+            { "nombre": "enzocerobulto - Lo que fumo lo que tomo", "archivo": "enzocerobulto - Lo que fumo lo que tomo.mp3" },
+            { "nombre": "enzocerobulto - Quien tiene la mirada mas cansada", "archivo": "enzocerobulto - Quien tiene la mirada mas cansada.mp3" },
+            { "nombre": "enzocerobulto - De capital al Sifon", "archivo": "enzocerobulto - De capital al Sifon.mp3" },
+            { "nombre": "enzocerobulto - Falsa tu cara de Cristo", "archivo": "enzocerobulto - Falsa tu cara de Cristo.mp3" },
+            { "nombre": "enzocerobulto - Hasta que termine el dia", "archivo": "enzocerobulto - Hasta que termine el dia.mp3" },
+            { "nombre": "enzocerobulto - una tira", "archivo": "enzocerobulto - una tira.mp3" },
+            { "nombre": "enzocerobulto - Mi computadora", "archivo": "enzocerobulto - Mi computadora.mp3" },
 
         ]
     },
     {
         "name": "otramasdelpablo",
-        "cover": MUSIC_BASE_URL + "albums/otramasdelpablo/img_pablo.png",
+        "cover": COVERS_BASE_URL + "img_pablo.png",
         "songs": [
-            { "nombre": "pabloxo - Astigmatismo", "archivo": MUSIC_BASE_URL + "albums/otramasdelpablo/pabloxo - Astigmatismo.mp3" },
-            { "nombre": "pabloxo - dB", "archivo": MUSIC_BASE_URL + "albums/otramasdelpablo/pabloxo - dB.mp3" },
-            { "nombre": "pabloxo - dosydos", "archivo": MUSIC_BASE_URL + "albums/otramasdelpablo/pabloxo - dosydos.mp3" },
-            { "nombre": "pabloxo - Fajos de 20 mil", "archivo": MUSIC_BASE_URL + "albums/otramasdelpablo/pabloxo - Fajos de 20 mil.mp3" },
-            { "nombre": "pabloxo - Fumando en los clubes", "archivo": MUSIC_BASE_URL + "albums/otramasdelpablo/pabloxo - Fumando en los clubes.mp3" },
-            { "nombre": "pabloxo - lo hago x mi", "archivo": MUSIC_BASE_URL + "albums/otramasdelpablo/pabloxo - lo hago x mi.mp3" },
-            { "nombre": "pabloxo - no son dos f son clones", "archivo": MUSIC_BASE_URL + "albums/otramasdelpablo/pabloxo - no son dos f son clones.mp3" },
-            { "nombre": "pabloxo - Porrible", "archivo": MUSIC_BASE_URL + "albums/otramasdelpablo/pabloxo - Porrible.mp3" },
-            { "nombre": "pabloxo - Una mas por mis amigos", "archivo": MUSIC_BASE_URL + "albums/otramasdelpablo/pabloxo - Una mas por mis amigos.mp3" },
-            { "nombre": "pabloxo, Frozouda - Time Break", "archivo": MUSIC_BASE_URL + "albums/otramasdelpablo/pabloxo, Frozouda - Time Break.mp3" },
-            { "nombre": "pabloxo, Hwii - PABLOXO", "archivo": MUSIC_BASE_URL + "albums/otramasdelpablo/pabloxo, Hwii - PABLOXO.mp3" },
+            { "nombre": "pabloxo - Astigmatismo", "archivo": "pabloxo - Astigmatismo.mp3" },
+            { "nombre": "pabloxo - dB", "archivo": "pabloxo - dB.mp3" },
+            { "nombre": "pabloxo - dosydos", "archivo": "pabloxo - dosydos.mp3" },
+            { "nombre": "pabloxo - Fajos de 20 mil", "archivo": "pabloxo - Fajos de 20 mil.mp3" },
+            { "nombre": "pabloxo - Fumando en los clubes", "archivo": "pabloxo - Fumando en los clubes.mp3" },
+            { "nombre": "pabloxo - lo hago x mi", "archivo": "pabloxo - lo hago x mi.mp3" },
+            { "nombre": "pabloxo - no son dos f son clones", "archivo": "pabloxo - no son dos f son clones.mp3" },
+            { "nombre": "pabloxo - Porrible", "archivo": "pabloxo - Porrible.mp3" },
+            { "nombre": "pabloxo - Una mas por mis amigos", "archivo": "pabloxo - Una mas por mis amigos.mp3" },
+            { "nombre": "pabloxo, Frozouda - Time Break", "archivo": "pabloxo, Frozouda - Time Break.mp3" },
+            { "nombre": "pabloxo, Hwii - PABLOXO", "archivo": "pabloxo, Hwii - PABLOXO.mp3" },
         ]
     },
     {
         "name": "mecae",
-        "cover": MUSIC_BASE_URL + "albums/mecae/img_mecae.png",
+        "cover": COVERS_BASE_URL + "img_mecae.png",
         "songs": [
-            { "nombre": "cero - 5velas", "archivo": MUSIC_BASE_URL + "albums/mecae/cero - 5velas.mp3" },
-            { "nombre": "cero - 10g", "archivo": MUSIC_BASE_URL + "albums/mecae/cero - 10g.mp3" },
-            { "nombre": "cero - 1234", "archivo": MUSIC_BASE_URL + "albums/mecae/cero - 1234.mp3" },
-            { "nombre": "cero - a correr", "archivo": MUSIC_BASE_URL + "albums/mecae/cero - a correr.mp3" },
-            { "nombre": "cero - como roe", "archivo": MUSIC_BASE_URL + "albums/mecae/cero - como roe.mp3" },
-            { "nombre": "cero - Con frio y calor", "archivo": MUSIC_BASE_URL + "albums/mecae/cero - Con frio y calor.mp3" },
-            { "nombre": "cero - Ella", "archivo": MUSIC_BASE_URL + "albums/mecae/cero - Ella.mp3" },
-            { "nombre": "cero - huida", "archivo": MUSIC_BASE_URL + "albums/mecae/cero - huida.mp3" },
-            { "nombre": "cero - las otras victorias quedan chicas con lo que te anhelo", "archivo": MUSIC_BASE_URL + "albums/mecae/cero - las otras victorias quedan chicas con lo que te anhelo.mp3" },
-            { "nombre": "cero - Plata dolida", "archivo": MUSIC_BASE_URL + "albums/mecae/cero - Plata dolida.mp3" },
-            { "nombre": "cero - Plata tarada", "archivo": MUSIC_BASE_URL + "albums/mecae/cero - Plata tarada.mp3" },
-            { "nombre": "cero - Sonajero", "archivo": MUSIC_BASE_URL + "albums/mecae/cero - Sonajero.mp3" },
-            { "nombre": "cero - t2o", "archivo": MUSIC_BASE_URL + "albums/mecae/cero - t2o.mp3" },
-            { "nombre": "cero - xq soy el villano", "archivo": MUSIC_BASE_URL + "albums/mecae/cero - xq soy el villano.mp3" },
-            { "nombre": "cero, enzocerobulto - De concierto en concierto", "archivo": MUSIC_BASE_URL + "albums/mecae/cero, enzocerobulto - De concierto en concierto.mp3" },
-            { "nombre": "cero, huntr - a donde vas¿", "archivo": MUSIC_BASE_URL + "albums/mecae/cero, huntr - a donde vas¿.mp3" },
-            { "nombre": "cero, Jugo! - YeA 2", "archivo": MUSIC_BASE_URL + "albums/mecae/cero, Jugo! - YeA 2.mp3" },
-            { "nombre": "cero, pabloxo - oki", "archivo": MUSIC_BASE_URL + "albums/mecae/cero, pabloxo - oki.mp3" },
+            { "nombre": "cero - 5velas", "archivo": "cero - 5velas.mp3" },
+            { "nombre": "cero - 10g", "archivo": "cero - 10g.mp3" },
+            { "nombre": "cero - 1234", "archivo": "cero - 1234.mp3" },
+            { "nombre": "cero - a correr", "archivo": "cero - a correr.mp3" },
+            { "nombre": "cero - como roe", "archivo": "cero - como roe.mp3" },
+            { "nombre": "cero - Con frio y calor", "archivo": "cero - Con frio y calor.mp3" },
+            { "nombre": "cero - Ella", "archivo": "cero - Ella.mp3" },
+            { "nombre": "cero - huida", "archivo": "cero - huida.mp3" },
+            { "nombre": "cero - las otras victorias quedan chicas con lo que te anhelo", "archivo": "cero - las otras victorias quedan chicas con lo que te anhelo.mp3" },
+            { "nombre": "cero - Plata dolida", "archivo": "cero - Plata dolida.mp3" },
+            { "nombre": "cero - Plata tarada", "archivo": "cero - Plata tarada.mp3" },
+            { "nombre": "cero - Sonajero", "archivo": "cero - Sonajero.mp3" },
+            { "nombre": "cero - t2o", "archivo": "cero - t2o.mp3" },
+            { "nombre": "cero - xq soy el villano", "archivo": "cero - xq soy el villano.mp3" },
+            { "nombre": "cero, enzocerobulto - De concierto en concierto", "archivo": "cero, enzocerobulto - De concierto en concierto.mp3" },
+            { "nombre": "cero, huntr - a donde vas¿", "archivo": "cero, huntr - a donde vas¿.mp3" },
+            { "nombre": "cero, Jugo! - YeA 2", "archivo": "cero, Jugo! - YeA 2.mp3" },
+            { "nombre": "cero, pabloxo - oki", "archivo": "cero, pabloxo - oki.mp3" },
         ]
     },
     {
         "name": "foe",
-        "cover": MUSIC_BASE_URL + "albums/foe/img_foe.png",
+        "cover": COVERS_BASE_URL + "img_foe.png",
         "songs": [
-            { "nombre": "cero - +personal", "archivo": MUSIC_BASE_URL + "albums/foe/cero - +personal.mp3" },
-            { "nombre": "cero, TURROBABY - a solas", "archivo": MUSIC_BASE_URL + "albums/foe/cero, TURROBABY - a solas.mp3" },
-            { "nombre": "cero, underaiki - sisu", "archivo": MUSIC_BASE_URL + "albums/foe/cero, underaiki - sisu.mp3" },
-            { "nombre": "cero - toco madera", "archivo": MUSIC_BASE_URL + "albums/foe/cero - toco madera.mp3" },
-            { "nombre": "cero - 1-2", "archivo": MUSIC_BASE_URL + "albums/foe/cero - 1-2.mp3" },
-            { "nombre": "cero, knak - TOA", "archivo": MUSIC_BASE_URL + "albums/foe/cero, knak - TOA.mp3" },
-            { "nombre": "cero - foe", "archivo": MUSIC_BASE_URL + "albums/foe/cero - foe.mp3" },
+            { "nombre": "cero - +personal", "archivo": "cero - +personal.mp3" },
+            { "nombre": "cero, TURROBABY - a solas", "archivo": "cero, TURROBABY - a solas.mp3" },
+            { "nombre": "cero, underaiki - sisu", "archivo": "cero, underaiki - sisu.mp3" },
+            { "nombre": "cero - toco madera", "archivo": "cero - toco madera.mp3" },
+            { "nombre": "cero - 1-2", "archivo": "cero - 1-2.mp3" },
+            { "nombre": "cero, knak - TOA", "archivo": "cero, knak - TOA.mp3" },
+            { "nombre": "cero - foe", "archivo": "cero - foe.mp3" },
         ]
     },
     {
         "name": "mecanico",
-        "cover": MUSIC_BASE_URL + "albums/Mecanico/img_mecanico.png",
+        "cover": COVERS_BASE_URL + "img_mecanico.png",
         "songs": [
-            { "nombre": "cero - 2 Sedas", "archivo": MUSIC_BASE_URL + "albums/mecanico/cero - 2 Sedas.mp3" },
-            { "nombre": "cero - Cabra", "archivo": MUSIC_BASE_URL + "albums/mecanico/cero - Cabra.mp3" },
-            { "nombre": "cero - De moda", "archivo": MUSIC_BASE_URL + "albums/mecanico/cero - De moda.mp3" },
-            { "nombre": "cero - DEAM", "archivo": MUSIC_BASE_URL + "albums/mecanico/cero - DEAM.mp3" },
-            { "nombre": "cero - Drumkits en el pantalon", "archivo": MUSIC_BASE_URL + "albums/mecanico/cero - Drumkits en el pantalon.mp3" },
-            { "nombre": "cero - Locomotora", "archivo": MUSIC_BASE_URL + "albums/mecanico/cero - Locomotora.mp3" },
-            { "nombre": "cero - Mr wow", "archivo": MUSIC_BASE_URL + "albums/mecanico/cero - Mr wow.mp3" },
-            { "nombre": "cero - Sin ayuda", "archivo": MUSIC_BASE_URL + "albums/mecanico/cero - Sin ayuda.mp3" },
-            { "nombre": "cero - t & p", "archivo": MUSIC_BASE_URL + "albums/mecanico/cero - t & p.mp3" },
-            { "nombre": "cero - t", "archivo": MUSIC_BASE_URL + "albums/mecanico/cero - t.mp3" },
-            { "nombre": "cero - Vicky", "archivo": MUSIC_BASE_URL + "albums/mecanico/cero - Vicky.mp3" },
-            { "nombre": "cero - Ye A", "archivo": MUSIC_BASE_URL + "albums/mecanico/cero - Ye A.mp3" },
-            { "nombre": "cero, Doly Flackko - Peine teta", "archivo": MUSIC_BASE_URL + "albums/mecanico/cero, Doly Flackko - Peine teta.mp3" },
-            { "nombre": "cero, Jugo! - Voy a hacer historia", "archivo": MUSIC_BASE_URL + "albums/mecanico/cero, Jugo! - Voy a hacer historia.mp3" },
-            { "nombre": "cero, Lthelizard - Jakaranda", "archivo": MUSIC_BASE_URL + "albums/mecanico/cero, Lthelizard - Jakaranda.mp3" },
-            { "nombre": "cero, Sixup - Palo", "archivo": MUSIC_BASE_URL + "albums/mecanico/cero, Sixup - Palo.mp3" },
+            { "nombre": "cero - 2 Sedas", "archivo": "cero - 2 Sedas.mp3" },
+            { "nombre": "cero - Cabra", "archivo": "cero - Cabra.mp3" },
+            { "nombre": "cero - De moda", "archivo": "cero - De moda.mp3" },
+            { "nombre": "cero - DEAM", "archivo": "cero - DEAM.mp3" },
+            { "nombre": "cero - Drumkits en el pantalon", "archivo": "cero - Drumkits en el pantalon.mp3" },
+            { "nombre": "cero - Locomotora", "archivo": "cero - Locomotora.mp3" },
+            { "nombre": "cero - Mr wow", "archivo": "cero - Mr wow.mp3" },
+            { "nombre": "cero - Sin ayuda", "archivo": "cero - Sin ayuda.mp3" },
+            { "nombre": "cero - t & p", "archivo": "cero - t & p.mp3" },
+            { "nombre": "cero - t", "archivo": "cero - t.mp3" },
+            { "nombre": "cero - Vicky", "archivo": "cero - Vicky.mp3" },
+            { "nombre": "cero - Ye A", "archivo": "cero - Ye A.mp3" },
+            { "nombre": "cero, Doly Flackko - Peine teta", "archivo": "cero, Doly Flackko - Peine teta.mp3" },
+            { "nombre": "cero, Jugo! - Voy a hacer historia", "archivo": "cero, Jugo! - Voy a hacer historia.mp3" },
+            { "nombre": "cero, Lthelizard - Jakaranda", "archivo": "cero, Lthelizard - Jakaranda.mp3" },
+            { "nombre": "cero, Sixup - Palo", "archivo": "cero, Sixup - Palo.mp3" },
 
         ]
     },
     {
         "name": "Piola Vago",
-        "cover": MUSIC_BASE_URL + "albums/Piola Vago/img_piola.png",
+        "cover": COVERS_BASE_URL + "img_piola.png",
         "songs": [
-            { "nombre": "Doly Flackko - Veneno", "archivo": MUSIC_BASE_URL + "albums/Piola Vago/Doly Flackko - Veneno.mp3" },
-            { "nombre": "Doly Flackko - Uber", "archivo": MUSIC_BASE_URL + "albums/Piola Vago/Doly Flackko - Uber.mp3" },
-            { "nombre": "Doly Flackko - TRES TRISTES TIGUERES", "archivo": MUSIC_BASE_URL + "albums/Piola Vago/Doly Flackko - TRES TRISTES TIGUERES.mp3" },
-            { "nombre": "Doly Flackko - Street Pain", "archivo": MUSIC_BASE_URL + "albums/Piola Vago/Doly Flackko - Street Pain.mp3" },
-            { "nombre": "Doly Flackko - PIOLA VAGO", "archivo": MUSIC_BASE_URL + "albums/Piola Vago/Doly Flackko - PIOLA VAGO.mp3" },
-            { "nombre": "Doly Flackko - Pala Ancha", "archivo": MUSIC_BASE_URL + "albums/Piola Vago/Doly Flackko - Pala Ancha.mp3" },
-            { "nombre": "Doly Flackko - Outro Chau", "archivo": MUSIC_BASE_URL + "albums/Piola Vago/Doly Flackko - Outro Chau.mp3" },
-            { "nombre": "Doly Flackko - Flackkosito", "archivo": MUSIC_BASE_URL + "albums/Piola Vago/Doly Flackko - Flackkosito.mp3" },
-            { "nombre": "Doly Flackko - donde queres estar", "archivo": MUSIC_BASE_URL + "albums/Piola Vago/Doly Flackko - donde queres estar.mp3" },
-            { "nombre": "Doly Flackko - Delirio de Grandeza", "archivo": MUSIC_BASE_URL + "albums/Piola Vago/Doly Flackko - Delirio de Grandeza.mp3" },
-            { "nombre": "Doly Flackko - Ambicion & Adrenalina", "archivo": MUSIC_BASE_URL + "albums/Piola Vago/Doly Flackko - Ambicion & Adrenalina.mp3" },
+            { "nombre": "Doly Flackko - Veneno", "archivo": "Doly Flackko - Veneno.mp3" },
+            { "nombre": "Doly Flackko - Uber", "archivo": "Doly Flackko - Uber.mp3" },
+            { "nombre": "Doly Flackko - TRES TRISTES TIGUERES", "archivo": "Doly Flackko - TRES TRISTES TIGUERES.mp3" },
+            { "nombre": "Doly Flackko - Street Pain", "archivo": "Doly Flackko - Street Pain.mp3" },
+            { "nombre": "Doly Flackko - PIOLA VAGO", "archivo": "Doly Flackko - PIOLA VAGO.mp3" },
+            { "nombre": "Doly Flackko - Pala Ancha", "archivo": "Doly Flackko - Pala Ancha.mp3" },
+            { "nombre": "Doly Flackko - Outro Chau", "archivo": "Doly Flackko - Outro Chau.mp3" },
+            { "nombre": "Doly Flackko - Flackkosito", "archivo": "Doly Flackko - Flackkosito.mp3" },
+            { "nombre": "Doly Flackko - donde queres estar", "archivo": "Doly Flackko - donde queres estar.mp3" },
+            { "nombre": "Doly Flackko - Delirio de Grandeza", "archivo": "Doly Flackko - Delirio de Grandeza.mp3" },
+            { "nombre": "Doly Flackko - Ambicion & Adrenalina", "archivo": "Doly Flackko - Ambicion & Adrenalina.mp3" },
 
         ]
     },
     {
         "name": "El Morfón",
-        "cover": MUSIC_BASE_URL + "albums/El Morfon/img_morfon.png",
+        "cover": COVERS_BASE_URL + "img_morfon.png",
         "songs": [
-            { "nombre": "eluney benedetti, TULO13 - Che", "archivo": MUSIC_BASE_URL + "albums/El Morfon/eluney benedetti, TULO13 - Che.mp3" },
-            { "nombre": "eluney benedetti, elaiyah - Idioma", "archivo": MUSIC_BASE_URL + "albums/El Morfon/eluney benedetti, elaiyah - Idioma.mp3" },
-            { "nombre": "eluney benedetti - aYvamo", "archivo": MUSIC_BASE_URL + "albums/El Morfon/eluney benedetti - aYvamo.mp3" },
-            { "nombre": "eluney benedetti, elaiyah - Los3", "archivo": MUSIC_BASE_URL + "albums/El Morfon/eluney benedetti, elaiyah - Los3.mp3" },
-            { "nombre": "eluney benedetti, TULO13 - Che", "archivo": MUSIC_BASE_URL + "albums/El Morfon/eluney benedetti, TULO13 - Che.mp3" },
-            { "nombre": "eluney benedetti, elaiyah - A los palomos", "archivo": MUSIC_BASE_URL + "albums/El Morfon/eluney benedetti, elaiyah - A los palomos.mp3" },
-            { "nombre": "eluney benedetti, elaiyah - El morfon", "archivo": MUSIC_BASE_URL + "albums/El Morfon/eluney benedetti, elaiyah - El morfon.mp3" },
+            { "nombre": "eluney benedetti, TULO13 - Che", "archivo": "eluney benedetti, TULO13 - Che.mp3" },
+            { "nombre": "eluney benedetti, elaiyah - Idioma", "archivo": "eluney benedetti, elaiyah - Idioma.mp3" },
+            { "nombre": "eluney benedetti - aYvamo", "archivo": "eluney benedetti - aYvamo.mp3" },
+            { "nombre": "eluney benedetti, elaiyah - Los3", "archivo": "eluney benedetti, elaiyah - Los3.mp3" },
+            { "nombre": "eluney benedetti, TULO13 - Che", "archivo": "eluney benedetti, TULO13 - Che.mp3" },
+            { "nombre": "eluney benedetti, elaiyah - A los palomos", "archivo": "eluney benedetti, elaiyah - A los palomos.mp3" },
+            { "nombre": "eluney benedetti, elaiyah - El morfon", "archivo": "eluney benedetti, elaiyah - El morfon.mp3" },
 
         ]
     },
 
     {
         "name": "Pekelandia",
-        "cover": MUSIC_BASE_URL + "albums/Pekelandia/img_pekelandia.png",
+        "cover": COVERS_BASE_URL + "img_pekelandia.png",
         "songs": [
-            { "nombre": "CHOOSEY, Yvng Jorge - Le TOTO", "archivo": MUSIC_BASE_URL + "albums/Pekelandia/CHOOSEY, Yvng Jorge - Le TOTO.mp3" },
-            { "nombre": "CHOOSEY, n0tgiova - DON ROKE", "archivo": MUSIC_BASE_URL + "albums/Pekelandia/CHOOSEY, n0tgiova - DON ROKE.mp3" },
-            { "nombre": "CHOOSEY, DLANG - DE MAS DE MI", "archivo": MUSIC_BASE_URL + "albums/Pekelandia/CHOOSEY, DLANG - DE MAS DE MI.mp3" },
-            { "nombre": "CHOOSEY - X Belgrano", "archivo": MUSIC_BASE_URL + "albums/Pekelandia/CHOOSEY - X Belgrano.mp3" },
-            { "nombre": "CHOOSEY - SIGAN SIN MI", "archivo": MUSIC_BASE_URL + "albums/Pekelandia/CHOOSEY - SIGAN SIN MI.mp3" },
-            { "nombre": "CHOOSEY - ROMPEDISKOTECA", "archivo": MUSIC_BASE_URL + "albums/Pekelandia/CHOOSEY - ROMPEDISKOTECA.mp3" },
-            { "nombre": "CHOOSEY - QUE CONCHA QUERES", "archivo": MUSIC_BASE_URL + "albums/Pekelandia/CHOOSEY - QUE CONCHA QUERES.mp3" },
-            { "nombre": "CHOOSEY - pero CHATGPT", "archivo": MUSIC_BASE_URL + "albums/Pekelandia/CHOOSEY - pero CHATGPT.mp3" },
-            { "nombre": "CHOOSEY - ORISHINAL", "archivo": MUSIC_BASE_URL + "albums/Pekelandia/CHOOSEY - ORISHINAL.mp3" },
-            { "nombre": "CHOOSEY - MI NUMERO TELEFONICO", "archivo": MUSIC_BASE_URL + "albums/Pekelandia/CHOOSEY - MI NUMERO TELEFONICO.mp3" },
-            { "nombre": "CHOOSEY - mi AUTOMOVIL", "archivo": MUSIC_BASE_URL + "albums/Pekelandia/CHOOSEY - mi AUTOMOVIL.mp3" },
-            { "nombre": "CHOOSEY - DITOYS", "archivo": MUSIC_BASE_URL + "albums/Pekelandia/CHOOSEY - DITOYS.mp3" },
-            { "nombre": "CHOOSEY - CARS BEAT", "archivo": MUSIC_BASE_URL + "albums/Pekelandia/CHOOSEY - CARS BEAT.mp3" },
-            { "nombre": "CHOOSEY - BANCO", "archivo": MUSIC_BASE_URL + "albums/Pekelandia/CHOOSEY - BANCO.mp3" },
-            { "nombre": "CHOOSEY - 100 LUCHA", "archivo": MUSIC_BASE_URL + "albums/Pekelandia/CHOOSEY - 100 LUCHA.mp3" },
-            { "nombre": "CHOOSEY - 3 MONITOS", "archivo": MUSIC_BASE_URL + "albums/Pekelandia/CHOOSEY - 3 MONITOS.mp3" },
-            { "nombre": "CHOOSEY - 2 SAMPLEOS", "archivo": MUSIC_BASE_URL + "albums/Pekelandia/CHOOSEY - 2 SAMPLEOS.mp3" },
-            { "nombre": "CHOOSEY - 1-2 groupie", "archivo": MUSIC_BASE_URL + "albums/Pekelandia/CHOOSEY - 1-2 groupie.mp3" },
+            { "nombre": "CHOOSEY, Yvng Jorge - Le TOTO", "archivo": "CHOOSEY, Yvng Jorge - Le TOTO.mp3" },
+            { "nombre": "CHOOSEY, n0tgiova - DON ROKE", "archivo": "CHOOSEY, n0tgiova - DON ROKE.mp3" },
+            { "nombre": "CHOOSEY, DLANG - DE MAS DE MI", "archivo": "CHOOSEY, DLANG - DE MAS DE MI.mp3" },
+            { "nombre": "CHOOSEY - X Belgrano", "archivo": "CHOOSEY - X Belgrano.mp3" },
+            { "nombre": "CHOOSEY - SIGAN SIN MI", "archivo": "CHOOSEY - SIGAN SIN MI.mp3" },
+            { "nombre": "CHOOSEY - ROMPEDISKOTECA", "archivo": "CHOOSEY - ROMPEDISKOTECA.mp3" },
+            { "nombre": "CHOOSEY - QUE CONCHA QUERES", "archivo": "CHOOSEY - QUE CONCHA QUERES.mp3" },
+            { "nombre": "CHOOSEY - pero CHATGPT", "archivo": "CHOOSEY - pero CHATGPT.mp3" },
+            { "nombre": "CHOOSEY - ORISHINAL", "archivo": "CHOOSEY - ORISHINAL.mp3" },
+            { "nombre": "CHOOSEY - MI NUMERO TELEFONICO", "archivo": "CHOOSEY - MI NUMERO TELEFONICO.mp3" },
+            { "nombre": "CHOOSEY - mi AUTOMOVIL", "archivo": "CHOOSEY - mi AUTOMOVIL.mp3" },
+            { "nombre": "CHOOSEY - DITOYS", "archivo": "CHOOSEY - DITOYS.mp3" },
+            { "nombre": "CHOOSEY - CARS BEAT", "archivo": "CHOOSEY - CARS BEAT.mp3" },
+            { "nombre": "CHOOSEY - BANCO", "archivo": "CHOOSEY - BANCO.mp3" },
+            { "nombre": "CHOOSEY - 100 LUCHA", "archivo": "CHOOSEY - 100 LUCHA.mp3" },
+            { "nombre": "CHOOSEY - 3 MONITOS", "archivo": "CHOOSEY - 3 MONITOS.mp3" },
+            { "nombre": "CHOOSEY - 2 SAMPLEOS", "archivo": "CHOOSEY - 2 SAMPLEOS.mp3" },
+            { "nombre": "CHOOSEY - 1-2 groupie", "archivo": "CHOOSEY - 1-2 groupie.mp3" },
 
         ]
     },
@@ -4054,16 +4054,18 @@ const albumsData = [
     /*
     {
         "name": "",
-        "cover": MUSIC_BASE_URL + "albums//img_.png",
+        "cover": WORKER_URL + "albums//img_.png",
         "songs": [
-            { "nombre": "", "archivo": MUSIC_BASE_URL + "albums//.mp3" },
-            { "nombre": "", "archivo": MUSIC_BASE_URL + "albums//.mp3" },
-            { "nombre": "", "archivo": MUSIC_BASE_URL + "albums//.mp3" },
-            { "nombre": "", "archivo": MUSIC_BASE_URL + "albums//.mp3" },
-            { "nombre": "", "archivo": MUSIC_BASE_URL + "albums//.mp3" },
-            { "nombre": "", "archivo": MUSIC_BASE_URL + "albums//.mp3" },
-            { "nombre": "", "archivo": MUSIC_BASE_URL + "albums//.mp3" },
+            { "nombre": "", "archivo": "" },
+            { "nombre": "", "archivo": "" },
+            { "nombre": "", "archivo": "" },
+            { "nombre": "", "archivo": "" },
+            { "nombre": "", "archivo": "" },
+            { "nombre": "", "archivo": "" },
+            { "nombre": "", "archivo": "" },
         ]
     },
     */
 ];
+
+

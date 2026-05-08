@@ -53,7 +53,47 @@ audioPlayer.addEventListener('timeupdate', () => {
 // nuevo: historial para evitar repeticiÃƒÂƒÃ‚Â³n entre juegos.
 let lastTwoIndices = [-1, -1]; // almacena los ÃƒÂƒÃ‚Â­ndices de las dos ÃƒÂƒÃ‚Âºltimas canciones jugadas de 'biblioteca'
 let currentBlobUrl = null; // Para ocultar la URL del archivo
+let currentStartByte = null;
 
+async function loadAudioLevel(songFile, level) {
+    if (!songFile) return;
+    
+    console.log(`Cargando level ${level} - start: ${currentStartByte || 'random'}`);
+    
+    const encodedPath = encodeURIComponent(songFile);
+    let fetchUrl = `${WORKER_URL}?id=${encodedPath}&level=${level}`;
+    
+    if (level > 1 && currentStartByte !== null) {
+        fetchUrl += `&start=${currentStartByte}`;
+    }
+    
+    try {
+        const response = await fetch(fetchUrl);
+        if (!response.ok) {
+            throw new Error(`HTTP Error: ${response.status}`);
+        }
+        
+        if (level === 1) {
+            const startByte = response.headers.get('X-Start-Byte');
+            if (startByte) {
+                currentStartByte = parseInt(startByte, 10);
+            }
+        }
+        
+        const blob = await response.blob();
+        
+        if (currentBlobUrl) {
+            URL.revokeObjectURL(currentBlobUrl);
+        }
+        currentBlobUrl = URL.createObjectURL(blob);
+        audioPlayer.src = currentBlobUrl;
+        
+        audioPlayer.play().catch(e => console.log("Autoplay prevented:", e));
+        
+    } catch (e) {
+        console.error("Error loading audio level:", e);
+    }
+}
 // HISTORIAL PERSISTENTE DE CANCIONES JUGADAS
 // Se guardan los nombres de las canciones ya jugadas para no repetir hasta completar la lista
 let playedSongsNormal = JSON.parse(localStorage.getItem('playedSongsNormal')) || [];
@@ -706,30 +746,8 @@ async function restoreModeState(mode) {
             currentBlobUrl = null;
         }
 
-        // FIX: Use encodeURI to handle special chars (!, Ã³, Ã±, etc.) in filenames
-        const encodedPath = encodeURI(currentSong.archivo);
-        if (window.location.protocol !== 'file:') {
-            try {
-                const response = await fetch(encodedPath);
-                if (!response.ok) {
-                    if (response.status === 404) {
-                        throw new Error(`Error 404: No encontrado en R2 - Verifica que el archivo exista en la ruta ${encodedPath}`);
-                    } else {
-                        throw new Error(`Error HTTP: ${response.status}`);
-                    }
-                }
-                const blob = await response.blob();
-                currentBlobUrl = URL.createObjectURL(blob);
-                audioPlayer.src = currentBlobUrl;
-            } catch (e) {
-                console.error("Error loading audio blob (restore). Detalles del error:", e.message || e);
-                console.error("Si el error no indica el status HTTP, probablemente sea un problema de CORS (Cross-Origin Resource Sharing) no configurado en tu bucket de Cloudflare R2.");
-                audioPlayer.src = encodedPath; // Fallback to direct path
-            }
-        } else {
-            // Local file: use direct path
-            audioPlayer.src = currentSong.archivo;
-        }
+        currentStartByte = null;
+        loadAudioLevel(currentSong.archivo, guessCount + 1);
 
         audioPlayer.currentTime = gameStartTime;
         audioPlayer.load();
@@ -1017,31 +1035,8 @@ async function resetGame(forceNew = false) {
     }
 
     if (currentSong.archivo) {
-        // FIX: Encode URL to handle spaces and special chars on GitHub Pages
-        const encodedPath = encodeURI(currentSong.archivo);
-
-        if (window.location.protocol !== 'file:') {
-            try {
-                const response = await fetch(encodedPath);
-                if (!response.ok) {
-                    if (response.status === 404) {
-                        throw new Error(`Error 404: No encontrado en R2 - Verifica que el archivo exista en la ruta ${encodedPath}`);
-                    } else {
-                        throw new Error(`Error HTTP: ${response.status}`);
-                    }
-                }
-                const blob = await response.blob();
-                currentBlobUrl = URL.createObjectURL(blob);
-                audioPlayer.src = currentBlobUrl;
-            } catch (e) {
-                console.error("Error loading audio blob. Detalles del error:", e.message || e);
-                console.error("Si el error no indica el status HTTP, probablemente sea un problema de CORS (Cross-Origin Resource Sharing) no configurado en tu bucket de Cloudflare R2.");
-                audioPlayer.src = encodedPath; // Fallback
-            }
-        } else {
-            // Local file: use direct path
-            audioPlayer.src = currentSong.archivo;
-        }
+        currentStartByte = null;
+        loadAudioLevel(currentSong.archivo, 1);
     } else {
         audioPlayer.src = "";
     }
@@ -1821,6 +1816,7 @@ function handleGuessFromSelection(selectedSongName) {
         guessCount++;
         if (guessCount < durations.length) {
             updateTimeMarker(guessCount);
+            loadAudioLevel(currentSong.archivo, guessCount + 1);
             finishSnippet();
         } else {
             showGameOver(false);
@@ -1862,6 +1858,8 @@ function handleSkip() {
     guessCount++;
     if (guessCount < durations.length) {
         updateTimeMarker(guessCount);
+        
+        loadAudioLevel(currentSong.archivo, guessCount + 1);
 
         // FIX: Actualizar snippetTargetTime al nuevo lÃƒÂƒÃ‚Â­mite del segmento desbloqueado
         // para que el audio no se pause al llegar al lÃƒÂƒÃ‚Â­mite del segmento anterior
