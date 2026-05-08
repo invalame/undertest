@@ -58,6 +58,8 @@ let lastTwoIndices = [-1, -1]; // almacena los ÃƒÂƒÃ‚Â­ndices de las do
 let currentBlobUrl = null;
 let currentStartByte = null;
 
+// ==================== AUDIO WORKER - VERSIÓN ESTABLE ====================
+
 async function cleanupAudio(isNewSong = false) {
     if (typeof audioPlayer !== 'undefined' && audioPlayer) {
         audioPlayer.pause();
@@ -66,9 +68,11 @@ async function cleanupAudio(isNewSong = false) {
             currentBlobUrl = null;
         }
         audioPlayer.src = '';
+        audioPlayer.currentTime = 0;
     }
     if (isNewSong) {
         currentStartByte = null;
+        snippetState = 'idle';
     }
 }
 
@@ -79,58 +83,50 @@ async function loadAudioLevel(songFile, level) {
 
     console.log("loadAudioLevel recibió:", songFile);
 
+    // Limpiar nombre
     if (songFile.includes("http")) {
         songFile = songFile.split('/').pop();
-        try { songFile = decodeURIComponent(songFile); } catch (e) { }
+        try { songFile = decodeURIComponent(songFile); } catch (e) {}
     } else if (songFile.includes("/")) {
         songFile = songFile.split('/').pop();
     }
 
-    console.log(`Cargando level ${level} - start: ${currentStartByte || 'random'}`);
-
     const encodedPath = encodeURIComponent(songFile);
     let fetchUrl = `${WORKER_URL}?id=${encodedPath}&level=${level}`;
-
     if (level > 1 && currentStartByte !== null) {
         fetchUrl += `&start=${currentStartByte}`;
     }
 
     try {
         const response = await fetch(fetchUrl);
-        if (!response.ok) {
-            throw new Error(`HTTP Error: ${response.status}`);
-        }
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
 
         if (level === 1) {
             const startByte = response.headers.get('X-Start-Byte');
-            if (startByte) {
-                currentStartByte = parseInt(startByte, 10);
-            }
+            if (startByte) currentStartByte = parseInt(startByte, 10);
         }
 
         const blob = await response.blob();
-        
         currentBlobUrl = URL.createObjectURL(blob);
         audioPlayer.src = currentBlobUrl;
-        
-        // Worker blobs siempre empiezan en 0
+
         gameStartTime = 0;
-        
-        // Configurar snippet target para este nivel
+
+        // Configurar duración del fragmento
         const durations = getDurations();
         let targetDur = durations[level - 1] || 15;
-        if (level === 1 && targetDur === 0.1) targetDur = 0.2; // "mentira" del 0.1s
+        if (level === 1) targetDur = 0.2; // truco visual del primer nivel
         snippetTargetTime = targetDur;
-        
-        // Pequeño delay para que el browser procese el blob
-        await new Promise(resolve => setTimeout(resolve, 30));
-        
-        audioPlayer.onerror = () => {
-            console.warn(`[Audio] Error en level ${level}`);
-        };
+
+        console.log(`Nivel ${level} → Duración objetivo: ${targetDur}s`);
+
+        // Pequeño delay para estabilidad
+        await new Promise(r => setTimeout(r, 50));
+
+        audioPlayer.onerror = () => console.warn(`[Audio] Error en level ${level}`);
 
     } catch (e) {
-        console.error("Error loading audio level:", e);
+        console.error("Error cargando audio:", e);
     }
 }
 // HISTORIAL PERSISTENTE DE CANCIONES JUGADAS
@@ -1452,75 +1448,42 @@ function updatePlayIcon(playing) {
     playButton.setAttribute('aria-label', playing ? 'pausar fragmento' : 'escuchar fragmento');
 }
 
-/**
- * Finishes snippet playback - called when target time is reached
- */
+// ==================== PLAY SNIPPET ====================
+
 function finishSnippet() {
     pauseAudioInternal(true);
-    // Worker blobs: siempre resetear a 0 porque cada nivel es un blob nuevo
     audioPlayer.currentTime = 0;
 }
 
+// ==================== ANIMATION LOOP (simplificado) ====================
 
 function animationLoop() {
-    // Stop if not playing
-    if (snippetState !== 'playing') {
+    if (snippetState !== 'playing' || isGameOver) {
         animationFrameId = null;
         return;
     }
 
     const currentTime = audioPlayer.currentTime;
 
-    // CONTINUOUS PLAYBACK: Stop checking limits if game is over
-    if (isGameOver) {
-        animationFrameId = null;
-        return;
-    }
-
-    // Check if we've reached or passed the target time
-    // FIX: If user guessed correctly, DON'T stop playback. Let it play through the cooldown.
     if (currentTime >= snippetTargetTime && !hasGuessedCorrectly) {
-        // Use VISUAL duration (0.1s) not actual playback duration (0.2s) for progress bar
-        const durations = getDurations();
-        const visualDuration = durations[guessCount] || getTotalGameDuration();
-        const targetPercentage = getPercentage(visualDuration);
-
-        progressBarFill.style.width = targetPercentage + '%';
-
-        // Stop playback
         finishSnippet();
         return;
     }
 
-    // Update progress bar — Worker blobs start at 0, so currentTime IS elapsed
+    // Barra de progreso
     const durations = getDurations();
     const visualDuration = durations[guessCount] || getTotalGameDuration();
-    const actualDuration = snippetTargetTime; // blob starts at 0
+    const percentage = (currentTime / visualDuration) * getPercentage(visualDuration);
+    if (progressBarFill) progressBarFill.style.width = Math.min(percentage, 100) + '%';
 
-    // Scale elapsed time to visual duration
-    const scaleFactor = visualDuration / actualDuration;
-    const visualElapsed = Math.min(currentTime * scaleFactor, visualDuration);
-
-    const percentage = getPercentage(visualElapsed);
-    progressBarFill.style.width = percentage + '%';
-
-    // Continue the loop
     animationFrameId = requestAnimationFrame(animationLoop);
 }
 
-/**
- * Starts the animation loop for smooth progress updates
- */
 function startAnimationLoop() {
-    if (animationFrameId) {
-        cancelAnimationFrame(animationFrameId);
-    }
+    if (animationFrameId) cancelAnimationFrame(animationFrameId);
     animationFrameId = requestAnimationFrame(animationLoop);
 }
 
-/**
- * Stops the animation loop
- */
 function stopAnimationLoop() {
     if (animationFrameId) {
         cancelAnimationFrame(animationFrameId);
@@ -1528,30 +1491,19 @@ function stopAnimationLoop() {
     }
 }
 
-/**
- * Main playback function - Mobile-Optimized v2.0
- * Uses audio events instead of timers for reliable mobile playback
- */
 function playSnippet() {
-    // Prevent playing if in album mode without album selection
-    if (currentMode === 'album' && !selectedAlbum) return;
-
     if (hasGuessedCorrectly || playButton.hasAttribute('disabled')) return;
 
-    // Toggle pause if already playing
     if (snippetState === 'playing') {
-        pauseAudioInternal(false); // pause, don't reset to idle
+        pauseAudioInternal(false);
         return;
     }
 
-    // Worker blobs start at 0, snippetTargetTime ya fue configurado por loadAudioLevel
-    // Si el audio ya pasó el target o está al final, reiniciar desde 0
-    const currentTime = audioPlayer.currentTime;
-    if (currentTime >= snippetTargetTime - 0.05 || currentTime < 0) {
+    // Reiniciar al principio si ya pasó el límite
+    if (audioPlayer.currentTime >= snippetTargetTime - 0.05) {
         audioPlayer.currentTime = 0;
     }
 
-    // Start playback
     audioPlayer.play()
         .then(() => {
             snippetState = 'playing';
@@ -1559,8 +1511,7 @@ function playSnippet() {
             startAnimationLoop();
         })
         .catch(e => {
-            console.warn('Error starting playback:', e);
-            snippetState = 'idle';
+            console.warn('Autoplay blocked:', e);
             updatePlayIcon(false);
         });
 }
