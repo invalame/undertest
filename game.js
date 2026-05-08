@@ -58,7 +58,7 @@ let currentStartByte = null;
 async function loadAudioLevel(songFile, level) {
     if (!songFile) return;
 
-    // 1. Limpiar el nombre del archivo para que el Worker no reciba URLs completas ni carpetas
+    // 1. Limpiar el nombre del archivo
     if (songFile.includes("http")) {
         songFile = songFile.split('/').pop();
         try { songFile = decodeURIComponent(songFile); } catch (e) {}
@@ -66,10 +66,9 @@ async function loadAudioLevel(songFile, level) {
         songFile = songFile.split('/').pop();
     }
     
-    console.log(`Cargando level ${level} - start: ${currentStartByte || 'random'}`);
-    
-    const encodedPath = encodeURIComponent(songFile);
-    let fetchUrl = `${WORKER_URL}?id=${encodedPath}&level=${level}`;
+    // 2. OFUSCACIÓN: Usar btoa para que no se vea el nombre en el Network tab
+    const obfuscatedId = btoa(unescape(encodeURIComponent(songFile)));
+    let fetchUrl = `${WORKER_URL}?id=${obfuscatedId}&level=${level}`;
     
     if (level > 1 && currentStartByte !== null) {
         fetchUrl += `&start=${currentStartByte}`;
@@ -77,33 +76,20 @@ async function loadAudioLevel(songFile, level) {
     
     try {
         const response = await fetch(fetchUrl);
-        if (!response.ok) {
-            throw new Error(`HTTP Error: ${response.status}`);
-        }
+        if (!response.ok) throw new Error(`HTTP Error: ${response.status}`);
         
         if (level === 1) {
             const startByte = response.headers.get('X-Start-Byte');
-            if (startByte) {
-                currentStartByte = parseInt(startByte, 10);
-            }
+            if (startByte) currentStartByte = parseInt(startByte, 10);
         }
         
         const blob = await response.blob();
         
-        // 2. Limpieza segura del audio antes de asignar el nuevo blob
-        if (typeof audioPlayer !== 'undefined' && audioPlayer) {
-            audioPlayer.pause();
-            if (currentBlobUrl) {
-                URL.revokeObjectURL(currentBlobUrl);
-            }
-            audioPlayer.src = '';
-            audioPlayer.load();
-        }
-        
+        // Asignar el nuevo blob (la limpieza ya se hizo en cleanupAudio)
         currentBlobUrl = URL.createObjectURL(blob);
         audioPlayer.src = currentBlobUrl;
         
-        audioPlayer.play().catch(e => console.log("Autoplay prevented:", e));
+        audioPlayer.play().catch(e => console.log("Autoplay prevented (expected)"));
         
     } catch (e) {
         console.error("Error loading audio level:", e);
@@ -1043,10 +1029,12 @@ async function resetGame(forceNew = false) {
     // updatePlayIcon(false); // REMOVED: This was overwriting the loader immediately!
 
 
-    // Limpieza segura síncrona
-    audioPlayer.pause();
-    audioPlayer.src = "";
-    audioPlayer.load(); // fuerza limpieza del buffer
+    // Limpieza segura síncrona radical
+    if (audioPlayer) {
+        audioPlayer.pause();
+        audioPlayer.removeAttribute('src'); // mejor que src = ""
+        audioPlayer.load();
+    }
     
     if (currentBlobUrl) {
         URL.revokeObjectURL(currentBlobUrl);
@@ -1062,25 +1050,19 @@ async function resetGame(forceNew = false) {
     audioPlayer.onloadedmetadata = () => {
         const duration = audioPlayer.duration;
         if (isFinite(duration) && duration > 15) {
-            // Random start time: from 0 to duration - 15
             gameStartTime = Math.random() * (duration - 15);
         } else {
             gameStartTime = 0;
         }
-        
         audioPlayer.currentTime = gameStartTime;
         saveModeState(currentMode);
         audioPlayer.onloadedmetadata = null;
     };
 
-    // correcciÃ³n: usar oncanplaythrough para activar el botÃ³n solo cuando el audio estÃ¡ listo
     const enablePlayOnReset = () => {
-        // re-establecer currentTime con el valor aleatorio calculado
         audioPlayer.currentTime = gameStartTime;
         playButton.removeAttribute('disabled');
-        // Enable skip
         skipButton.disabled = false;
-        // Restore play icon
         updatePlayIcon(false);
         audioPlayer.oncanplaythrough = null;
         audioPlayer.oncanplay = null;
@@ -1088,17 +1070,14 @@ async function resetGame(forceNew = false) {
     };
 
     audioPlayer.oncanplaythrough = enablePlayOnReset;
-    // Fallback: some browsers fire canplay but not canplaythrough
     audioPlayer.oncanplay = enablePlayOnReset;
 
-    // FIX: Handle audio load errors (e.g. 404, corrupted file) â€” prevents infinite loading spinner
-    audioPlayer.onerror = () => {
+    audioPlayer.onerror = (e) => {
+        // Ignorar errores si el src está vacío (limpieza)
+        if (!audioPlayer.src || audioPlayer.src === window.location.href) return;
         console.error("Audio load error");
         playButton.setAttribute('disabled', '');
         updatePlayIcon(false);
-        audioPlayer.oncanplaythrough = null;
-        audioPlayer.oncanplay = null;
-        audioPlayer.onerror = null;
     };
 
     // Actualizar display de racha al reset
