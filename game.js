@@ -755,7 +755,11 @@ async function restoreModeState(mode) {
             audioPlayer.onloadedmetadata = null;
         };
 
-        // Cargar canciÃƒÆ’Ã‚Â³n con blob (ofuscaciÃƒÆ’Ã‚Â³n)
+        // Limpieza segura síncrona
+        audioPlayer.pause();
+        audioPlayer.src = "";
+        audioPlayer.load();
+
         if (currentBlobUrl) {
             URL.revokeObjectURL(currentBlobUrl);
             currentBlobUrl = null;
@@ -763,11 +767,6 @@ async function restoreModeState(mode) {
 
         currentStartByte = null;
         loadAudioLevel(currentSong.archivo, guessCount + 1);
-
-        audioPlayer.currentTime = gameStartTime;
-        audioPlayer.load();
-
-        // FIX: Only enable play button when audio is actually ready
         const enablePlayOnRestore = () => {
             audioPlayer.currentTime = gameStartTime;
             playButton.removeAttribute('disabled');
@@ -784,7 +783,7 @@ async function restoreModeState(mode) {
 
         // FIX: Handle audio load errors (e.g. 404, corrupted file)
         audioPlayer.onerror = () => {
-            console.error("Audio error on restore for:", currentSong.archivo);
+            console.error("Audio error on restore");
             playButton.setAttribute('disabled', '');
             updatePlayIcon(false);
             audioPlayer.oncanplaythrough = null;
@@ -1044,6 +1043,11 @@ async function resetGame(forceNew = false) {
     // updatePlayIcon(false); // REMOVED: This was overwriting the loader immediately!
 
 
+    // Limpieza segura síncrona
+    audioPlayer.pause();
+    audioPlayer.src = "";
+    audioPlayer.load(); // fuerza limpieza del buffer
+    
     if (currentBlobUrl) {
         URL.revokeObjectURL(currentBlobUrl);
         currentBlobUrl = null;
@@ -1052,13 +1056,9 @@ async function resetGame(forceNew = false) {
     if (currentSong.archivo) {
         currentStartByte = null;
         loadAudioLevel(currentSong.archivo, 1);
-    } else {
-        audioPlayer.src = "";
     }
 
-    audioPlayer.currentTime = gameStartTime;
-
-    // Configurar listener para calcular inicio aleatorio cuando tengamos la duraciÃƒÂƒÃ‚Â³n
+    // Configurar listener para calcular inicio aleatorio cuando tengamos la duración
     audioPlayer.onloadedmetadata = () => {
         const duration = audioPlayer.duration;
         if (isFinite(duration) && duration > 15) {
@@ -1067,17 +1067,11 @@ async function resetGame(forceNew = false) {
         } else {
             gameStartTime = 0;
         }
-        // console.log("Random start time:", gameStartTime, "Duration:", duration);
-
+        
         audioPlayer.currentTime = gameStartTime;
-
         saveModeState(currentMode);
-
-        // Limpiar listener para evitar ejecuciones mÃƒÆ’Ã‚Âºltiples
         audioPlayer.onloadedmetadata = null;
     };
-
-    audioPlayer.load(); // forzar la carga de la nueva fuente
 
     // correcciÃ³n: usar oncanplaythrough para activar el botÃ³n solo cuando el audio estÃ¡ listo
     const enablePlayOnReset = () => {
@@ -1099,7 +1093,7 @@ async function resetGame(forceNew = false) {
 
     // FIX: Handle audio load errors (e.g. 404, corrupted file) â€” prevents infinite loading spinner
     audioPlayer.onerror = () => {
-        console.error("Audio load error for:", currentSong.archivo);
+        console.error("Audio load error");
         playButton.setAttribute('disabled', '');
         updatePlayIcon(false);
         audioPlayer.oncanplaythrough = null;
