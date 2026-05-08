@@ -11,8 +11,6 @@ let guessCount = 0;
 // VARIABLE GLOBAL PARA EL COMANDO SECRETO
 window.kinoUnlocked = false;
 
-
-
 // Duraciones de intentos (DINÃƒÂƒÃ‚ÂMICO)
 function getDurations() {
     if (currentMode === 'artist' || currentMode === 'album') {
@@ -54,79 +52,61 @@ audioPlayer.addEventListener('timeupdate', () => {
 
 // nuevo: historial para evitar repeticiÃƒÂƒÃ‚Â³n entre juegos.
 let lastTwoIndices = [-1, -1]; // almacena los ÃƒÂƒÃ‚Â­ndices de las dos ÃƒÂƒÃ‚Âºltimas canciones jugadas de 'biblioteca'
-// Variables de audio para Cloudflare Worker
-let currentBlobUrl = null;
+let currentBlobUrl = null; // Para ocultar la URL del archivo
 let currentStartByte = null;
-
-// ==================== AUDIO WORKER - VERSIÓN ESTABLE ====================
-
-async function cleanupAudio(isNewSong = false) {
-    if (typeof audioPlayer !== 'undefined' && audioPlayer) {
-        audioPlayer.pause();
-        if (currentBlobUrl) {
-            URL.revokeObjectURL(currentBlobUrl);
-            currentBlobUrl = null;
-        }
-        audioPlayer.src = '';
-        audioPlayer.currentTime = 0;
-    }
-    if (isNewSong) {
-        currentStartByte = null;
-        snippetState = 'idle';
-    }
-}
 
 async function loadAudioLevel(songFile, level) {
     if (!songFile) return;
 
-    await cleanupAudio(level === 1);
-
-    console.log("loadAudioLevel recibió:", songFile);
-
-    // Limpiar nombre
+    // 1. Limpiar el nombre del archivo para que el Worker no reciba URLs completas ni carpetas
     if (songFile.includes("http")) {
         songFile = songFile.split('/').pop();
         try { songFile = decodeURIComponent(songFile); } catch (e) {}
     } else if (songFile.includes("/")) {
         songFile = songFile.split('/').pop();
     }
-
+    
+    console.log(`Cargando level ${level} - start: ${currentStartByte || 'random'}`);
+    
     const encodedPath = encodeURIComponent(songFile);
     let fetchUrl = `${WORKER_URL}?id=${encodedPath}&level=${level}`;
+    
     if (level > 1 && currentStartByte !== null) {
         fetchUrl += `&start=${currentStartByte}`;
     }
-
+    
     try {
         const response = await fetch(fetchUrl);
-        if (!response.ok) throw new Error(`HTTP ${response.status}`);
-
+        if (!response.ok) {
+            throw new Error(`HTTP Error: ${response.status}`);
+        }
+        
         if (level === 1) {
             const startByte = response.headers.get('X-Start-Byte');
-            if (startByte) currentStartByte = parseInt(startByte, 10);
+            if (startByte) {
+                currentStartByte = parseInt(startByte, 10);
+            }
         }
-
+        
         const blob = await response.blob();
+        
+        // 2. Limpieza segura del audio antes de asignar el nuevo blob
+        if (typeof audioPlayer !== 'undefined' && audioPlayer) {
+            audioPlayer.pause();
+            if (currentBlobUrl) {
+                URL.revokeObjectURL(currentBlobUrl);
+            }
+            audioPlayer.src = '';
+            audioPlayer.load();
+        }
+        
         currentBlobUrl = URL.createObjectURL(blob);
         audioPlayer.src = currentBlobUrl;
-
-        gameStartTime = 0;
-
-        // Configurar duración del fragmento
-        const durations = getDurations();
-        let targetDur = durations[level - 1] || 15;
-        if (level === 1) targetDur = 0.2; // truco visual del primer nivel
-        snippetTargetTime = targetDur;
-
-        console.log(`Nivel ${level} → Duración objetivo: ${targetDur}s`);
-
-        // Pequeño delay para estabilidad
-        await new Promise(r => setTimeout(r, 50));
-
-        audioPlayer.onerror = () => console.warn(`[Audio] Error en level ${level}`);
-
+        
+        audioPlayer.play().catch(e => console.log("Autoplay prevented:", e));
+        
     } catch (e) {
-        console.error("Error cargando audio:", e);
+        console.error("Error loading audio level:", e);
     }
 }
 // HISTORIAL PERSISTENTE DE CANCIONES JUGADAS
@@ -606,8 +586,7 @@ function saveModeState(mode) {
         hasGuessedCorrectly: hasGuessedCorrectly,
         availableSongs: [...availableSongs],
         guesses: getGuessStates(), // Guardar estado visual
-        gameStartTime: gameStartTime, // Guardar tiempo de inicio aleatorio
-        currentStartByte: currentStartByte // Persistir byte de inicio del Worker
+        gameStartTime: gameStartTime // Guardar tiempo de inicio aleatorio
     };
 
     if (mode === 'artist') {
@@ -763,23 +742,34 @@ async function restoreModeState(mode) {
 
     // Restaurar audio con blob para mantener ofuscaciÃƒÂƒÃ‚Â³n
     if (currentSong.archivo) {
-        // Worker blobs siempre empiezan en 0
-        gameStartTime = 0;
+        // Restaurar el tiempo de inicio aleatorio guardado, o usar 0 por defecto
+        gameStartTime = state.gameStartTime !== undefined ? state.gameStartTime : 0;
 
-        // Cargar canción con blob (ofuscación)
-        await cleanupAudio(false); // NO es nueva canción, es restore
-        currentBlobUrl = null;
-        
-        // Restaurar el startByte guardado para que los skips funcionen post-F5
-        currentStartByte = state.currentStartByte !== undefined ? state.currentStartByte : null;
+        // FIX: Limpiar el listener onloadedmetadata de resetGame para evitar que sobrescriba
+        // el gameStartTime guardado con un nuevo valor aleatorio
+        audioPlayer.onloadedmetadata = () => {
+            // Enforce saved start time after metadata loads
+            if (isFinite(audioPlayer.duration)) {
+                audioPlayer.currentTime = gameStartTime;
+            }
+            audioPlayer.onloadedmetadata = null;
+        };
 
+        // Cargar canciÃƒÆ’Ã‚Â³n con blob (ofuscaciÃƒÆ’Ã‚Â³n)
+        if (currentBlobUrl) {
+            URL.revokeObjectURL(currentBlobUrl);
+            currentBlobUrl = null;
+        }
+
+        currentStartByte = null;
         loadAudioLevel(currentSong.archivo, guessCount + 1);
 
-        audioPlayer.currentTime = 0;
+        audioPlayer.currentTime = gameStartTime;
+        audioPlayer.load();
 
         // FIX: Only enable play button when audio is actually ready
         const enablePlayOnRestore = () => {
-            audioPlayer.currentTime = 0;
+            audioPlayer.currentTime = gameStartTime;
             playButton.removeAttribute('disabled');
             skipButton.disabled = false;
             updatePlayIcon(false);
@@ -794,7 +784,7 @@ async function restoreModeState(mode) {
 
         // FIX: Handle audio load errors (e.g. 404, corrupted file)
         audioPlayer.onerror = () => {
-            console.error("Audio error on restore - Song:", currentSong.nombre);
+            console.error("Audio error on restore for:", currentSong.archivo);
             playButton.setAttribute('disabled', '');
             updatePlayIcon(false);
             audioPlayer.oncanplaythrough = null;
@@ -852,7 +842,11 @@ async function switchMode(mode) {
     pauseAudioInternal();
 
     // CRITICAL FIX: Stop everything and CLEAR SOURCE immediately to prevent ghost audio
-    await cleanupAudio(true);
+    audioPlayer.src = "";
+    if (currentBlobUrl) {
+        URL.revokeObjectURL(currentBlobUrl);
+        currentBlobUrl = null;
+    }
 
     // FIX: Reset progress bar visually when switching modes
     if (progressBarFill) progressBarFill.style.width = '0%';
@@ -1027,7 +1021,7 @@ async function resetGame(forceNew = false) {
         gameOverContent.classList.remove('win', 'lose');
     }, 300);
 
-    // Si no hay canción seleccionada (modo artista sin artista), deshabilitar búsqueda
+    // Si no hay canciÃƒÂƒÃ‚Â³n seleccionada (modo artista sin artista), deshabilitar bÃƒÂƒÃ‚Âºsqueda
     if (!currentSong.archivo) {
         document.getElementById('search-container').classList.add('disabled');
     } else {
@@ -1035,32 +1029,64 @@ async function resetGame(forceNew = false) {
     }
 
     playButton.setAttribute('disabled', '');
+    // Disable skip while loading
     skipButton.disabled = true;
+    // Show loader
     playButton.innerHTML = '<div class="loader"></div>';
 
     clearGuessBoxes();
+
 
     gameStartTime = 0;
 
     updateTimeMarker(0);
     if (progressBarFill) progressBarFill.style.width = '0%';
+    // updatePlayIcon(false); // REMOVED: This was overwriting the loader immediately!
 
-    await cleanupAudio(true);
-    currentBlobUrl = null;
+
+    if (currentBlobUrl) {
+        URL.revokeObjectURL(currentBlobUrl);
+        currentBlobUrl = null;
+    }
 
     if (currentSong.archivo) {
+        currentStartByte = null;
         loadAudioLevel(currentSong.archivo, 1);
     } else {
         audioPlayer.src = "";
     }
 
-    audioPlayer.currentTime = 0;
+    audioPlayer.currentTime = gameStartTime;
 
-    // Activar el botón solo cuando el audio esté listo
+    // Configurar listener para calcular inicio aleatorio cuando tengamos la duraciÃƒÂƒÃ‚Â³n
+    audioPlayer.onloadedmetadata = () => {
+        const duration = audioPlayer.duration;
+        if (isFinite(duration) && duration > 15) {
+            // Random start time: from 0 to duration - 15
+            gameStartTime = Math.random() * (duration - 15);
+        } else {
+            gameStartTime = 0;
+        }
+        // console.log("Random start time:", gameStartTime, "Duration:", duration);
+
+        audioPlayer.currentTime = gameStartTime;
+
+        saveModeState(currentMode);
+
+        // Limpiar listener para evitar ejecuciones mÃƒÆ’Ã‚Âºltiples
+        audioPlayer.onloadedmetadata = null;
+    };
+
+    audioPlayer.load(); // forzar la carga de la nueva fuente
+
+    // correcciÃ³n: usar oncanplaythrough para activar el botÃ³n solo cuando el audio estÃ¡ listo
     const enablePlayOnReset = () => {
-        audioPlayer.currentTime = 0;
+        // re-establecer currentTime con el valor aleatorio calculado
+        audioPlayer.currentTime = gameStartTime;
         playButton.removeAttribute('disabled');
+        // Enable skip
         skipButton.disabled = false;
+        // Restore play icon
         updatePlayIcon(false);
         audioPlayer.oncanplaythrough = null;
         audioPlayer.oncanplay = null;
@@ -1073,7 +1099,7 @@ async function resetGame(forceNew = false) {
 
     // FIX: Handle audio load errors (e.g. 404, corrupted file) â€” prevents infinite loading spinner
     audioPlayer.onerror = () => {
-        console.error("Audio load error on reset - Song:", currentSong.nombre);
+        console.error("Audio load error for:", currentSong.archivo);
         playButton.setAttribute('disabled', '');
         updatePlayIcon(false);
         audioPlayer.oncanplaythrough = null;
@@ -1377,15 +1403,11 @@ function initializeFullPlayer() {
     if (currentBlobUrl) {
         audioPlayer.src = currentBlobUrl;
     } else {
-        // En caso de que no haya blob, cargar la canción completa desde el worker
-        let cleanName = currentSong.archivo;
-        if (cleanName.includes("http")) {
-            cleanName = cleanName.split('/').pop();
-            try { cleanName = decodeURIComponent(cleanName); } catch (e) { }
-        } else if (cleanName.includes("/")) {
-            cleanName = cleanName.split('/').pop();
+        if (window.location.protocol !== 'file:') {
+            audioPlayer.src = currentSong.archivo;
+        } else {
+            audioPlayer.src = currentSong.archivo;
         }
-        audioPlayer.src = `${WORKER_URL}?id=${encodeURIComponent(cleanName)}`;
     }
     audioPlayer.currentTime = 0;
     audioPlayer.load(); // forzar la carga de metadatos (duraciÃƒÂƒÃ‚Â³n)
@@ -1448,42 +1470,79 @@ function updatePlayIcon(playing) {
     playButton.setAttribute('aria-label', playing ? 'pausar fragmento' : 'escuchar fragmento');
 }
 
-// ==================== PLAY SNIPPET ====================
-
+/**
+ * Finishes snippet playback - called when target time is reached
+ */
 function finishSnippet() {
     pauseAudioInternal(true);
-    audioPlayer.currentTime = 0;
+    // Don't reset currentTime - keep position for potential resume after skip
 }
 
-// ==================== ANIMATION LOOP (simplificado) ====================
 
 function animationLoop() {
-    if (snippetState !== 'playing' || isGameOver) {
+    // Stop if not playing
+    if (snippetState !== 'playing') {
         animationFrameId = null;
         return;
     }
 
     const currentTime = audioPlayer.currentTime;
 
+    // CONTINUOUS PLAYBACK: Stop checking limits if game is over
+    if (isGameOver) {
+        animationFrameId = null;
+        return;
+    }
+
+    // Check if we've reached or passed the target time
+    // FIX: If user guessed correctly, DON'T stop playback. Let it play through the cooldown.
     if (currentTime >= snippetTargetTime && !hasGuessedCorrectly) {
+        // Use VISUAL duration (0.1s) not actual playback duration (0.2s) for progress bar
+        const durations = getDurations();
+        const visualDuration = durations[guessCount] || getTotalGameDuration();
+        const targetPercentage = getPercentage(visualDuration);
+
+        progressBarFill.style.width = targetPercentage + '%';
+
+        // Stop playback
         finishSnippet();
         return;
     }
 
-    // Barra de progreso
+    // Update progress bar
+    const elapsedFromStart = Math.max(0, currentTime - gameStartTime);
+
+    // Use VISUAL duration for progress bar, not actual playback duration
+    // This prevents the bar from overshooting the visual 0.1s divider when playing 0.2s
     const durations = getDurations();
     const visualDuration = durations[guessCount] || getTotalGameDuration();
-    const percentage = (currentTime / visualDuration) * getPercentage(visualDuration);
-    if (progressBarFill) progressBarFill.style.width = Math.min(percentage, 100) + '%';
+    const actualDuration = snippetTargetTime - gameStartTime;
 
+    // Scale elapsed time to visual duration
+    // If we're playing 0.2s but showing 0.1s, scale proportionally
+    const scaleFactor = visualDuration / actualDuration;
+    const visualElapsed = Math.min(elapsedFromStart * scaleFactor, visualDuration);
+
+    const percentage = getPercentage(visualElapsed);
+    progressBarFill.style.width = percentage + '%';
+
+    // Continue the loop
     animationFrameId = requestAnimationFrame(animationLoop);
 }
 
+/**
+ * Starts the animation loop for smooth progress updates
+ */
 function startAnimationLoop() {
-    if (animationFrameId) cancelAnimationFrame(animationFrameId);
+    if (animationFrameId) {
+        cancelAnimationFrame(animationFrameId);
+    }
     animationFrameId = requestAnimationFrame(animationLoop);
 }
 
+/**
+ * Stops the animation loop
+ */
 function stopAnimationLoop() {
     if (animationFrameId) {
         cancelAnimationFrame(animationFrameId);
@@ -1491,27 +1550,57 @@ function stopAnimationLoop() {
     }
 }
 
+/**
+ * Main playback function - Mobile-Optimized v2.0
+ * Uses audio events instead of timers for reliable mobile playback
+ */
 function playSnippet() {
+    // Prevent playing if in album mode without album selection
+    if (currentMode === 'album' && !selectedAlbum) return;
+
     if (hasGuessedCorrectly || playButton.hasAttribute('disabled')) return;
 
+    const durations = getDurations();
+    let targetDuration = durations[guessCount] || getTotalGameDuration();
+
+    // "Mentira" del 0.2s: visual shows 0.1s but plays 0.2s
+    if (guessCount === 0 && targetDuration === 0.1) {
+        targetDuration = 0.2;
+    }
+
+    // Toggle pause if already playing
     if (snippetState === 'playing') {
-        pauseAudioInternal(false);
+        pauseAudioInternal(false); // pause, don't reset to idle
         return;
     }
 
-    // Reiniciar al principio si ya pasó el límite
-    if (audioPlayer.currentTime >= snippetTargetTime - 0.05) {
-        audioPlayer.currentTime = 0;
+    // Calculate the absolute target time in the audio
+    snippetTargetTime = gameStartTime + targetDuration;
+
+    // Determine if we should restart or resume
+    const currentTime = audioPlayer.currentTime;
+    const tolerance = 0.05; // 50ms tolerance
+
+    const isShortDuration = targetDuration <= 0.5;
+    const isPastTarget = currentTime >= snippetTargetTime - tolerance;
+    const isBeforeStart = currentTime < gameStartTime - tolerance;
+
+    if (isShortDuration || isPastTarget || isBeforeStart) {
+        audioPlayer.currentTime = gameStartTime;
     }
 
+    // Start playback
     audioPlayer.play()
         .then(() => {
             snippetState = 'playing';
             updatePlayIcon(true);
+
+            // Start the smooth animation loop
             startAnimationLoop();
         })
         .catch(e => {
-            console.warn('Autoplay blocked:', e);
+            console.warn('Error starting playback:', e);
+            snippetState = 'idle';
             updatePlayIcon(false);
         });
 }
@@ -1666,7 +1755,7 @@ function showGameOver(won, isDuplicate = false) {
     skipButton.disabled = true;
 }
 
-async function handleGuessFromSelection(selectedSongName) {
+function handleGuessFromSelection(selectedSongName) {
     playSound('click');
     const durations = getDurations();
     if (hasGuessedCorrectly || guessCount >= durations.length) return;
@@ -1683,9 +1772,6 @@ async function handleGuessFromSelection(selectedSongName) {
         guessBox.textContent = currentSong.nombre;
         guessBox.classList.add('correct');
         hasGuessedCorrectly = true;
-        
-        // Limpiar audio al ganar
-        await cleanupAudio(true);
 
         // CHECK DUPLICATE WIN (Artist/Album Modes)
         const songName = currentSong.nombre;
@@ -1787,10 +1873,17 @@ function handleSkip() {
     guessCount++;
     if (guessCount < durations.length) {
         updateTimeMarker(guessCount);
-
+        
         loadAudioLevel(currentSong.archivo, guessCount + 1);
 
-        // snippetTargetTime se configura automáticamente dentro de loadAudioLevel
+        // FIX: Actualizar snippetTargetTime al nuevo lÃƒÂƒÃ‚Â­mite del segmento desbloqueado
+        // para que el audio no se pause al llegar al lÃƒÂƒÃ‚Â­mite del segmento anterior
+        let newTargetDuration = durations[guessCount];
+        // "Mentira" del 0.2s: visual shows 0.1s but plays 0.2s
+        if (guessCount === 0 && newTargetDuration === 0.1) {
+            newTargetDuration = 0.2;
+        }
+        snippetTargetTime = gameStartTime + newTargetDuration;
     } else {
         showGameOver(false);
     }
