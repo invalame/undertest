@@ -198,13 +198,7 @@
     </div> <!-- End game-board-wrapper -->
 </main>
 
-<!-- POPUP RECLAMAR RACHA -->
-<div id="streak-claim-popup" class="streak-popup" style="display: none;">
-    <button class="close-popup" onclick="closeClaimPopup()">x</button>
-    <div class="popup-title">Reclamar 25 de racha</div>
-    <div class="popup-text">Por la cantidad de bugs te regalamos esto</div>
-    <button class="claim-button" onclick="claimStreak()">Reclamar</button>
-</div>
+
 
 <!-- MODAL INFO VIDAS -->
 <div id="life-info-modal" class="modal-overlay" style="display: none;">
@@ -257,26 +251,6 @@
                 <span id="correct-answer"></span>
             </div>
 
-            <div class="full-player-container">
-                <div class="full-player-bar">
-                    <input type="range" id="full-song-seeker" min="0" max="100" value="0">
-                </div>
-                <div class="full-player-controls">
-                    <button class="action-button mini-play-button" id="full-song-toggle" onclick="toggleFullSong()">
-                        <span id="full-song-icon-play">
-                            <svg viewBox="0 0 24 24" aria-hidden="true">
-                                <path d="M8 5v14l11-7z" />
-                            </svg>
-                        </span>
-                        <span id="full-song-icon-pause" style="display: none;">
-                            <svg viewBox="0 0 24 24" aria-hidden="true">
-                                <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z" />
-                            </svg>
-                        </span>
-                    </button>
-                    <span id="full-song-time">0:00 / 0:00</span>
-                </div>
-            </div>
             <button class="action-button play-again-button" onclick="resetGame(true)">una ma</button>
             <button id="mobile-share-btn" class="action-button share-button-mobile-style"
                 style="display:none; margin-top: 10px;" onclick="triggerMobileShare()">compartir racha</button>

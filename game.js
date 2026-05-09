@@ -37,8 +37,7 @@ let animationFrameId = null; // For requestAnimationFrame cleanup
 
 // Core audio variables
 let gameStartTime = 0; // Random start point within the song
-let isFullSongPlaying = false;
-let fullPlayerInterval = null;
+
 let isGameOver = false; // Moved here for global access
 
 
@@ -57,7 +56,7 @@ let currentStartByte = null;
 
 // ==================== AUDIO WORKER - VERSIÓN ESTABLE ====================
 
-async function cleanupAudio(isNewSong = false) {
+async function cleanupAudio(isNewSong = false, shouldResetTime = true) {
     if (typeof audioPlayer !== 'undefined' && audioPlayer) {
         audioPlayer.pause();
         if (currentBlobUrl) {
@@ -65,7 +64,9 @@ async function cleanupAudio(isNewSong = false) {
             currentBlobUrl = null;
         }
         audioPlayer.removeAttribute('src');
-        audioPlayer.currentTime = 0;
+        if (shouldResetTime) {
+            audioPlayer.currentTime = 0;
+        }
     }
     if (isNewSong) {
         currentStartByte = null;
@@ -73,30 +74,41 @@ async function cleanupAudio(isNewSong = false) {
     }
 }
 
+function getCleanFileName(songFile) {
+    if (!songFile) return "";
+    let name = songFile;
+    if (name.includes("http")) {
+        name = name.split('/').pop();
+        try { name = decodeURIComponent(name); } catch (e) {}
+    } else if (name.includes("/")) {
+        name = name.split('/').pop();
+    }
+    return name;
+}
+
 async function loadAudioLevel(songFile, level) {
     if (!songFile) return;
 
-    await cleanupAudio(level === 1);
+    // Persistencia del tiempo para continuidad tras skip
+    // Excepción: Salto de 0.5s (Lvl 1) a 2s (Lvl 2) - ahí reseteamos a 0
+    const shouldContinue = level > 2;
+    const lastTime = shouldContinue ? audioPlayer.currentTime : 0;
 
+    await cleanupAudio(level === 1, !shouldContinue);
 
-    // Limpiar nombre
-    if (songFile.includes("http")) {
-        songFile = songFile.split('/').pop();
-        try { songFile = decodeURIComponent(songFile); } catch (e) {}
-    } else if (songFile.includes("/")) {
-        songFile = songFile.split('/').pop();
-    }
+    // Limpiar nombre de forma consistente
+    const cleanName = getCleanFileName(songFile);
 
     // CHECK LOCALSTORAGE FOR START BYTE
-    const lsKey = `ul_start_${songFile}`;
+    const lsKey = `ul_start_${cleanName}`;
     const savedStart = localStorage.getItem(lsKey);
     if (savedStart !== null) {
         currentStartByte = parseInt(savedStart, 10);
     }
 
     // Codificar en Base64 para ocultar el nombre en el panel Network (F12)
-    // Usamos encodeURIComponent primero para evitar errores con tildes o caracteres especiales
-    const base64Id = btoa(encodeURIComponent(songFile));
+    // IMPORTANTE: El Worker espera el nombre limpio para buscarlo en R2
+    const base64Id = btoa(encodeURIComponent(cleanName));
     let fetchUrl = `${WORKER_URL}?id=${base64Id}&level=${level}&mode=${currentMode}`;
     
     if (currentStartByte !== null) {
@@ -116,6 +128,10 @@ async function loadAudioLevel(songFile, level) {
         const blob = await response.blob();
         currentBlobUrl = URL.createObjectURL(blob);
         audioPlayer.src = currentBlobUrl;
+        
+        if (shouldContinue) {
+            audioPlayer.currentTime = lastTime;
+        }
 
         gameStartTime = 0;
 
@@ -173,10 +189,7 @@ const answerLabel = document.getElementById('answer-label'); // nuevo
 const correctAnswerEl = document.getElementById('correct-answer'); // renombrado
 
 // nuevos elementos del reproductor completo
-const fullSongIconPlay = document.getElementById('full-song-icon-play');
-const fullSongIconPause = document.getElementById('full-song-icon-pause');
-const fullSongSeeker = document.getElementById('full-song-seeker');
-const fullSongTime = document.getElementById('full-song-time');
+
 
 // elementos modo artista
 const artistSection = document.getElementById('artist-section');
@@ -800,7 +813,7 @@ async function restoreModeState(mode) {
         audioPlayer.src = "";
         playButton.setAttribute('disabled', '');
         skipButton.disabled = true;
-        if (fullSongTime) fullSongTime.textContent = '0:00 / 0:00';
+
 
         if (mode === 'artist' && !selectedArtist) {
             document.getElementById('search-container').classList.add('disabled');
@@ -979,19 +992,11 @@ async function resetGame(forceNew = false) {
     audioPlayer.src = "";
 
     isGameOver = false;
-    isFullSongPlaying = false;
     snippetState = 'idle';
 
-    // Clear full player interval if running
-    if (fullPlayerInterval) {
-        clearInterval(fullPlayerInterval);
-        fullPlayerInterval = null;
-    }
 
-    if (fullSongTime) fullSongTime.textContent = '0:00 / 0:00';
     audioPlayer.onloadedmetadata = null; // limpiar listeners
     audioPlayer.onended = null;
-    if (fullSongIconPlay) updateFullPlayerIcon(false);
 
     isSnippetPlaying = false;
     snippetRemainingMs = 0;
@@ -1138,7 +1143,7 @@ function selectRandomSong() {
             }
         } else if (currentMode === 'album') {
             if (selectedAlbum) {
-                // MODO ÃƒÂƒÃ‚ÂLBUM: Comportamiento de "Lista/Playlist" -> Cargar TODAS las canciones del ÃƒÂƒÂ¡lbum
+                // MODO ÃƒÂƒÃ‚Â LBUM: Comportamiento de "Lista/Playlist" -> Cargar TODAS las canciones del ÃƒÂƒÂ¡lbum
                 const albumInfo = albumsData.find(a => a.name === selectedAlbum);
                 if (albumInfo && albumInfo.songs) {
                     availableSongs = [...albumInfo.songs];
@@ -1151,7 +1156,7 @@ function selectRandomSong() {
         } else {
             // MODO NORMAL: Comportamiento original
             fullPool = [...biblioteca];
-            // Filtrar las que ya estÃƒÂƒÂ¡n en el historial para dar variedad
+            // Filtrar las que ya estÃƒÂƒÃ‚Â­n en el historial para dar variedad
             availableSongs = fullPool.filter(song => !persistentHistory.includes(song.nombre));
 
             // Si se agotan (ya se jugaron todas las posibles menos las del historial), reiniciamos
@@ -1176,7 +1181,7 @@ function selectRandomSong() {
     let randomIndexInAvailable = Math.floor(Math.random() * availableSongs.length);
     let selectedSongCandidate = availableSongs[randomIndexInAvailable];
 
-    // 4. MODO ARTISTA/ÃƒÂƒÃ‚ÂLBUM: Evitar repeticiÃ³n en lapso corto (Constraint check)
+    // 4. MODO ARTISTA/ÃƒÂƒÃ‚Â LBUM: Evitar repeticiÃ³n en lapso corto (Constraint check)
     // Aunque availableSongs garantiza no repeticiÃ³n DENTRO de la ronda, 
     // al resetear la lista (nueva ronda) podrÃ­a tocar una que reciÃ©n sonÃ³.
     if (currentMode === 'artist' || currentMode === 'album') {
@@ -1268,174 +1273,7 @@ function pauseAudioInternal(resetToIdle = true) {
     updatePlayIcon(false);
 }
 
-// nuevas funciones para reproductor completo
-function updateFullPlayerIcon(playing) {
-    if (playing) {
-        fullSongIconPlay.style.display = 'none';
-        fullSongIconPause.style.display = 'inline-block';
-    } else {
-        fullSongIconPlay.style.display = 'inline-block';
-        fullSongIconPause.style.display = 'none';
-    }
-}
 
-// intervalo para actualizar el tiempo y la barra
-function startFullPlayerUpdate() {
-    if (fullPlayerInterval) clearInterval(fullPlayerInterval);
-
-    fullPlayerInterval = setInterval(() => {
-        const currentTime = audioPlayer.currentTime;
-        const duration = audioPlayer.duration;
-
-        if (audioPlayer.paused || audioPlayer.ended) {
-            if (audioPlayer.ended) {
-                isFullSongPlaying = false;
-                updateFullPlayerIcon(false);
-                audioPlayer.currentTime = 0;
-                if (fullSongSeeker) fullSongSeeker.value = 0;
-            }
-            clearInterval(fullPlayerInterval);
-            fullPlayerInterval = null;
-            return;
-        }
-
-        if (isFinite(duration) && duration > 0 && fullSongSeeker && fullSongTime) {
-            const percentage = (currentTime / duration) * 100;
-            fullSongSeeker.value = percentage;
-            fullSongTime.textContent = `${formatTime(currentTime)} / ${formatTime(duration)}`;
-        }
-    }, 500); // actualizar dos veces por segundo
-}
-
-// listener para el slider de bÃƒÂƒÃ‚Âºsqueda (seeker)
-function setupFullSongSeeker() {
-    if (!fullSongSeeker || fullSongSeeker.dataset.listenerSet) return;
-
-    // al mover el slider (input), solo actualiza el tiempo en pantalla
-    fullSongSeeker.addEventListener('input', function () {
-        const duration = audioPlayer.duration || 0;
-        const seekTo = duration * (this.value / 100);
-        fullSongTime.textContent = `${formatTime(seekTo)} / ${formatTime(duration)}`;
-    });
-
-    // al soltar el slider (change), busca la posiciÃƒÂƒÃ‚Â³n y reproduce si estaba pausado
-    fullSongSeeker.addEventListener('change', function () {
-        const duration = audioPlayer.duration || 0;
-        const seekTo = duration * (this.value / 100);
-
-        if (audioPlayer.readyState >= 2) {
-            audioPlayer.currentTime = seekTo;
-            // si no estaba reproduciendo, iniciar la reproducciÃ³n y el tracking
-            if (!isFullSongPlaying && audioPlayer.paused) {
-                audioPlayer.play().catch(e => console.warn('fallo al reproducir despuÃ©s de buscar:', e));
-                isFullSongPlaying = true;
-                updateFullPlayerIcon(true);
-                startFullPlayerUpdate();
-            }
-        }
-    });
-
-    fullSongSeeker.dataset.listenerSet = true;
-}
-
-// inicializaciÃƒÂƒÃ‚Â³n del reproductor completo cuando el modal se abre
-function initializeFullPlayer() {
-    // CONTINUOUS PLAYBACK: If game over, don't stop audio, just sync UI
-    if (isGameOver) {
-        // Auto-resume if paused
-        if (audioPlayer.paused) {
-            audioPlayer.play().catch(e => console.warn('Auto-resume failed:', e));
-        }
-
-        isFullSongPlaying = true;
-        updateFullPlayerIcon(true);
-        startFullPlayerUpdate();
-        setupFullSongSeeker();
-
-        // Ensure onended is set to handle when song finishes naturally
-        audioPlayer.onended = () => {
-            isFullSongPlaying = false;
-            updateFullPlayerIcon(false);
-            audioPlayer.currentTime = 0;
-            if (fullSongSeeker) fullSongSeeker.value = 0;
-            if (fullSongTime) fullSongTime.textContent = `0:00 / ${formatTime(audioPlayer.duration)}`;
-            if (fullPlayerInterval) clearInterval(fullPlayerInterval);
-            fullPlayerInterval = null;
-        };
-        return;
-    }
-
-    // detener reproductor de snippet si aÃƒÂƒÃ‚Âºn estaba activo
-    pauseAudioInternal();
-
-    // resetear el estado del reproductor completo
-    isFullSongPlaying = false;
-    updateFullPlayerIcon(false);
-    if (fullPlayerInterval) clearInterval(fullPlayerInterval);
-    fullPlayerInterval = null;
-
-
-    if (currentBlobUrl) {
-        audioPlayer.src = currentBlobUrl;
-    } else {
-        if (window.location.protocol !== 'file:') {
-            audioPlayer.src = currentSong.archivo;
-        } else {
-            audioPlayer.src = currentSong.archivo;
-        }
-    }
-    audioPlayer.currentTime = 0;
-    audioPlayer.load(); // forzar la carga de metadatos (duraciÃƒÂƒÃ‚Â³n)
-
-    // configurar el seeker
-    setupFullSongSeeker();
-    if (fullSongSeeker) fullSongSeeker.value = 0;
-
-    // esperar a que se carguen los metadatos para obtener la duraciÃƒÂƒÃ‚Â³n
-    audioPlayer.onloadedmetadata = () => {
-        const duration = audioPlayer.duration;
-        if (fullSongTime) fullSongTime.textContent = `0:00 / ${formatTime(duration)}`;
-        audioPlayer.onloadedmetadata = null; // limpiar para evitar mÃƒÂƒÃ‚Âºltiples llamadas
-    };
-
-    // configurar el evento de finalizaciÃƒÂƒÃ‚Â³n
-    audioPlayer.onended = () => {
-        isFullSongPlaying = false;
-        updateFullPlayerIcon(false);
-        audioPlayer.currentTime = 0;
-        if (fullSongSeeker) fullSongSeeker.value = 0;
-        if (fullSongTime) fullSongTime.textContent = `0:00 / ${formatTime(audioPlayer.duration)}`;
-        if (fullPlayerInterval) clearInterval(fullPlayerInterval);
-        fullPlayerInterval = null;
-    };
-}
-
-function toggleFullSong() {
-    if (!currentSong.archivo) return;
-
-    if (isFullSongPlaying) {
-        audioPlayer.pause();
-        isFullSongPlaying = false;
-        updateFullPlayerIcon(false);
-        if (fullPlayerInterval) clearInterval(fullPlayerInterval);
-        fullPlayerInterval = null;
-    } else {
-        pauseAudioInternal(); // detener el snippet si estaba sonando
-
-        // si estÃƒÂƒÂ¡ pausada y no en el inicio, reanudar
-        if (audioPlayer.paused && audioPlayer.currentTime > 0) {
-            audioPlayer.play().catch(e => console.warn('fallo al reanudar canciÃ³n completa:', e));
-        } else {
-            // si estÃƒÂƒÂ¡ en el inicio (0:00) o terminÃƒÂƒÃ‚Â³, empezar desde el principio (ya cargado por initializeFullPlayer)
-            audioPlayer.currentTime = 0;
-            audioPlayer.play().catch(e => console.warn('fallo al reproducir canciÃ³n completa:', e));
-        }
-
-        isFullSongPlaying = true;
-        updateFullPlayerIcon(true);
-        startFullPlayerUpdate();
-    }
-}
 
 /**
  * Updates the play button icon
@@ -1549,18 +1387,11 @@ function showGameOver(won, isDuplicate = false) {
 
     // LIMPIAR PERSISTENCIA DEL START BYTE
     if (currentSong && currentSong.archivo) {
-        let cleanName = currentSong.archivo;
-        if (cleanName.includes("http")) {
-            cleanName = cleanName.split('/').pop();
-            try { cleanName = decodeURIComponent(cleanName); } catch (e) {}
-        } else if (cleanName.includes("/")) {
-            cleanName = cleanName.split('/').pop();
-        }
+        const cleanName = getCleanFileName(currentSong.archivo);
         localStorage.removeItem(`ul_start_${cleanName}`);
     }
 
-    // inicializar el reproductor completo antes de mostrar el modal
-    initializeFullPlayer();
+
 
     if (won) {
         const winMessages = ["GANASTE GG", "SOS BUENO", "CHAD HUMANO", "QUE PIBE TAN UNDER", "ZARPADO EN CHETO", "boeee...", "estoy orgulloso hijo", "CLAP CLAP", "ESTE SI QUE SABE", "watejel"];
@@ -1980,12 +1811,10 @@ window.addEventListener('load', () => {
     } else if (volumeSlider) {
         audioPlayer.volume = parseFloat(volumeSlider.value);
     }
-
     // PERSISTENCIA: Cargar estado guardado
     loadFromLocalStorage();
-    currentMode = 'normal'; // FORCE NORMAL MODE ON LOAD (User Request)
 
-    // Restaurar UI segÃƒÂƒÃ‚Âºn el modo cargado
+    // Restaurar UI según el modo cargado
     if (currentMode === 'artist') {
         modeNormalBtn.classList.remove('active');
         modeArtistBtn.classList.add('active');
@@ -2007,8 +1836,7 @@ window.addEventListener('load', () => {
     updateStreakDisplay();
     updateStreakSaverUI();
 
-    // Chequear popup de racha
-    checkClaimPopup();
+
 
     // Hide lives UI if in album mode
     const streakSaverUI = document.getElementById('streak-saver-ui');
@@ -2017,37 +1845,8 @@ window.addEventListener('load', () => {
     }
 });
 
-// LÃƒÂƒÃ¢Â€ÂœGICA POPUP RACHA
-function checkClaimPopup() {
-    if (!localStorage.getItem('streakClaimed_v1')) {
-        const popup = document.getElementById('streak-claim-popup');
-        if (popup) popup.style.display = 'block';
-    }
-}
 
-function claimStreak() {
-    playSound('click');
-    winStreak += 25;
-    streaksavers += 2; // Regalar 2 vidas
-    localStorage.setItem('winStreak', winStreak);
-    localStorage.setItem('streaksavers', streaksavers);
-    updateStreakDisplay();
-    updateStreakSaverUI();
 
-    // Marcar como reclamado
-    localStorage.setItem('streakClaimed_v1', 'true');
-
-    // Ocultar popup
-    const popup = document.getElementById('streak-claim-popup');
-    if (popup) popup.style.display = 'none';
-}
-
-function closeClaimPopup() {
-    playSound('click');
-    localStorage.setItem('streakClaimed_v1', 'true'); // No mostrar de nuevo
-    const popup = document.getElementById('streak-claim-popup');
-    if (popup) popup.style.display = 'none';
-}
 
 // LÃƒÂƒÃ¢Â€ÂœGICA MODAL BUGS
 function openBugsModal() {
