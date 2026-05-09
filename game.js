@@ -97,7 +97,7 @@ async function loadAudioLevel(songFile, level) {
     // Codificar en Base64 para ocultar el nombre en el panel Network (F12)
     // Usamos encodeURIComponent primero para evitar errores con tildes o caracteres especiales
     const base64Id = btoa(encodeURIComponent(songFile));
-    let fetchUrl = `${WORKER_URL}?id=${base64Id}&level=${level}`;
+    let fetchUrl = `${WORKER_URL}?id=${base64Id}&level=${level}&mode=${currentMode}`;
     
     if (currentStartByte !== null) {
         fetchUrl += `&start=${currentStartByte}`;

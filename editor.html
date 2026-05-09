@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Gestor de data.js - UnderLess</title>
+    <style>
+        @font-face {
+            font-family: 'PoppinsFont';
+            src: url('fonts/Poppins-Regular.ttf') format('truetype');
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        @font-face {
+            font-family: 'PoppinsFont';
+            src: url('fonts/Poppins-Bold.ttf') format('truetype');
+            font-weight: bold;
+            font-style: normal;
+        }
+
+        :root {
+            --bg: #111213;
+            --panel: #1a1c1d;
+            --muted: #b3b3b3;
+            --accent: #55b725;
+            --bar-bg: #161616;
+            --white: #ffffff;
+            --bar-active: #ffffff;
+            --grisesito: #444444;
+            --danger: #b42828;
+            --danger-hover: #d13030;
+        }
+
+        body {
+            font-family: 'PoppinsFont', sans-serif;
+            background: var(--bg);
+            color: var(--white);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .main-wrapper {
+            display: flex;
+            gap: 20px;
+            max-width: 1200px;
+            width: 100%;
+        }
+
+        .container {
+            flex: 3;
+            background: var(--panel);
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .sidebar {
+            flex: 1;
+            background: var(--panel);
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            height: fit-content;
+            max-height: 80vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        h1 {
+            text-align: center;
+            color: var(--accent);
+            margin-top: 0;
+            font-size: 2.2em;
+        }
+
+        h3 {
+            border-bottom: 2px solid var(--bar-bg);
+            padding-bottom: 10px;
+            color: var(--accent);
+            margin-top: 30px;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+        }
+
+        .tab {
+            flex: 1;
+            text-align: center;
+            padding: 15px 20px;
+            background: var(--bar-bg);
+            cursor: pointer;
+            border-radius: 8px;
+            font-weight: bold;
+            transition: 0.2s;
+            color: var(--muted);
+            font-size: 1.1em;
+        }
+
+        .tab:hover {
+            background: var(--grisesito);
+            color: var(--white);
+        }
+
+        .tab.active {
+            background: var(--accent);
+            color: var(--bg);
+        }
+
+        .panel {
+            display: none;
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        .panel.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(5px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: var(--muted);
+            font-size: 0.9em;
+        }
+
+        input[type="text"],
+        select {
+            width: 100%;
+            padding: 14px;
+            background: var(--bar-bg);
+            color: var(--white);
+            border: 2px solid transparent;
+            border-radius: 8px;
+            box-sizing: border-box;
+            font-size: 1em;
+            font-family: 'PoppinsFont', sans-serif;
+            transition: 0.2s;
+        }
+
+        input[type="text"]:focus,
+        select:focus {
+            border-color: var(--accent);
+            outline: none;
+        }
+
+        input[type="text"]::placeholder {
+            color: var(--grisesito);
+        }
+
+        button {
+            padding: 14px 24px;
+            background: var(--accent);
+            color: var(--bg);
+            border: none;
+            cursor: pointer;
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 1em;
+            font-family: 'PoppinsFont', sans-serif;
+            transition: 0.2s;
+        }
+
+        button:hover {
+            filter: brightness(1.1);
+            transform: translateY(-2px);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        .btn-danger {
+            background: var(--danger);
+            color: var(--white);
+            padding: 8px 14px;
+            font-size: 0.9em;
+            margin-left: 10px;
+            border-radius: 6px;
+        }
+
+        .btn-danger:hover {
+            background: var(--danger-hover);
+        }
+
+        .btn-success {
+            background: var(--accent);
+            color: var(--bg);
+            width: 100%;
+            font-size: 1.2em;
+            padding: 18px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 10px rgba(85, 183, 37, 0.3);
+        }
+
+        .search-bar {
+            margin-bottom: 15px;
+            position: relative;
+        }
+
+        .search-bar input {
+            padding-left: 40px;
+        }
+
+        .search-bar::before {
+            content: '🔍';
+            position: absolute;
+            left: 12px;
+            top: 14px;
+            font-size: 1.2em;
+            color: var(--muted);
+        }
+
+        .item-list {
+            max-height: 400px;
+            overflow-y: auto;
+            background: var(--bar-bg);
+            border-radius: 8px;
+            padding: 10px;
+        }
+
+        .item-list::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .item-list::-webkit-scrollbar-thumb {
+            background: var(--grisesito);
+            border-radius: 4px;
+        }
+
+        .item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            transition: 0.2s;
+        }
+
+        .item:hover {
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .item:last-child {
+            border-bottom: none;
+        }
+
+        .item span {
+            word-break: break-all;
+            font-size: 0.95em;
+        }
+
+        .song-group {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .song-group input {
+            margin-bottom: 0;
+        }
+
+        .song-group button {
+            padding: 14px;
+            margin: 0;
+        }
+
+        .stats {
+            font-size: 0.85em;
+            color: var(--muted);
+            text-align: right;
+            margin-bottom: 10px;
+        }
+
+        /* History Log */
+        .history-log {
+            flex: 1;
+            overflow-y: auto;
+            margin-top: 15px;
+            background: var(--bar-bg);
+            padding: 10px;
+            border-radius: 8px;
+        }
+
+        .history-item {
+            font-size: 0.85em;
+            padding: 8px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .history-item.add {
+            color: var(--accent);
+        }
+
+        .history-item.remove {
+            color: var(--danger);
+        }
+
+        .history-item::before {
+            content: '•';
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="main-wrapper">
+        <div class="container">
+            <h1>Gestor de Base de Datos</h1>
+
+            <button class="btn-success" onclick="exportData()">💾 GENERAR Y DESCARGAR DATA.JS</button>
+
+            <div class="tabs">
+                <div class="tab active" onclick="switchTab('canciones')">Modo Normal / Artista</div>
+                <div class="tab" onclick="switchTab('albumes')">Modo Álbum</div>
+            </div>
+
+            <!-- PANEL CANCIONES -->
+            <div id="panel-canciones" class="panel active">
+                <div
+                    style="background: rgba(255,255,255,0.02); padding: 20px; border-radius: 8px; border: 1px solid var(--bar-bg);">
+                    <h3 style="margin-top:0; border:none; color:var(--white);">➕ Agregar Nueva Canción</h3>
+                    <div class="form-group">
+                        <label>Nombre Completo del MP3</label>
+                        <input type="text" id="songName" placeholder="Ej: Dolly Flackko - tres tigueres">
+                    </div>
+                    <div class="form-group">
+                        <label>¿A qué modos querés agregarla?</label>
+                        <select id="songModes">
+                            <option value="both">Normal y Artista</option>
+                            <option value="normal">Solo Normal</option>
+                            <option value="artist">Solo Artista</option>
+                        </select>
+                    </div>
+                    <button onclick="addSong()" style="width:100%">Agregar a la Lista</button>
+                </div>
+
+                <h3>📋 Canciones Disponibles</h3>
+                <div class="search-bar">
+                    <input type="text" id="searchSongs" placeholder="Buscar canciones..." oninput="renderLists()">
+                </div>
+
+                <h4 style="color:var(--muted); margin-bottom:5px;">Modo Normal <span class="stats" id="stats-normal"
+                        style="float:right;"></span></h4>
+                <div class="item-list" id="list-normal"></div>
+
+                <h4 style="color:var(--muted); margin-top:20px; margin-bottom:5px;">Modo Artista <span class="stats"
+                        id="stats-artist" style="float:right;"></span></h4>
+                <div class="item-list" id="list-artist"></div>
+            </div>
+
+            <!-- PANEL ALBUMES -->
+            <div id="panel-albumes" class="panel">
+                <div
+                    style="background: rgba(255,255,255,0.02); padding: 20px; border-radius: 8px; border: 1px solid var(--bar-bg);">
+                    <h3 style="margin-top:0; border:none; color:var(--white);">➕ Agregar Nuevo Álbum</h3>
+                    <div class="form-group">
+                        <label>Nombre del Álbum</label>
+                        <input type="text" id="albumName" placeholder="Ej: El Morfón">
+                    </div>
+                    <div class="form-group">
+                        <label>Nombre de la Imagen PNG</label>
+                        <input type="text" id="albumCover" placeholder="Ej: img_morfon.png">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Lista de Canciones del Álbum</label>
+                        <div id="albumSongsContainer">
+                            <div class="song-group">
+                                <input type="text" class="album-song-input"
+                                    placeholder="Artista - Nombre de la canción">
+                                <button class="btn-danger"
+                                    onclick="if(document.querySelectorAll('.album-song-input').length > 1) this.parentElement.remove()">X</button>
+                            </div>
+                        </div>
+                        <button onclick="addAlbumSongInput()"
+                            style="background:transparent; border:2px dashed var(--grisesito); color:var(--muted); width: 100%; margin-top:10px;">+
+                            Añadir otra canción al álbum</button>
+                    </div>
+
+                    <button onclick="addAlbum()" style="width: 100%; margin-top: 10px;">Guardar Álbum Completo</button>
+                </div>
+
+                <h3>📋 Álbumes Agregados</h3>
+                <div class="search-bar">
+                    <input type="text" id="searchAlbums" placeholder="Buscar álbumes..." oninput="renderLists()">
+                </div>
+                <div class="stats" id="stats-albums"></div>
+                <div class="item-list" id="list-albums"></div>
+            </div>
+
+        </div>
+
+        <!-- SIDEBAR HISTORIAL -->
+        <div class="sidebar">
+            <h3 style="margin-top:0; border:none; color:var(--white); text-align:center;">⏱️ Historial de Sesión</h3>
+            <div class="history-log" id="history-log">
+                <div class="history-item" style="color:var(--muted)">Iniciando registro...</div>
+            </div>
+            <button onclick="document.getElementById('history-log').innerHTML=''"
+                style="background:transparent; border:1px solid var(--grisesito); color:var(--muted); padding:8px; margin-top:10px; font-size:0.85em;">Limpiar
+                Historial</button>
+        </div>
+    </div>
+
+    <!-- Importar la base de datos actual para poder editarla -->
+    <script src="data.js"></script>
+    <script>
+        function logHistory(action, type, name) {
+            const log = document.getElementById('history-log');
+            if (log.innerHTML.includes("Iniciando registro")) log.innerHTML = "";
+
+            const div = document.createElement('div');
+            div.className = `history-item ${action === 'add' ? 'add' : 'remove'}`;
+            const time = new Date().toLocaleTimeString('es-AR', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+
+            const actionText = action === 'add' ? 'Agregado' : 'Eliminado';
+            div.innerHTML = `<span style="color:var(--muted)">[${time}]</span> ${actionText} ${type}: <strong>${name}</strong>`;
+
+            log.prepend(div);
+        }
+
+        function switchTab(tab) {
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+            if (tab === 'canciones') {
+                document.querySelectorAll('.tab')[0].classList.add('active');
+                document.getElementById('panel-canciones').classList.add('active');
+            } else {
+                document.querySelectorAll('.tab')[1].classList.add('active');
+                document.getElementById('panel-albumes').classList.add('active');
+            }
+        }
+
+        function renderLists() {
+            const searchSongs = document.getElementById('searchSongs').value.toLowerCase();
+            const searchAlbums = document.getElementById('searchAlbums').value.toLowerCase();
+
+            // Normal
+            const listNormal = document.getElementById('list-normal');
+            listNormal.innerHTML = '';
+            let countNormal = 0;
+            biblioteca.forEach((song, i) => {
+                if (song.nombre.toLowerCase().includes(searchSongs)) {
+                    listNormal.innerHTML += `<div class="item"><span>${song.nombre}</span> <button class="btn-danger" onclick="deleteSong('normal', ${i}, '${song.nombre.replace(/'/g, "\\'")}')">Eliminar</button></div>`;
+                    countNormal++;
+                }
+            });
+            document.getElementById('stats-normal').innerText = `(${countNormal})`;
+
+            // Artista
+            const listArtist = document.getElementById('list-artist');
+            listArtist.innerHTML = '';
+            let countArtist = 0;
+            bibliotecaArtist.forEach((song, i) => {
+                if (song.nombre.toLowerCase().includes(searchSongs)) {
+                    listArtist.innerHTML += `<div class="item"><span>${song.nombre}</span> <button class="btn-danger" onclick="deleteSong('artist', ${i}, '${song.nombre.replace(/'/g, "\\'")}')">Eliminar</button></div>`;
+                    countArtist++;
+                }
+            });
+            document.getElementById('stats-artist').innerText = `(${countArtist})`;
+
+            // Albumes
+            const listAlbums = document.getElementById('list-albums');
+            listAlbums.innerHTML = '';
+            let countAlbums = 0;
+            albumsData.forEach((album, i) => {
+                if (album.name.toLowerCase().includes(searchAlbums)) {
+                    listAlbums.innerHTML += `<div class="item">
+                        <div>
+                            <strong style="color:var(--accent)">${album.name}</strong> <br>
+                            <small style="color:var(--muted)">${album.songs.length} canciones | Portada: ${album.cover.replace('COVERS_BASE_URL + ', '').replace(/"/g, '')}</small>
+                        </div> 
+                        <button class="btn-danger" onclick="deleteAlbum(${i}, '${album.name.replace(/'/g, "\\'")}')">Eliminar Álbum</button>
+                    </div>`;
+                    countAlbums++;
+                }
+            });
+            document.getElementById('stats-albums').innerText = `Total filtrados: ${countAlbums} álbumes`;
+        }
+
+        function addSong() {
+            const name = document.getElementById('songName').value.trim();
+            const mode = document.getElementById('songModes').value;
+            if (!name) return alert("Por favor ingresá un nombre para la canción.");
+
+            let added = false;
+            if (mode === 'normal' || mode === 'both') {
+                if (!biblioteca.some(s => s.nombre === name)) {
+                    biblioteca.push({ nombre: name, archivo: `${name}.mp3` });
+                    added = true;
+                }
+            }
+            if (mode === 'artist' || mode === 'both') {
+                if (!bibliotecaArtist.some(s => s.nombre === name)) {
+                    bibliotecaArtist.push({ nombre: name, archivo: `musicartist/${name}.mp3` });
+                    added = true;
+                }
+            }
+
+            if (added) {
+                logHistory('add', 'Canción', name);
+                document.getElementById('songName').value = '';
+                renderLists();
+            } else {
+                alert("Esta canción ya existe en el/los modos seleccionados.");
+            }
+        }
+
+        function deleteSong(list, index, name) {
+            if (confirm(`¿Seguro que querés borrar '${name}'?`)) {
+                if (list === 'normal') biblioteca.splice(index, 1);
+                else bibliotecaArtist.splice(index, 1);
+                logHistory('remove', 'Canción', name);
+                renderLists();
+            }
+        }
+
+        function addAlbumSongInput() {
+            const container = document.getElementById('albumSongsContainer');
+            const div = document.createElement('div');
+            div.className = 'song-group';
+            div.innerHTML = `<input type="text" class="album-song-input" placeholder="Artista - Nombre de la canción">
+                             <button class="btn-danger" onclick="this.parentElement.remove()">X</button>`;
+            container.appendChild(div);
+            div.querySelector('input').focus();
+        }
+
+        function addAlbum() {
+            const name = document.getElementById('albumName').value.trim();
+            let cover = document.getElementById('albumCover').value.trim();
+            const inputs = document.querySelectorAll('.album-song-input');
+
+            if (!name || !cover) return alert("Falta el nombre o la imagen del álbum.");
+
+            if (!cover.startsWith("img_")) cover = "img_" + cover;
+            if (!cover.endsWith(".png")) cover += ".png";
+
+            const songs = [];
+            inputs.forEach(input => {
+                const val = input.value.trim();
+                if (val) {
+                    songs.push({ nombre: val, archivo: `${val}.mp3` });
+                }
+            });
+
+            if (songs.length === 0) return alert("Un álbum no puede estar vacío. Agregá al menos una canción.");
+
+            albumsData.push({
+                name: name,
+                cover: `COVERS_BASE_URL + "${cover}"`,
+                songs: songs
+            });
+
+            logHistory('add', 'Álbum', name);
+
+            // Reset Form
+            document.getElementById('albumName').value = '';
+            document.getElementById('albumCover').value = '';
+            document.getElementById('albumSongsContainer').innerHTML = `
+                <div class="song-group">
+                    <input type="text" class="album-song-input" placeholder="Artista - Nombre de la canción">
+                    <button class="btn-danger" onclick="if(document.querySelectorAll('.album-song-input').length > 1) this.parentElement.remove()">X</button>
+                </div>`;
+            renderLists();
+        }
+
+        function deleteAlbum(index, name) {
+            if (confirm(`¿Seguro que querés eliminar el álbum completo '${name}'?`)) {
+                albumsData.splice(index, 1);
+                logHistory('remove', 'Álbum', name);
+                renderLists();
+            }
+        }
+
+        function exportData() {
+            let output = `const WORKER_URL = "https://underless-audio.heladoposting.workers.dev/";\n`;
+            output += `const COVERS_BASE_URL = "./covers/";\n\n`;
+
+            output += `const biblioteca = [\n`;
+            biblioteca.forEach(s => {
+                output += `    {\n        "nombre": "${s.nombre.replace(/"/g, '\\"')}",\n        "archivo": "${s.archivo.replace(/"/g, '\\"')}"\n    },\n`;
+            });
+            output += `];\n\n`;
+
+            output += `const bibliotecaArtist = [\n`;
+            bibliotecaArtist.forEach(s => {
+                output += `    {\n        "nombre": "${s.nombre.replace(/"/g, '\\"')}",\n        "archivo": "${s.archivo.replace(/"/g, '\\"')}"\n    },\n`;
+            });
+            output += `];\n\n`;
+
+            output += `const albumsData = [\n`;
+            albumsData.forEach(a => {
+                let coverValue = a.cover;
+
+                if (coverValue.startsWith("./covers/")) {
+                    coverValue = `COVERS_BASE_URL + "${coverValue.replace("./covers/", "")}"`;
+                } else if (!coverValue.includes("COVERS_BASE_URL")) {
+                    coverValue = `COVERS_BASE_URL + "${coverValue}"`;
+                }
+
+                output += `    {\n`;
+                output += `        "name": "${a.name.replace(/"/g, '\\"')}",\n`;
+                output += `        "cover": ${coverValue},\n`;
+                output += `        "songs": [\n`;
+                a.songs.forEach(s => {
+                    output += `            { "nombre": "${s.nombre.replace(/"/g, '\\"')}", "archivo": "${s.archivo.replace(/"/g, '\\"')}" },\n`;
+                });
+                output += `        ]\n`;
+                output += `    },\n`;
+            });
+            output += `];\n`;
+
+            const blob = new Blob([output], { type: 'text/javascript' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'data.js';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+
+            alert("¡Archivo data.js generado con éxito! Reemplazalo en tu proyecto.");
+        }
+
+        window.onload = renderLists;
+    </script>
+</body>
+
+</html>
