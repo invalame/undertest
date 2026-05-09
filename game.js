@@ -127,25 +127,18 @@ async function loadAudioLevel(songFile, level) {
 
         const blob = await response.blob();
         currentBlobUrl = URL.createObjectURL(blob);
-        
-        // Restaurar tiempo tras carga para robustez (Skip Continuity)
-        const restoreTime = () => {
-            if (shouldContinue && isFinite(lastTime) && lastTime > 0) {
-                audioPlayer.currentTime = lastTime;
-            }
-            audioPlayer.removeEventListener('loadedmetadata', restoreTime);
-            audioPlayer.removeEventListener('canplay', restoreTime);
-        };
-        audioPlayer.addEventListener('loadedmetadata', restoreTime);
-        audioPlayer.addEventListener('canplay', restoreTime);
-
         audioPlayer.src = currentBlobUrl;
         
+        if (shouldContinue) {
+            audioPlayer.currentTime = lastTime;
+        }
+
         gameStartTime = 0;
 
         // Configurar duración del fragmento
         const durations = getDurations();
         snippetTargetTime = durations[level - 1] || 15;
+
 
         // Pequeño delay para estabilidad
         await new Promise(r => setTimeout(r, 50));
@@ -162,7 +155,7 @@ let playedSongsArtist = JSON.parse(localStorage.getItem('playedSongsArtist')) ||
 
 // NUEVO: Sistema de rachas
 let winStreak = parseInt(localStorage.getItem('winStreak')) || 0;
-let artistStreak = 0; // Se mantiene en 0 o se ignora según pedido
+let artistStreak = parseInt(localStorage.getItem('artistStreak')) || 0; // NUEVO
 const streakEl = document.getElementById('streak');
 
 // NUEVO: Sistema salva rachas
@@ -320,48 +313,67 @@ function renderGuessBoxes() {
 
 // FUNCIÃƒÂƒÃ¢Â€ÂœN MEJORADA PARA RACHA CON DEGRADADO PROGRESIVO SUAVE
 function updateStreakDisplay() {
-    const container = document.getElementById('streak-container');
-    const icon = document.getElementById('streak-icon');
-    const count = document.getElementById('streak-count');
+    const currentStreak = currentMode === 'normal' ? winStreak : artistStreak;
+    streakEl.textContent = `Racha: ${currentStreak}`;
 
-    if (!container) return;
+    let color = '';
 
-    if (currentMode !== 'normal') {
-        container.style.display = 'none';
-        return;
+    if (currentStreak === 0) {
+        color = 'var(--muted)'; // gris
+    }
+    else if (currentStreak <= 5) {
+        // Verde puro a verde-amarillo (1-5)
+        const progress = (currentStreak - 1) / 4; // 0 a 1
+        color = lerpColor("#55b725", "#7db800", progress);
+    }
+    else if (currentStreak <= 10) {
+        // Verde-amarillo a amarillo brillante (6-10)
+        const progress = (currentStreak - 5) / 5;
+        color = lerpColor("#7db800", "#ffd000", progress);
+    }
+    else if (currentStreak <= 15) {
+        // Amarillo a naranja (11-15)
+        const progress = (currentStreak - 10) / 5;
+        color = lerpColor("#ffd000", "#ff8800", progress);
+    }
+    else if (currentStreak <= 20) {
+        // Naranja a rojo (16-20)
+        const progress = (currentStreak - 15) / 5;
+        color = lerpColor("#ff8800", "#ff3300", progress);
+    }
+    else if (currentStreak <= 25) {
+        // Rojo a rojo oscuro (21-25)
+        const progress = (currentStreak - 20) / 5;
+        color = lerpColor("#ff3300", "#990000", progress);
+    }
+    else if (currentStreak <= 30) {
+        // Rojo oscuro a violeta suave (26-30)
+        const progress = (currentStreak - 25) / 5;
+        color = lerpColor("#990000", "#b14aed", progress);
+    }
+    else if (currentStreak <= 35) {
+        // Violeta suave a violeta intenso (31-35)
+        const progress = (currentStreak - 30) / 5;
+        color = lerpColor("#b14aed", "#8a2be2", progress);
+    }
+    else if (currentStreak <= 99) {
+        // 36-99: violeta intenso con glow
+        color = 'var(--streak-max)';
+        streakEl.style.textShadow = '0 0 12px rgba(138, 43, 226, 0.7)';
+    }
+    else {
+        // 100 o mÃƒÂƒÂ¡s: celeste piola con glow mÃƒÂƒÂ¡s intenso
+        color = 'var(--streak-cyan)';
+        streakEl.style.textShadow = '0 0 15px rgba(0, 212, 255, 0.8)';
     }
 
-    container.style.display = 'flex';
+    streakEl.style.color = color;
 
-    let color = '#e2e2e2';
-    let imgSrc = 'img/racha_fuego_gris.png';
-
-    if (winStreak >= 150) {
-        color = '#ff00ff';
-        imgSrc = 'img/racha_fuego_rosa.png';
-    } else if (winStreak >= 71) {
-        color = '#8d00ff';
-        imgSrc = 'img/racha_fuego_violeta.png';
-    } else if (winStreak >= 36) {
-        color = '#ff4d00';
-        imgSrc = 'img/racha_fuego_rojo.png';
-    } else if (winStreak >= 11) {
-        color = '#ffab00';
-        imgSrc = 'img/racha_fuego_amarillo.png';
-    } else if (winStreak >= 3) {
-        color = '#00a900';
-        imgSrc = 'img/racha_fuego_verde.png';
-    }
-
-    if (count) {
-        count.textContent = winStreak;
-        count.style.color = color;
-    }
-    if (icon) {
-        icon.src = imgSrc;
+    // Quitar el brillo cuando la racha es menor a 36
+    if (currentStreak < 36) {
+        streakEl.style.textShadow = 'none';
     }
 }
-
 
 // FunciÃƒÂƒÃ‚Â³n auxiliar para interpolar colores (degradado suave)
 function lerpColor(color1, color2, factor) {
@@ -657,8 +669,6 @@ function loadFromLocalStorage() {
             albumModeState = parsed.album;
             if (parsed.currentMode) {
                 currentMode = parsed.currentMode;
-            } else {
-                currentMode = 'normal';
             }
 
             // Load won songs set
@@ -707,8 +717,6 @@ async function restoreModeState(mode) {
             if (artistSearchInput) {
                 artistSearchInput.value = selectedArtist;
                 artistSearchInput.classList.add('centered-text');
-                // Asegurar visibilidad en modo artista
-                if (artistSection) artistSection.classList.add('show');
             }
 
             if (availableSongs && availableSongs.length > 0) {
@@ -1080,7 +1088,7 @@ async function resetGame(forceNew = false) {
     };
 
     // Actualizar display de racha al reset
-    // updateStreakDisplay(); // ELIMINADO
+    updateStreakDisplay();
     updateStreakSaverUI();
 
     // PERSISTENCIA: Guardar estado inmediatamente al iniciar nuevo juego
@@ -1309,12 +1317,6 @@ function animationLoop() {
 
 function startAnimationLoop() {
     if (animationFrameId) cancelAnimationFrame(animationFrameId);
-    
-    // Asegurar que el icono cambie a pausa si el audio se detiene por sí solo
-    audioPlayer.onended = () => {
-        pauseAudioInternal(true);
-    };
-
     animationFrameId = requestAnimationFrame(animationLoop);
 }
 
@@ -1403,10 +1405,16 @@ function showGameOver(won, isDuplicate = false) {
         if (currentMode === 'normal') {
             winStreak++;
             localStorage.setItem('winStreak', winStreak);
+            // Recompensas de Streak Save (solo en normal)
+            if (winStreak === 10 || winStreak === 20 || winStreak === 40 || winStreak === 100) {
+                streaksavers++;
+                localStorage.setItem('streaksavers', streaksavers);
+            }
         } else {
             // ARTIST / ALBUM MODE
             if (!isDuplicate) {
-                // artistStreak++; // ELIMINADO
+                artistStreak++;
+                localStorage.setItem('artistStreak', artistStreak);
             }
         }
 
@@ -1434,8 +1442,8 @@ function showGameOver(won, isDuplicate = false) {
 
         gameOverContent.classList.remove('win', 'lose'); // ÃƒÂ‚Â¡limpia ambas!
         gameOverContent.classList.add('lose');
-        answerLabel.textContent = "la cancion era"; 
-        
+        answerLabel.textContent = "la cancion era"; // etiqueta simple
+
         // LÃƒÂƒÃ‚Â³gica de salva rachas al perder
         if (currentMode === 'normal') {
             // Ocultar UI de share por defecto al perder (se muestra solo si es fatal)
@@ -1444,14 +1452,12 @@ function showGameOver(won, isDuplicate = false) {
             const mobBtn = document.getElementById('mobile-share-btn');
             if (mobBtn) mobBtn.style.display = 'none';
 
-            // SISTEMA DE VIDAS DESACTIVADO MOMENTANEAMENTE
-            if (false) { 
-                // streaksavers--;
+            if (winStreak >= minstreak && streaksavers > 0) {
+                streaksavers--;
+                localStorage.setItem('streaksavers', streaksavers);
+                // Vida consumida, racha salvada.
             } else {
-                // Reset fatal
-                winStreak = 0;
-                localStorage.setItem('winStreak', 0);
-            }
+                // Si no hay vidas o no llegamos al minstreak, reset fatal.
 
                 // === SHARE CARD TRIGGER (FATAL LOSS ONLY) ===
                 // Capturamos el streak antes de resetearlo
@@ -1470,6 +1476,7 @@ function showGameOver(won, isDuplicate = false) {
                 }
 
                 winStreak = 0;
+                localStorage.setItem('winStreak', winStreak);
             }
         } else {
             // Artist o Album mode: reset artistStreak
@@ -1613,12 +1620,9 @@ function handleSkip() {
     guessBox.textContent = "Skipped";
     guessBox.classList.remove('incorrect', 'correct'); // asegurar que no tiene rojo ni verde
     guessBox.classList.add('skipped'); // nuevo: usa el gris oscuro
-    // >>> FIN MODIFICACIÓN JS PARA SKIP <<<
+    // >>> FIN MODIFICACIÃƒÂƒÃ¢Â€ÂœN JS PARA SKIP <<<
 
     guessCount++;
-    // PERSISTENCIA: Guardar nivel actual para que F5 funcione
-    saveModeState(currentMode);
-
     if (guessCount < durations.length) {
         updateTimeMarker(guessCount);
         
