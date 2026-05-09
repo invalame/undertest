@@ -1527,31 +1527,32 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            background: transparent;
-            padding: 0;
+            background-color: var(--panel);
+            padding: 4px;
+            border-radius: 12px;
             margin-top: 15px;
             gap: 0;
-            width: fit-content;
+            width: min(350px, 95vw);
+            position: relative;
+            box-sizing: border-box;
         }
 
         /* === ESTILOS PARA EL SELECTOR DE MODO === */
         .mode-selector {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            background-color: var(--panel);
-            padding: 4px;
-            border-radius: 12px;
+            background-color: transparent;
             position: relative;
-            width: min(400px, 95vw);
+            width: 100%;
             z-index: 1;
         }
 
         .mode-indicator {
             position: absolute;
-            top: 4px;
-            bottom: 4px;
-            left: 4px;
-            width: calc((100% - 8px) / 3);
+            top: 0;
+            bottom: 0;
+            left: 0;
+            width: calc(100% / 3);
             background-color: var(--bg);
             border-radius: 8px;
             transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
@@ -1566,13 +1567,13 @@
             background: transparent;
             border: none;
             color: #777;
-            padding: 10px 0;
+            padding: 8px 0;
             cursor: pointer;
             font-weight: 600;
             border-radius: 8px;
             transition: color 0.2s;
             font-family: 'PoppinsFont', sans-serif;
-            font-size: 1em;
+            font-size: 0.95em;
             position: relative;
             z-index: 2;
             text-align: center;
@@ -1593,9 +1594,9 @@
         /* === ESTILOS PARA LA SECCIÃƒÂƒÃ¢Â€ÂœN DE ARTISTA === */
         #artist-section {
             width: 100%;
-            max-width: 300px;
-            /* REDUCIDO: mÃƒÂƒÂ¡s angosto */
-            margin-bottom: 20px;
+            max-width: 100%;
+            margin-bottom: 4px;
+            margin-top: 4px;
             display: none;
             /* Oculto por defecto */
             flex-direction: column;
@@ -1645,11 +1646,12 @@
             display: block;
         }
 
-        /* === ESTILOS PARA LA SECCIÃƒÂƒÃ¢Â€ÂœN DE ÃƒÂƒÃ‚ÂLBUM === */
+        /* === ESTILOS PARA LA SECCIÓN DE ÁLBUM === */
         #album-section {
             width: 100%;
-            max-width: 300px;
-            margin-bottom: 20px;
+            max-width: 100%;
+            margin-bottom: 4px;
+            margin-top: 4px;
             display: none;
             flex-direction: column;
             align-items: center;
@@ -2477,3 +2479,93 @@
         margin-left: auto !important;
         margin-right: auto !important;
     }
+
+/* === ESTILOS DEL HOME HUB === */
+#home-root {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    min-height: 100vh;
+    text-align: center;
+    background-image: url('img/bg.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
+.home-main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    width: 100%;
+    max-width: 400px;
+    padding: 0 20px;
+}
+
+.home-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 14px 20px;
+    border-radius: 8px;
+    font-size: 1.1em;
+    font-weight: 600;
+    font-family: 'PoppinsFont', sans-serif;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    border: none;
+    gap: 12px;
+    box-sizing: border-box;
+}
+
+.google-btn {
+    background-color: #ffffff;
+    color: #333333;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.google-btn:hover {
+    background-color: #f1f1f1;
+}
+
+.google-btn img {
+    width: 24px;
+    height: 24px;
+}
+
+.offline-btn {
+    background-color: var(--panel);
+    color: #ffffff;
+    border: 1px solid #444;
+}
+
+.offline-btn:hover {
+    background-color: #3b3b3b;
+    border-color: #555;
+}
+
+.offline-warning {
+    color: #888;
+    font-size: 0.85em;
+    margin-top: -5px;
+    margin-bottom: 30px;
+}
+
+.future-games {
+    width: 100%;
+    border-top: 1px solid var(--panel);
+    padding-top: 20px;
+    margin-top: 10px;
+}
+
+.disabled-btn {
+    background-color: #1a1a1a;
+    color: #555;
+    cursor: not-allowed;
+    border: 1px solid #2a2a2a;
+}
