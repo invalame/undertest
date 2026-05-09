@@ -73,6 +73,29 @@ async function cleanupAudio(isNewSong = false) {
     }
 }
 
+function getSongFetchId(songFile) {
+    let songObj = biblioteca.find(s => s.archivo === songFile || (s.archivo && s.archivo.includes(songFile)));
+    
+    if (!songObj && typeof albumsData !== 'undefined') {
+        for (const album of albumsData) {
+            const found = album.songs.find(s => s.archivo === songFile || (s.archivo && s.archivo.includes(songFile)));
+            if (found) {
+                songObj = found;
+                break;
+            }
+        }
+    }
+    
+    if (songObj) {
+        if (songObj.file_slug !== undefined) {
+            return songObj.file_slug;
+        }
+        const idx = biblioteca.indexOf(songObj);
+        if (idx !== -1) return idx;
+    }
+    return encodeURIComponent(songFile);
+}
+
 async function loadAudioLevel(songFile, level) {
     if (!songFile) return;
 
@@ -88,9 +111,20 @@ async function loadAudioLevel(songFile, level) {
         songFile = songFile.split('/').pop();
     }
 
-    const encodedPath = encodeURIComponent(songFile);
-    let fetchUrl = `${WORKER_URL}?id=${encodedPath}&level=${level}`;
-    if (level > 1 && currentStartByte !== null) {
+    // Obfuscación: Obtener el ID numérico
+    const fetchId = getSongFetchId(songFile);
+
+    // CHECK LOCALSTORAGE FOR START BYTE
+    const lsKey = `ul_start_${fetchId}`;
+    const savedStart = localStorage.getItem(lsKey);
+    if (savedStart !== null) {
+        currentStartByte = parseInt(savedStart, 10);
+        console.log(`[Persistence] Restaurando startByte: ${currentStartByte}`);
+    }
+
+    let fetchUrl = `${WORKER_URL}?id=${fetchId}&level=${level}`;
+    
+    if (currentStartByte !== null) {
         fetchUrl += `&start=${currentStartByte}`;
     }
 
@@ -98,9 +132,10 @@ async function loadAudioLevel(songFile, level) {
         const response = await fetch(fetchUrl);
         if (!response.ok) throw new Error(`HTTP ${response.status}`);
 
-        if (level === 1) {
-            const startByte = response.headers.get('X-Start-Byte');
-            if (startByte) currentStartByte = parseInt(startByte, 10);
+        const startByte = response.headers.get('X-Start-Byte');
+        if (startByte) {
+            currentStartByte = parseInt(startByte, 10);
+            localStorage.setItem(lsKey, currentStartByte); // Guardar
         }
 
         const blob = await response.blob();
@@ -1540,6 +1575,20 @@ function getNonRepeatingMessage(messages, type) {
 }
 function showGameOver(won, isDuplicate = false) {
     isGameOver = true;
+
+    // LIMPIAR PERSISTENCIA DEL START BYTE
+    if (currentSong && currentSong.archivo) {
+        let cleanName = currentSong.archivo;
+        if (cleanName.includes("http")) {
+            cleanName = cleanName.split('/').pop();
+            try { cleanName = decodeURIComponent(cleanName); } catch (e) {}
+        } else if (cleanName.includes("/")) {
+            cleanName = cleanName.split('/').pop();
+        }
+        
+        const fetchId = getSongFetchId(cleanName);
+        localStorage.removeItem(`ul_start_${fetchId}`);
+    }
 
     // inicializar el reproductor completo antes de mostrar el modal
     initializeFullPlayer();
