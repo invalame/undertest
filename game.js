@@ -96,6 +96,10 @@ async function loadAudioLevel(songFile, level) {
 
     await cleanupAudio(level === 1, !shouldContinue);
 
+    // Disable buttons while fetching to prevent play-before-load bugs
+    if (playButton) playButton.setAttribute('disabled', '');
+    if (skipButton) skipButton.disabled = true;
+
     // Limpiar nombre de forma consistente
     const cleanName = getCleanFileName(songFile);
 
@@ -143,7 +147,23 @@ async function loadAudioLevel(songFile, level) {
         // Pequeño delay para estabilidad
         await new Promise(r => setTimeout(r, 50));
 
-        audioPlayer.onerror = () => console.warn(`[Audio] Error en level ${level}`);
+        const enablePlayOnRestore = () => {
+            if (playButton && !isGameOver) playButton.removeAttribute('disabled');
+            if (skipButton && !isGameOver) skipButton.disabled = false;
+            audioPlayer.oncanplaythrough = null;
+            audioPlayer.oncanplay = null;
+        };
+        audioPlayer.oncanplaythrough = enablePlayOnRestore;
+        audioPlayer.oncanplay = enablePlayOnRestore;
+
+        audioPlayer.onerror = () => {
+            console.warn(`[Audio] Error en level ${level}`);
+            if (playButton) playButton.setAttribute('disabled', '');
+            if (skipButton) skipButton.disabled = true;
+        };
+        
+        // FIX: Handle natural end of snippet to update UI
+        audioPlayer.onended = finishSnippet;
 
     } catch (e) {
     }
@@ -1288,7 +1308,6 @@ function updatePlayIcon(playing) {
  */
 function finishSnippet() {
     pauseAudioInternal(true);
-    audioPlayer.currentTime = 0;
 }
 
 // ==================== ANIMATION LOOP (simplificado) ====================
