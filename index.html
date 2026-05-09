@@ -174,7 +174,10 @@
                 <path d="M8 5v14l11-7z" fill="white" stroke="white" stroke-width="2" stroke-linejoin="round" />
             </svg>
         </button>
-        <div id="streak">Racha: 0</div>
+        <div id="streak-container" style="display: none; align-items: center; gap: 8px; margin-bottom: 10px;">
+            <img id="streak-icon" src="img/racha_fuego_gris.png" alt="Streak" style="width: 24px; height: 24px; object-fit: contain;">
+            <span id="streak-count" style="font-family: inherit; font-weight: bold; font-size: 1.2em;">0</span>
+        </div>
 
         <div class="search-controls-container">
             <div class="controls-row">
@@ -190,7 +193,7 @@
                 <button id="skip-button-standalone" onclick="handleSkip()">Skip</button>
             </div>
             <!-- STREAK SAVERS MOVED HERE -->
-            <div id="streak-saver-ui" onclick="openLifeModal()" style="cursor: pointer;" title="Ver info de vidas">
+            <div id="streak-saver-ui" onclick="openLifeModal()" style="display: none; cursor: pointer;" title="Ver info de vidas">
                 salvadores de racha: 3
             </div>
         </div>
