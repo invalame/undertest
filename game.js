@@ -316,68 +316,49 @@ function renderGuessBoxes() {
     }
 }
 
-// FUNCIÃƒÂƒÃ¢Â€ÂœN MEJORADA PARA RACHA CON DEGRADADO PROGRESIVO SUAVE
+// FUNCIÓN RACHA - Solo visible en modo normal
 function updateStreakDisplay() {
-    const currentStreak = currentMode === 'normal' ? winStreak : artistStreak;
-    streakEl.textContent = `Racha: ${currentStreak}`;
+    const streakContainer = document.getElementById('streak');
+    const streakNumber = document.getElementById('streak-number');
+    const streakIcon = document.getElementById('streak-icon');
+    if (!streakContainer || !streakNumber || !streakIcon) return;
+
+    // Solo visible en modo normal
+    if (currentMode !== 'normal') {
+        streakContainer.style.display = 'none';
+        return;
+    }
+    streakContainer.style.display = 'flex';
+
+    const currentStreak = winStreak;
+    streakNumber.textContent = currentStreak;
 
     let color = '';
+    let iconSrc = '';
 
-    if (currentStreak === 0) {
-        color = 'var(--muted)'; // gris
-    }
-    else if (currentStreak <= 5) {
-        // Verde puro a verde-amarillo (1-5)
-        const progress = (currentStreak - 1) / 4; // 0 a 1
-        color = lerpColor("#55b725", "#7db800", progress);
-    }
-    else if (currentStreak <= 10) {
-        // Verde-amarillo a amarillo brillante (6-10)
-        const progress = (currentStreak - 5) / 5;
-        color = lerpColor("#7db800", "#ffd000", progress);
-    }
-    else if (currentStreak <= 15) {
-        // Amarillo a naranja (11-15)
-        const progress = (currentStreak - 10) / 5;
-        color = lerpColor("#ffd000", "#ff8800", progress);
-    }
-    else if (currentStreak <= 20) {
-        // Naranja a rojo (16-20)
-        const progress = (currentStreak - 15) / 5;
-        color = lerpColor("#ff8800", "#ff3300", progress);
-    }
-    else if (currentStreak <= 25) {
-        // Rojo a rojo oscuro (21-25)
-        const progress = (currentStreak - 20) / 5;
-        color = lerpColor("#ff3300", "#990000", progress);
-    }
-    else if (currentStreak <= 30) {
-        // Rojo oscuro a violeta suave (26-30)
-        const progress = (currentStreak - 25) / 5;
-        color = lerpColor("#990000", "#b14aed", progress);
-    }
-    else if (currentStreak <= 35) {
-        // Violeta suave a violeta intenso (31-35)
-        const progress = (currentStreak - 30) / 5;
-        color = lerpColor("#b14aed", "#8a2be2", progress);
-    }
-    else if (currentStreak <= 99) {
-        // 36-99: violeta intenso con glow
-        color = 'var(--streak-max)';
-        streakEl.style.textShadow = '0 0 12px rgba(138, 43, 226, 0.7)';
-    }
-    else {
-        // 100 o mÃƒÂƒÂ¡s: celeste piola con glow mÃƒÂƒÂ¡s intenso
-        color = 'var(--streak-cyan)';
-        streakEl.style.textShadow = '0 0 15px rgba(0, 212, 255, 0.8)';
+    if (currentStreak <= 2) {
+        color = '#e2e2e2';
+        iconSrc = 'img/racha_fuego_gris.png';
+    } else if (currentStreak <= 10) {
+        color = '#00a900';
+        iconSrc = 'img/racha_fuego_verde.png';
+    } else if (currentStreak <= 35) {
+        color = '#ffab00';
+        iconSrc = 'img/racha_fuego_amarillo.png';
+    } else if (currentStreak <= 70) {
+        color = '#ff4d00';
+        iconSrc = 'img/racha_fuego_roja.png';
+    } else if (currentStreak <= 150) {
+        color = '#8d00ff';
+        iconSrc = 'img/racha_fuego_violeta.png';
+    } else {
+        color = '#ff00ff';
+        iconSrc = 'img/racha_fuego_rosa.png';
     }
 
-    streakEl.style.color = color;
-
-    // Quitar el brillo cuando la racha es menor a 36
-    if (currentStreak < 36) {
-        streakEl.style.textShadow = 'none';
-    }
+    streakNumber.style.color = color;
+    streakIcon.src = iconSrc;
+    streakContainer.style.textShadow = 'none';
 }
 
 // FunciÃƒÂƒÃ‚Â³n auxiliar para interpolar colores (degradado suave)
@@ -395,28 +376,8 @@ function lerpColor(color1, color2, factor) {
 function updateStreakSaverUI() {
     const streakSaverEl = document.getElementById('streak-saver-ui');
     if (!streakSaverEl) return;
-
-    // En modo artista no usamos salva rachas
-    if (currentMode === 'artist' || currentMode === 'album') {
-        streakSaverEl.style.display = 'none';
-        return;
-    }
-
-    const currentStreak = winStreak;
-
-    if (currentStreak < minstreak) {
-        streakSaverEl.style.display = 'none';
-        return;
-    }
-
-    streakSaverEl.style.display = 'flex';
-    let html = 'Vidas: ';
-    const maxSavers = 3;
-    for (let i = 0; i < maxSavers; i++) {
-        const src = (i < streaksavers) ? 'img/racha_color.png' : 'img/racha_nocolor.png';
-        html += `<img src="${src}" alt="salva racha">`;
-    }
-    streakSaverEl.innerHTML = html;
+    // Sistema de vidas desactivado temporalmente
+    streakSaverEl.style.display = 'none';
 }
 
 // -----------------------------------------------------

@@ -1,4 +1,4 @@
-﻿        @font-face {
+        @font-face {
             font-family: 'UnderLessFont';
             src: url('fonts/UnderLess_font.ttf') format('truetype');
             font-weight: 800;
@@ -1455,48 +1455,28 @@
 
         /* ESTILO PARA RACHA */
         #streak {
-            font-size: 1.2em;
-            font-weight: bold;
-            margin-top: 5px;
-            margin-bottom: 25px;
-            /* Espacio antes del buscador */
-            color: var(--accent);
-            user-select: none;
-            pointer-events: none;
-        }
-
-        /* SISTEMA DE COLORES PARA RACHA (reemplaza el anterior) */
-        :root {
-            /* Racha 1-10: de verde a rojo */
-            --streak-1: #55b725;
-            /* verde original */
-            --streak-5: #ffd000;
-            --streak-10: #ff3300;
-            /* rojo fuerte */
-
-            /* Racha 11-20: rojo cada vez mÃƒÂƒÂ¡s oscuro/intenso */
-            --streak-15: #cc0000;
-            --streak-20: #990000;
-
-            /* Racha 21-25: violeta suave ÃƒÂ¢Ã¢Â€Â Ã¢Â€Â™ violeta medio */
-            --streak-21: #b14aed;
-            --streak-25: #9c3be0;
-
-            /* Racha 26+: violeta intenso */
-            --streak-max: #8a2be2;
-
-            /* Racha 170+: celeste piola */
-            --streak-cyan: #00d4ff;
-        }
-
-        #streak {
-            font-size: 1.2em;
+            font-size: 1.5em; /* Un poco más grande para el número */
             font-weight: bold;
             margin-top: 10px;
-            color: var(--streak-1);
-            /* color por defecto */
+            margin-bottom: 25px;
+            user-select: none;
+            pointer-events: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px; /* Espacio entre el fueguito y el número */
+            font-family: 'PoppinsFont', sans-serif;
             transition: color 0.5s ease;
-            /* animaciÃƒÂƒÃ‚Â³n suave al cambiar racha */
+        }
+
+        #streak-icon {
+            height: 32px; /* Ajustar el tamaño del fueguito */
+            width: auto;
+            object-fit: contain;
+        }
+
+        #streak-number {
+            /* El color se asgina dinámicamente en JS */
         }
 
         /* Estilo para etiqueta de creador */
