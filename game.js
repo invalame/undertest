@@ -1028,11 +1028,8 @@ async function resetGame(forceNew = false) {
 
     await cleanupAudio(true);
     
-    if (currentSong.archivo) {
-        await loadAudioLevel(currentSong.archivo, 1);
-    }
-
     // corrección: usar oncanplaythrough para activar el botón solo cuando el audio está listo
+    // IMPORTANT: Define and attach listeners BEFORE awaiting loadAudioLevel to avoid missing the event
     const enablePlayOnReset = () => {
         audioPlayer.currentTime = 0;
         playButton.removeAttribute('disabled');
@@ -1050,6 +1047,10 @@ async function resetGame(forceNew = false) {
     audioPlayer.oncanplaythrough = enablePlayOnReset;
     // Fallback: some browsers fire canplay but not canplaythrough
     audioPlayer.oncanplay = enablePlayOnReset;
+
+    if (currentSong.archivo) {
+        await loadAudioLevel(currentSong.archivo, 1);
+    }
 
     // FIX: Handle audio load errors (e.g. 404, corrupted file)
     audioPlayer.onerror = () => {
