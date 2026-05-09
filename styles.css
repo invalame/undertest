@@ -147,18 +147,13 @@
 
         #ui-root {
             width: 100%;
-            /* changed from fixed 900px to use full width */
             max-width: 1400px;
-            /* set a reasonable max-width for very large screens */
-            height: 950px;
-            /* altura base */
-            transform-origin: top center;
-        }
-
-        @media (min-width: 1024px) {
-            #ui-root {
-                width: 1200px;
-            }
+            /* No fixed height — let content define it */
+            min-height: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-inline: auto;
         }
 
 
@@ -169,9 +164,10 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            padding: 25px 10px 10px 25px;
+            padding: clamp(10px, 2vh, 25px) clamp(10px, 2vw, 25px) clamp(5px, 1vh, 10px);
             box-sizing: border-box;
-            max-width: 900px;
+            max-width: min(900px, 95%);
+            margin-inline: auto;
             position: relative;
             z-index: 50;
         }
@@ -179,7 +175,7 @@
         header .logo {
             font-family: 'UnderLessFont', sans-serif;
             /* Fuente local para el logo */
-            font-size: 3.8em;
+            font-size: clamp(2.4em, 5vw, 3.8em);
             font-weight: 800;
             letter-spacing: -1px;
             cursor: default;
@@ -190,13 +186,12 @@
             -webkit-user-select: none;
             -moz-user-select: none;
             -ms-user-select: none;
-
         }
 
         /* ESTILO PARA EL EMOTE */
         #emote-7tv {
-            width: 170px;
-            height: 50px;
+            width: clamp(110px, 12vw, 170px);
+            height: auto;
             margin-top: 3px;
             display: block;
         }
@@ -207,8 +202,9 @@
             flex-direction: column;
             align-items: center;
             width: 100%;
-            max-width: 900px;
-            padding: 0 20px 50px 20px;
+            max-width: min(900px, 95%);
+            margin-inline: auto;
+            padding: clamp(10px, 2vh, 20px) clamp(10px, 2vw, 20px) clamp(10px, 2vh, 30px);
             box-sizing: border-box;
             position: relative;
         }
@@ -216,43 +212,40 @@
         @media (min-width: 1024px) {
 
             header,
-            main,
+            main {
+                max-width: min(1250px, 95%);
+            }
+
             .progress-wrapper,
             .search-controls-container {
                 max-width: 100%;
-                /* Let containers fill the parent ui-root */
             }
         }
 
 
         .guess-boxes {
             width: 100%;
-            margin-bottom: 30px;
-            max-width: 650px;
-            /* Narrower than previous 900px, but wider than original 550px? 
-               User said "mas angostas" (narrower) and "mas ancha" (wider) for progress. 
-               Let's go 650px for guess boxes. */
+            margin-bottom: clamp(15px, 2.5vh, 40px);
+            max-width: min(900px, 100%);
+            margin-inline: auto;
         }
 
         .guess-box {
-
             background-color: var(--bg);
             /* fondo igual al body */
             border: 2px solid var(--panel);
-            /* borde del color de acento */
-            border-radius: 4px;
             border-radius: 6px;
-            /* un poquito de borde redondo, no exagerado (previously 4px) */
-            padding: 16px 18px;
-            /* Increased vertical padding (was 13px) for "un pelin mas altas" */
-            margin-bottom: 8px;
+            /* un poquito de borde redondo, no exagerado */
+            box-sizing: border-box;
+            padding: 0 clamp(12px, 1.5vw, 18px);
+            margin-bottom: clamp(4px, 0.6vh, 12px);
             color: var(--muted);
-            height: 13px;
+            height: clamp(40px, 6vh, 68px);
             display: flex;
             align-items: center;
             justify-content: center;
             text-align: center;
-            font-size: 1.2em;
+            font-size: clamp(0.95em, 1.1vw, 1.2em);
             font-weight: 500;
             transition: background-color 0.2s, border-color 0.2s;
             /* transiciÃƒÂƒÃ‚Â³n para el cambio de color */
@@ -353,12 +346,12 @@
         .progress-wrapper {
             position: relative;
             width: 100%;
-            max-width: 1050px;
-            /* Slightly narrower as requested (1050px vs 1100px) */
-            margin-bottom: 25px;
+            max-width: 100%;
+            margin-bottom: clamp(12px, 2vh, 25px);
             /* Reducido para subir el botÃƒÂƒÃ‚Â³n Play */
-            margin-top: 50px;
+            margin-top: clamp(15px, 3vh, 40px);
             /* Bajalo un poco nomÃƒÂƒÂ¡s */
+            margin-inline: auto;
         }
 
         .progress-bar-container {
@@ -443,19 +436,16 @@
         button.play-button {
             background-color: var(--accent);
             border-radius: 50%;
-            width: 65px;
-            /* Un pelin mÃƒÂƒÂ¡s grande (antes 60) */
-            height: 65px;
+            width: clamp(45px, 7vh, 75px);
+            height: clamp(45px, 7vh, 75px);
             display: flex;
             justify-content: center;
             align-items: center;
             cursor: pointer;
-            box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.4);
+            box-shadow: none;
             position: relative;
-            margin-top: 5px;
-            /* MÃƒÂƒÂ¡s arriba */
-            margin-bottom: 15px;
-            /* Espacio reducido intermedio */
+            margin-top: clamp(4px, 1vh, 12px);
+            margin-bottom: clamp(20px, 4vh, 50px);
             opacity: 1;
             border: none;
         }
@@ -472,21 +462,21 @@
 
         button.play-button svg {
             fill: white;
-            width: 32px;
-            /* Ajustado proporcionalmente */
-            height: 32px;
+            width: clamp(24px, 3vh, 38px);
+            height: clamp(24px, 3vh, 38px);
             margin-left: 3px;
         }
 
         /* Controles de Busqueda */
         .search-controls-container {
             width: 100%;
-            max-width: 900px;
-            margin-top: 0;
+            max-width: min(900px, 100%);
+            margin-top: clamp(5px, 2vh, 15px);
+            margin-inline: auto;
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 15px;
+            gap: clamp(8px, 1.2vh, 15px);
             position: relative;
         }
 
@@ -501,7 +491,7 @@
         .search-container {
             display: flex;
             flex-grow: 1;
-            max-width: 600px;
+            max-width: 900px;
             /* Keep search bar somewhat compact as requested */
             background-color: var(--panel);
             border-radius: 4px;
@@ -1190,14 +1180,6 @@
                 padding-top: 10px;
             }
 
-            #ui-root {
-                width: 100%;
-                height: auto;
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-            }
-
             header {
                 padding: 5px 15px;
                 width: 100%;
@@ -1221,11 +1203,10 @@
                 margin-top: 10px;
                 margin-bottom: 5px;
                 padding: 4px;
-                gap: 6px;
             }
 
             .mode-button {
-                padding: 8px 16px;
+                padding: 8px 0;
                 font-size: 0.95em;
             }
 
@@ -1555,35 +1536,46 @@
 
         /* === ESTILOS PARA EL SELECTOR DE MODO === */
         .mode-selector {
-            display: flex;
-            background-color: #202020;
-            /* Dark container like visual reference */
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            background-color: var(--panel);
             padding: 4px;
-            border-radius: 8px;
+            border-radius: 12px;
             position: relative;
-            gap: 2px;
+            width: min(400px, 95vw);
+            z-index: 1;
         }
 
-        /* Remove the old layered background approach */
-        .mode-selector::before {
-            display: none;
+        .mode-indicator {
+            position: absolute;
+            top: 4px;
+            bottom: 4px;
+            left: 4px;
+            width: calc((100% - 8px) / 3);
+            background-color: var(--bg);
+            border-radius: 8px;
+            transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            z-index: -1;
         }
+
+        .mode-selector:has(#mode-normal.active) .mode-indicator { transform: translateX(0); }
+        .mode-selector:has(#mode-artist.active) .mode-indicator { transform: translateX(100%); }
+        .mode-selector:has(#mode-album.active) .mode-indicator { transform: translateX(200%); }
 
         .mode-button {
             background: transparent;
             border: none;
-            color: #666;
-            /* Muted text */
-            padding: 6px 20px;
+            color: #777;
+            padding: 10px 0;
             cursor: pointer;
             font-weight: 600;
-            border-radius: 6px;
-            transition: all 0.2s;
+            border-radius: 8px;
+            transition: color 0.2s;
             font-family: 'PoppinsFont', sans-serif;
-            /* Clean font */
-            font-size: 0.9em;
+            font-size: 1em;
             position: relative;
             z-index: 2;
+            text-align: center;
         }
 
         .mode-button:hover:not(.active) {
@@ -1591,10 +1583,9 @@
         }
 
         .mode-button.active {
-            background: #55b725;
-            /* Lighter dark grey */
+            background: transparent;
             color: #ffffff;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+            box-shadow: none;
         }
 
 
@@ -1619,6 +1610,18 @@
         .artist-search-container {
             width: 100%;
             position: relative;
+        }
+
+        .artist-search-container .search-container {
+            background-color: transparent;
+            box-shadow: none;
+            border: none;
+            transition: background-color 0.3s ease;
+        }
+
+        .artist-search-container .search-container:hover,
+        .artist-search-container .search-container:focus-within {
+            background-color: rgba(255, 255, 255, 0.05); /* resplandor suave */
         }
 
         #current-artist-display {
@@ -1680,10 +1683,9 @@
         }
 
         /* Wrapper to strictly contain the game board width */
-        /* Wrapper to strictly contain the game board width */
         .game-board-wrapper {
             width: 100%;
-            max-width: 1050px;
+            max-width: 100%;
             margin: 0 auto;
             position: relative;
             display: flex;
