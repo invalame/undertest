@@ -1068,10 +1068,8 @@ async function resetGame(forceNew = false) {
     await cleanupAudio(true);
     
     if (currentSong.archivo) {
-        loadAudioLevel(currentSong.archivo, 1);
+        await loadAudioLevel(currentSong.archivo, 1);
     }
-
-    saveModeState(currentMode);
 
     // corrección: usar oncanplaythrough para activar el botón solo cuando el audio está listo
     const enablePlayOnReset = () => {
@@ -1084,6 +1082,8 @@ async function resetGame(forceNew = false) {
         audioPlayer.oncanplaythrough = null;
         audioPlayer.oncanplay = null;
         audioPlayer.onerror = null;
+        // Guardar estado AHORA que currentStartByte ya fue recibido del Worker
+        saveModeState(currentMode);
     };
 
     audioPlayer.oncanplaythrough = enablePlayOnReset;
@@ -1606,7 +1606,7 @@ function handleGuessFromSelection(selectedSongName) {
 }
 
 
-function handleSkip() {
+async function handleSkip() {
     const durations = getDurations();
     if (hasGuessedCorrectly || guessCount >= durations.length) return;
 
@@ -1638,7 +1638,7 @@ function handleSkip() {
     if (guessCount < durations.length) {
         updateTimeMarker(guessCount);
         
-        loadAudioLevel(currentSong.archivo, guessCount + 1);
+        await loadAudioLevel(currentSong.archivo, guessCount + 1);
 
         // FIX: Actualizar snippetTargetTime al nuevo lÃƒÂƒÃ‚Â­mite del segmento desbloqueado
         // para que el audio no se pause al llegar al lÃƒÂƒÃ‚Â­mite del segmento anterior
