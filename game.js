@@ -14,9 +14,9 @@ window.kinoUnlocked = false;
 // Duraciones de intentos (DINÃƒÂƒÃ‚ÂMICO)
 function getDurations() {
     if (currentMode === 'artist' || currentMode === 'album') {
-        return [0.1, 0.5, 2, 6];
+        return [0.5, 2, 4, 6];
     }
-    return [0.1, 0.5, 2, 4, 8, 15];
+    return [0.5, 2, 4, 8, 11, 15];
 }
 
 function getTotalGameDuration() {
@@ -78,7 +78,6 @@ async function loadAudioLevel(songFile, level) {
 
     await cleanupAudio(level === 1);
 
-    console.log("loadAudioLevel recibió:", songFile);
 
     // Limpiar nombre
     if (songFile.includes("http")) {
@@ -93,7 +92,6 @@ async function loadAudioLevel(songFile, level) {
     const savedStart = localStorage.getItem(lsKey);
     if (savedStart !== null) {
         currentStartByte = parseInt(savedStart, 10);
-        console.log(`[Persistence] Restaurando startByte: ${currentStartByte}`);
     }
 
     // Codificar en Base64 para ocultar el nombre en el panel Network (F12)
@@ -123,11 +121,8 @@ async function loadAudioLevel(songFile, level) {
 
         // Configurar duración del fragmento
         const durations = getDurations();
-        let targetDur = durations[level - 1] || 15;
-        if (level === 1) targetDur = 0.2; // truco visual del primer nivel
-        snippetTargetTime = targetDur;
+        snippetTargetTime = durations[level - 1] || 15;
 
-        console.log(`Nivel ${level} → Duración objetivo: ${targetDur}s`);
 
         // Pequeño delay para estabilidad
         await new Promise(r => setTimeout(r, 50));
@@ -135,7 +130,6 @@ async function loadAudioLevel(songFile, level) {
         audioPlayer.onerror = () => console.warn(`[Audio] Error en level ${level}`);
 
     } catch (e) {
-        console.error("Error cargando audio:", e);
     }
 }
 // HISTORIAL PERSISTENTE DE CANCIONES JUGADAS
@@ -1805,12 +1799,7 @@ function handleSkip() {
 
         // FIX: Actualizar snippetTargetTime al nuevo lÃƒÂƒÃ‚Â­mite del segmento desbloqueado
         // para que el audio no se pause al llegar al lÃƒÂƒÃ‚Â­mite del segmento anterior
-        let newTargetDuration = durations[guessCount];
-        // "Mentira" del 0.2s: visual shows 0.1s but plays 0.2s
-        if (guessCount === 0 && newTargetDuration === 0.1) {
-            newTargetDuration = 0.2;
-        }
-        snippetTargetTime = gameStartTime + newTargetDuration;
+        snippetTargetTime = durations[guessCount];
     } else {
         showGameOver(false);
     }
