@@ -94,26 +94,19 @@ async function loadAudioLevel(songFile, level) {
     const shouldContinue = level > 2;
     const lastTime = shouldContinue ? audioPlayer.currentTime : 0;
 
-    // Limpiar nombre de forma consistente (ANTES del cleanup para preservar el start byte)
+    await cleanupAudio(level === 1, !shouldContinue);
+
+
+
+    // Limpiar nombre de forma consistente
     const cleanName = getCleanFileName(songFile);
 
-    // LEER localStorage ANTES de cleanupAudio para no perder el startByte guardado
+    // CHECK LOCALSTORAGE FOR START BYTE
     const lsKey = `ul_start_${cleanName}`;
     const savedStart = localStorage.getItem(lsKey);
-    // Guardar en variable local para que cleanupAudio(true) no lo borre
-    let preservedStartByte = null;
     if (savedStart !== null) {
-        preservedStartByte = parseInt(savedStart, 10);
-    } else if (currentStartByte !== null) {
-        // Fallback: si no hay en localStorage pero sí en memoria (e.g. restaurado del state)
-        preservedStartByte = currentStartByte;
+        currentStartByte = parseInt(savedStart, 10);
     }
-
-    await cleanupAudio(level === 1, !shouldContinue);
-    // cleanupAudio(true) borra currentStartByte = null, pero ya lo guardamos arriba
-
-    // Restaurar el startByte preservado
-    currentStartByte = preservedStartByte;
 
     // Codificar en Base64 para ocultar el nombre en el panel Network (F12)
     // IMPORTANTE: El Worker espera el nombre limpio para buscarlo en R2
