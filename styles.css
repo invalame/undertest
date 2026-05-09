@@ -454,8 +454,8 @@
             position: relative;
             margin-top: 5px;
             /* MÃƒÂƒÂ¡s arriba */
-            margin-bottom: 5px;
-            /* Espacio reducido */
+            margin-bottom: 15px;
+            /* Espacio reducido intermedio */
             opacity: 1;
             border: none;
         }
@@ -1315,8 +1315,8 @@
                 /* Bigger */
                 height: 60px;
                 margin-top: 10px;
-                margin-bottom: 5px;
-                /* Less space below */
+                margin-bottom: 15px;
+                /* Espacio reducido intermedio */
             }
 
             button.play-button svg {

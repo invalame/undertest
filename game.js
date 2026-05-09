@@ -90,8 +90,8 @@ async function loadAudioLevel(songFile, level) {
     if (!songFile) return;
 
     // Persistencia del tiempo para continuidad tras skip
-    // Excepción: Salto de 0.5s (Lvl 1) a 2s (Lvl 2) - ahí reseteamos a 0
-    const shouldContinue = level > 2;
+    // Hacemos que siempre continúe desde donde estaba (excepto nivel 1 inicial claro, que lastTime sería 0)
+    const shouldContinue = level > 1;
     const lastTime = shouldContinue ? audioPlayer.currentTime : 0;
 
     await cleanupAudio(level === 1, !shouldContinue);
@@ -1599,6 +1599,9 @@ async function handleSkip() {
     guessCount++;
     if (guessCount < durations.length) {
         updateTimeMarker(guessCount);
+        
+        // El audio se pausa durante la carga del nuevo fragmento, así que actualizamos el icono visualmente a "play" (pausado)
+        updatePlayIcon(false);
         
         await loadAudioLevel(currentSong.archivo, guessCount + 1);
 
