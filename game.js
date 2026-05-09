@@ -90,34 +90,31 @@ async function loadAudioLevel(songFile, level) {
     if (!songFile) return;
 
     // Persistencia del tiempo para continuidad tras skip
-    // Excepción: Salto de 0.5s (Lvl 1) a 2s (Lvl 2) - ahí reseteamos a 0
     const shouldContinue = level > 2;
     const lastTime = shouldContinue ? audioPlayer.currentTime : 0;
 
     await cleanupAudio(level === 1, !shouldContinue);
 
-    // Disable buttons while fetching to prevent play-before-load bugs
+    // Bloqueo preventivo: Deshabilitamos botones mientras se busca el nuevo fragmento
     if (playButton) playButton.setAttribute('disabled', '');
     if (skipButton) skipButton.disabled = true;
 
-    // Limpiar nombre de forma consistente
-    const cleanName = getCleanFileName(songFile);
+    // SEGURIDAD: Si en 3.5 segundos no hubo respuesta, desbloqueamos para no "congelar" el juego
+    const safetyTimeout = setTimeout(() => {
+        if (playButton && !isGameOver) playButton.removeAttribute('disabled');
+        if (skipButton && !isGameOver) skipButton.disabled = false;
+    }, 3500);
 
-    // CHECK LOCALSTORAGE FOR START BYTE
+    const cleanName = getCleanFileName(songFile);
     const lsKey = `ul_start_${cleanName}`;
     const savedStart = localStorage.getItem(lsKey);
     if (savedStart !== null) {
         currentStartByte = parseInt(savedStart, 10);
     }
 
-    // Codificar en Base64 para ocultar el nombre en el panel Network (F12)
-    // IMPORTANTE: El Worker espera el nombre limpio para buscarlo en R2
     const base64Id = btoa(encodeURIComponent(cleanName));
     let fetchUrl = `${WORKER_URL}?id=${base64Id}&level=${level}&mode=${currentMode}`;
-    
-    if (currentStartByte !== null) {
-        fetchUrl += `&start=${currentStartByte}`;
-    }
+    if (currentStartByte !== null) fetchUrl += `&start=${currentStartByte}`;
 
     try {
         const response = await fetch(fetchUrl);
@@ -126,11 +123,32 @@ async function loadAudioLevel(songFile, level) {
         const startByte = response.headers.get('X-Start-Byte');
         if (startByte) {
             currentStartByte = parseInt(startByte, 10);
-            localStorage.setItem(lsKey, currentStartByte); // Guardar
+            localStorage.setItem(lsKey, currentStartByte);
         }
 
         const blob = await response.blob();
         currentBlobUrl = URL.createObjectURL(blob);
+
+        // Configuramos handlers ANTES de asignar el src para evitar race conditions
+        const enablePlayOnRestore = () => {
+            clearTimeout(safetyTimeout);
+            if (playButton && !isGameOver) playButton.removeAttribute('disabled');
+            if (skipButton && !isGameOver) skipButton.disabled = false;
+            audioPlayer.oncanplaythrough = null;
+            audioPlayer.oncanplay = null;
+        };
+
+        audioPlayer.oncanplaythrough = enablePlayOnRestore;
+        audioPlayer.oncanplay = enablePlayOnRestore;
+        
+        audioPlayer.onerror = () => {
+            clearTimeout(safetyTimeout);
+            console.warn(`[Audio] Error en level ${level}`);
+            if (playButton && !isGameOver) playButton.removeAttribute('disabled');
+            if (skipButton && !isGameOver) skipButton.disabled = false;
+        };
+
+        audioPlayer.onended = finishSnippet;
         audioPlayer.src = currentBlobUrl;
         
         if (shouldContinue) {
@@ -138,34 +156,20 @@ async function loadAudioLevel(songFile, level) {
         }
 
         gameStartTime = 0;
-
-        // Configurar duración del fragmento
         const durations = getDurations();
         snippetTargetTime = durations[level - 1] || 15;
 
-
-        // Pequeño delay para estabilidad
-        await new Promise(r => setTimeout(r, 50));
-
-        const enablePlayOnRestore = () => {
-            if (playButton && !isGameOver) playButton.removeAttribute('disabled');
-            if (skipButton && !isGameOver) skipButton.disabled = false;
-            audioPlayer.oncanplaythrough = null;
-            audioPlayer.oncanplay = null;
-        };
-        audioPlayer.oncanplaythrough = enablePlayOnRestore;
-        audioPlayer.oncanplay = enablePlayOnRestore;
-
-        audioPlayer.onerror = () => {
-            console.warn(`[Audio] Error en level ${level}`);
-            if (playButton) playButton.setAttribute('disabled', '');
-            if (skipButton) skipButton.disabled = true;
-        };
-        
-        // FIX: Handle natural end of snippet to update UI
-        audioPlayer.onended = finishSnippet;
+        // Si ya est listo (blobs locales a veces cargan instantneo), desbloquear ya
+        if (audioPlayer.readyState >= 3) {
+            enablePlayOnRestore();
+        }
 
     } catch (e) {
+        clearTimeout(safetyTimeout);
+        console.error("Error loading level:", e);
+        // Fallback: Desbloquear en caso de error de red
+        if (playButton && !isGameOver) playButton.removeAttribute('disabled');
+        if (skipButton && !isGameOver) skipButton.disabled = false;
     }
 }
 // HISTORIAL PERSISTENTE DE CANCIONES JUGADAS
