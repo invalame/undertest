@@ -73,29 +73,6 @@ async function cleanupAudio(isNewSong = false) {
     }
 }
 
-function getSongFetchId(songFile) {
-    let songObj = biblioteca.find(s => s.archivo === songFile || (s.archivo && s.archivo.includes(songFile)));
-    
-    if (!songObj && typeof albumsData !== 'undefined') {
-        for (const album of albumsData) {
-            const found = album.songs.find(s => s.archivo === songFile || (s.archivo && s.archivo.includes(songFile)));
-            if (found) {
-                songObj = found;
-                break;
-            }
-        }
-    }
-    
-    if (songObj) {
-        if (songObj.file_slug !== undefined) {
-            return songObj.file_slug;
-        }
-        const idx = biblioteca.indexOf(songObj);
-        if (idx !== -1) return idx;
-    }
-    return encodeURIComponent(songFile);
-}
-
 async function loadAudioLevel(songFile, level) {
     if (!songFile) return;
 
@@ -111,18 +88,18 @@ async function loadAudioLevel(songFile, level) {
         songFile = songFile.split('/').pop();
     }
 
-    // Obfuscación: Obtener el ID numérico
-    const fetchId = getSongFetchId(songFile);
-
     // CHECK LOCALSTORAGE FOR START BYTE
-    const lsKey = `ul_start_${fetchId}`;
+    const lsKey = `ul_start_${songFile}`;
     const savedStart = localStorage.getItem(lsKey);
     if (savedStart !== null) {
         currentStartByte = parseInt(savedStart, 10);
         console.log(`[Persistence] Restaurando startByte: ${currentStartByte}`);
     }
 
-    let fetchUrl = `${WORKER_URL}?id=${fetchId}&level=${level}`;
+    // Codificar en Base64 para ocultar el nombre en el panel Network (F12)
+    // Usamos encodeURIComponent primero para evitar errores con tildes o caracteres especiales
+    const base64Id = btoa(encodeURIComponent(songFile));
+    let fetchUrl = `${WORKER_URL}?id=${base64Id}&level=${level}`;
     
     if (currentStartByte !== null) {
         fetchUrl += `&start=${currentStartByte}`;
@@ -1585,9 +1562,7 @@ function showGameOver(won, isDuplicate = false) {
         } else if (cleanName.includes("/")) {
             cleanName = cleanName.split('/').pop();
         }
-        
-        const fetchId = getSongFetchId(cleanName);
-        localStorage.removeItem(`ul_start_${fetchId}`);
+        localStorage.removeItem(`ul_start_${cleanName}`);
     }
 
     // inicializar el reproductor completo antes de mostrar el modal
