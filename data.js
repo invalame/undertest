@@ -3454,68 +3454,8 @@ const bibliotecaArtist = [
         "archivo": "art861.mp3"
     },
     {
-        "nombre": "",
-        "archivo": "art862.mp3"
-    },
-    {
-        "nombre": "",
-        "archivo": "art863.mp3"
-    },
-    {
-        "nombre": "",
-        "archivo": "art864.mp3"
-    },
-    {
-        "nombre": "",
-        "archivo": "art865.mp3"
-    },
-    {
-        "nombre": "",
-        "archivo": "art866.mp3"
-    },
-    {
-        "nombre": "",
-        "archivo": "art867.mp3"
-    },
-    {
-        "nombre": "",
-        "archivo": "art868.mp3"
-    },
-    {
-        "nombre": "",
-        "archivo": "art869.mp3"
-    },
-    {
-        "nombre": "",
-        "archivo": "art870.mp3"
-    },
-    {
-        "nombre": "",
-        "archivo": "art871.mp3"
-    },
-    {
-        "nombre": "",
-        "archivo": "art872.mp3"
-    },
-    {
-        "nombre": "",
-        "archivo": "art873.mp3"
-    },
-    {
-        "nombre": "",
-        "archivo": "art874.mp3"
-    },
-    {
-        "nombre": "",
-        "archivo": "art875.mp3"
-    },
-    {
-        "nombre": "",
-        "archivo": "art876.mp3"
-    },
-    {
         "nombre": "slimesanti - Friendzone",
-        "archivo": "art877.mp3"
+        "archivo": "art862.mp3"
     }
 ];
 
