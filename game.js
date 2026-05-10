@@ -8,8 +8,6 @@ let audioPlayer = new Audio(); // Created in memory, not in DOM
 let currentSong = {};
 let guessCount = 0;
 
-// VARIABLE GLOBAL PARA EL COMANDO SECRETO
-window.kinoUnlocked = false;
 
 // Duraciones de intentos (DINÃƒÂƒÃ‚ÂMICO)
 function getDurations() {
@@ -490,37 +488,10 @@ function populateArtists() {
             return;
         }
 
-        // COMANDO SECRETO: Ocultar kino frizza por defecto
-        if (song.nombre.toLowerCase().includes("kino frizza") && !window.kinoUnlocked) {
-            return;
-        }
         const artist = extractArtist(song.nombre);
         if (artist) {
             artists.add(artist);
         }
-
-        // COMANDO SECRETO DE CONSOLA
-        window.comandoKino = function () {
-            window.kinoUnlocked = true;
-            populateArtists();
-
-            // Intentar actualizar la UI (si existe el selector)
-            // Como no tengo el ID exacto del selector, asumimos que al cambiar de modo se refresca
-            // o llamamos a init/render si fuera accesible.
-            // Pero populateArtists actualiza la lista global 'artistList', asÃƒÂƒÃ‚Â­ que cualquier
-            // renderizado subsecuente lo tomarÃƒÂƒÂ¡.
-
-            // Forzar actualizaciÃƒÂƒÃ‚Â³n si estamos en modo artista
-            if (typeof renderModeSelector === 'function') {
-                renderModeSelector();
-            } else {
-                // Fallback: Intentar disparar evento si existe
-                console.log("Artista 'kino frizza' desbloqueado. Si no aparece, cambia de modo y vuelve a entrar.");
-            }
-
-            console.log("%c DESBLOQUEASTE EL FRICHO", "color: gold; font-size: 20px; font-weight: bold;");
-            return "juga con las parodias de la cabra";
-        };
     });
     artistList = Array.from(artists).sort((a, b) => a.localeCompare(b));
 }
@@ -1317,9 +1288,13 @@ function pauseAudioInternal(resetToIdle = true) {
  * Updates the play button icon
  */
 function updatePlayIcon(playing) {
+    // Si hay un loader activo, no lo sobrescribimos con el icono de play/pause
+    if (playButton.querySelector('.loader')) return;
+
     playButton.innerHTML = playing ? iconPause : iconPlay;
     playButton.setAttribute('aria-label', playing ? 'pausar fragmento' : 'escuchar fragmento');
 }
+
 
 /**
  * Finishes snippet playback - called when target time is reached
@@ -1616,12 +1591,13 @@ async function handleGuessFromSelection(selectedSongName) {
         if (guessCount < durations.length) {
             updateTimeMarker(guessCount);
             
-            // MOSTRAR LOADER Y COOLDOWN
+            // MOSTRAR LOADER Y COOLDOWN (Reducido para más velocidad)
             setLoadingState(true);
-            const cooldown = new Promise(r => setTimeout(r, 450));
+            const cooldown = new Promise(r => setTimeout(r, 150));
             
             await loadAudioLevel(currentSong.songId, guessCount + 1);
             await cooldown;
+
 
             // Esperar a que el audio esté listo para quitar el loader
             const onReady = () => {
@@ -1675,12 +1651,13 @@ async function handleSkip() {
     if (guessCount < durations.length) {
         updateTimeMarker(guessCount);
         
-        // MOSTRAR LOADER Y COOLDOWN
+        // MOSTRAR LOADER Y COOLDOWN (Reducido para más velocidad)
         setLoadingState(true);
-        const cooldown = new Promise(r => setTimeout(r, 450));
+        const cooldown = new Promise(r => setTimeout(r, 150));
         
         await loadAudioLevel(currentSong.songId, guessCount + 1);
         await cooldown;
+
 
         // Esperar a que el audio esté listo para quitar el loader
         const onReady = () => {

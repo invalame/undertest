@@ -1,0 +1,4708 @@
+const songMapping = {
+  "song_s8tl1v3y": {
+    "path": "music/n1.mp3",
+    "folder": "music"
+  },
+  "song_2j8be79r": {
+    "path": "music/n2.mp3",
+    "folder": "music"
+  },
+  "song_ckhmipor": {
+    "path": "music/n3.mp3",
+    "folder": "music"
+  },
+  "song_p7vm2cfr": {
+    "path": "music/n4.mp3",
+    "folder": "music"
+  },
+  "song_ugr06uo8": {
+    "path": "music/n5.mp3",
+    "folder": "music"
+  },
+  "song_tzwmofob": {
+    "path": "music/n6.mp3",
+    "folder": "music"
+  },
+  "song_unny8708": {
+    "path": "music/n7.mp3",
+    "folder": "music"
+  },
+  "song_6uaw9zrf": {
+    "path": "music/n8.mp3",
+    "folder": "music"
+  },
+  "song_zl3bfdqh": {
+    "path": "music/n9.mp3",
+    "folder": "music"
+  },
+  "song_fu4riyb0": {
+    "path": "music/n10.mp3",
+    "folder": "music"
+  },
+  "song_jba8py7g": {
+    "path": "music/n11.mp3",
+    "folder": "music"
+  },
+  "song_vpfah03e": {
+    "path": "music/n12.mp3",
+    "folder": "music"
+  },
+  "song_7k0shu14": {
+    "path": "music/n13.mp3",
+    "folder": "music"
+  },
+  "song_bu5q89jk": {
+    "path": "music/n14.mp3",
+    "folder": "music"
+  },
+  "song_hi9fp187": {
+    "path": "music/n15.mp3",
+    "folder": "music"
+  },
+  "song_znzfeiij": {
+    "path": "albums/albm1014.mp3",
+    "folder": "albums"
+  },
+  "song_v8puwoaj": {
+    "path": "music/n17.mp3",
+    "folder": "music"
+  },
+  "song_eza14w8v": {
+    "path": "music/n18.mp3",
+    "folder": "music"
+  },
+  "song_fj43udpk": {
+    "path": "music/n19.mp3",
+    "folder": "music"
+  },
+  "song_3tq2qnjk": {
+    "path": "music/n20.mp3",
+    "folder": "music"
+  },
+  "song_mdaq3ygh": {
+    "path": "music/n21.mp3",
+    "folder": "music"
+  },
+  "song_skqje9e4": {
+    "path": "music/n22.mp3",
+    "folder": "music"
+  },
+  "song_1w7idehu": {
+    "path": "music/n23.mp3",
+    "folder": "music"
+  },
+  "song_lglu0jcc": {
+    "path": "music/n24.mp3",
+    "folder": "music"
+  },
+  "song_rrqh05v1": {
+    "path": "music/n25.mp3",
+    "folder": "music"
+  },
+  "song_cyult56j": {
+    "path": "music/n26.mp3",
+    "folder": "music"
+  },
+  "song_j20t036v": {
+    "path": "music/n27.mp3",
+    "folder": "music"
+  },
+  "song_k4p8kyj9": {
+    "path": "music/n28.mp3",
+    "folder": "music"
+  },
+  "song_qlqiw57d": {
+    "path": "music/n29.mp3",
+    "folder": "music"
+  },
+  "song_sxfgaba5": {
+    "path": "music/n30.mp3",
+    "folder": "music"
+  },
+  "song_297hza0n": {
+    "path": "music/n31.mp3",
+    "folder": "music"
+  },
+  "song_pnx1su55": {
+    "path": "music/n32.mp3",
+    "folder": "music"
+  },
+  "song_w0sb44l0": {
+    "path": "music/n33.mp3",
+    "folder": "music"
+  },
+  "song_a9ilctdg": {
+    "path": "music/n34.mp3",
+    "folder": "music"
+  },
+  "song_jb36uv4v": {
+    "path": "music/n35.mp3",
+    "folder": "music"
+  },
+  "song_77enz0jb": {
+    "path": "music/n36.mp3",
+    "folder": "music"
+  },
+  "song_ntbpzpua": {
+    "path": "music/n37.mp3",
+    "folder": "music"
+  },
+  "song_y7wlld6o": {
+    "path": "music/n38.mp3",
+    "folder": "music"
+  },
+  "song_27szpy3v": {
+    "path": "music/n39.mp3",
+    "folder": "music"
+  },
+  "song_5uxl3cvn": {
+    "path": "music/n40.mp3",
+    "folder": "music"
+  },
+  "song_bqkckey3": {
+    "path": "music/n41.mp3",
+    "folder": "music"
+  },
+  "song_qfh9yf2j": {
+    "path": "music/n42.mp3",
+    "folder": "music"
+  },
+  "song_u4650f9x": {
+    "path": "music/n43.mp3",
+    "folder": "music"
+  },
+  "song_suza15qe": {
+    "path": "music/n44.mp3",
+    "folder": "music"
+  },
+  "song_jhjj6f6d": {
+    "path": "music/n45.mp3",
+    "folder": "music"
+  },
+  "song_gzdl47z2": {
+    "path": "music/n46.mp3",
+    "folder": "music"
+  },
+  "song_rrh0lmkq": {
+    "path": "music/n47.mp3",
+    "folder": "music"
+  },
+  "song_d9kdulxe": {
+    "path": "music/n48.mp3",
+    "folder": "music"
+  },
+  "song_02j20nzo": {
+    "path": "music/n49.mp3",
+    "folder": "music"
+  },
+  "song_9s6904yy": {
+    "path": "music/n50.mp3",
+    "folder": "music"
+  },
+  "song_trdirzpz": {
+    "path": "music/n51.mp3",
+    "folder": "music"
+  },
+  "song_k0gaiwje": {
+    "path": "music/n52.mp3",
+    "folder": "music"
+  },
+  "song_oo4hzj42": {
+    "path": "music/n53.mp3",
+    "folder": "music"
+  },
+  "song_juikyo04": {
+    "path": "music/n54.mp3",
+    "folder": "music"
+  },
+  "song_qpvqxk41": {
+    "path": "music/n55.mp3",
+    "folder": "music"
+  },
+  "song_ser3s4zl": {
+    "path": "music/n56.mp3",
+    "folder": "music"
+  },
+  "song_anctt96u": {
+    "path": "music/n57.mp3",
+    "folder": "music"
+  },
+  "song_2kq2uq4s": {
+    "path": "music/n58.mp3",
+    "folder": "music"
+  },
+  "song_zgn7my44": {
+    "path": "music/n59.mp3",
+    "folder": "music"
+  },
+  "song_demr7r8p": {
+    "path": "music/n60.mp3",
+    "folder": "music"
+  },
+  "song_b074ior5": {
+    "path": "music/n61.mp3",
+    "folder": "music"
+  },
+  "song_gbe3op86": {
+    "path": "music/n62.mp3",
+    "folder": "music"
+  },
+  "song_6p8y997l": {
+    "path": "music/n63.mp3",
+    "folder": "music"
+  },
+  "song_yknch2t2": {
+    "path": "music/n64.mp3",
+    "folder": "music"
+  },
+  "song_b3sva48t": {
+    "path": "music/n65.mp3",
+    "folder": "music"
+  },
+  "song_mjkcz1aq": {
+    "path": "music/n66.mp3",
+    "folder": "music"
+  },
+  "song_xi63aj4f": {
+    "path": "music/n67.mp3",
+    "folder": "music"
+  },
+  "song_ql4s239c": {
+    "path": "music/n68.mp3",
+    "folder": "music"
+  },
+  "song_s91irehy": {
+    "path": "music/n69.mp3",
+    "folder": "music"
+  },
+  "song_ypuatxm8": {
+    "path": "music/n70.mp3",
+    "folder": "music"
+  },
+  "song_pi6i1f71": {
+    "path": "music/n71.mp3",
+    "folder": "music"
+  },
+  "song_096l2p08": {
+    "path": "music/n72.mp3",
+    "folder": "music"
+  },
+  "song_jyfk746h": {
+    "path": "music/n73.mp3",
+    "folder": "music"
+  },
+  "song_h7x2y1ep": {
+    "path": "music/n74.mp3",
+    "folder": "music"
+  },
+  "song_ubn640o0": {
+    "path": "music/n75.mp3",
+    "folder": "music"
+  },
+  "song_qhsq7gv2": {
+    "path": "music/n76.mp3",
+    "folder": "music"
+  },
+  "song_sec63v10": {
+    "path": "music/n77.mp3",
+    "folder": "music"
+  },
+  "song_ftyyjopw": {
+    "path": "music/n78.mp3",
+    "folder": "music"
+  },
+  "song_6hvxzxel": {
+    "path": "music/n79.mp3",
+    "folder": "music"
+  },
+  "song_eu7wq6f6": {
+    "path": "music/n80.mp3",
+    "folder": "music"
+  },
+  "song_jferwpne": {
+    "path": "music/n81.mp3",
+    "folder": "music"
+  },
+  "song_z19n1uxn": {
+    "path": "music/n82.mp3",
+    "folder": "music"
+  },
+  "song_0czmocbq": {
+    "path": "music/n83.mp3",
+    "folder": "music"
+  },
+  "song_72aknyvp": {
+    "path": "music/n84.mp3",
+    "folder": "music"
+  },
+  "song_4l72318q": {
+    "path": "music/n85.mp3",
+    "folder": "music"
+  },
+  "song_jqzo76ux": {
+    "path": "music/n86.mp3",
+    "folder": "music"
+  },
+  "song_nishzl1j": {
+    "path": "music/n87.mp3",
+    "folder": "music"
+  },
+  "song_pjctru1n": {
+    "path": "music/n88.mp3",
+    "folder": "music"
+  },
+  "song_uxx2t3nm": {
+    "path": "music/n89.mp3",
+    "folder": "music"
+  },
+  "song_42pkjivc": {
+    "path": "music/n90.mp3",
+    "folder": "music"
+  },
+  "song_i8i3h9oe": {
+    "path": "music/n91.mp3",
+    "folder": "music"
+  },
+  "song_fchjz38m": {
+    "path": "music/n92.mp3",
+    "folder": "music"
+  },
+  "song_ta5exg01": {
+    "path": "music/n93.mp3",
+    "folder": "music"
+  },
+  "song_zjwrbyh3": {
+    "path": "music/n94.mp3",
+    "folder": "music"
+  },
+  "song_y139it8i": {
+    "path": "music/n95.mp3",
+    "folder": "music"
+  },
+  "song_to2dspn8": {
+    "path": "music/n96.mp3",
+    "folder": "music"
+  },
+  "song_xeruaf10": {
+    "path": "music/n97.mp3",
+    "folder": "music"
+  },
+  "song_jgl7t9eq": {
+    "path": "music/n98.mp3",
+    "folder": "music"
+  },
+  "song_1hlkmsdd": {
+    "path": "music/n99.mp3",
+    "folder": "music"
+  },
+  "song_jd1mapsv": {
+    "path": "music/n100.mp3",
+    "folder": "music"
+  },
+  "song_ojsn3rvj": {
+    "path": "music/n101.mp3",
+    "folder": "music"
+  },
+  "song_tvgg0ki6": {
+    "path": "music/n102.mp3",
+    "folder": "music"
+  },
+  "song_80cxcr31": {
+    "path": "music/n103.mp3",
+    "folder": "music"
+  },
+  "song_2uusc9li": {
+    "path": "music/n104.mp3",
+    "folder": "music"
+  },
+  "song_1abmqogs": {
+    "path": "music/n105.mp3",
+    "folder": "music"
+  },
+  "song_ajdft4mb": {
+    "path": "music/n106.mp3",
+    "folder": "music"
+  },
+  "song_uafaf5iq": {
+    "path": "music/n107.mp3",
+    "folder": "music"
+  },
+  "song_1kbdfpb9": {
+    "path": "music/n108.mp3",
+    "folder": "music"
+  },
+  "song_wr6w3jwe": {
+    "path": "music/n109.mp3",
+    "folder": "music"
+  },
+  "song_juiqirrp": {
+    "path": "music/n110.mp3",
+    "folder": "music"
+  },
+  "song_i4fbg4ea": {
+    "path": "music/n111.mp3",
+    "folder": "music"
+  },
+  "song_p877agsn": {
+    "path": "music/n112.mp3",
+    "folder": "music"
+  },
+  "song_lesy1gii": {
+    "path": "music/n113.mp3",
+    "folder": "music"
+  },
+  "song_hd7lcnbt": {
+    "path": "music/n114.mp3",
+    "folder": "music"
+  },
+  "song_7tcitj40": {
+    "path": "music/n115.mp3",
+    "folder": "music"
+  },
+  "song_guey26du": {
+    "path": "music/n116.mp3",
+    "folder": "music"
+  },
+  "song_e0qblvwk": {
+    "path": "music/n117.mp3",
+    "folder": "music"
+  },
+  "song_vz1wbi3f": {
+    "path": "music/n118.mp3",
+    "folder": "music"
+  },
+  "song_qx9kuq2o": {
+    "path": "music/n119.mp3",
+    "folder": "music"
+  },
+  "song_tbbharuu": {
+    "path": "music/n120.mp3",
+    "folder": "music"
+  },
+  "song_uvrlubl9": {
+    "path": "music/n121.mp3",
+    "folder": "music"
+  },
+  "song_4yu91pxv": {
+    "path": "music/n122.mp3",
+    "folder": "music"
+  },
+  "song_oahtc8ks": {
+    "path": "music/n123.mp3",
+    "folder": "music"
+  },
+  "song_9v3c7g0v": {
+    "path": "music/n124.mp3",
+    "folder": "music"
+  },
+  "song_1vcxn46j": {
+    "path": "music/n125.mp3",
+    "folder": "music"
+  },
+  "song_0uafxqo4": {
+    "path": "music/n126.mp3",
+    "folder": "music"
+  },
+  "song_jsgoqbt9": {
+    "path": "music/n127.mp3",
+    "folder": "music"
+  },
+  "song_wnv89w0m": {
+    "path": "music/n128.mp3",
+    "folder": "music"
+  },
+  "song_nxvina0r": {
+    "path": "music/n129.mp3",
+    "folder": "music"
+  },
+  "song_g64qa8ul": {
+    "path": "music/n130.mp3",
+    "folder": "music"
+  },
+  "song_i88rbhta": {
+    "path": "music/n131.mp3",
+    "folder": "music"
+  },
+  "song_kpj9ufij": {
+    "path": "music/n132.mp3",
+    "folder": "music"
+  },
+  "song_1dmc5i5m": {
+    "path": "music/n133.mp3",
+    "folder": "music"
+  },
+  "song_pevfj5m4": {
+    "path": "music/n134.mp3",
+    "folder": "music"
+  },
+  "song_mej6rbhv": {
+    "path": "music/n135.mp3",
+    "folder": "music"
+  },
+  "song_12jc5yn4": {
+    "path": "music/n136.mp3",
+    "folder": "music"
+  },
+  "song_q0ivrpfq": {
+    "path": "music/n137.mp3",
+    "folder": "music"
+  },
+  "song_31bxy36i": {
+    "path": "music/n138.mp3",
+    "folder": "music"
+  },
+  "song_odheuch1": {
+    "path": "music/n139.mp3",
+    "folder": "music"
+  },
+  "song_paailwkq": {
+    "path": "music/n140.mp3",
+    "folder": "music"
+  },
+  "song_2f2q3cu6": {
+    "path": "music/n141.mp3",
+    "folder": "music"
+  },
+  "song_ir7fedeb": {
+    "path": "music/n142.mp3",
+    "folder": "music"
+  },
+  "song_86unbu2h": {
+    "path": "music/n143.mp3",
+    "folder": "music"
+  },
+  "song_he3jjfaj": {
+    "path": "music/n144.mp3",
+    "folder": "music"
+  },
+  "song_py39zcmz": {
+    "path": "music/n145.mp3",
+    "folder": "music"
+  },
+  "song_c22almsm": {
+    "path": "music/n146.mp3",
+    "folder": "music"
+  },
+  "song_ze0kvslg": {
+    "path": "music/n147.mp3",
+    "folder": "music"
+  },
+  "song_cphzqbr7": {
+    "path": "music/n148.mp3",
+    "folder": "music"
+  },
+  "song_6sxqjmqu": {
+    "path": "music/n149.mp3",
+    "folder": "music"
+  },
+  "song_8btpbqpa": {
+    "path": "music/n150.mp3",
+    "folder": "music"
+  },
+  "song_p605vle8": {
+    "path": "music/n151.mp3",
+    "folder": "music"
+  },
+  "song_obni71sl": {
+    "path": "music/n152.mp3",
+    "folder": "music"
+  },
+  "song_n492o710": {
+    "path": "music/n153.mp3",
+    "folder": "music"
+  },
+  "song_p5wo4wpi": {
+    "path": "music/n154.mp3",
+    "folder": "music"
+  },
+  "song_oamt0sr6": {
+    "path": "music/n155.mp3",
+    "folder": "music"
+  },
+  "song_qk50xz18": {
+    "path": "music/n156.mp3",
+    "folder": "music"
+  },
+  "song_xprmlj9w": {
+    "path": "music/n157.mp3",
+    "folder": "music"
+  },
+  "song_bjryr4uo": {
+    "path": "music/n158.mp3",
+    "folder": "music"
+  },
+  "song_3jzmtc8v": {
+    "path": "music/n159.mp3",
+    "folder": "music"
+  },
+  "song_fccxmnjy": {
+    "path": "music/n160.mp3",
+    "folder": "music"
+  },
+  "song_4288tuab": {
+    "path": "music/n161.mp3",
+    "folder": "music"
+  },
+  "song_t7dcyu5h": {
+    "path": "music/n162.mp3",
+    "folder": "music"
+  },
+  "song_ljwb7j9p": {
+    "path": "music/n163.mp3",
+    "folder": "music"
+  },
+  "song_rlx2r54d": {
+    "path": "music/n164.mp3",
+    "folder": "music"
+  },
+  "song_09um9roh": {
+    "path": "music/n165.mp3",
+    "folder": "music"
+  },
+  "song_eih9umdq": {
+    "path": "music/n166.mp3",
+    "folder": "music"
+  },
+  "song_dia77wfz": {
+    "path": "music/n167.mp3",
+    "folder": "music"
+  },
+  "song_uk2vsik4": {
+    "path": "music/n168.mp3",
+    "folder": "music"
+  },
+  "song_rbowdwgp": {
+    "path": "music/n169.mp3",
+    "folder": "music"
+  },
+  "song_su693fdf": {
+    "path": "albums/albm917.mp3",
+    "folder": "albums"
+  },
+  "song_xfrace5p": {
+    "path": "music/n171.mp3",
+    "folder": "music"
+  },
+  "song_8dew07zw": {
+    "path": "music/n172.mp3",
+    "folder": "music"
+  },
+  "song_tc6gupsd": {
+    "path": "music/n173.mp3",
+    "folder": "music"
+  },
+  "song_kz2f020a": {
+    "path": "music/n174.mp3",
+    "folder": "music"
+  },
+  "song_w694s0p7": {
+    "path": "music/n175.mp3",
+    "folder": "music"
+  },
+  "song_peu97ac3": {
+    "path": "music/n176.mp3",
+    "folder": "music"
+  },
+  "song_b5n6io6w": {
+    "path": "music/n177.mp3",
+    "folder": "music"
+  },
+  "song_mq69f2q7": {
+    "path": "music/n178.mp3",
+    "folder": "music"
+  },
+  "song_jj5q3t3p": {
+    "path": "music/n179.mp3",
+    "folder": "music"
+  },
+  "song_0g3qkjy4": {
+    "path": "music/n180.mp3",
+    "folder": "music"
+  },
+  "song_8uh72jxy": {
+    "path": "music/n181.mp3",
+    "folder": "music"
+  },
+  "song_7uknur4r": {
+    "path": "music/n182.mp3",
+    "folder": "music"
+  },
+  "song_8onvgx5l": {
+    "path": "music/n183.mp3",
+    "folder": "music"
+  },
+  "song_hwjjfrrf": {
+    "path": "music/n184.mp3",
+    "folder": "music"
+  },
+  "song_r2znh0j4": {
+    "path": "music/n185.mp3",
+    "folder": "music"
+  },
+  "song_r2i3yiaz": {
+    "path": "music/n186.mp3",
+    "folder": "music"
+  },
+  "song_27lnyut4": {
+    "path": "music/n187.mp3",
+    "folder": "music"
+  },
+  "song_0horexho": {
+    "path": "music/n188.mp3",
+    "folder": "music"
+  },
+  "song_15rig9ls": {
+    "path": "music/n189.mp3",
+    "folder": "music"
+  },
+  "song_0a2txv2u": {
+    "path": "music/n190.mp3",
+    "folder": "music"
+  },
+  "song_nux88jst": {
+    "path": "music/n191.mp3",
+    "folder": "music"
+  },
+  "song_ibdc1xge": {
+    "path": "music/n192.mp3",
+    "folder": "music"
+  },
+  "song_qrajbzsg": {
+    "path": "music/n193.mp3",
+    "folder": "music"
+  },
+  "song_thsbgzf4": {
+    "path": "music/n194.mp3",
+    "folder": "music"
+  },
+  "song_xe0yjdwa": {
+    "path": "music/n195.mp3",
+    "folder": "music"
+  },
+  "song_32b9voi1": {
+    "path": "music/n196.mp3",
+    "folder": "music"
+  },
+  "song_5b6omub4": {
+    "path": "music/n197.mp3",
+    "folder": "music"
+  },
+  "song_67mlpdwz": {
+    "path": "music/n198.mp3",
+    "folder": "music"
+  },
+  "song_jspnanmm": {
+    "path": "music/n199.mp3",
+    "folder": "music"
+  },
+  "song_bzfmfj23": {
+    "path": "music/n200.mp3",
+    "folder": "music"
+  },
+  "song_diasl0bs": {
+    "path": "music/n201.mp3",
+    "folder": "music"
+  },
+  "song_56do1tdd": {
+    "path": "music/n202.mp3",
+    "folder": "music"
+  },
+  "song_vzmaa9nw": {
+    "path": "music/n203.mp3",
+    "folder": "music"
+  },
+  "song_v03dg44t": {
+    "path": "music/n204.mp3",
+    "folder": "music"
+  },
+  "song_9kfurvoe": {
+    "path": "music/n205.mp3",
+    "folder": "music"
+  },
+  "song_9n6hutii": {
+    "path": "music/n206.mp3",
+    "folder": "music"
+  },
+  "song_r25mavv1": {
+    "path": "music/n207.mp3",
+    "folder": "music"
+  },
+  "song_plpo4tkr": {
+    "path": "music/n208.mp3",
+    "folder": "music"
+  },
+  "song_8w7bb28f": {
+    "path": "music/n209.mp3",
+    "folder": "music"
+  },
+  "song_j75nooe8": {
+    "path": "music/n210.mp3",
+    "folder": "music"
+  },
+  "song_z82l8jst": {
+    "path": "music/n211.mp3",
+    "folder": "music"
+  },
+  "song_k7cndyxs": {
+    "path": "music/n212.mp3",
+    "folder": "music"
+  },
+  "song_hrah2u3h": {
+    "path": "music/n213.mp3",
+    "folder": "music"
+  },
+  "song_x47o41pr": {
+    "path": "music/n214.mp3",
+    "folder": "music"
+  },
+  "song_fjrlmg0o": {
+    "path": "music/n215.mp3",
+    "folder": "music"
+  },
+  "song_ah2pxzqz": {
+    "path": "music/n216.mp3",
+    "folder": "music"
+  },
+  "song_qaugr91h": {
+    "path": "music/n217.mp3",
+    "folder": "music"
+  },
+  "song_n9galdte": {
+    "path": "music/n218.mp3",
+    "folder": "music"
+  },
+  "song_kkhz49e5": {
+    "path": "music/n219.mp3",
+    "folder": "music"
+  },
+  "song_al85ch52": {
+    "path": "music/n220.mp3",
+    "folder": "music"
+  },
+  "song_40hpk8py": {
+    "path": "music/n221.mp3",
+    "folder": "music"
+  },
+  "song_jzpy7ft3": {
+    "path": "music/n222.mp3",
+    "folder": "music"
+  },
+  "song_wrbly0dm": {
+    "path": "music/n223.mp3",
+    "folder": "music"
+  },
+  "song_u5c57fm2": {
+    "path": "music/n224.mp3",
+    "folder": "music"
+  },
+  "song_m6ykzoc1": {
+    "path": "music/n225.mp3",
+    "folder": "music"
+  },
+  "song_r8uqne76": {
+    "path": "music/n226.mp3",
+    "folder": "music"
+  },
+  "song_xfx353dm": {
+    "path": "music/n227.mp3",
+    "folder": "music"
+  },
+  "song_yzsgmynr": {
+    "path": "music/n228.mp3",
+    "folder": "music"
+  },
+  "song_tvkjjk0f": {
+    "path": "music/n229.mp3",
+    "folder": "music"
+  },
+  "song_jfc4dc3c": {
+    "path": "music/n230.mp3",
+    "folder": "music"
+  },
+  "song_u9n7o72a": {
+    "path": "music/n231.mp3",
+    "folder": "music"
+  },
+  "song_qbr14twi": {
+    "path": "music/n232.mp3",
+    "folder": "music"
+  },
+  "song_72ns499f": {
+    "path": "music/n233.mp3",
+    "folder": "music"
+  },
+  "song_q4xumxrq": {
+    "path": "music/n234.mp3",
+    "folder": "music"
+  },
+  "song_lpzqvie0": {
+    "path": "music/n235.mp3",
+    "folder": "music"
+  },
+  "song_eyn8t7ih": {
+    "path": "music/n236.mp3",
+    "folder": "music"
+  },
+  "song_2jkrmxp1": {
+    "path": "music/n237.mp3",
+    "folder": "music"
+  },
+  "song_438zinkc": {
+    "path": "music/n238.mp3",
+    "folder": "music"
+  },
+  "song_pvzzo8ws": {
+    "path": "music/n239.mp3",
+    "folder": "music"
+  },
+  "song_z3ybffnt": {
+    "path": "music/n240.mp3",
+    "folder": "music"
+  },
+  "song_lhj9guo8": {
+    "path": "music/n241.mp3",
+    "folder": "music"
+  },
+  "song_aey3aysl": {
+    "path": "music/n242.mp3",
+    "folder": "music"
+  },
+  "song_ojltaeki": {
+    "path": "music/n243.mp3",
+    "folder": "music"
+  },
+  "song_rq4w8a4f": {
+    "path": "music/n244.mp3",
+    "folder": "music"
+  },
+  "song_6x5n2ip6": {
+    "path": "albums/albm1007.mp3",
+    "folder": "albums"
+  },
+  "song_xmqsnftx": {
+    "path": "albums/albm1008.mp3",
+    "folder": "albums"
+  },
+  "song_fx7u0ws3": {
+    "path": "albums/albm1009.mp3",
+    "folder": "albums"
+  },
+  "song_9jwmo5t7": {
+    "path": "albums/albm1010.mp3",
+    "folder": "albums"
+  },
+  "song_gm94xs92": {
+    "path": "albums/albm1011.mp3",
+    "folder": "albums"
+  },
+  "song_6g09r11k": {
+    "path": "albums/albm1012.mp3",
+    "folder": "albums"
+  },
+  "song_h30ft2uo": {
+    "path": "albums/albm1013.mp3",
+    "folder": "albums"
+  },
+  "song_mesxpwd4": {
+    "path": "artist/art244.mp3",
+    "folder": "artist"
+  },
+  "song_7r3ouvb0": {
+    "path": "artist/art245.mp3",
+    "folder": "artist"
+  },
+  "song_dzndr9kn": {
+    "path": "artist/art246.mp3",
+    "folder": "artist"
+  },
+  "song_8fvtodxh": {
+    "path": "artist/art247.mp3",
+    "folder": "artist"
+  },
+  "song_adsnlta9": {
+    "path": "artist/art248.mp3",
+    "folder": "artist"
+  },
+  "song_fvi7l95r": {
+    "path": "artist/art249.mp3",
+    "folder": "artist"
+  },
+  "song_mb84mn1u": {
+    "path": "artist/art250.mp3",
+    "folder": "artist"
+  },
+  "song_uw6pygbs": {
+    "path": "artist/art251.mp3",
+    "folder": "artist"
+  },
+  "song_kryyp57k": {
+    "path": "artist/art252.mp3",
+    "folder": "artist"
+  },
+  "song_d31acc7z": {
+    "path": "artist/art253.mp3",
+    "folder": "artist"
+  },
+  "song_osaczc55": {
+    "path": "artist/art254.mp3",
+    "folder": "artist"
+  },
+  "song_1wfk7dom": {
+    "path": "artist/art255.mp3",
+    "folder": "artist"
+  },
+  "song_wqn0yqaj": {
+    "path": "artist/art256.mp3",
+    "folder": "artist"
+  },
+  "song_tme0zz25": {
+    "path": "artist/art257.mp3",
+    "folder": "artist"
+  },
+  "song_fb66bwqp": {
+    "path": "artist/art258.mp3",
+    "folder": "artist"
+  },
+  "song_vn7cojkt": {
+    "path": "artist/art259.mp3",
+    "folder": "artist"
+  },
+  "song_fe8oxc1y": {
+    "path": "artist/art260.mp3",
+    "folder": "artist"
+  },
+  "song_dro2x2yb": {
+    "path": "artist/art261.mp3",
+    "folder": "artist"
+  },
+  "song_gns17jnb": {
+    "path": "artist/art262.mp3",
+    "folder": "artist"
+  },
+  "song_r14elxeg": {
+    "path": "artist/art263.mp3",
+    "folder": "artist"
+  },
+  "song_8jhdrjfd": {
+    "path": "artist/art264.mp3",
+    "folder": "artist"
+  },
+  "song_9n2dgk24": {
+    "path": "artist/art265.mp3",
+    "folder": "artist"
+  },
+  "song_ruc2w29h": {
+    "path": "artist/art266.mp3",
+    "folder": "artist"
+  },
+  "song_rhmotln5": {
+    "path": "artist/art267.mp3",
+    "folder": "artist"
+  },
+  "song_2jrxyuk0": {
+    "path": "artist/art268.mp3",
+    "folder": "artist"
+  },
+  "song_wy1gijta": {
+    "path": "artist/art269.mp3",
+    "folder": "artist"
+  },
+  "song_77m3fyug": {
+    "path": "artist/art270.mp3",
+    "folder": "artist"
+  },
+  "song_53b8cluc": {
+    "path": "artist/art271.mp3",
+    "folder": "artist"
+  },
+  "song_2ox7h72a": {
+    "path": "artist/art272.mp3",
+    "folder": "artist"
+  },
+  "song_r188e0b8": {
+    "path": "artist/art273.mp3",
+    "folder": "artist"
+  },
+  "song_o4w5zavx": {
+    "path": "artist/art274.mp3",
+    "folder": "artist"
+  },
+  "song_3ywxso25": {
+    "path": "artist/art275.mp3",
+    "folder": "artist"
+  },
+  "song_4k0c20b7": {
+    "path": "artist/art276.mp3",
+    "folder": "artist"
+  },
+  "song_ws8ljzue": {
+    "path": "albums/albm1029.mp3",
+    "folder": "albums"
+  },
+  "song_7a7726rc": {
+    "path": "artist/art278.mp3",
+    "folder": "artist"
+  },
+  "song_6fv9is8r": {
+    "path": "albums/albm1030.mp3",
+    "folder": "albums"
+  },
+  "song_vt15q13r": {
+    "path": "artist/art280.mp3",
+    "folder": "artist"
+  },
+  "song_37jggi6u": {
+    "path": "artist/art281.mp3",
+    "folder": "artist"
+  },
+  "song_kwqsdrzb": {
+    "path": "albums/albm1017.mp3",
+    "folder": "albums"
+  },
+  "song_6ao92l0n": {
+    "path": "albums/albm1019.mp3",
+    "folder": "albums"
+  },
+  "song_nyskzg10": {
+    "path": "albums/albm1031.mp3",
+    "folder": "albums"
+  },
+  "song_z5mrpi0q": {
+    "path": "albums/albm1021.mp3",
+    "folder": "albums"
+  },
+  "song_68l96qn0": {
+    "path": "albums/albm1023.mp3",
+    "folder": "albums"
+  },
+  "song_pqt70sfq": {
+    "path": "artist/art287.mp3",
+    "folder": "artist"
+  },
+  "song_l3wpzo77": {
+    "path": "artist/art288.mp3",
+    "folder": "artist"
+  },
+  "song_2omma7et": {
+    "path": "albums/albm1027.mp3",
+    "folder": "albums"
+  },
+  "song_3z3qwd6s": {
+    "path": "albums/albm1032.mp3",
+    "folder": "albums"
+  },
+  "song_450u8uoj": {
+    "path": "artist/art291.mp3",
+    "folder": "artist"
+  },
+  "song_0pmx2rxb": {
+    "path": "artist/art292.mp3",
+    "folder": "artist"
+  },
+  "song_nzq3vdcz": {
+    "path": "artist/art293.mp3",
+    "folder": "artist"
+  },
+  "song_wtkolgzu": {
+    "path": "artist/art294.mp3",
+    "folder": "artist"
+  },
+  "song_v5zjyqho": {
+    "path": "artist/art295.mp3",
+    "folder": "artist"
+  },
+  "song_5uy2khwq": {
+    "path": "artist/art296.mp3",
+    "folder": "artist"
+  },
+  "song_sl3rpyh5": {
+    "path": "artist/art297.mp3",
+    "folder": "artist"
+  },
+  "song_k4gmnhlq": {
+    "path": "artist/art298.mp3",
+    "folder": "artist"
+  },
+  "song_1vooe7pw": {
+    "path": "artist/art299.mp3",
+    "folder": "artist"
+  },
+  "song_qv8maetg": {
+    "path": "artist/art300.mp3",
+    "folder": "artist"
+  },
+  "song_egfew2de": {
+    "path": "artist/art301.mp3",
+    "folder": "artist"
+  },
+  "song_re90unuy": {
+    "path": "artist/art302.mp3",
+    "folder": "artist"
+  },
+  "song_xo0qwjq7": {
+    "path": "artist/art303.mp3",
+    "folder": "artist"
+  },
+  "song_ficot9c3": {
+    "path": "artist/art304.mp3",
+    "folder": "artist"
+  },
+  "song_7nf94ynb": {
+    "path": "artist/art305.mp3",
+    "folder": "artist"
+  },
+  "song_w13mo0gh": {
+    "path": "artist/art306.mp3",
+    "folder": "artist"
+  },
+  "song_7oqda9hb": {
+    "path": "artist/art307.mp3",
+    "folder": "artist"
+  },
+  "song_8jmd8oum": {
+    "path": "artist/art308.mp3",
+    "folder": "artist"
+  },
+  "song_7warlv2b": {
+    "path": "artist/art309.mp3",
+    "folder": "artist"
+  },
+  "song_oe3sompk": {
+    "path": "artist/art310.mp3",
+    "folder": "artist"
+  },
+  "song_p3qs9c99": {
+    "path": "artist/art311.mp3",
+    "folder": "artist"
+  },
+  "song_p72gmeyi": {
+    "path": "artist/art312.mp3",
+    "folder": "artist"
+  },
+  "song_mwv5nn9z": {
+    "path": "artist/art313.mp3",
+    "folder": "artist"
+  },
+  "song_bcj8tfrt": {
+    "path": "artist/art314.mp3",
+    "folder": "artist"
+  },
+  "song_w46o8vaf": {
+    "path": "artist/art315.mp3",
+    "folder": "artist"
+  },
+  "song_nw9r3sfa": {
+    "path": "artist/art316.mp3",
+    "folder": "artist"
+  },
+  "song_sc5don7s": {
+    "path": "artist/art317.mp3",
+    "folder": "artist"
+  },
+  "song_qyalhc6u": {
+    "path": "artist/art318.mp3",
+    "folder": "artist"
+  },
+  "song_aorv2wbn": {
+    "path": "artist/art319.mp3",
+    "folder": "artist"
+  },
+  "song_cc55t00x": {
+    "path": "artist/art320.mp3",
+    "folder": "artist"
+  },
+  "song_4v3ajp8z": {
+    "path": "artist/art321.mp3",
+    "folder": "artist"
+  },
+  "song_aj9sn4ue": {
+    "path": "artist/art322.mp3",
+    "folder": "artist"
+  },
+  "song_5ht0lmjo": {
+    "path": "artist/art323.mp3",
+    "folder": "artist"
+  },
+  "song_8n0evky0": {
+    "path": "artist/art324.mp3",
+    "folder": "artist"
+  },
+  "song_aca61hnm": {
+    "path": "artist/art325.mp3",
+    "folder": "artist"
+  },
+  "song_mh3w2vpc": {
+    "path": "artist/art326.mp3",
+    "folder": "artist"
+  },
+  "song_rkgzc6jw": {
+    "path": "artist/art327.mp3",
+    "folder": "artist"
+  },
+  "song_8yy3xtu9": {
+    "path": "artist/art328.mp3",
+    "folder": "artist"
+  },
+  "song_8kr0v5e7": {
+    "path": "artist/art329.mp3",
+    "folder": "artist"
+  },
+  "song_wz1yxmav": {
+    "path": "artist/art330.mp3",
+    "folder": "artist"
+  },
+  "song_yoyno3k0": {
+    "path": "artist/art331.mp3",
+    "folder": "artist"
+  },
+  "song_4gtdgz7w": {
+    "path": "artist/art332.mp3",
+    "folder": "artist"
+  },
+  "song_w18kxgui": {
+    "path": "artist/art333.mp3",
+    "folder": "artist"
+  },
+  "song_01o3fqob": {
+    "path": "artist/art334.mp3",
+    "folder": "artist"
+  },
+  "song_s2tikluh": {
+    "path": "artist/art335.mp3",
+    "folder": "artist"
+  },
+  "song_c31h0xeb": {
+    "path": "artist/art336.mp3",
+    "folder": "artist"
+  },
+  "song_ym46rflv": {
+    "path": "artist/art337.mp3",
+    "folder": "artist"
+  },
+  "song_4h92gbll": {
+    "path": "artist/art338.mp3",
+    "folder": "artist"
+  },
+  "song_0qzsud5u": {
+    "path": "artist/art339.mp3",
+    "folder": "artist"
+  },
+  "song_69stau7m": {
+    "path": "artist/art340.mp3",
+    "folder": "artist"
+  },
+  "song_6sedgr1t": {
+    "path": "artist/art341.mp3",
+    "folder": "artist"
+  },
+  "song_zgoxr4u0": {
+    "path": "artist/art342.mp3",
+    "folder": "artist"
+  },
+  "song_wqnhaqdl": {
+    "path": "artist/art343.mp3",
+    "folder": "artist"
+  },
+  "song_vn912fei": {
+    "path": "artist/art344.mp3",
+    "folder": "artist"
+  },
+  "song_zbpevmgi": {
+    "path": "artist/art345.mp3",
+    "folder": "artist"
+  },
+  "song_lmrdn0pv": {
+    "path": "artist/art346.mp3",
+    "folder": "artist"
+  },
+  "song_jgjzlpp3": {
+    "path": "artist/art347.mp3",
+    "folder": "artist"
+  },
+  "song_sk0ogbwb": {
+    "path": "artist/art348.mp3",
+    "folder": "artist"
+  },
+  "song_2ufz7mdc": {
+    "path": "artist/art349.mp3",
+    "folder": "artist"
+  },
+  "song_1hlxj1ob": {
+    "path": "artist/art350.mp3",
+    "folder": "artist"
+  },
+  "song_8j8oqa1z": {
+    "path": "artist/art351.mp3",
+    "folder": "artist"
+  },
+  "song_h452aj11": {
+    "path": "artist/art352.mp3",
+    "folder": "artist"
+  },
+  "song_q63phxfr": {
+    "path": "artist/art353.mp3",
+    "folder": "artist"
+  },
+  "song_vwyop5f3": {
+    "path": "artist/art354.mp3",
+    "folder": "artist"
+  },
+  "song_lih50ut8": {
+    "path": "artist/art355.mp3",
+    "folder": "artist"
+  },
+  "song_4iif7v26": {
+    "path": "artist/art356.mp3",
+    "folder": "artist"
+  },
+  "song_ngwzv14x": {
+    "path": "artist/art357.mp3",
+    "folder": "artist"
+  },
+  "song_jfmkoah6": {
+    "path": "artist/art358.mp3",
+    "folder": "artist"
+  },
+  "song_2ldcbxjq": {
+    "path": "artist/art359.mp3",
+    "folder": "artist"
+  },
+  "song_jo4ji4ha": {
+    "path": "artist/art360.mp3",
+    "folder": "artist"
+  },
+  "song_qmaozyh8": {
+    "path": "artist/art361.mp3",
+    "folder": "artist"
+  },
+  "song_buplt9ym": {
+    "path": "artist/art362.mp3",
+    "folder": "artist"
+  },
+  "song_80tiqlp3": {
+    "path": "artist/art363.mp3",
+    "folder": "artist"
+  },
+  "song_uj4frdq5": {
+    "path": "artist/art364.mp3",
+    "folder": "artist"
+  },
+  "song_fl3jonzs": {
+    "path": "artist/art365.mp3",
+    "folder": "artist"
+  },
+  "song_olndzypl": {
+    "path": "artist/art366.mp3",
+    "folder": "artist"
+  },
+  "song_i786ey25": {
+    "path": "artist/art367.mp3",
+    "folder": "artist"
+  },
+  "song_5ptl9eui": {
+    "path": "artist/art368.mp3",
+    "folder": "artist"
+  },
+  "song_b1mq7jqx": {
+    "path": "artist/art369.mp3",
+    "folder": "artist"
+  },
+  "song_rxaylvje": {
+    "path": "artist/art370.mp3",
+    "folder": "artist"
+  },
+  "song_sinzk55e": {
+    "path": "artist/art371.mp3",
+    "folder": "artist"
+  },
+  "song_q6dffp0v": {
+    "path": "artist/art372.mp3",
+    "folder": "artist"
+  },
+  "song_qvl43zuy": {
+    "path": "artist/art373.mp3",
+    "folder": "artist"
+  },
+  "song_q9hv0avk": {
+    "path": "artist/art374.mp3",
+    "folder": "artist"
+  },
+  "song_fptgyf3y": {
+    "path": "artist/art375.mp3",
+    "folder": "artist"
+  },
+  "song_zg7ji4ud": {
+    "path": "artist/art376.mp3",
+    "folder": "artist"
+  },
+  "song_5bt7pve7": {
+    "path": "artist/art377.mp3",
+    "folder": "artist"
+  },
+  "song_6cxyuej3": {
+    "path": "artist/art378.mp3",
+    "folder": "artist"
+  },
+  "song_34vlf4qy": {
+    "path": "artist/art379.mp3",
+    "folder": "artist"
+  },
+  "song_q5cfoyjr": {
+    "path": "artist/art380.mp3",
+    "folder": "artist"
+  },
+  "song_oqlx88dn": {
+    "path": "artist/art381.mp3",
+    "folder": "artist"
+  },
+  "song_drumoy2n": {
+    "path": "artist/art382.mp3",
+    "folder": "artist"
+  },
+  "song_3gxw74yy": {
+    "path": "artist/art383.mp3",
+    "folder": "artist"
+  },
+  "song_edey3b76": {
+    "path": "artist/art384.mp3",
+    "folder": "artist"
+  },
+  "song_qvx5rmlv": {
+    "path": "artist/art385.mp3",
+    "folder": "artist"
+  },
+  "song_9rdv5gt2": {
+    "path": "artist/art386.mp3",
+    "folder": "artist"
+  },
+  "song_kxcxajaw": {
+    "path": "artist/art387.mp3",
+    "folder": "artist"
+  },
+  "song_ryr27rt5": {
+    "path": "artist/art388.mp3",
+    "folder": "artist"
+  },
+  "song_n5eyf406": {
+    "path": "artist/art389.mp3",
+    "folder": "artist"
+  },
+  "song_3u6e9tq1": {
+    "path": "artist/art390.mp3",
+    "folder": "artist"
+  },
+  "song_xasmkt0o": {
+    "path": "artist/art391.mp3",
+    "folder": "artist"
+  },
+  "song_e8tab459": {
+    "path": "artist/art392.mp3",
+    "folder": "artist"
+  },
+  "song_2vyy3l7y": {
+    "path": "artist/art393.mp3",
+    "folder": "artist"
+  },
+  "song_cruaeaal": {
+    "path": "artist/art394.mp3",
+    "folder": "artist"
+  },
+  "song_zsqiir23": {
+    "path": "artist/art395.mp3",
+    "folder": "artist"
+  },
+  "song_kvq623gg": {
+    "path": "artist/art396.mp3",
+    "folder": "artist"
+  },
+  "song_7yx8gulc": {
+    "path": "artist/art397.mp3",
+    "folder": "artist"
+  },
+  "song_tkk5e9b6": {
+    "path": "artist/art398.mp3",
+    "folder": "artist"
+  },
+  "song_0kad1id2": {
+    "path": "artist/art399.mp3",
+    "folder": "artist"
+  },
+  "song_nn2mjawf": {
+    "path": "artist/art400.mp3",
+    "folder": "artist"
+  },
+  "song_0lfgnlj6": {
+    "path": "artist/art401.mp3",
+    "folder": "artist"
+  },
+  "song_qnu6mxj5": {
+    "path": "artist/art402.mp3",
+    "folder": "artist"
+  },
+  "song_hhswyemx": {
+    "path": "artist/art403.mp3",
+    "folder": "artist"
+  },
+  "song_ivsebm6h": {
+    "path": "artist/art404.mp3",
+    "folder": "artist"
+  },
+  "song_a90wr5of": {
+    "path": "artist/art405.mp3",
+    "folder": "artist"
+  },
+  "song_myt31ymo": {
+    "path": "artist/art406.mp3",
+    "folder": "artist"
+  },
+  "song_tov58g8k": {
+    "path": "artist/art407.mp3",
+    "folder": "artist"
+  },
+  "song_qfe78m94": {
+    "path": "artist/art408.mp3",
+    "folder": "artist"
+  },
+  "song_q99uwbuo": {
+    "path": "artist/art409.mp3",
+    "folder": "artist"
+  },
+  "song_88lh6uoz": {
+    "path": "artist/art410.mp3",
+    "folder": "artist"
+  },
+  "song_33rl37qs": {
+    "path": "artist/art411.mp3",
+    "folder": "artist"
+  },
+  "song_pl46jhu3": {
+    "path": "artist/art412.mp3",
+    "folder": "artist"
+  },
+  "song_ve1j425p": {
+    "path": "artist/art413.mp3",
+    "folder": "artist"
+  },
+  "song_dsax2fgr": {
+    "path": "artist/art414.mp3",
+    "folder": "artist"
+  },
+  "song_x7mfqms5": {
+    "path": "artist/art415.mp3",
+    "folder": "artist"
+  },
+  "song_no815cs8": {
+    "path": "artist/art416.mp3",
+    "folder": "artist"
+  },
+  "song_q347bycv": {
+    "path": "artist/art417.mp3",
+    "folder": "artist"
+  },
+  "song_2puou33y": {
+    "path": "artist/art418.mp3",
+    "folder": "artist"
+  },
+  "song_woef8aik": {
+    "path": "artist/art419.mp3",
+    "folder": "artist"
+  },
+  "song_3n6nc0cd": {
+    "path": "artist/art420.mp3",
+    "folder": "artist"
+  },
+  "song_qhwx0vum": {
+    "path": "artist/art421.mp3",
+    "folder": "artist"
+  },
+  "song_t4k2sfnw": {
+    "path": "artist/art422.mp3",
+    "folder": "artist"
+  },
+  "song_wap3gqyd": {
+    "path": "artist/art423.mp3",
+    "folder": "artist"
+  },
+  "song_nsz8684k": {
+    "path": "artist/art424.mp3",
+    "folder": "artist"
+  },
+  "song_pcku4x39": {
+    "path": "artist/art425.mp3",
+    "folder": "artist"
+  },
+  "song_3yrc2qvu": {
+    "path": "artist/art426.mp3",
+    "folder": "artist"
+  },
+  "song_i7favvl2": {
+    "path": "artist/art427.mp3",
+    "folder": "artist"
+  },
+  "song_ucyv2xcl": {
+    "path": "artist/art428.mp3",
+    "folder": "artist"
+  },
+  "song_zjm5dsej": {
+    "path": "artist/art429.mp3",
+    "folder": "artist"
+  },
+  "song_moi37o24": {
+    "path": "artist/art430.mp3",
+    "folder": "artist"
+  },
+  "song_f7wlbslo": {
+    "path": "artist/art431.mp3",
+    "folder": "artist"
+  },
+  "song_i92pix18": {
+    "path": "artist/art432.mp3",
+    "folder": "artist"
+  },
+  "song_ua72m7kj": {
+    "path": "artist/art433.mp3",
+    "folder": "artist"
+  },
+  "song_5v28tcgd": {
+    "path": "artist/art434.mp3",
+    "folder": "artist"
+  },
+  "song_mde14ye6": {
+    "path": "artist/art435.mp3",
+    "folder": "artist"
+  },
+  "song_z7olo2ru": {
+    "path": "artist/art436.mp3",
+    "folder": "artist"
+  },
+  "song_dw461f4n": {
+    "path": "artist/art437.mp3",
+    "folder": "artist"
+  },
+  "song_9m3l2qtk": {
+    "path": "artist/art438.mp3",
+    "folder": "artist"
+  },
+  "song_a2is6mo7": {
+    "path": "artist/art439.mp3",
+    "folder": "artist"
+  },
+  "song_nn75csml": {
+    "path": "artist/art440.mp3",
+    "folder": "artist"
+  },
+  "song_e7yvgtvw": {
+    "path": "artist/art441.mp3",
+    "folder": "artist"
+  },
+  "song_bmex4sdo": {
+    "path": "artist/art442.mp3",
+    "folder": "artist"
+  },
+  "song_ddgq1vk6": {
+    "path": "artist/art443.mp3",
+    "folder": "artist"
+  },
+  "song_fiok4b3g": {
+    "path": "artist/art444.mp3",
+    "folder": "artist"
+  },
+  "song_lzdepg0z": {
+    "path": "artist/art445.mp3",
+    "folder": "artist"
+  },
+  "song_v6ws8756": {
+    "path": "artist/art446.mp3",
+    "folder": "artist"
+  },
+  "song_hb9jhmx5": {
+    "path": "artist/art447.mp3",
+    "folder": "artist"
+  },
+  "song_yix1rggj": {
+    "path": "artist/art448.mp3",
+    "folder": "artist"
+  },
+  "song_rj0q2e30": {
+    "path": "artist/art449.mp3",
+    "folder": "artist"
+  },
+  "song_wnrpmnuh": {
+    "path": "artist/art450.mp3",
+    "folder": "artist"
+  },
+  "song_q970bxgp": {
+    "path": "artist/art451.mp3",
+    "folder": "artist"
+  },
+  "song_ykzxkv8v": {
+    "path": "artist/art452.mp3",
+    "folder": "artist"
+  },
+  "song_net7xzb4": {
+    "path": "artist/art453.mp3",
+    "folder": "artist"
+  },
+  "song_12shrnw3": {
+    "path": "artist/art454.mp3",
+    "folder": "artist"
+  },
+  "song_f321k5g6": {
+    "path": "artist/art455.mp3",
+    "folder": "artist"
+  },
+  "song_stqaekof": {
+    "path": "artist/art456.mp3",
+    "folder": "artist"
+  },
+  "song_eo5nl1pm": {
+    "path": "artist/art457.mp3",
+    "folder": "artist"
+  },
+  "song_7puuv6b0": {
+    "path": "artist/art458.mp3",
+    "folder": "artist"
+  },
+  "song_li5zkqch": {
+    "path": "artist/art459.mp3",
+    "folder": "artist"
+  },
+  "song_o3pk5s4l": {
+    "path": "artist/art460.mp3",
+    "folder": "artist"
+  },
+  "song_uvdyxfny": {
+    "path": "artist/art461.mp3",
+    "folder": "artist"
+  },
+  "song_7e9nnyb6": {
+    "path": "artist/art462.mp3",
+    "folder": "artist"
+  },
+  "song_dij2vwvc": {
+    "path": "artist/art463.mp3",
+    "folder": "artist"
+  },
+  "song_xx8jnaah": {
+    "path": "artist/art464.mp3",
+    "folder": "artist"
+  },
+  "song_vnv3giky": {
+    "path": "artist/art465.mp3",
+    "folder": "artist"
+  },
+  "song_iy8dr8zk": {
+    "path": "artist/art466.mp3",
+    "folder": "artist"
+  },
+  "song_bxmrugn7": {
+    "path": "artist/art467.mp3",
+    "folder": "artist"
+  },
+  "song_actdvllr": {
+    "path": "artist/art468.mp3",
+    "folder": "artist"
+  },
+  "song_0f5ldlhd": {
+    "path": "artist/art469.mp3",
+    "folder": "artist"
+  },
+  "song_zktlctw8": {
+    "path": "artist/art470.mp3",
+    "folder": "artist"
+  },
+  "song_hlbrgcaw": {
+    "path": "artist/art471.mp3",
+    "folder": "artist"
+  },
+  "song_wfhlmqt2": {
+    "path": "artist/art472.mp3",
+    "folder": "artist"
+  },
+  "song_4quwaktk": {
+    "path": "artist/art473.mp3",
+    "folder": "artist"
+  },
+  "song_7d1b793z": {
+    "path": "artist/art474.mp3",
+    "folder": "artist"
+  },
+  "song_kymh5mw6": {
+    "path": "artist/art475.mp3",
+    "folder": "artist"
+  },
+  "song_i3xgyxqg": {
+    "path": "artist/art476.mp3",
+    "folder": "artist"
+  },
+  "song_8rjvvw6w": {
+    "path": "artist/art477.mp3",
+    "folder": "artist"
+  },
+  "song_m5xhdu8r": {
+    "path": "artist/art478.mp3",
+    "folder": "artist"
+  },
+  "song_33wf3ywb": {
+    "path": "artist/art479.mp3",
+    "folder": "artist"
+  },
+  "song_fl0a7xjq": {
+    "path": "artist/art480.mp3",
+    "folder": "artist"
+  },
+  "song_ygyx9sok": {
+    "path": "artist/art481.mp3",
+    "folder": "artist"
+  },
+  "song_x4vwrhp4": {
+    "path": "artist/art482.mp3",
+    "folder": "artist"
+  },
+  "song_bqof3nz1": {
+    "path": "artist/art483.mp3",
+    "folder": "artist"
+  },
+  "song_6tliwjkq": {
+    "path": "artist/art484.mp3",
+    "folder": "artist"
+  },
+  "song_6inhnpy5": {
+    "path": "artist/art485.mp3",
+    "folder": "artist"
+  },
+  "song_4e1f0fpr": {
+    "path": "artist/art486.mp3",
+    "folder": "artist"
+  },
+  "song_oa674iom": {
+    "path": "artist/art487.mp3",
+    "folder": "artist"
+  },
+  "song_6z4rseqo": {
+    "path": "artist/art488.mp3",
+    "folder": "artist"
+  },
+  "song_9w0cylvr": {
+    "path": "artist/art489.mp3",
+    "folder": "artist"
+  },
+  "song_lyle0nlc": {
+    "path": "artist/art490.mp3",
+    "folder": "artist"
+  },
+  "song_3upopn7k": {
+    "path": "artist/art491.mp3",
+    "folder": "artist"
+  },
+  "song_v00hkvol": {
+    "path": "artist/art492.mp3",
+    "folder": "artist"
+  },
+  "song_3gaqgqhz": {
+    "path": "artist/art493.mp3",
+    "folder": "artist"
+  },
+  "song_ngxvy8yo": {
+    "path": "artist/art494.mp3",
+    "folder": "artist"
+  },
+  "song_o35hragq": {
+    "path": "artist/art495.mp3",
+    "folder": "artist"
+  },
+  "song_r6vhlxcu": {
+    "path": "artist/art496.mp3",
+    "folder": "artist"
+  },
+  "song_kldcvksi": {
+    "path": "artist/art497.mp3",
+    "folder": "artist"
+  },
+  "song_xqcx7kxk": {
+    "path": "artist/art498.mp3",
+    "folder": "artist"
+  },
+  "song_awv9wkz4": {
+    "path": "artist/art499.mp3",
+    "folder": "artist"
+  },
+  "song_5wq6gero": {
+    "path": "artist/art500.mp3",
+    "folder": "artist"
+  },
+  "song_nfnj55xq": {
+    "path": "artist/art501.mp3",
+    "folder": "artist"
+  },
+  "song_5is8awef": {
+    "path": "artist/art502.mp3",
+    "folder": "artist"
+  },
+  "song_tt77e33k": {
+    "path": "artist/art503.mp3",
+    "folder": "artist"
+  },
+  "song_h2sps098": {
+    "path": "artist/art504.mp3",
+    "folder": "artist"
+  },
+  "song_bco2yi70": {
+    "path": "artist/art505.mp3",
+    "folder": "artist"
+  },
+  "song_dzc80552": {
+    "path": "artist/art506.mp3",
+    "folder": "artist"
+  },
+  "song_ycy4fr8k": {
+    "path": "artist/art507.mp3",
+    "folder": "artist"
+  },
+  "song_ry7zhj8i": {
+    "path": "artist/art508.mp3",
+    "folder": "artist"
+  },
+  "song_6e4rtdtw": {
+    "path": "artist/art509.mp3",
+    "folder": "artist"
+  },
+  "song_r6jo7aq2": {
+    "path": "artist/art510.mp3",
+    "folder": "artist"
+  },
+  "song_hkr7moxa": {
+    "path": "artist/art511.mp3",
+    "folder": "artist"
+  },
+  "song_8gi4f22j": {
+    "path": "artist/art512.mp3",
+    "folder": "artist"
+  },
+  "song_0fl37po6": {
+    "path": "artist/art513.mp3",
+    "folder": "artist"
+  },
+  "song_zmps4u8b": {
+    "path": "artist/art514.mp3",
+    "folder": "artist"
+  },
+  "song_1p6w18rt": {
+    "path": "artist/art515.mp3",
+    "folder": "artist"
+  },
+  "song_ml0qogcs": {
+    "path": "artist/art516.mp3",
+    "folder": "artist"
+  },
+  "song_h25pwf40": {
+    "path": "artist/art517.mp3",
+    "folder": "artist"
+  },
+  "song_iw22j85q": {
+    "path": "artist/art518.mp3",
+    "folder": "artist"
+  },
+  "song_yr6jhsgg": {
+    "path": "artist/art519.mp3",
+    "folder": "artist"
+  },
+  "song_xkq55jsy": {
+    "path": "artist/art520.mp3",
+    "folder": "artist"
+  },
+  "song_4xjk5zeg": {
+    "path": "artist/art521.mp3",
+    "folder": "artist"
+  },
+  "song_rzrmaga3": {
+    "path": "artist/art522.mp3",
+    "folder": "artist"
+  },
+  "song_8h8l57oh": {
+    "path": "artist/art523.mp3",
+    "folder": "artist"
+  },
+  "song_gh8rgzrq": {
+    "path": "artist/art524.mp3",
+    "folder": "artist"
+  },
+  "song_ea13lw6m": {
+    "path": "artist/art525.mp3",
+    "folder": "artist"
+  },
+  "song_zttw61od": {
+    "path": "artist/art526.mp3",
+    "folder": "artist"
+  },
+  "song_nyxheolq": {
+    "path": "artist/art527.mp3",
+    "folder": "artist"
+  },
+  "song_o9ozhwha": {
+    "path": "artist/art528.mp3",
+    "folder": "artist"
+  },
+  "song_lubfpf2i": {
+    "path": "artist/art529.mp3",
+    "folder": "artist"
+  },
+  "song_fzcc8zu9": {
+    "path": "artist/art530.mp3",
+    "folder": "artist"
+  },
+  "song_pfz7zgq1": {
+    "path": "artist/art531.mp3",
+    "folder": "artist"
+  },
+  "song_u2y6shio": {
+    "path": "artist/art532.mp3",
+    "folder": "artist"
+  },
+  "song_pz1bjfj0": {
+    "path": "artist/art533.mp3",
+    "folder": "artist"
+  },
+  "song_3d7f9l9m": {
+    "path": "artist/art534.mp3",
+    "folder": "artist"
+  },
+  "song_xd1e1l9t": {
+    "path": "artist/art535.mp3",
+    "folder": "artist"
+  },
+  "song_1sgitazr": {
+    "path": "artist/art536.mp3",
+    "folder": "artist"
+  },
+  "song_i1okqhvr": {
+    "path": "artist/art537.mp3",
+    "folder": "artist"
+  },
+  "song_k5s1hsye": {
+    "path": "artist/art538.mp3",
+    "folder": "artist"
+  },
+  "song_7p268crs": {
+    "path": "artist/art539.mp3",
+    "folder": "artist"
+  },
+  "song_a4rjkr5l": {
+    "path": "artist/art540.mp3",
+    "folder": "artist"
+  },
+  "song_gqdkx29l": {
+    "path": "artist/art541.mp3",
+    "folder": "artist"
+  },
+  "song_4zqrcx6d": {
+    "path": "artist/art542.mp3",
+    "folder": "artist"
+  },
+  "song_9x77y1ro": {
+    "path": "artist/art543.mp3",
+    "folder": "artist"
+  },
+  "song_dxb3zcdm": {
+    "path": "artist/art544.mp3",
+    "folder": "artist"
+  },
+  "song_o1wi858q": {
+    "path": "artist/art545.mp3",
+    "folder": "artist"
+  },
+  "song_05ur44cw": {
+    "path": "artist/art546.mp3",
+    "folder": "artist"
+  },
+  "song_l1gmnit2": {
+    "path": "artist/art547.mp3",
+    "folder": "artist"
+  },
+  "song_njkjk3y0": {
+    "path": "artist/art548.mp3",
+    "folder": "artist"
+  },
+  "song_2cxvdxuc": {
+    "path": "artist/art549.mp3",
+    "folder": "artist"
+  },
+  "song_j2qo2dlo": {
+    "path": "artist/art550.mp3",
+    "folder": "artist"
+  },
+  "song_3abygwoj": {
+    "path": "artist/art551.mp3",
+    "folder": "artist"
+  },
+  "song_95fdwazm": {
+    "path": "artist/art552.mp3",
+    "folder": "artist"
+  },
+  "song_0si8j8n9": {
+    "path": "artist/art553.mp3",
+    "folder": "artist"
+  },
+  "song_ygdtud7z": {
+    "path": "artist/art554.mp3",
+    "folder": "artist"
+  },
+  "song_av9uomqu": {
+    "path": "artist/art555.mp3",
+    "folder": "artist"
+  },
+  "song_6sgxut58": {
+    "path": "artist/art556.mp3",
+    "folder": "artist"
+  },
+  "song_wta88d8n": {
+    "path": "artist/art557.mp3",
+    "folder": "artist"
+  },
+  "song_ln4dwy83": {
+    "path": "artist/art558.mp3",
+    "folder": "artist"
+  },
+  "song_ff60ixyk": {
+    "path": "artist/art559.mp3",
+    "folder": "artist"
+  },
+  "song_in33flug": {
+    "path": "artist/art560.mp3",
+    "folder": "artist"
+  },
+  "song_oqkzugiw": {
+    "path": "artist/art561.mp3",
+    "folder": "artist"
+  },
+  "song_zl71bs8n": {
+    "path": "artist/art562.mp3",
+    "folder": "artist"
+  },
+  "song_pwobwh86": {
+    "path": "artist/art563.mp3",
+    "folder": "artist"
+  },
+  "song_vwld298w": {
+    "path": "artist/art564.mp3",
+    "folder": "artist"
+  },
+  "song_1jxfm70s": {
+    "path": "artist/art565.mp3",
+    "folder": "artist"
+  },
+  "song_8bb89zq5": {
+    "path": "artist/art566.mp3",
+    "folder": "artist"
+  },
+  "song_a6nx9aiy": {
+    "path": "artist/art567.mp3",
+    "folder": "artist"
+  },
+  "song_5qcx41ic": {
+    "path": "artist/art568.mp3",
+    "folder": "artist"
+  },
+  "song_sbtwujn9": {
+    "path": "artist/art569.mp3",
+    "folder": "artist"
+  },
+  "song_hl1c917u": {
+    "path": "artist/art570.mp3",
+    "folder": "artist"
+  },
+  "song_hy0xa2n0": {
+    "path": "artist/art572.mp3",
+    "folder": "artist"
+  },
+  "song_xmy6xn2t": {
+    "path": "artist/art573.mp3",
+    "folder": "artist"
+  },
+  "song_bwp97523": {
+    "path": "artist/art574.mp3",
+    "folder": "artist"
+  },
+  "song_e49l4efy": {
+    "path": "artist/art575.mp3",
+    "folder": "artist"
+  },
+  "song_kvpqdlb3": {
+    "path": "artist/art576.mp3",
+    "folder": "artist"
+  },
+  "song_jwxdkax2": {
+    "path": "artist/art577.mp3",
+    "folder": "artist"
+  },
+  "song_pwnn0m8h": {
+    "path": "artist/art578.mp3",
+    "folder": "artist"
+  },
+  "song_60802yyg": {
+    "path": "artist/art579.mp3",
+    "folder": "artist"
+  },
+  "song_rnsqur6v": {
+    "path": "artist/art580.mp3",
+    "folder": "artist"
+  },
+  "song_pbewid0j": {
+    "path": "artist/art581.mp3",
+    "folder": "artist"
+  },
+  "song_7ri9f3tb": {
+    "path": "artist/art582.mp3",
+    "folder": "artist"
+  },
+  "song_4biv21ow": {
+    "path": "artist/art583.mp3",
+    "folder": "artist"
+  },
+  "song_e9e7ax94": {
+    "path": "artist/art584.mp3",
+    "folder": "artist"
+  },
+  "song_150emymi": {
+    "path": "artist/art585.mp3",
+    "folder": "artist"
+  },
+  "song_jrp9ow1k": {
+    "path": "artist/art586.mp3",
+    "folder": "artist"
+  },
+  "song_iilv05ln": {
+    "path": "artist/art587.mp3",
+    "folder": "artist"
+  },
+  "song_rsd27tau": {
+    "path": "artist/art588.mp3",
+    "folder": "artist"
+  },
+  "song_key9o1vm": {
+    "path": "artist/art589.mp3",
+    "folder": "artist"
+  },
+  "song_3f9vnjd6": {
+    "path": "artist/art590.mp3",
+    "folder": "artist"
+  },
+  "song_f6c9s1m1": {
+    "path": "artist/art591.mp3",
+    "folder": "artist"
+  },
+  "song_eeclaxhv": {
+    "path": "artist/art592.mp3",
+    "folder": "artist"
+  },
+  "song_9bekxlot": {
+    "path": "artist/art593.mp3",
+    "folder": "artist"
+  },
+  "song_yx82oxq1": {
+    "path": "artist/art594.mp3",
+    "folder": "artist"
+  },
+  "song_npbcq9vt": {
+    "path": "artist/art595.mp3",
+    "folder": "artist"
+  },
+  "song_ntyq3tnt": {
+    "path": "artist/art596.mp3",
+    "folder": "artist"
+  },
+  "song_0ubpqay2": {
+    "path": "artist/art597.mp3",
+    "folder": "artist"
+  },
+  "song_0gvyf7me": {
+    "path": "artist/art598.mp3",
+    "folder": "artist"
+  },
+  "song_0ebmqn0z": {
+    "path": "artist/art599.mp3",
+    "folder": "artist"
+  },
+  "song_z7qtw9cc": {
+    "path": "artist/art600.mp3",
+    "folder": "artist"
+  },
+  "song_qdo3m07q": {
+    "path": "artist/art601.mp3",
+    "folder": "artist"
+  },
+  "song_pegsajr3": {
+    "path": "artist/art602.mp3",
+    "folder": "artist"
+  },
+  "song_jmp4axs0": {
+    "path": "artist/art603.mp3",
+    "folder": "artist"
+  },
+  "song_9pvpixvl": {
+    "path": "artist/art604.mp3",
+    "folder": "artist"
+  },
+  "song_oq7awsg2": {
+    "path": "artist/art605.mp3",
+    "folder": "artist"
+  },
+  "song_o9e0wvmo": {
+    "path": "artist/art606.mp3",
+    "folder": "artist"
+  },
+  "song_2015wh83": {
+    "path": "artist/art607.mp3",
+    "folder": "artist"
+  },
+  "song_gkby8ruk": {
+    "path": "artist/art608.mp3",
+    "folder": "artist"
+  },
+  "song_ndj99oc5": {
+    "path": "artist/art609.mp3",
+    "folder": "artist"
+  },
+  "song_1olk5bnm": {
+    "path": "artist/art610.mp3",
+    "folder": "artist"
+  },
+  "song_nmzbb2mu": {
+    "path": "artist/art611.mp3",
+    "folder": "artist"
+  },
+  "song_sdmnmlbz": {
+    "path": "artist/art612.mp3",
+    "folder": "artist"
+  },
+  "song_so7xk44l": {
+    "path": "artist/art613.mp3",
+    "folder": "artist"
+  },
+  "song_0vb0d3ge": {
+    "path": "artist/art614.mp3",
+    "folder": "artist"
+  },
+  "song_uavb6c8z": {
+    "path": "artist/art615.mp3",
+    "folder": "artist"
+  },
+  "song_qknl97mo": {
+    "path": "artist/art616.mp3",
+    "folder": "artist"
+  },
+  "song_tcsh35kw": {
+    "path": "artist/art617.mp3",
+    "folder": "artist"
+  },
+  "song_ug5itifp": {
+    "path": "artist/art618.mp3",
+    "folder": "artist"
+  },
+  "song_7c0y6jmw": {
+    "path": "artist/art619.mp3",
+    "folder": "artist"
+  },
+  "song_n9t7pkws": {
+    "path": "artist/art620.mp3",
+    "folder": "artist"
+  },
+  "song_a8v8cqxv": {
+    "path": "artist/art621.mp3",
+    "folder": "artist"
+  },
+  "song_ukymy5ti": {
+    "path": "artist/art622.mp3",
+    "folder": "artist"
+  },
+  "song_dyvngnk5": {
+    "path": "artist/art623.mp3",
+    "folder": "artist"
+  },
+  "song_pir4zatd": {
+    "path": "artist/art624.mp3",
+    "folder": "artist"
+  },
+  "song_zz68f9qr": {
+    "path": "artist/art625.mp3",
+    "folder": "artist"
+  },
+  "song_clbp1wge": {
+    "path": "artist/art626.mp3",
+    "folder": "artist"
+  },
+  "song_f7jubuqs": {
+    "path": "artist/art627.mp3",
+    "folder": "artist"
+  },
+  "song_cnrlakyn": {
+    "path": "artist/art628.mp3",
+    "folder": "artist"
+  },
+  "song_ma9pfjm7": {
+    "path": "artist/art629.mp3",
+    "folder": "artist"
+  },
+  "song_szb4fxhl": {
+    "path": "artist/art630.mp3",
+    "folder": "artist"
+  },
+  "song_oi447kjl": {
+    "path": "artist/art631.mp3",
+    "folder": "artist"
+  },
+  "song_duo74iga": {
+    "path": "artist/art632.mp3",
+    "folder": "artist"
+  },
+  "song_k20nuh0g": {
+    "path": "artist/art633.mp3",
+    "folder": "artist"
+  },
+  "song_7gaaqb3h": {
+    "path": "artist/art634.mp3",
+    "folder": "artist"
+  },
+  "song_4rt4gjo4": {
+    "path": "artist/art635.mp3",
+    "folder": "artist"
+  },
+  "song_ezxxqz4f": {
+    "path": "artist/art636.mp3",
+    "folder": "artist"
+  },
+  "song_z3kdxhsh": {
+    "path": "artist/art637.mp3",
+    "folder": "artist"
+  },
+  "song_qrlrri0q": {
+    "path": "artist/art638.mp3",
+    "folder": "artist"
+  },
+  "song_3chi6i77": {
+    "path": "artist/art639.mp3",
+    "folder": "artist"
+  },
+  "song_r3a5mnmc": {
+    "path": "artist/art640.mp3",
+    "folder": "artist"
+  },
+  "song_o2vr7df8": {
+    "path": "artist/art641.mp3",
+    "folder": "artist"
+  },
+  "song_01nximus": {
+    "path": "artist/art642.mp3",
+    "folder": "artist"
+  },
+  "song_8va7me3e": {
+    "path": "artist/art643.mp3",
+    "folder": "artist"
+  },
+  "song_vgeq90ep": {
+    "path": "artist/art644.mp3",
+    "folder": "artist"
+  },
+  "song_w9dh0noa": {
+    "path": "artist/art645.mp3",
+    "folder": "artist"
+  },
+  "song_s27l92a6": {
+    "path": "artist/art646.mp3",
+    "folder": "artist"
+  },
+  "song_1dgqc5q1": {
+    "path": "artist/art647.mp3",
+    "folder": "artist"
+  },
+  "song_autlz8w4": {
+    "path": "artist/art648.mp3",
+    "folder": "artist"
+  },
+  "song_9t60u2z3": {
+    "path": "artist/art649.mp3",
+    "folder": "artist"
+  },
+  "song_nips7fh2": {
+    "path": "artist/art650.mp3",
+    "folder": "artist"
+  },
+  "song_birnm9sx": {
+    "path": "artist/art651.mp3",
+    "folder": "artist"
+  },
+  "song_s1ci8axv": {
+    "path": "artist/art652.mp3",
+    "folder": "artist"
+  },
+  "song_jvumsunr": {
+    "path": "artist/art653.mp3",
+    "folder": "artist"
+  },
+  "song_ipwhtogh": {
+    "path": "artist/art654.mp3",
+    "folder": "artist"
+  },
+  "song_9mdsdkzi": {
+    "path": "artist/art655.mp3",
+    "folder": "artist"
+  },
+  "song_q7h478mo": {
+    "path": "artist/art656.mp3",
+    "folder": "artist"
+  },
+  "song_7wdatq3t": {
+    "path": "artist/art657.mp3",
+    "folder": "artist"
+  },
+  "song_yhtv3zfs": {
+    "path": "artist/art658.mp3",
+    "folder": "artist"
+  },
+  "song_zx0l2sov": {
+    "path": "artist/art659.mp3",
+    "folder": "artist"
+  },
+  "song_a2qoaeyl": {
+    "path": "artist/art660.mp3",
+    "folder": "artist"
+  },
+  "song_bytzy3e2": {
+    "path": "artist/art661.mp3",
+    "folder": "artist"
+  },
+  "song_32izd773": {
+    "path": "artist/art662.mp3",
+    "folder": "artist"
+  },
+  "song_w6cipuh8": {
+    "path": "artist/art663.mp3",
+    "folder": "artist"
+  },
+  "song_cu440o0h": {
+    "path": "artist/art664.mp3",
+    "folder": "artist"
+  },
+  "song_3hspt9ev": {
+    "path": "artist/art665.mp3",
+    "folder": "artist"
+  },
+  "song_4383vkqx": {
+    "path": "artist/art666.mp3",
+    "folder": "artist"
+  },
+  "song_u79eug69": {
+    "path": "artist/art667.mp3",
+    "folder": "artist"
+  },
+  "song_x1i8rf68": {
+    "path": "artist/art668.mp3",
+    "folder": "artist"
+  },
+  "song_zddrp170": {
+    "path": "artist/art669.mp3",
+    "folder": "artist"
+  },
+  "song_8e16iuc3": {
+    "path": "artist/art670.mp3",
+    "folder": "artist"
+  },
+  "song_q16ezt7k": {
+    "path": "artist/art671.mp3",
+    "folder": "artist"
+  },
+  "song_0qbrzlrq": {
+    "path": "artist/art672.mp3",
+    "folder": "artist"
+  },
+  "song_151fbv3k": {
+    "path": "artist/art673.mp3",
+    "folder": "artist"
+  },
+  "song_vlg60z9c": {
+    "path": "artist/art674.mp3",
+    "folder": "artist"
+  },
+  "song_yjgsmsje": {
+    "path": "artist/art675.mp3",
+    "folder": "artist"
+  },
+  "song_4squ5eiq": {
+    "path": "artist/art676.mp3",
+    "folder": "artist"
+  },
+  "song_esapf8ev": {
+    "path": "artist/art677.mp3",
+    "folder": "artist"
+  },
+  "song_zsb3p5dd": {
+    "path": "artist/art678.mp3",
+    "folder": "artist"
+  },
+  "song_vrkfvma2": {
+    "path": "artist/art679.mp3",
+    "folder": "artist"
+  },
+  "song_8zmy3fla": {
+    "path": "artist/art680.mp3",
+    "folder": "artist"
+  },
+  "song_nn0jn89q": {
+    "path": "artist/art681.mp3",
+    "folder": "artist"
+  },
+  "song_zjzraaxk": {
+    "path": "artist/art682.mp3",
+    "folder": "artist"
+  },
+  "song_clo3cnpu": {
+    "path": "artist/art683.mp3",
+    "folder": "artist"
+  },
+  "song_8wahp6hb": {
+    "path": "artist/art684.mp3",
+    "folder": "artist"
+  },
+  "song_2kum7ocj": {
+    "path": "artist/art685.mp3",
+    "folder": "artist"
+  },
+  "song_hiqt1h5w": {
+    "path": "artist/art686.mp3",
+    "folder": "artist"
+  },
+  "song_2ka2zhxe": {
+    "path": "artist/art687.mp3",
+    "folder": "artist"
+  },
+  "song_em1g4v72": {
+    "path": "artist/art688.mp3",
+    "folder": "artist"
+  },
+  "song_f5somopr": {
+    "path": "artist/art689.mp3",
+    "folder": "artist"
+  },
+  "song_q6sk907i": {
+    "path": "artist/art690.mp3",
+    "folder": "artist"
+  },
+  "song_evjnytee": {
+    "path": "artist/art691.mp3",
+    "folder": "artist"
+  },
+  "song_4s8lr7dd": {
+    "path": "artist/art692.mp3",
+    "folder": "artist"
+  },
+  "song_2wcl06oa": {
+    "path": "artist/art693.mp3",
+    "folder": "artist"
+  },
+  "song_ijbez7hp": {
+    "path": "artist/art694.mp3",
+    "folder": "artist"
+  },
+  "song_jticz9ge": {
+    "path": "artist/art695.mp3",
+    "folder": "artist"
+  },
+  "song_ex17ocpp": {
+    "path": "artist/art696.mp3",
+    "folder": "artist"
+  },
+  "song_2vb272u3": {
+    "path": "artist/art697.mp3",
+    "folder": "artist"
+  },
+  "song_n4gcsj23": {
+    "path": "artist/art698.mp3",
+    "folder": "artist"
+  },
+  "song_eqvxkycc": {
+    "path": "artist/art699.mp3",
+    "folder": "artist"
+  },
+  "song_h0p14we4": {
+    "path": "artist/art700.mp3",
+    "folder": "artist"
+  },
+  "song_58ftadp0": {
+    "path": "artist/art701.mp3",
+    "folder": "artist"
+  },
+  "song_czqsprb6": {
+    "path": "artist/art702.mp3",
+    "folder": "artist"
+  },
+  "song_3b00fkvt": {
+    "path": "artist/art703.mp3",
+    "folder": "artist"
+  },
+  "song_s84wybpt": {
+    "path": "artist/art704.mp3",
+    "folder": "artist"
+  },
+  "song_nnqievwl": {
+    "path": "artist/art705.mp3",
+    "folder": "artist"
+  },
+  "song_rriw5vsd": {
+    "path": "artist/art706.mp3",
+    "folder": "artist"
+  },
+  "song_fojpm84i": {
+    "path": "artist/art707.mp3",
+    "folder": "artist"
+  },
+  "song_9koxflrn": {
+    "path": "artist/art708.mp3",
+    "folder": "artist"
+  },
+  "song_pipl89we": {
+    "path": "artist/art709.mp3",
+    "folder": "artist"
+  },
+  "song_j2lviyn7": {
+    "path": "artist/art710.mp3",
+    "folder": "artist"
+  },
+  "song_vwrjcf2x": {
+    "path": "artist/art711.mp3",
+    "folder": "artist"
+  },
+  "song_a4epoyzv": {
+    "path": "artist/art712.mp3",
+    "folder": "artist"
+  },
+  "song_xc9e40r7": {
+    "path": "artist/art713.mp3",
+    "folder": "artist"
+  },
+  "song_k6ogu5ey": {
+    "path": "artist/art714.mp3",
+    "folder": "artist"
+  },
+  "song_wa21beci": {
+    "path": "artist/art715.mp3",
+    "folder": "artist"
+  },
+  "song_e3pxyl9j": {
+    "path": "albums/albm1018.mp3",
+    "folder": "albums"
+  },
+  "song_i6lbfpjk": {
+    "path": "albums/albm1015.mp3",
+    "folder": "albums"
+  },
+  "song_2palerl2": {
+    "path": "albums/albm1028.mp3",
+    "folder": "albums"
+  },
+  "song_9a5bso8s": {
+    "path": "albums/albm1020.mp3",
+    "folder": "albums"
+  },
+  "song_c42q12gr": {
+    "path": "albums/albm1025.mp3",
+    "folder": "albums"
+  },
+  "song_owiw061y": {
+    "path": "albums/albm1016.mp3",
+    "folder": "albums"
+  },
+  "song_88mz6eco": {
+    "path": "albums/albm1022.mp3",
+    "folder": "albums"
+  },
+  "song_8r668jbw": {
+    "path": "albums/albm1026.mp3",
+    "folder": "albums"
+  },
+  "song_bfh7xpo0": {
+    "path": "albums/albm1024.mp3",
+    "folder": "albums"
+  },
+  "song_3cf7x414": {
+    "path": "albums/albm1034.mp3",
+    "folder": "albums"
+  },
+  "song_y701qc1y": {
+    "path": "albums/albm1040.mp3",
+    "folder": "albums"
+  },
+  "song_v5j4thsp": {
+    "path": "albums/albm1038.mp3",
+    "folder": "albums"
+  },
+  "song_rvc8e406": {
+    "path": "albums/albm1037.mp3",
+    "folder": "albums"
+  },
+  "song_fs8e341k": {
+    "path": "artist/art729.mp3",
+    "folder": "artist"
+  },
+  "song_5e7g6uy4": {
+    "path": "albums/albm1035.mp3",
+    "folder": "albums"
+  },
+  "song_8c9isgep": {
+    "path": "albums/albm1041.mp3",
+    "folder": "albums"
+  },
+  "song_fjw23j60": {
+    "path": "albums/albm1033.mp3",
+    "folder": "albums"
+  },
+  "song_ljopswy3": {
+    "path": "albums/albm1044.mp3",
+    "folder": "albums"
+  },
+  "song_oucgy3d5": {
+    "path": "albums/albm1039.mp3",
+    "folder": "albums"
+  },
+  "song_kmaql1tc": {
+    "path": "albums/albm1042.mp3",
+    "folder": "albums"
+  },
+  "song_gnax31nb": {
+    "path": "albums/albm1043.mp3",
+    "folder": "albums"
+  },
+  "song_3ftozufy": {
+    "path": "artist/art737.mp3",
+    "folder": "artist"
+  },
+  "song_451wd4rp": {
+    "path": "artist/art738.mp3",
+    "folder": "artist"
+  },
+  "song_e8xrg8lp": {
+    "path": "artist/art739.mp3",
+    "folder": "artist"
+  },
+  "song_99uxgfpo": {
+    "path": "artist/art740.mp3",
+    "folder": "artist"
+  },
+  "song_d3efcs0k": {
+    "path": "artist/art741.mp3",
+    "folder": "artist"
+  },
+  "song_odmolfyv": {
+    "path": "artist/art742.mp3",
+    "folder": "artist"
+  },
+  "song_dq0gmjy8": {
+    "path": "artist/art743.mp3",
+    "folder": "artist"
+  },
+  "song_n23kgsdy": {
+    "path": "artist/art744.mp3",
+    "folder": "artist"
+  },
+  "song_0qerrdj9": {
+    "path": "artist/art745.mp3",
+    "folder": "artist"
+  },
+  "song_j9oltb7c": {
+    "path": "artist/art746.mp3",
+    "folder": "artist"
+  },
+  "song_fmq1q5fd": {
+    "path": "artist/art747.mp3",
+    "folder": "artist"
+  },
+  "song_4wdcrdda": {
+    "path": "artist/art748.mp3",
+    "folder": "artist"
+  },
+  "song_6ft4bel6": {
+    "path": "artist/art749.mp3",
+    "folder": "artist"
+  },
+  "song_4j9eohzi": {
+    "path": "artist/art750.mp3",
+    "folder": "artist"
+  },
+  "song_bmbljq29": {
+    "path": "artist/art751.mp3",
+    "folder": "artist"
+  },
+  "song_5ugt473p": {
+    "path": "artist/art752.mp3",
+    "folder": "artist"
+  },
+  "song_uyxq9k2o": {
+    "path": "artist/art753.mp3",
+    "folder": "artist"
+  },
+  "song_sgt48plf": {
+    "path": "artist/art754.mp3",
+    "folder": "artist"
+  },
+  "song_hd3vmfet": {
+    "path": "artist/art755.mp3",
+    "folder": "artist"
+  },
+  "song_f3jqov1z": {
+    "path": "artist/art756.mp3",
+    "folder": "artist"
+  },
+  "song_a3dvu8f2": {
+    "path": "artist/art757.mp3",
+    "folder": "artist"
+  },
+  "song_1xltdcrh": {
+    "path": "artist/art758.mp3",
+    "folder": "artist"
+  },
+  "song_uemw6aeh": {
+    "path": "artist/art759.mp3",
+    "folder": "artist"
+  },
+  "song_ij1hat96": {
+    "path": "artist/art760.mp3",
+    "folder": "artist"
+  },
+  "song_uffkq7a1": {
+    "path": "artist/art761.mp3",
+    "folder": "artist"
+  },
+  "song_hc0myx9f": {
+    "path": "artist/art762.mp3",
+    "folder": "artist"
+  },
+  "song_0anwihvn": {
+    "path": "artist/art763.mp3",
+    "folder": "artist"
+  },
+  "song_m1b1dmgd": {
+    "path": "artist/art764.mp3",
+    "folder": "artist"
+  },
+  "song_by6pdg2h": {
+    "path": "artist/art765.mp3",
+    "folder": "artist"
+  },
+  "song_s7ekg2nl": {
+    "path": "artist/art766.mp3",
+    "folder": "artist"
+  },
+  "song_4l4hijes": {
+    "path": "artist/art767.mp3",
+    "folder": "artist"
+  },
+  "song_0bvk3xwf": {
+    "path": "artist/art768.mp3",
+    "folder": "artist"
+  },
+  "song_mcmkxoi6": {
+    "path": "artist/art769.mp3",
+    "folder": "artist"
+  },
+  "song_1xokdby1": {
+    "path": "artist/art770.mp3",
+    "folder": "artist"
+  },
+  "song_9m43w5i2": {
+    "path": "artist/art771.mp3",
+    "folder": "artist"
+  },
+  "song_q4a68420": {
+    "path": "artist/art772.mp3",
+    "folder": "artist"
+  },
+  "song_ydvhfz3s": {
+    "path": "artist/art773.mp3",
+    "folder": "artist"
+  },
+  "song_i248978z": {
+    "path": "artist/art774.mp3",
+    "folder": "artist"
+  },
+  "song_fugm9h7c": {
+    "path": "artist/art775.mp3",
+    "folder": "artist"
+  },
+  "song_t2bv3jhz": {
+    "path": "artist/art776.mp3",
+    "folder": "artist"
+  },
+  "song_ufr3z1ix": {
+    "path": "artist/art777.mp3",
+    "folder": "artist"
+  },
+  "song_778i5upr": {
+    "path": "artist/art778.mp3",
+    "folder": "artist"
+  },
+  "song_undpokza": {
+    "path": "artist/art779.mp3",
+    "folder": "artist"
+  },
+  "song_tr2kuze6": {
+    "path": "artist/art780.mp3",
+    "folder": "artist"
+  },
+  "song_e9rio5do": {
+    "path": "artist/art781.mp3",
+    "folder": "artist"
+  },
+  "song_webewgkd": {
+    "path": "artist/art782.mp3",
+    "folder": "artist"
+  },
+  "song_7h5i65co": {
+    "path": "artist/art783.mp3",
+    "folder": "artist"
+  },
+  "song_g0z6plwt": {
+    "path": "artist/art784.mp3",
+    "folder": "artist"
+  },
+  "song_qx6lh943": {
+    "path": "artist/art785.mp3",
+    "folder": "artist"
+  },
+  "song_ox78ypy2": {
+    "path": "artist/art786.mp3",
+    "folder": "artist"
+  },
+  "song_66jpbzv6": {
+    "path": "artist/art787.mp3",
+    "folder": "artist"
+  },
+  "song_umm064z7": {
+    "path": "artist/art788.mp3",
+    "folder": "artist"
+  },
+  "song_p165imfk": {
+    "path": "artist/art789.mp3",
+    "folder": "artist"
+  },
+  "song_1j08oi6e": {
+    "path": "artist/art790.mp3",
+    "folder": "artist"
+  },
+  "song_bl16rt07": {
+    "path": "artist/art791.mp3",
+    "folder": "artist"
+  },
+  "song_l34dznm3": {
+    "path": "artist/art792.mp3",
+    "folder": "artist"
+  },
+  "song_t9w048xh": {
+    "path": "artist/art793.mp3",
+    "folder": "artist"
+  },
+  "song_u730c3lc": {
+    "path": "artist/art794.mp3",
+    "folder": "artist"
+  },
+  "song_q3z5c809": {
+    "path": "artist/art795.mp3",
+    "folder": "artist"
+  },
+  "song_jx6ni8gu": {
+    "path": "artist/art796.mp3",
+    "folder": "artist"
+  },
+  "song_y1mc2ucd": {
+    "path": "artist/art797.mp3",
+    "folder": "artist"
+  },
+  "song_ec75k9he": {
+    "path": "artist/art798.mp3",
+    "folder": "artist"
+  },
+  "song_9m9epe33": {
+    "path": "artist/art799.mp3",
+    "folder": "artist"
+  },
+  "song_kgenrk5h": {
+    "path": "artist/art800.mp3",
+    "folder": "artist"
+  },
+  "song_hz14bf4n": {
+    "path": "artist/art801.mp3",
+    "folder": "artist"
+  },
+  "song_52hipcqw": {
+    "path": "artist/art802.mp3",
+    "folder": "artist"
+  },
+  "song_6o96h8f9": {
+    "path": "artist/art803.mp3",
+    "folder": "artist"
+  },
+  "song_wfsfks6q": {
+    "path": "artist/art804.mp3",
+    "folder": "artist"
+  },
+  "song_hmip8i3u": {
+    "path": "artist/art805.mp3",
+    "folder": "artist"
+  },
+  "song_zlq40iym": {
+    "path": "artist/art806.mp3",
+    "folder": "artist"
+  },
+  "song_o0dbwost": {
+    "path": "artist/art807.mp3",
+    "folder": "artist"
+  },
+  "song_zv0gubag": {
+    "path": "artist/art808.mp3",
+    "folder": "artist"
+  },
+  "song_uo80dvri": {
+    "path": "artist/art809.mp3",
+    "folder": "artist"
+  },
+  "song_ior0ayv3": {
+    "path": "artist/art810.mp3",
+    "folder": "artist"
+  },
+  "song_0kv7z1d5": {
+    "path": "artist/art811.mp3",
+    "folder": "artist"
+  },
+  "song_0zi1lku5": {
+    "path": "artist/art812.mp3",
+    "folder": "artist"
+  },
+  "song_ok4swcmg": {
+    "path": "artist/art813.mp3",
+    "folder": "artist"
+  },
+  "song_r0mn79ug": {
+    "path": "artist/art814.mp3",
+    "folder": "artist"
+  },
+  "song_siziwjvc": {
+    "path": "artist/art815.mp3",
+    "folder": "artist"
+  },
+  "song_j3i6nm5f": {
+    "path": "artist/art816.mp3",
+    "folder": "artist"
+  },
+  "song_f0jay4yd": {
+    "path": "artist/art817.mp3",
+    "folder": "artist"
+  },
+  "song_df6tmq5i": {
+    "path": "artist/art818.mp3",
+    "folder": "artist"
+  },
+  "song_22d7r0rv": {
+    "path": "artist/art819.mp3",
+    "folder": "artist"
+  },
+  "song_fktv89wo": {
+    "path": "artist/art820.mp3",
+    "folder": "artist"
+  },
+  "song_ven9naqc": {
+    "path": "artist/art821.mp3",
+    "folder": "artist"
+  },
+  "song_csgbn3po": {
+    "path": "artist/art822.mp3",
+    "folder": "artist"
+  },
+  "song_glpa2h0l": {
+    "path": "artist/art823.mp3",
+    "folder": "artist"
+  },
+  "song_myj1vg0d": {
+    "path": "artist/art824.mp3",
+    "folder": "artist"
+  },
+  "song_6sc1buxp": {
+    "path": "artist/art825.mp3",
+    "folder": "artist"
+  },
+  "song_zck0m27p": {
+    "path": "artist/art826.mp3",
+    "folder": "artist"
+  },
+  "song_2fyabznd": {
+    "path": "artist/art827.mp3",
+    "folder": "artist"
+  },
+  "song_mb143r3h": {
+    "path": "artist/art828.mp3",
+    "folder": "artist"
+  },
+  "song_4kc4jwtx": {
+    "path": "artist/art829.mp3",
+    "folder": "artist"
+  },
+  "song_mg63r0it": {
+    "path": "artist/art830.mp3",
+    "folder": "artist"
+  },
+  "song_ejcqkjbp": {
+    "path": "artist/art831.mp3",
+    "folder": "artist"
+  },
+  "song_r453fsr7": {
+    "path": "artist/art832.mp3",
+    "folder": "artist"
+  },
+  "song_ht59se71": {
+    "path": "artist/art833.mp3",
+    "folder": "artist"
+  },
+  "song_k62nczi0": {
+    "path": "artist/art834.mp3",
+    "folder": "artist"
+  },
+  "song_zmmf97x3": {
+    "path": "artist/art835.mp3",
+    "folder": "artist"
+  },
+  "song_zqw16xtn": {
+    "path": "artist/art836.mp3",
+    "folder": "artist"
+  },
+  "song_haqts0tq": {
+    "path": "artist/art837.mp3",
+    "folder": "artist"
+  },
+  "song_dgnvtewj": {
+    "path": "artist/art838.mp3",
+    "folder": "artist"
+  },
+  "song_rnr63iz4": {
+    "path": "artist/art839.mp3",
+    "folder": "artist"
+  },
+  "song_q4f19g0x": {
+    "path": "artist/art840.mp3",
+    "folder": "artist"
+  },
+  "song_7d4x7qq9": {
+    "path": "artist/art841.mp3",
+    "folder": "artist"
+  },
+  "song_jjg8258q": {
+    "path": "artist/art842.mp3",
+    "folder": "artist"
+  },
+  "song_kougeby2": {
+    "path": "artist/art843.mp3",
+    "folder": "artist"
+  },
+  "song_6wg9efdt": {
+    "path": "artist/art844.mp3",
+    "folder": "artist"
+  },
+  "song_iq6zioux": {
+    "path": "artist/art845.mp3",
+    "folder": "artist"
+  },
+  "song_0oosmjuy": {
+    "path": "artist/art846.mp3",
+    "folder": "artist"
+  },
+  "song_5e43o7yj": {
+    "path": "artist/art847.mp3",
+    "folder": "artist"
+  },
+  "song_2c7tqpqm": {
+    "path": "artist/art848.mp3",
+    "folder": "artist"
+  },
+  "song_9zk5v974": {
+    "path": "artist/art849.mp3",
+    "folder": "artist"
+  },
+  "song_j3wfabj2": {
+    "path": "artist/art850.mp3",
+    "folder": "artist"
+  },
+  "song_cbtu9x38": {
+    "path": "artist/art851.mp3",
+    "folder": "artist"
+  },
+  "song_rq9v806m": {
+    "path": "artist/art852.mp3",
+    "folder": "artist"
+  },
+  "song_w6gau36k": {
+    "path": "artist/art853.mp3",
+    "folder": "artist"
+  },
+  "song_vnm5cwxl": {
+    "path": "artist/art854.mp3",
+    "folder": "artist"
+  },
+  "song_8crghd4o": {
+    "path": "artist/art855.mp3",
+    "folder": "artist"
+  },
+  "song_vtivaenc": {
+    "path": "artist/art856.mp3",
+    "folder": "artist"
+  },
+  "song_ed1jix0g": {
+    "path": "artist/art857.mp3",
+    "folder": "artist"
+  },
+  "song_h4e6srgx": {
+    "path": "artist/art858.mp3",
+    "folder": "artist"
+  },
+  "song_bdtbp6er": {
+    "path": "artist/art859.mp3",
+    "folder": "artist"
+  },
+  "song_4n3cnfv0": {
+    "path": "artist/art860.mp3",
+    "folder": "artist"
+  },
+  "song_ebcapdzp": {
+    "path": "artist/art861.mp3",
+    "folder": "artist"
+  },
+  "song_v85xce5k": {
+    "path": "artist/art862.mp3",
+    "folder": "artist"
+  },
+  "song_0opnh076": {
+    "path": "albums/albm877.mp3",
+    "folder": "albums"
+  },
+  "song_3j4we3fk": {
+    "path": "albums/albm878.mp3",
+    "folder": "albums"
+  },
+  "song_pdcueu0z": {
+    "path": "albums/albm879.mp3",
+    "folder": "albums"
+  },
+  "song_o15e7x5z": {
+    "path": "albums/albm880.mp3",
+    "folder": "albums"
+  },
+  "song_q81za40e": {
+    "path": "albums/albm881.mp3",
+    "folder": "albums"
+  },
+  "song_w5w1wtwn": {
+    "path": "albums/albm882.mp3",
+    "folder": "albums"
+  },
+  "song_3ww77bla": {
+    "path": "albums/albm883.mp3",
+    "folder": "albums"
+  },
+  "song_vd8f9b9q": {
+    "path": "albums/albm884.mp3",
+    "folder": "albums"
+  },
+  "song_met3073l": {
+    "path": "albums/albm885.mp3",
+    "folder": "albums"
+  },
+  "song_5y1dy611": {
+    "path": "albums/albm886.mp3",
+    "folder": "albums"
+  },
+  "song_repy7m7g": {
+    "path": "albums/albm887.mp3",
+    "folder": "albums"
+  },
+  "song_4x7v7czw": {
+    "path": "albums/albm888.mp3",
+    "folder": "albums"
+  },
+  "song_ayn4slzj": {
+    "path": "albums/albm889.mp3",
+    "folder": "albums"
+  },
+  "song_3kz9854b": {
+    "path": "albums/albm890.mp3",
+    "folder": "albums"
+  },
+  "song_rx0xseuj": {
+    "path": "albums/albm891.mp3",
+    "folder": "albums"
+  },
+  "song_g43vp1dp": {
+    "path": "albums/albm892.mp3",
+    "folder": "albums"
+  },
+  "song_c6m13wuc": {
+    "path": "albums/albm893.mp3",
+    "folder": "albums"
+  },
+  "song_zm388ivv": {
+    "path": "albums/albm894.mp3",
+    "folder": "albums"
+  },
+  "song_a2yh4oo0": {
+    "path": "albums/albm895.mp3",
+    "folder": "albums"
+  },
+  "song_vhwc4oqi": {
+    "path": "albums/albm896.mp3",
+    "folder": "albums"
+  },
+  "song_90m7gy20": {
+    "path": "albums/albm897.mp3",
+    "folder": "albums"
+  },
+  "song_h1qnpa6e": {
+    "path": "albums/albm898.mp3",
+    "folder": "albums"
+  },
+  "song_k50tj13z": {
+    "path": "albums/albm899.mp3",
+    "folder": "albums"
+  },
+  "song_v1r8w1wq": {
+    "path": "albums/albm900.mp3",
+    "folder": "albums"
+  },
+  "song_zskgh058": {
+    "path": "albums/albm901.mp3",
+    "folder": "albums"
+  },
+  "song_714d0cox": {
+    "path": "albums/albm902.mp3",
+    "folder": "albums"
+  },
+  "song_rcjpy9dc": {
+    "path": "albums/albm903.mp3",
+    "folder": "albums"
+  },
+  "song_set94afw": {
+    "path": "albums/albm904.mp3",
+    "folder": "albums"
+  },
+  "song_123e3g8a": {
+    "path": "albums/albm905.mp3",
+    "folder": "albums"
+  },
+  "song_opq3t9yw": {
+    "path": "albums/albm906.mp3",
+    "folder": "albums"
+  },
+  "song_t5yt8wkk": {
+    "path": "albums/albm907.mp3",
+    "folder": "albums"
+  },
+  "song_tidf8lkv": {
+    "path": "albums/albm908.mp3",
+    "folder": "albums"
+  },
+  "song_fdidkm05": {
+    "path": "albums/albm909.mp3",
+    "folder": "albums"
+  },
+  "song_wt5ai8po": {
+    "path": "albums/albm910.mp3",
+    "folder": "albums"
+  },
+  "song_inxc8a1h": {
+    "path": "albums/albm911.mp3",
+    "folder": "albums"
+  },
+  "song_gphznf1x": {
+    "path": "albums/albm912.mp3",
+    "folder": "albums"
+  },
+  "song_g7aox7zh": {
+    "path": "albums/albm913.mp3",
+    "folder": "albums"
+  },
+  "song_cyqqiris": {
+    "path": "albums/albm914.mp3",
+    "folder": "albums"
+  },
+  "song_imrbefv5": {
+    "path": "albums/albm915.mp3",
+    "folder": "albums"
+  },
+  "song_oyj1vyon": {
+    "path": "albums/albm916.mp3",
+    "folder": "albums"
+  },
+  "song_dyg5ki4b": {
+    "path": "albums/albm918.mp3",
+    "folder": "albums"
+  },
+  "song_4hkk6o6o": {
+    "path": "albums/albm919.mp3",
+    "folder": "albums"
+  },
+  "song_2eo9dnt5": {
+    "path": "albums/albm920.mp3",
+    "folder": "albums"
+  },
+  "song_52j99026": {
+    "path": "albums/albm921.mp3",
+    "folder": "albums"
+  },
+  "song_b9jkvgn2": {
+    "path": "albums/albm922.mp3",
+    "folder": "albums"
+  },
+  "song_jscsgpmc": {
+    "path": "albums/albm923.mp3",
+    "folder": "albums"
+  },
+  "song_jntjb594": {
+    "path": "albums/albm924.mp3",
+    "folder": "albums"
+  },
+  "song_02xfvy7c": {
+    "path": "albums/albm925.mp3",
+    "folder": "albums"
+  },
+  "song_7v8zdq68": {
+    "path": "albums/albm926.mp3",
+    "folder": "albums"
+  },
+  "song_9csbdrtd": {
+    "path": "albums/albm927.mp3",
+    "folder": "albums"
+  },
+  "song_pgri0d49": {
+    "path": "albums/albm928.mp3",
+    "folder": "albums"
+  },
+  "song_22qz232e": {
+    "path": "albums/albm929.mp3",
+    "folder": "albums"
+  },
+  "song_ejnhlynm": {
+    "path": "albums/albm930.mp3",
+    "folder": "albums"
+  },
+  "song_vyjdolbs": {
+    "path": "albums/albm931.mp3",
+    "folder": "albums"
+  },
+  "song_4safdc7b": {
+    "path": "albums/albm932.mp3",
+    "folder": "albums"
+  },
+  "song_9rssjel2": {
+    "path": "albums/albm933.mp3",
+    "folder": "albums"
+  },
+  "song_1qz3c30e": {
+    "path": "albums/albm934.mp3",
+    "folder": "albums"
+  },
+  "song_y3f2arby": {
+    "path": "albums/albm935.mp3",
+    "folder": "albums"
+  },
+  "song_2d6o3r61": {
+    "path": "albums/albm936.mp3",
+    "folder": "albums"
+  },
+  "song_h4phdpjr": {
+    "path": "albums/albm937.mp3",
+    "folder": "albums"
+  },
+  "song_vw9fyg3i": {
+    "path": "albums/albm938.mp3",
+    "folder": "albums"
+  },
+  "song_rj8gsame": {
+    "path": "albums/albm939.mp3",
+    "folder": "albums"
+  },
+  "song_dwulk5dq": {
+    "path": "albums/albm940.mp3",
+    "folder": "albums"
+  },
+  "song_pg525ys7": {
+    "path": "albums/albm941.mp3",
+    "folder": "albums"
+  },
+  "song_rpzflhmw": {
+    "path": "albums/albm942.mp3",
+    "folder": "albums"
+  },
+  "song_zlia4jx9": {
+    "path": "albums/albm943.mp3",
+    "folder": "albums"
+  },
+  "song_6byxnatk": {
+    "path": "albums/albm944.mp3",
+    "folder": "albums"
+  },
+  "song_o1fkx93g": {
+    "path": "albums/albm945.mp3",
+    "folder": "albums"
+  },
+  "song_hhcwcicd": {
+    "path": "albums/albm946.mp3",
+    "folder": "albums"
+  },
+  "song_r2az6qdo": {
+    "path": "albums/albm947.mp3",
+    "folder": "albums"
+  },
+  "song_wrqt4s79": {
+    "path": "albums/albm948.mp3",
+    "folder": "albums"
+  },
+  "song_pv6o9i4w": {
+    "path": "albums/albm949.mp3",
+    "folder": "albums"
+  },
+  "song_qveg1yj8": {
+    "path": "albums/albm950.mp3",
+    "folder": "albums"
+  },
+  "song_6h4o03dp": {
+    "path": "albums/albm951.mp3",
+    "folder": "albums"
+  },
+  "song_wn2g4hr8": {
+    "path": "albums/albm952.mp3",
+    "folder": "albums"
+  },
+  "song_qlu7sp55": {
+    "path": "albums/albm953.mp3",
+    "folder": "albums"
+  },
+  "song_2rtzl0qb": {
+    "path": "albums/albm954.mp3",
+    "folder": "albums"
+  },
+  "song_bcayffi0": {
+    "path": "albums/albm955.mp3",
+    "folder": "albums"
+  },
+  "song_fnjozjls": {
+    "path": "albums/albm956.mp3",
+    "folder": "albums"
+  },
+  "song_wfw6b9xn": {
+    "path": "albums/albm957.mp3",
+    "folder": "albums"
+  },
+  "song_87bif1bk": {
+    "path": "albums/albm958.mp3",
+    "folder": "albums"
+  },
+  "song_af0lw2gc": {
+    "path": "albums/albm959.mp3",
+    "folder": "albums"
+  },
+  "song_uqcu4jmx": {
+    "path": "albums/albm960.mp3",
+    "folder": "albums"
+  },
+  "song_kdn7zn8v": {
+    "path": "albums/albm961.mp3",
+    "folder": "albums"
+  },
+  "song_loyl455r": {
+    "path": "albums/albm962.mp3",
+    "folder": "albums"
+  },
+  "song_gymdg9s9": {
+    "path": "albums/albm963.mp3",
+    "folder": "albums"
+  },
+  "song_8ubjgxi4": {
+    "path": "albums/albm964.mp3",
+    "folder": "albums"
+  },
+  "song_tamui8qt": {
+    "path": "albums/albm965.mp3",
+    "folder": "albums"
+  },
+  "song_r5jpqvbh": {
+    "path": "albums/albm966.mp3",
+    "folder": "albums"
+  },
+  "song_vd467zmh": {
+    "path": "albums/albm967.mp3",
+    "folder": "albums"
+  },
+  "song_aya2zusf": {
+    "path": "albums/albm968.mp3",
+    "folder": "albums"
+  },
+  "song_k8xpj2hs": {
+    "path": "albums/albm969.mp3",
+    "folder": "albums"
+  },
+  "song_l0wag2at": {
+    "path": "albums/albm970.mp3",
+    "folder": "albums"
+  },
+  "song_ic5wp6ic": {
+    "path": "albums/albm971.mp3",
+    "folder": "albums"
+  },
+  "song_lrtzv0me": {
+    "path": "albums/albm972.mp3",
+    "folder": "albums"
+  },
+  "song_pps4rzet": {
+    "path": "albums/albm973.mp3",
+    "folder": "albums"
+  },
+  "song_lw8rdyl9": {
+    "path": "albums/albm974.mp3",
+    "folder": "albums"
+  },
+  "song_hwg6g0zm": {
+    "path": "albums/albm975.mp3",
+    "folder": "albums"
+  },
+  "song_f2ysdql3": {
+    "path": "albums/albm976.mp3",
+    "folder": "albums"
+  },
+  "song_xbinriua": {
+    "path": "albums/albm977.mp3",
+    "folder": "albums"
+  },
+  "song_e0o82me2": {
+    "path": "albums/albm978.mp3",
+    "folder": "albums"
+  },
+  "song_oxswlbxt": {
+    "path": "albums/albm979.mp3",
+    "folder": "albums"
+  },
+  "song_l77so2h7": {
+    "path": "albums/albm980.mp3",
+    "folder": "albums"
+  },
+  "song_tkwizpb3": {
+    "path": "albums/albm981.mp3",
+    "folder": "albums"
+  },
+  "song_6jizcybt": {
+    "path": "albums/albm982.mp3",
+    "folder": "albums"
+  },
+  "song_cx40li1t": {
+    "path": "albums/albm983.mp3",
+    "folder": "albums"
+  },
+  "song_hj7lgt0s": {
+    "path": "albums/albm984.mp3",
+    "folder": "albums"
+  },
+  "song_urfeygux": {
+    "path": "albums/albm985.mp3",
+    "folder": "albums"
+  },
+  "song_w26qd1ij": {
+    "path": "albums/albm986.mp3",
+    "folder": "albums"
+  },
+  "song_pjsym3x7": {
+    "path": "albums/albm987.mp3",
+    "folder": "albums"
+  },
+  "song_6xmbr9km": {
+    "path": "albums/albm988.mp3",
+    "folder": "albums"
+  },
+  "song_vazzfrhe": {
+    "path": "albums/albm989.mp3",
+    "folder": "albums"
+  },
+  "song_743kbit7": {
+    "path": "albums/albm990.mp3",
+    "folder": "albums"
+  },
+  "song_24gvcqhx": {
+    "path": "albums/albm991.mp3",
+    "folder": "albums"
+  },
+  "song_l0kg11dq": {
+    "path": "albums/albm992.mp3",
+    "folder": "albums"
+  },
+  "song_r5ptttzg": {
+    "path": "albums/albm993.mp3",
+    "folder": "albums"
+  },
+  "song_zd1bkjo8": {
+    "path": "albums/albm994.mp3",
+    "folder": "albums"
+  },
+  "song_iqb3ekt6": {
+    "path": "albums/albm995.mp3",
+    "folder": "albums"
+  },
+  "song_lrr5ewy8": {
+    "path": "albums/albm996.mp3",
+    "folder": "albums"
+  },
+  "song_rp98hm9s": {
+    "path": "albums/albm997.mp3",
+    "folder": "albums"
+  },
+  "song_b3j3f1sy": {
+    "path": "albums/albm998.mp3",
+    "folder": "albums"
+  },
+  "song_ckr5ywfv": {
+    "path": "albums/albm999.mp3",
+    "folder": "albums"
+  },
+  "song_y6y0a9vc": {
+    "path": "albums/albm1000.mp3",
+    "folder": "albums"
+  },
+  "song_7sc33i8y": {
+    "path": "albums/albm1001.mp3",
+    "folder": "albums"
+  },
+  "song_ubftsxvl": {
+    "path": "albums/albm1002.mp3",
+    "folder": "albums"
+  },
+  "song_lcl3r9jp": {
+    "path": "albums/albm1003.mp3",
+    "folder": "albums"
+  },
+  "song_sfa9h103": {
+    "path": "albums/albm1004.mp3",
+    "folder": "albums"
+  },
+  "song_xkb4rd0a": {
+    "path": "albums/albm1005.mp3",
+    "folder": "albums"
+  },
+  "song_itcwu94x": {
+    "path": "albums/albm1006.mp3",
+    "folder": "albums"
+  },
+  "song_eadm8kw2": {
+    "path": "albums/albm1045.mp3",
+    "folder": "albums"
+  },
+  "song_gawf44pc": {
+    "path": "albums/albm1046.mp3",
+    "folder": "albums"
+  },
+  "song_0o45gq80": {
+    "path": "albums/albm1047.mp3",
+    "folder": "albums"
+  },
+  "song_w3wfbt95": {
+    "path": "albums/albm1048.mp3",
+    "folder": "albums"
+  },
+  "song_mgd3ia1n": {
+    "path": "albums/albm1049.mp3",
+    "folder": "albums"
+  },
+  "song_yhdno5o5": {
+    "path": "albums/albm1050.mp3",
+    "folder": "albums"
+  },
+  "song_0zaanvji": {
+    "path": "albums/albm1051.mp3",
+    "folder": "albums"
+  },
+  "song_e4a4orfu": {
+    "path": "albums/albm1052.mp3",
+    "folder": "albums"
+  },
+  "song_8v9k5hs6": {
+    "path": "albums/albm1053.mp3",
+    "folder": "albums"
+  },
+  "song_q9bye859": {
+    "path": "albums/albm1054.mp3",
+    "folder": "albums"
+  },
+  "song_lvnkylyx": {
+    "path": "albums/albm1055.mp3",
+    "folder": "albums"
+  },
+  "song_d14u1mat": {
+    "path": "albums/albm1056.mp3",
+    "folder": "albums"
+  },
+  "song_kxl9lz9j": {
+    "path": "albums/albm1057.mp3",
+    "folder": "albums"
+  },
+  "song_zsxrbigv": {
+    "path": "albums/albm1058.mp3",
+    "folder": "albums"
+  },
+  "song_ruy6dgzk": {
+    "path": "albums/albm1059.mp3",
+    "folder": "albums"
+  },
+  "song_lzz9l60q": {
+    "path": "albums/albm1060.mp3",
+    "folder": "albums"
+  },
+  "song_hyx9nn5r": {
+    "path": "albums/albm1061.mp3",
+    "folder": "albums"
+  },
+  "song_lqn5b0po": {
+    "path": "albums/albm1062.mp3",
+    "folder": "albums"
+  },
+  "song_fmantyne": {
+    "path": "albums/albm1063.mp3",
+    "folder": "albums"
+  },
+  "song_v0acjhb3": {
+    "path": "albums/albm1064.mp3",
+    "folder": "albums"
+  },
+  "song_urmcitus": {
+    "path": "albums/albm1065.mp3",
+    "folder": "albums"
+  },
+  "song_rtwsoab2": {
+    "path": "albums/albm1066.mp3",
+    "folder": "albums"
+  },
+  "song_hfgdnb6w": {
+    "path": "albums/albm1067.mp3",
+    "folder": "albums"
+  },
+  "song_c8nrb27q": {
+    "path": "albums/albm1068.mp3",
+    "folder": "albums"
+  },
+  "song_usl4g0n4": {
+    "path": "albums/albm1069.mp3",
+    "folder": "albums"
+  },
+  "song_1bmcwutj": {
+    "path": "albums/albm1070.mp3",
+    "folder": "albums"
+  },
+  "song_mz9v4z3w": {
+    "path": "albums/albm1071.mp3",
+    "folder": "albums"
+  },
+  "song_vj9gpcdx": {
+    "path": "albums/albm1072.mp3",
+    "folder": "albums"
+  },
+  "song_e0gk0bri": {
+    "path": "albums/albm1073.mp3",
+    "folder": "albums"
+  },
+  "song_da84ly0g": {
+    "path": "albums/albm1074.mp3",
+    "folder": "albums"
+  },
+  "song_9tmvt9q6": {
+    "path": "albums/albm1075.mp3",
+    "folder": "albums"
+  },
+  "song_ndnv8bgp": {
+    "path": "albums/albm1076.mp3",
+    "folder": "albums"
+  },
+  "song_7jubbr9g": {
+    "path": "albums/albm1077.mp3",
+    "folder": "albums"
+  },
+  "song_t58ldha1": {
+    "path": "albums/albm1078.mp3",
+    "folder": "albums"
+  },
+  "song_tl67tp22": {
+    "path": "albums/albm1079.mp3",
+    "folder": "albums"
+  },
+  "song_smwrh7oc": {
+    "path": "albums/albm1080.mp3",
+    "folder": "albums"
+  },
+  "song_od205pir": {
+    "path": "albums/albm1081.mp3",
+    "folder": "albums"
+  },
+  "song_iovxjz8a": {
+    "path": "albums/albm1082.mp3",
+    "folder": "albums"
+  },
+  "song_h4lfcv1e": {
+    "path": "albums/albm1083.mp3",
+    "folder": "albums"
+  },
+  "song_uitq7o6r": {
+    "path": "albums/albm1084.mp3",
+    "folder": "albums"
+  },
+  "song_vv47tpvi": {
+    "path": "albums/albm1085.mp3",
+    "folder": "albums"
+  },
+  "song_nt44s7qv": {
+    "path": "albums/albm1086.mp3",
+    "folder": "albums"
+  },
+  "song_dvibdmlg": {
+    "path": "albums/albm1087.mp3",
+    "folder": "albums"
+  },
+  "song_ywk8lco1": {
+    "path": "albums/albm1088.mp3",
+    "folder": "albums"
+  },
+  "song_qs8wp2xy": {
+    "path": "albums/albm1089.mp3",
+    "folder": "albums"
+  },
+  "song_p1tx818t": {
+    "path": "albums/albm1090.mp3",
+    "folder": "albums"
+  },
+  "song_kvbsyfb9": {
+    "path": "albums/albm1091.mp3",
+    "folder": "albums"
+  },
+  "song_se6xjzek": {
+    "path": "albums/albm1092.mp3",
+    "folder": "albums"
+  },
+  "song_mgz19156": {
+    "path": "albums/albm1093.mp3",
+    "folder": "albums"
+  },
+  "song_y1obxlvd": {
+    "path": "albums/albm1094.mp3",
+    "folder": "albums"
+  },
+  "song_gyhpsg70": {
+    "path": "albums/albm1095.mp3",
+    "folder": "albums"
+  },
+  "song_5q5pvhyy": {
+    "path": "albums/albm1096.mp3",
+    "folder": "albums"
+  },
+  "song_e6gmebja": {
+    "path": "albums/albm1097.mp3",
+    "folder": "albums"
+  },
+  "song_2fvf4a5z": {
+    "path": "albums/albm1098.mp3",
+    "folder": "albums"
+  },
+  "song_jg0u8rzt": {
+    "path": "albums/albm1099.mp3",
+    "folder": "albums"
+  },
+  "song_mniep927": {
+    "path": "albums/albm1100.mp3",
+    "folder": "albums"
+  },
+  "song_sedelvpm": {
+    "path": "albums/albm1101.mp3",
+    "folder": "albums"
+  },
+  "song_soyr1xu2": {
+    "path": "albums/albm1102.mp3",
+    "folder": "albums"
+  },
+  "song_9yz4bdqy": {
+    "path": "albums/albm1103.mp3",
+    "folder": "albums"
+  },
+  "song_mxh5gdss": {
+    "path": "albums/albm1104.mp3",
+    "folder": "albums"
+  },
+  "song_p884g32b": {
+    "path": "albums/albm1105.mp3",
+    "folder": "albums"
+  },
+  "song_j94uake3": {
+    "path": "albums/albm1106.mp3",
+    "folder": "albums"
+  },
+  "song_o5iopomk": {
+    "path": "albums/albm1107.mp3",
+    "folder": "albums"
+  },
+  "song_gg2xj413": {
+    "path": "albums/albm1108.mp3",
+    "folder": "albums"
+  },
+  "song_vq9kbx2u": {
+    "path": "albums/albm1109.mp3",
+    "folder": "albums"
+  },
+  "song_nrw1ixkd": {
+    "path": "albums/albm1110.mp3",
+    "folder": "albums"
+  },
+  "song_q5osa607": {
+    "path": "albums/albm1111.mp3",
+    "folder": "albums"
+  },
+  "song_tkqdwg6a": {
+    "path": "albums/albm1112.mp3",
+    "folder": "albums"
+  },
+  "song_y1jd4gt6": {
+    "path": "albums/albm1113.mp3",
+    "folder": "albums"
+  },
+  "song_33lp6b90": {
+    "path": "albums/albm1114.mp3",
+    "folder": "albums"
+  },
+  "song_jy7kwt77": {
+    "path": "albums/albm1115.mp3",
+    "folder": "albums"
+  },
+  "song_7zkzams8": {
+    "path": "albums/albm1116.mp3",
+    "folder": "albums"
+  },
+  "song_rm7y63km": {
+    "path": "albums/albm1117.mp3",
+    "folder": "albums"
+  },
+  "song_2cxebqg4": {
+    "path": "albums/albm1118.mp3",
+    "folder": "albums"
+  },
+  "song_vh1bef8s": {
+    "path": "albums/albm1119.mp3",
+    "folder": "albums"
+  },
+  "song_e8iswg6g": {
+    "path": "albums/albm1120.mp3",
+    "folder": "albums"
+  },
+  "song_1hmm4lfp": {
+    "path": "albums/albm1121.mp3",
+    "folder": "albums"
+  },
+  "song_2f6gxju6": {
+    "path": "albums/albm1122.mp3",
+    "folder": "albums"
+  },
+  "song_78sunhas": {
+    "path": "albums/albm1123.mp3",
+    "folder": "albums"
+  },
+  "song_azin8349": {
+    "path": "albums/albm1124.mp3",
+    "folder": "albums"
+  },
+  "song_zoq30o6a": {
+    "path": "albums/albm1125.mp3",
+    "folder": "albums"
+  },
+  "song_8wkt3vvb": {
+    "path": "albums/albm1126.mp3",
+    "folder": "albums"
+  },
+  "song_n319fedl": {
+    "path": "albums/albm1127.mp3",
+    "folder": "albums"
+  },
+  "song_60tvvvpc": {
+    "path": "albums/albm1128.mp3",
+    "folder": "albums"
+  },
+  "song_amrquzxu": {
+    "path": "albums/albm1129.mp3",
+    "folder": "albums"
+  },
+  "song_gs0cijrt": {
+    "path": "albums/albm1130.mp3",
+    "folder": "albums"
+  },
+  "song_dsc4l0mf": {
+    "path": "albums/albm1131.mp3",
+    "folder": "albums"
+  },
+  "song_kgbb709m": {
+    "path": "albums/albm1132.mp3",
+    "folder": "albums"
+  },
+  "song_klmx5arp": {
+    "path": "albums/albm1133.mp3",
+    "folder": "albums"
+  },
+  "song_t4nfsw4n": {
+    "path": "albums/albm1134.mp3",
+    "folder": "albums"
+  },
+  "song_wnkuior1": {
+    "path": "albums/albm1135.mp3",
+    "folder": "albums"
+  },
+  "song_13etfnee": {
+    "path": "albums/albm1136.mp3",
+    "folder": "albums"
+  },
+  "song_io26njk0": {
+    "path": "albums/albm1137.mp3",
+    "folder": "albums"
+  },
+  "song_wvbrsapf": {
+    "path": "albums/albm1138.mp3",
+    "folder": "albums"
+  },
+  "song_tpzdrtml": {
+    "path": "albums/albm1139.mp3",
+    "folder": "albums"
+  },
+  "song_4wdu1m40": {
+    "path": "albums/albm1140.mp3",
+    "folder": "albums"
+  },
+  "song_t455ckn4": {
+    "path": "albums/albm1141.mp3",
+    "folder": "albums"
+  },
+  "song_frm9fdlk": {
+    "path": "albums/albm1142.mp3",
+    "folder": "albums"
+  },
+  "song_nq3nol7v": {
+    "path": "albums/albm1143.mp3",
+    "folder": "albums"
+  },
+  "song_j6hjd8p8": {
+    "path": "albums/albm1144.mp3",
+    "folder": "albums"
+  },
+  "song_ohg7r3hd": {
+    "path": "albums/albm1145.mp3",
+    "folder": "albums"
+  },
+  "song_jtiavzsb": {
+    "path": "albums/albm1146.mp3",
+    "folder": "albums"
+  },
+  "song_w9jp0swo": {
+    "path": "albums/albm1147.mp3",
+    "folder": "albums"
+  },
+  "song_d31ssdia": {
+    "path": "albums/albm1148.mp3",
+    "folder": "albums"
+  },
+  "song_y7k69k63": {
+    "path": "albums/albm1149.mp3",
+    "folder": "albums"
+  },
+  "song_z58laxnq": {
+    "path": "albums/albm1150.mp3",
+    "folder": "albums"
+  },
+  "song_pyjtzyi0": {
+    "path": "albums/albm1151.mp3",
+    "folder": "albums"
+  },
+  "song_wkavbfdy": {
+    "path": "albums/albm1152.mp3",
+    "folder": "albums"
+  },
+  "song_oyzvoba5": {
+    "path": "albums/albm1153.mp3",
+    "folder": "albums"
+  },
+  "song_i63xp503": {
+    "path": "albums/albm1154.mp3",
+    "folder": "albums"
+  },
+  "song_k4tbmqla": {
+    "path": "albums/albm1155.mp3",
+    "folder": "albums"
+  },
+  "song_1xcnkqft": {
+    "path": "albums/albm1156.mp3",
+    "folder": "albums"
+  },
+  "song_6vldgcmk": {
+    "path": "albums/albm1157.mp3",
+    "folder": "albums"
+  },
+  "song_e5x1fj8m": {
+    "path": "albums/albm1158.mp3",
+    "folder": "albums"
+  },
+  "song_xgn9t70o": {
+    "path": "albums/albm1159.mp3",
+    "folder": "albums"
+  },
+  "song_eogy21c2": {
+    "path": "albums/albm1160.mp3",
+    "folder": "albums"
+  },
+  "song_ttkdix8a": {
+    "path": "albums/albm1161.mp3",
+    "folder": "albums"
+  },
+  "song_rpat2qt1": {
+    "path": "albums/albm1162.mp3",
+    "folder": "albums"
+  },
+  "song_u3slkgqd": {
+    "path": "albums/albm1163.mp3",
+    "folder": "albums"
+  },
+  "song_v950t3or": {
+    "path": "albums/albm1164.mp3",
+    "folder": "albums"
+  },
+  "song_rdi7weza": {
+    "path": "albums/albm1165.mp3",
+    "folder": "albums"
+  },
+  "song_0sh2kd7s": {
+    "path": "albums/albm1166.mp3",
+    "folder": "albums"
+  },
+  "song_1x3g8bdq": {
+    "path": "albums/albm1167.mp3",
+    "folder": "albums"
+  },
+  "song_u4jww8ow": {
+    "path": "albums/albm1168.mp3",
+    "folder": "albums"
+  },
+  "song_jeen58dt": {
+    "path": "albums/albm1169.mp3",
+    "folder": "albums"
+  },
+  "song_vtv8amkp": {
+    "path": "albums/albm1170.mp3",
+    "folder": "albums"
+  },
+  "song_21qe21mj": {
+    "path": "albums/albm1171.mp3",
+    "folder": "albums"
+  },
+  "song_2yt2io9o": {
+    "path": "albums/albm1172.mp3",
+    "folder": "albums"
+  },
+  "song_hk0v4m40": {
+    "path": "albums/albm1173.mp3",
+    "folder": "albums"
+  },
+  "song_upznzy0m": {
+    "path": "albums/albm1174.mp3",
+    "folder": "albums"
+  },
+  "song_jg193g6r": {
+    "path": "albums/albm1175.mp3",
+    "folder": "albums"
+  },
+  "song_w3zao4u0": {
+    "path": "albums/albm1176.mp3",
+    "folder": "albums"
+  },
+  "song_18ru4k3u": {
+    "path": "albums/albm1177.mp3",
+    "folder": "albums"
+  },
+  "song_79anx28v": {
+    "path": "albums/albm1178.mp3",
+    "folder": "albums"
+  },
+  "song_m7zzwtll": {
+    "path": "albums/albm1179.mp3",
+    "folder": "albums"
+  },
+  "song_is0964dp": {
+    "path": "albums/albm1180.mp3",
+    "folder": "albums"
+  },
+  "song_7jp4zgri": {
+    "path": "albums/albm1181.mp3",
+    "folder": "albums"
+  },
+  "song_pywhs3d8": {
+    "path": "albums/albm1182.mp3",
+    "folder": "albums"
+  },
+  "song_pgwnb96s": {
+    "path": "albums/albm1183.mp3",
+    "folder": "albums"
+  },
+  "song_9lyvyxwm": {
+    "path": "albums/albm1184.mp3",
+    "folder": "albums"
+  },
+  "song_o8i7ft3m": {
+    "path": "albums/albm1185.mp3",
+    "folder": "albums"
+  },
+  "song_ok0gn3rv": {
+    "path": "albums/albm1186.mp3",
+    "folder": "albums"
+  },
+  "song_pih7ibir": {
+    "path": "albums/albm1187.mp3",
+    "folder": "albums"
+  },
+  "song_jygkieb2": {
+    "path": "albums/albm1188.mp3",
+    "folder": "albums"
+  },
+  "song_pf1tny0i": {
+    "path": "albums/albm1189.mp3",
+    "folder": "albums"
+  },
+  "song_zl2vcdnw": {
+    "path": "albums/albm1190.mp3",
+    "folder": "albums"
+  },
+  "song_dxuklmn3": {
+    "path": "albums/albm1191.mp3",
+    "folder": "albums"
+  },
+  "song_ht6om4nz": {
+    "path": "albums/albm1192.mp3",
+    "folder": "albums"
+  },
+  "song_olxtxxuu": {
+    "path": "albums/albm1193.mp3",
+    "folder": "albums"
+  },
+  "song_8jyvr36l": {
+    "path": "albums/albm1194.mp3",
+    "folder": "albums"
+  },
+  "song_v3tcxefl": {
+    "path": "albums/albm1195.mp3",
+    "folder": "albums"
+  },
+  "song_zhymgf2x": {
+    "path": "albums/albm1196.mp3",
+    "folder": "albums"
+  },
+  "song_esxpnxfy": {
+    "path": "albums/albm1197.mp3",
+    "folder": "albums"
+  },
+  "song_4p6yut6v": {
+    "path": "albums/albm1198.mp3",
+    "folder": "albums"
+  },
+  "song_jqhzwt6v": {
+    "path": "albums/albm1199.mp3",
+    "folder": "albums"
+  },
+  "song_lgunjgy8": {
+    "path": "albums/albm1200.mp3",
+    "folder": "albums"
+  }
+};
+
+export default {
+  async fetch(request, env) {
+    const url = new URL(request.url);
+    const songId = url.searchParams.get("songId");
+    let id = url.searchParams.get("id"); // Legacy support
+    
+    const level = parseInt(url.searchParams.get("level") || "1");
+    const startRaw = url.searchParams.get("start");
+    const mode = url.searchParams.get("mode") || "normal";
+    // ==================== CORS ===================
+    const allowedOrigin = "https://undertest.vercel.app";
+    if (request.method === "OPTIONS") {
+      return new Response(null, {
+        headers: {
+          "Access-Control-Allow-Origin": allowedOrigin,
+          "Access-Control-Allow-Methods": "GET, OPTIONS",
+          "Access-Control-Allow-Headers": "*",
+          "Access-Control-Max-Age": "86400",
+        }
+      });
+    }
+    const CORS_HEADERS = {
+      "Access-Control-Allow-Origin": allowedOrigin,
+      "Cache-Control": "no-store, no-cache",
+    };
+    // =============================================
+    let objectPath = null;
+    // 1. Intentar resolver por songId usando el mapping
+    if (songId && typeof songMapping !== 'undefined' && songMapping[songId]) {
+      objectPath = songMapping[songId].path;
+    } 
+    // 2. Fallback: Intentar resolver por id (Base64 legacy)
+    else if (id) {
+      try { id = decodeURIComponent(atob(id)); } catch (e) {}
+      
+      let folder = "music";
+      if (mode === "album") folder = "albums";
+      else if (mode === "artist") folder = "artist";
+      objectPath = `${folder}/${id}`;
+    }
+    if (!objectPath) {
+      return new Response("ID o songId no válido", { status: 400, headers: CORS_HEADERS });
+    }
+    const LEVEL_SECONDS = { 1: 0.5, 2: 2, 3: 4, 4: 8, 5: 11, 6: 15 };
+    const seconds = LEVEL_SECONDS[level] ?? 0.5;
+    const BYTES_PER_SEC = 40000;
+    const bytesToFetch = Math.ceil(BYTES_PER_SEC * seconds);
+    try {
+      let head = await env.MUSIC_BUCKET.head(objectPath);
+      // Si no se encuentra y es un ID legacy, intentar buscar en otras carpetas
+      if (!head && !songId) {
+        const otherFolders = ["music", "albums", "artist"].filter(f => !objectPath.startsWith(f));
+        const fileName = objectPath.split('/').pop();
+        for (const fbFolder of otherFolders) {
+          head = await env.MUSIC_BUCKET.head(`${fbFolder}/${fileName}`);
+          if (head) {
+            objectPath = `${fbFolder}/${fileName}`;
+            break;
+          }
+        }
+      }
+      if (!head) {
+        return new Response("Archivo no encontrado", { status: 404, headers: CORS_HEADERS });
+      }
+      let start;
+      if (!startRaw) {
+        const maxStart = Math.max(0, head.size - Math.ceil(BYTES_PER_SEC * 16));
+        start = Math.floor(Math.random() * maxStart);
+      } else {
+        start = parseInt(startRaw);
+      }
+      const object = await env.MUSIC_BUCKET.get(objectPath, {
+        range: { offset: start, length: bytesToFetch }
+      });
+      return new Response(object.body, {
+        headers: {
+          ...CORS_HEADERS,
+          "Content-Type": "audio/mpeg",
+          "Access-Control-Expose-Headers": "X-Start-Byte, X-Level",
+          "X-Start-Byte": String(start),
+          "X-Level": String(level),
+          "Content-Disposition": 'inline; filename="track.mp3"'
+        }
+      });
+    } catch (e) {
+      return new Response("Error interno", { status: 500, headers: CORS_HEADERS });
+    }
+  }
+};
