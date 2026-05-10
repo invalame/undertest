@@ -42,12 +42,34 @@ let isGameOver = false; // Moved here for global access
 
 
 audioPlayer.addEventListener('timeupdate', () => {
-    if (snippetState === 'playing' && !isGameOver) {
+    if (!isGameOver) {
+        // Control estricto: si se pasa del tiempo permitido, pausar.
+        // Quitamos la condición de 'snippetState === playing' para que funcione incluso si se le da al play desde el overlay de medios.
         if (audioPlayer.currentTime >= snippetTargetTime) {
             finishSnippet();
         }
     }
 });
+
+// Sincronización con el Media Session API y control de reanudación
+audioPlayer.addEventListener('play', () => {
+    if (!isGameOver && audioPlayer.currentTime >= snippetTargetTime - 0.05) {
+        audioPlayer.currentTime = 0;
+    }
+    snippetState = 'playing';
+    updatePlayIcon(true);
+    startAnimationLoop();
+    updateMediaSession();
+});
+
+audioPlayer.addEventListener('pause', () => {
+    if (snippetState !== 'idle') {
+        snippetState = 'paused';
+    }
+    updatePlayIcon(false);
+    stopAnimationLoop();
+});
+
 
 // nuevo: historial para evitar repeticiÃƒÂƒÃ‚Â³n entre juegos.
 let lastTwoIndices = [-1, -1]; // almacena los ÃƒÂƒÃ‚Â­ndices de las dos ÃƒÂƒÃ‚Âºltimas canciones jugadas de 'biblioteca'
@@ -145,9 +167,59 @@ async function loadAudioLevel(songId, level) {
         // FIX: Handle natural end of snippet to update UI
         audioPlayer.onended = finishSnippet;
 
+        // Actualizar Media Session tras cargar nuevo audio
+        updateMediaSession();
+
     } catch (e) {
     }
 }
+
+// ==================== MEDIA SESSION API ====================
+function updateMediaSession() {
+    if (!('mediaSession' in navigator)) return;
+
+    try {
+        if (isGameOver && currentSong.nombre) {
+            const parts = currentSong.nombre.split(' - ');
+            const artist = parts[0] || "UnderLess";
+            const title = parts[1] || currentSong.nombre;
+            
+            navigator.mediaSession.metadata = new MediaMetadata({
+                title: title,
+                artist: artist,
+                album: currentMode === 'album' ? (selectedAlbum || "UnderLess") : "UnderLess",
+                artwork: [
+                    { src: 'img/underless_logo_square.png', sizes: '512x512', type: 'image/png' },
+                    { src: 'img/logo_underless.png', sizes: '512x512', type: 'image/png' }
+                ]
+            });
+        } else {
+            navigator.mediaSession.metadata = new MediaMetadata({
+                title: 'Adivina la canción',
+                artist: 'UnderLess',
+                artwork: [
+                    { src: 'img/underless_logo_square.png', sizes: '512x512', type: 'image/png' },
+                    { src: 'img/logo_underless.png', sizes: '512x512', type: 'image/png' }
+                ]
+            });
+        }
+
+        // Handlers para el overlay
+        navigator.mediaSession.setActionHandler('play', () => {
+            if (!isGameOver) playSnippet();
+        });
+        navigator.mediaSession.setActionHandler('pause', () => {
+            pauseAudioInternal(false);
+        });
+        
+        // Deshabilitar otros para evitar que salten de canción
+        navigator.mediaSession.setActionHandler('previoustrack', null);
+        navigator.mediaSession.setActionHandler('nexttrack', null);
+    } catch (err) {
+        console.warn("Error updating Media Session:", err);
+    }
+}
+
 // HISTORIAL PERSISTENTE DE CANCIONES JUGADAS
 // Se guardan los nombres de las canciones ya jugadas para no repetir hasta completar la lista
 let playedSongsNormal = JSON.parse(localStorage.getItem('playedSongsNormal')) || [];
@@ -1232,15 +1304,12 @@ function pauseAudioInternal(resetToIdle = true) {
     // 1. Pause the audio
     audioPlayer.pause();
 
-    // 2. Stop animation loop
-    stopAnimationLoop();
-
-    // 3. Update state
+    // 2. Update state
     snippetState = resetToIdle ? 'idle' : 'paused';
 
-    // 4. Update UI
-    updatePlayIcon(false);
+    // UI and Animation loop are now handled by the 'pause' event listener
 }
+
 
 
 
@@ -1309,16 +1378,12 @@ function playSnippet() {
     }
 
     audioPlayer.play()
-        .then(() => {
-            snippetState = 'playing';
-            updatePlayIcon(true);
-            startAnimationLoop();
-        })
         .catch(e => {
             console.warn('Autoplay blocked:', e);
             updatePlayIcon(false);
         });
 }
+
 
 
 
@@ -1550,11 +1615,28 @@ function handleGuessFromSelection(selectedSongName) {
         guessCount++;
         if (guessCount < durations.length) {
             updateTimeMarker(guessCount);
-            loadAudioLevel(currentSong.songId, guessCount + 1);
+            
+            // MOSTRAR LOADER Y COOLDOWN
+            setLoadingState(true);
+            const cooldown = new Promise(r => setTimeout(r, 450));
+            
+            await loadAudioLevel(currentSong.songId, guessCount + 1);
+            await cooldown;
+
+            // Esperar a que el audio esté listo para quitar el loader
+            const onReady = () => {
+                setLoadingState(false);
+                audioPlayer.removeEventListener('canplay', onReady);
+            };
+            audioPlayer.addEventListener('canplay', onReady);
+            // Fallback
+            setTimeout(onReady, 1500);
+
             finishSnippet();
         } else {
             showGameOver(false);
         }
+
     }
     document.getElementById('search-input').value = "";
     saveModeState(currentMode); // Guardar estado tras intento
@@ -1593,17 +1675,30 @@ async function handleSkip() {
     if (guessCount < durations.length) {
         updateTimeMarker(guessCount);
         
-        // El audio se pausa durante la carga del nuevo fragmento, así que actualizamos el icono visualmente a "play" (pausado)
-        updatePlayIcon(false);
+        // MOSTRAR LOADER Y COOLDOWN
+        setLoadingState(true);
+        const cooldown = new Promise(r => setTimeout(r, 450));
         
         await loadAudioLevel(currentSong.songId, guessCount + 1);
+        await cooldown;
+
+        // Esperar a que el audio esté listo para quitar el loader
+        const onReady = () => {
+            setLoadingState(false);
+            audioPlayer.removeEventListener('canplay', onReady);
+            audioPlayer.removeEventListener('error', onReady);
+        };
+        audioPlayer.addEventListener('canplay', onReady);
+        audioPlayer.addEventListener('error', onReady);
+        // Fallback
+        setTimeout(onReady, 1500);
 
         // FIX: Actualizar snippetTargetTime al nuevo lÃƒÂƒÃ‚Â­mite del segmento desbloqueado
-        // para que el audio no se pause al llegar al lÃƒÂƒÃ‚Â­mite del segmento anterior
         snippetTargetTime = durations[guessCount];
     } else {
         showGameOver(false);
     }
+
     document.getElementById('search-input').value = "";
     songsList.classList.remove('show');
     saveModeState(currentMode); // Guardar estado tras skip
@@ -1619,6 +1714,20 @@ if (volumeSlider) {
         localStorage.setItem('volume', vol);
     });
 }
+
+// HELPER PARA ESTADO DE CARGA
+function setLoadingState(isLoading) {
+    if (isLoading) {
+        playButton.setAttribute('disabled', '');
+        playButton.innerHTML = '<div class="loader"></div>';
+        skipButton.disabled = true;
+    } else {
+        playButton.removeAttribute('disabled');
+        skipButton.disabled = false;
+        updatePlayIcon(audioPlayer && !audioPlayer.paused);
+    }
+}
+
 
 // fix visual: sincroniza marcador visual estatico (la flecha)
 function updateTimeMarker(index) {
