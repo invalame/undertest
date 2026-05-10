@@ -1072,7 +1072,8 @@ async function resetGame(forceNew = false) {
         playButton.removeAttribute('disabled');
         // Enable skip
         skipButton.disabled = false;
-        // Restore play icon
+        // Restore play icon - Clear loader explicitly
+        playButton.innerHTML = ''; 
         updatePlayIcon(false);
         audioPlayer.oncanplaythrough = null;
         audioPlayer.oncanplay = null;
@@ -1085,8 +1086,26 @@ async function resetGame(forceNew = false) {
     // Fallback: some browsers fire canplay but not canplaythrough
     audioPlayer.oncanplay = enablePlayOnReset;
 
+    // Safety fallback: if audio doesn't load in 3s, force enable to not block user
+    const resetFallback = setTimeout(() => {
+        if (playButton.innerHTML.includes('loader')) {
+            console.warn("Audio loading timeout in resetGame, forcing enable");
+            enablePlayOnReset();
+        }
+    }, 3000);
+
     if (currentSong.songId) {
-        await loadAudioLevel(currentSong.songId, 1);
+        try {
+            await loadAudioLevel(currentSong.songId, 1);
+        } catch (e) {
+            console.error("Error in loadAudioLevel during reset:", e);
+            enablePlayOnReset();
+        }
+    }
+    
+    // If it already loaded or failed, clear the fallback
+    if (!playButton.innerHTML.includes('loader')) {
+        clearTimeout(resetFallback);
     }
 
     // FIX: Handle audio load errors (e.g. 404, corrupted file)
@@ -1591,22 +1610,24 @@ async function handleGuessFromSelection(selectedSongName) {
         if (guessCount < durations.length) {
             updateTimeMarker(guessCount);
             
-            // MOSTRAR LOADER Y COOLDOWN (Reducido para más velocidad)
+            // MOSTRAR LOADER Y COOLDOWN
             setLoadingState(true);
             const cooldown = new Promise(r => setTimeout(r, 150));
             
-            await loadAudioLevel(currentSong.songId, guessCount + 1);
-            await cooldown;
-
-
-            // Esperar a que el audio esté listo para quitar el loader
+            // Adjuntar listener ANTES de loadAudioLevel para no perder el evento canplay
             const onReady = () => {
                 setLoadingState(false);
                 audioPlayer.removeEventListener('canplay', onReady);
+                audioPlayer.removeEventListener('error', onReady);
             };
             audioPlayer.addEventListener('canplay', onReady);
-            // Fallback
-            setTimeout(onReady, 1500);
+            audioPlayer.addEventListener('error', onReady);
+            
+            // Fallback de seguridad (reducido a 2s)
+            const safetyTimeout = setTimeout(onReady, 2000);
+
+            await loadAudioLevel(currentSong.songId, guessCount + 1);
+            await cooldown;
 
             finishSnippet();
         } else {
@@ -1651,15 +1672,11 @@ async function handleSkip() {
     if (guessCount < durations.length) {
         updateTimeMarker(guessCount);
         
-        // MOSTRAR LOADER Y COOLDOWN (Reducido para más velocidad)
+        // MOSTRAR LOADER Y COOLDOWN
         setLoadingState(true);
         const cooldown = new Promise(r => setTimeout(r, 150));
         
-        await loadAudioLevel(currentSong.songId, guessCount + 1);
-        await cooldown;
-
-
-        // Esperar a que el audio esté listo para quitar el loader
+        // Adjuntar listener ANTES de loadAudioLevel para no perder el evento canplay
         const onReady = () => {
             setLoadingState(false);
             audioPlayer.removeEventListener('canplay', onReady);
@@ -1667,10 +1684,14 @@ async function handleSkip() {
         };
         audioPlayer.addEventListener('canplay', onReady);
         audioPlayer.addEventListener('error', onReady);
-        // Fallback
-        setTimeout(onReady, 1500);
 
-        // FIX: Actualizar snippetTargetTime al nuevo lÃƒÂƒÃ‚Â­mite del segmento desbloqueado
+        // Fallback de seguridad
+        const safetyTimeout = setTimeout(onReady, 2000);
+
+        await loadAudioLevel(currentSong.songId, guessCount + 1);
+        await cooldown;
+
+        // FIX: Actualizar snippetTargetTime al nuevo límite del segmento desbloqueado
         snippetTargetTime = durations[guessCount];
     } else {
         showGameOver(false);
@@ -1701,6 +1722,10 @@ function setLoadingState(isLoading) {
     } else {
         playButton.removeAttribute('disabled');
         skipButton.disabled = false;
+        // Limpiar el loader antes de actualizar el icono para evitar que updatePlayIcon retorne prematuramente
+        if (playButton.innerHTML.includes('loader')) {
+            playButton.innerHTML = '';
+        }
         updatePlayIcon(audioPlayer && !audioPlayer.paused);
     }
 }
