@@ -86,8 +86,8 @@ function getCleanFileName(songFile) {
     return name;
 }
 
-async function loadAudioLevel(songFile, level) {
-    if (!songFile) return;
+async function loadAudioLevel(songId, level) {
+    if (!songId) return;
 
     // Persistencia del tiempo para continuidad tras skip
     // Hacemos que siempre continúe desde donde estaba (excepto nivel 1 inicial claro, que lastTime sería 0)
@@ -98,20 +98,15 @@ async function loadAudioLevel(songFile, level) {
 
 
 
-    // Limpiar nombre de forma consistente
-    const cleanName = getCleanFileName(songFile);
-
     // CHECK LOCALSTORAGE FOR START BYTE
-    const lsKey = `ul_start_${cleanName}`;
+    const lsKey = `ul_start_${songId}`;
     const savedStart = localStorage.getItem(lsKey);
     if (savedStart !== null) {
         currentStartByte = parseInt(savedStart, 10);
     }
 
-    // Codificar en Base64 para ocultar el nombre en el panel Network (F12)
-    // IMPORTANTE: El Worker espera el nombre limpio para buscarlo en R2
-    const base64Id = btoa(encodeURIComponent(cleanName));
-    let fetchUrl = `${WORKER_URL}?id=${base64Id}&level=${level}&mode=${currentMode}`;
+    // Enviar songId en lugar de base64
+    let fetchUrl = `${WORKER_URL}?songId=${songId}&level=${level}&mode=${currentMode}`;
     
     if (currentStartByte !== null) {
         fetchUrl += `&start=${currentStartByte}`;
@@ -744,7 +739,7 @@ async function restoreModeState(mode) {
     }
 
     // Restaurar audio con blob para mantener ofuscación
-    if (currentSong.archivo) {
+    if (currentSong.songId) {
         gameStartTime = 0;
 
         await cleanupAudio(false);
@@ -754,10 +749,9 @@ async function restoreModeState(mode) {
         if (state.currentStartByte !== undefined && state.currentStartByte !== null) {
             currentStartByte = state.currentStartByte;
             // Asegurar que también esté en localStorage para que loadAudioLevel lo encuentre
-            const cleanName = getCleanFileName(currentSong.archivo);
-            localStorage.setItem(`ul_start_${cleanName}`, currentStartByte);
+            localStorage.setItem(`ul_start_${currentSong.songId}`, currentStartByte);
         }
-        loadAudioLevel(currentSong.archivo, guessCount + 1);
+        loadAudioLevel(currentSong.songId, guessCount + 1);
         const enablePlayOnRestore = () => {
             audioPlayer.currentTime = 0;
             playButton.removeAttribute('disabled');
@@ -1048,8 +1042,8 @@ async function resetGame(forceNew = false) {
     // Fallback: some browsers fire canplay but not canplaythrough
     audioPlayer.oncanplay = enablePlayOnReset;
 
-    if (currentSong.archivo) {
-        await loadAudioLevel(currentSong.archivo, 1);
+    if (currentSong.songId) {
+        await loadAudioLevel(currentSong.songId, 1);
     }
 
     // FIX: Handle audio load errors (e.g. 404, corrupted file)
@@ -1360,9 +1354,8 @@ function showGameOver(won, isDuplicate = false) {
     isGameOver = true;
 
     // LIMPIAR PERSISTENCIA DEL START BYTE
-    if (currentSong && currentSong.archivo) {
-        const cleanName = getCleanFileName(currentSong.archivo);
-        localStorage.removeItem(`ul_start_${cleanName}`);
+    if (currentSong && currentSong.songId) {
+        localStorage.removeItem(`ul_start_${currentSong.songId}`);
     }
 
 
@@ -1557,7 +1550,7 @@ function handleGuessFromSelection(selectedSongName) {
         guessCount++;
         if (guessCount < durations.length) {
             updateTimeMarker(guessCount);
-            loadAudioLevel(currentSong.archivo, guessCount + 1);
+            loadAudioLevel(currentSong.songId, guessCount + 1);
             finishSnippet();
         } else {
             showGameOver(false);
@@ -1603,7 +1596,7 @@ async function handleSkip() {
         // El audio se pausa durante la carga del nuevo fragmento, así que actualizamos el icono visualmente a "play" (pausado)
         updatePlayIcon(false);
         
-        await loadAudioLevel(currentSong.archivo, guessCount + 1);
+        await loadAudioLevel(currentSong.songId, guessCount + 1);
 
         // FIX: Actualizar snippetTargetTime al nuevo lÃƒÂƒÃ‚Â­mite del segmento desbloqueado
         // para que el audio no se pause al llegar al lÃƒÂƒÃ‚Â­mite del segmento anterior
