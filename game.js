@@ -1539,7 +1539,7 @@ function showGameOver(won, isDuplicate = false) {
     skipButton.disabled = true;
 }
 
-function handleGuessFromSelection(selectedSongName) {
+async function handleGuessFromSelection(selectedSongName) {
     playSound('click');
     const durations = getDurations();
     if (hasGuessedCorrectly || guessCount >= durations.length) return;
@@ -1652,7 +1652,7 @@ async function handleSkip() {
         // No reproducir sonido aquÃƒÂƒÃ‚Â­, ya lo hace handleGuessFromSelection
         const val = searchInput.value.trim();
         if (val) {
-            handleGuessFromSelection(val);
+            await handleGuessFromSelection(val);
             disableSubmitMode(); // Resetear botÃƒÂƒÃ‚Â³n tras intento
         }
         return;
