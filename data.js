@@ -973,6 +973,10 @@ const biblioteca = [
     {
         "nombre": "TURROBABY, LITTLE BOOGIE - Emotes",
         "archivo": "n243.mp3"
+    },
+    {
+        "nombre": "slimesanti - Friendzone",
+        "archivo": "n244.mp3"
     }
 ];
 
@@ -3508,6 +3512,10 @@ const bibliotecaArtist = [
     {
         "nombre": "",
         "archivo": "art876.mp3"
+    },
+    {
+        "nombre": "slimesanti - Friendzone",
+        "archivo": "art877.mp3"
     }
 ];
 
