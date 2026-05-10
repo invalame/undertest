@@ -1,10 +1,10 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>UnderLess - Hub</title>
+    <title>UnderLess - Home</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="icon" type="image/x-icon" href="favicon.ico">
 </head>
@@ -28,13 +28,181 @@
             <a href="/underless" class="home-btn offline-btn">
                 Jugar Offline
             </a>
-            <p class="offline-warning">(Las funciones sociales estarán restringidas)</p>
+            <p class="offline-warning">(Las funciones sociales estarán desactivadas)</p>
 
+            <!-- Barra de reproducción simplificada -->
+            <div class="progress-wrapper hub-progress-wrapper" style="margin-top: 150px;">
+                <div class="progress-bar-container" id="hub-progress-bar">
+                    <div class="segments-overlay" id="hub-segments-overlay">
+                        <!-- Cortes de la barra original (0.5s, 2s, 4s, 8s, 11s) sobre un total de 15s -->
+                        <div class="segment-divider hub-hide-mobile" style="left: 3.33%"></div>
+                        <div class="segment-divider hub-hide-mobile" style="left: 13.33%"></div>
+                        <div class="segment-divider" style="left: 26.66%"></div>
+                        <div class="segment-divider hub-hide-mobile" style="left: 53.33%"></div>
+                        <div class="segment-divider hub-hide-mobile" style="left: 73.33%"></div>
+                    </div>
+                    <!-- El fill arranca en 0% (o 26.66% si queres que ya este fijo al cargar) -->
+                    <div class="progress-bar-fill" id="hub-progress-fill" style="width: 26.66%;"></div>
+                </div>
+                <span class="timer-text" id="hub-timer-text" style="left: 26.66%;">4s</span>
+            </div>
 
-            </a>
+            <!-- Boton de Play -->
+            <button class="play-button" id="hub-play-button" aria-label="escuchar fragmento"
+                style="margin-bottom: 20px;">
+                <svg viewBox="0 0 24 24" aria-hidden="true" id="hub-play-icon">
+                    <path d="M8 5v14l11-7z" fill="white" stroke="white" stroke-width="2" stroke-linejoin="round" />
+                </svg>
+            </button>
+
+        </main>
     </div>
-    </main>
-    </div>
+
+    <script>
+        // Nombres de los archivos de canciones en sounds/hub/
+        const hubSongs = [
+            "sounds/hub/cero - como roe.mp3",
+            "sounds/hub/Blagh, Agush  - TIBURON.mp3",
+            "sounds/hub/cero, enzocerobulto - De concierto en concierto.mp3",
+            "sounds/hub/Cluster, Frozouda - TOP 1 CHARTS.mp3",
+            "sounds/hub/enzocerobulto - Ocupado en mi droga.mp3",
+            "sounds/hub/Frozouda - quitate los Jeans.mp3",
+            "sounds/hub/LITTLE BOOGIE - LITTLE BOOGIE VS EL GOBIERNO.mp3",
+            "sounds/hub/LOLO - FERNET HIELO.mp3",
+            "sounds/hub/pa2k, enzocerobulto - RIGHT NOW.mp3",
+            "sounds/hub/pabloxo - lo hago x mi.mp3",
+            "sounds/hub/PILF - FUMO UNO FUMO DOS.mp3",
+            "sounds/hub/SixUp - TikiTime.mp3",
+            "sounds/hub/Stiffy - MECHINSTRONGAS.mp3",
+            "sounds/hub/TURROBABY - YPF.mp3"
+        ]; // <-- REEMPLAZAR CON NOMBRES REALES
+
+        let hubAudio = new Audio();
+        const playBtn = document.getElementById('hub-play-button');
+        const playIconPath = document.querySelector('#hub-play-icon path');
+        const progressFill = document.getElementById('hub-progress-fill');
+
+        let isPlaying = false;
+        let hubAnimFrame = null;
+        let hubStartTime = 0;
+
+        // Iconos
+        const svgPlay = "M8 5v14l11-7z";
+        const svgPause = "M6 19h4V5H6v14zm8-14v14h4V5h-4z";
+
+        let lastPlayedSongs = [];
+
+        function getRandomSong() {
+            if (hubSongs.length === 0) return null;
+            if (hubSongs.length === 1) return hubSongs[0];
+
+            let available = hubSongs.filter(s => !lastPlayedSongs.includes(s));
+            if (available.length === 0) {
+                // Si ya tocamos todas las posibles sin repetir, limpiamos memoria (dejamos solo la ultima)
+                lastPlayedSongs = lastPlayedSongs.slice(-1);
+                available = hubSongs.filter(s => !lastPlayedSongs.includes(s));
+            }
+
+            const song = available[Math.floor(Math.random() * available.length)];
+            lastPlayedSongs.push(song);
+            
+            // Recordar hasta la mitad de las canciones disponibles
+            if (lastPlayedSongs.length > Math.floor(hubSongs.length / 2)) {
+                lastPlayedSongs.shift();
+            }
+            return song;
+        }
+
+        function animateProgress() {
+            if (!isPlaying) return;
+
+            const now = Date.now();
+            const elapsed = (now - hubStartTime) / 1000; // Segundos transcurridos
+
+            if (elapsed >= 4) {
+                finishHubAudio();
+            } else {
+                // El maximo porcentaje es 26.66% para los 4 segundos
+                const maxPercent = 26.66;
+                // Partimos desde el progreso actual más el nuevo
+                const currentPercent = (elapsed / 4) * maxPercent;
+                progressFill.style.width = currentPercent + "%";
+                hubAnimFrame = requestAnimationFrame(animateProgress);
+            }
+        }
+
+        function pauseHubAudio() {
+            isPlaying = false;
+            hubAudio.pause();
+            playIconPath.setAttribute("d", svgPlay);
+            cancelAnimationFrame(hubAnimFrame);
+        }
+
+        function finishHubAudio() {
+            isPlaying = false;
+            hubAudio.pause();
+            playIconPath.setAttribute("d", svgPlay);
+            progressFill.style.width = "26.66%"; // Se clava en 4s
+            cancelAnimationFrame(hubAnimFrame);
+            // Reseteamos el estado para el proximo play
+            hubAudio.src = "";
+        }
+
+        playBtn.addEventListener('click', () => {
+            if (isPlaying) {
+                pauseHubAudio();
+            } else {
+                if (hubAudio.src && !hubAudio.ended && progressFill.style.width !== "26.66%" && progressFill.style.width !== "0%") {
+                    // Resumir desde donde estaba
+                    hubAudio.play().then(() => {
+                        isPlaying = true;
+                        playIconPath.setAttribute("d", svgPause);
+                        // Ajustar hubStartTime para reanudar la animacion correctamente
+                        // Calculamos cuandos segundos ya pasaron segun el width
+                        const currentPercent = parseFloat(progressFill.style.width) || 0;
+                        const elapsedSoFar = (currentPercent / 26.66) * 4;
+                        hubStartTime = Date.now() - (elapsedSoFar * 1000);
+
+                        cancelAnimationFrame(hubAnimFrame);
+                        hubAnimFrame = requestAnimationFrame(animateProgress);
+                    }).catch(err => {
+                        console.warn("No se pudo reanudar", err);
+                    });
+                    return;
+                }
+
+                // Iniciar nueva cancion aleatoria
+                const song = getRandomSong();
+                if (!song) {
+                    alert("No hay canciones en la carpeta sounds/hub/ (revisar código index.html)");
+                    return;
+                }
+
+                hubAudio.src = song;
+                hubAudio.addEventListener('loadedmetadata', function onLoaded() {
+                    hubAudio.removeEventListener('loadedmetadata', onLoaded);
+
+                    // Momento aleatorio (dejando al menos 4s para reproducir)
+                    let maxStart = Math.max(0, hubAudio.duration - 4);
+                    hubAudio.currentTime = Math.random() * maxStart;
+
+                    hubAudio.play().then(() => {
+                        isPlaying = true;
+                        playIconPath.setAttribute("d", svgPause);
+                        hubStartTime = Date.now();
+                        progressFill.style.width = "0%";
+                        cancelAnimationFrame(hubAnimFrame);
+                        hubAnimFrame = requestAnimationFrame(animateProgress);
+                    }).catch(err => {
+                        console.warn("No se pudo reproducir", err);
+                    });
+                });
+
+                // Triggers load so loadedmetadata fires
+                hubAudio.load();
+            }
+        });
+    </script>
 </body>
 
 </html>

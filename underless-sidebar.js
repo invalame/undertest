@@ -415,25 +415,34 @@ const UnderlessSidebar = (function () {
         options.forEach(opt => opt.classList.remove('active'));
 
         if (mode === 'normal') {
+            if (!window.location.pathname.includes('underless')) {
+                window.location.href = '/underless';
+                return;
+            }
             const normalOpt = root.querySelector('.underless-mode-normal');
             if (normalOpt) normalOpt.classList.add('active');
             exitUnderOrHigher();
             closeSidebar();
 
-            // Restore audio volume from settings when returning to normal mode
             const savedVol = getStoredVolume('underless_music_vol', 1);
             if (typeof audioPlayer !== 'undefined' && audioPlayer) {
                 audioPlayer.volume = savedVol;
             }
 
             if (!skipSave) saveMode('normal');
+            history.replaceState(null, '', window.location.pathname);
         } else if (mode === 'underorhigher') {
+            if (!window.location.pathname.includes('uoh')) {
+                window.location.href = '/uoh.html';
+                return;
+            }
             const uohOpt = root.querySelector('.underless-mode-underorhigher');
             if (uohOpt) uohOpt.classList.add('active');
             closeSidebar();
             stopMainMusic();
             startUnderOrHigher();
             if (!skipSave) saveMode('underorhigher');
+            history.replaceState(null, '', window.location.pathname);
         }
     }
 
@@ -835,12 +844,16 @@ const UnderlessSidebar = (function () {
         attachEventListeners();
         initSettingsSliders();
 
-        // Restore saved mode
-        const savedMode = getSavedMode();
-        if (savedMode === 'underorhigher') {
+        // Restore saved mode or check URL
+        const isUOHPage = window.location.pathname.includes('uoh');
+        
+        if (isUOHPage) {
             const gameContainer = root.querySelector('.underless-uoh-game');
             if (gameContainer) gameContainer.classList.add('active');
             selectMode('underorhigher', true);
+        } else {
+            // Enforce clean URL for normal mode
+            history.replaceState(null, '', window.location.pathname);
         }
 
         console.log('UnderlessSidebar: Initialized');

@@ -178,7 +178,9 @@
             font-size: clamp(2.4em, 5vw, 3.8em);
             font-weight: 800;
             letter-spacing: -1px;
-            cursor: default;
+            cursor: pointer;
+            text-decoration: none;
+            color: inherit;
             text-transform: none;
             /* No uppercase para permitir U mayÃƒÂƒÃ‚Âºscula y resto minÃƒÂƒÃ‚Âºscula */
             --colorunder: #0082c4;
@@ -2488,11 +2490,7 @@
     width: 100%;
     min-height: 100vh;
     text-align: center;
-    background-image: url('img/bg.png');
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
+    background-color: var(--bg);
 }
 
 .home-main {
@@ -2501,7 +2499,6 @@
     align-items: center;
     gap: 15px;
     width: 100%;
-    max-width: 400px;
     padding: 0 20px;
 }
 
@@ -2510,6 +2507,7 @@
     align-items: center;
     justify-content: center;
     width: 100%;
+    max-width: 400px;
     padding: 14px 20px;
     border-radius: 8px;
     font-size: 1.1em;
@@ -2568,4 +2566,18 @@
     color: #555;
     cursor: not-allowed;
     border: 1px solid #2a2a2a;
+}
+
+.hub-progress-wrapper {
+    position: relative;
+    width: 100%;
+    max-width: 800px;
+    margin-top: 40px;
+    margin-bottom: 20px;
+}
+
+@media (max-width: 480px) {
+    .hub-hide-mobile {
+        display: none !important;
+    }
 }

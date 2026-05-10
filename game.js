@@ -635,7 +635,7 @@ function loadFromLocalStorage() {
             artistModeState = parsed.artist;
             albumModeState = parsed.album;
             if (parsed.currentMode) {
-                currentMode = parsed.currentMode;
+                currentMode = 'normal';
             }
 
             // Load won songs set
