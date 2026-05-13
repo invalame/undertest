@@ -1,15 +1,12 @@
 import type { NextConfig } from 'next'
-import path from 'node:path'
 
 const nextConfig: NextConfig = {
   poweredByHeader: false,
   eslint: {
     ignoreDuringBuilds: true,
   },
-  outputFileTracingIncludes: {
-    '/underless': [path.join(process.cwd(), 'underless.html')],
-    '/uoh': [path.join(process.cwd(), 'uoh.html')],
-  },
+  // Eliminamos outputFileTracingIncludes ya que los archivos están en public/ 
+  // y Next.js los sirve automáticamente sin necesidad de esta configuración.
 }
 
 export default nextConfig

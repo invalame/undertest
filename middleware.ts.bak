@@ -1,0 +1,6 @@
+import { NextResponse, type NextRequest } from 'next/server'
+
+export function middleware(request: NextRequest) {
+  // Sin lógica, sin matcher. Si esto falla, el problema es Vercel o la versión de Node.
+  return NextResponse.next()
+}
