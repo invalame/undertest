@@ -34,7 +34,9 @@ export async function updateSession(request: NextRequest) {
         return request.cookies.getAll()
       },
       setAll(cookiesToSet) {
-        cookiesToSet.forEach(({ name, value }) => request.cookies.set(name, value))
+        cookiesToSet.forEach(({ name, value, options }) =>
+          request.cookies.set(name, value)
+        )
         supabaseResponse = NextResponse.next({
           request,
         })
@@ -45,18 +47,24 @@ export async function updateSession(request: NextRequest) {
     },
   })
 
-  const {
-    data: { user },
-  } = await supabase.auth.getUser()
+  try {
+    const {
+      data: { user },
+    } = await supabase.auth.getUser()
 
-  if (isProtectedPath(request.nextUrl.pathname) && !user) {
-    const redirectUrl = request.nextUrl.clone()
-    redirectUrl.pathname = '/'
-    redirectUrl.searchParams.set(
-      'next',
-      `${request.nextUrl.pathname}${request.nextUrl.search}`
-    )
-    return NextResponse.redirect(redirectUrl)
+    if (isProtectedPath(request.nextUrl.pathname) && !user) {
+      const redirectUrl = request.nextUrl.clone()
+      redirectUrl.pathname = '/'
+      redirectUrl.searchParams.set(
+        'next',
+        `${request.nextUrl.pathname}${request.nextUrl.search}`
+      )
+      return NextResponse.redirect(redirectUrl)
+    }
+  } catch (e) {
+    console.error('Middleware session error:', e)
+    // En caso de error, dejamos pasar la petición para no bloquear el sitio.
+    // El cliente (browser) manejará la redirección si es necesario.
   }
 
   return supabaseResponse
