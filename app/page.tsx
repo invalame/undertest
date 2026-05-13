@@ -38,5 +38,5 @@ export default async function HomePage({ searchParams }: Props) {
 
   const nextPath = safeNextPath(sp.next ?? null, origin)
 
-  return <HomeClient isAuthed={false} nextPath={nextPath} errorMessage={errorMessage} />
+  return <HomeClient isAuthed={false} nextPath={nextPath} errorMessage={errorMessage} officialOrigin={origin} />
 }

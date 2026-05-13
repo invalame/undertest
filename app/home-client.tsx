@@ -15,6 +15,7 @@ type Props = {
   isAuthed: boolean
   nextPath: string
   errorMessage: string | null
+  officialOrigin?: string
 }
 
 function storeLegalSnapshot(step: EmailStep, emailValue: string) {
@@ -89,7 +90,7 @@ export function HomeClient({ isAuthed, nextPath, errorMessage }: Props) {
   }
 
   const callbackUrl = () => {
-    const origin = typeof window !== 'undefined' ? window.location.origin : ''
+    const origin = officialOrigin || (typeof window !== 'undefined' ? window.location.origin : '')
     const next = nextPath.startsWith('/') ? nextPath : '/underless'
     return `${origin}/auth/callback?next=${encodeURIComponent(next)}`
   }

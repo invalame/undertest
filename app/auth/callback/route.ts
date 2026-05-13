@@ -2,21 +2,25 @@ import { createServerClient } from '@supabase/ssr'
 import { cookies } from 'next/headers'
 import { NextResponse } from 'next/server'
 import { getSupabaseBrowserEnv } from '@/lib/supabase/env'
-import { safeNextPath } from '@/lib/site-url'
+import { safeNextPath, getSiteUrl } from '@/lib/site-url'
 
 export const dynamic = 'force-dynamic'
 
 export async function GET(request: Request) {
   const url = new URL(request.url)
   const code = url.searchParams.get('code')
-  const next = safeNextPath(url.searchParams.get('next'), url.origin)
+  
+  // Usamos getSiteUrl() para forzar que el origen sea SIEMPRE el oficial
+  const officialOrigin = getSiteUrl()
+  const next = safeNextPath(url.searchParams.get('next'), officialOrigin)
 
   if (!code) {
-    return NextResponse.redirect(new URL('/?error=missing_code', request.url))
+    return NextResponse.redirect(new URL('/?error=missing_code', officialOrigin))
   }
 
   const cookieStore = await cookies()
-  const response = NextResponse.redirect(new URL(next, request.url))
+  // Aquí es donde forzamos la redirección al dominio principal
+  const response = NextResponse.redirect(new URL(next, officialOrigin))
 
   const { url: supabaseUrl, anonKey } = getSupabaseBrowserEnv()
 
@@ -27,7 +31,9 @@ export async function GET(request: Request) {
       },
       setAll(cookiesToSet, cacheHeaders) {
         cookiesToSet.forEach(({ name, value, options }) => {
-          response.cookies.set(name, value, options)
+          // Importante: Al setear la cookie en el dominio oficial, 
+          // nos aseguramos de que la sesión sea válida allí.
+          response.cookies.set(name, value, { ...options, domain: undefined })
         })
         if (cacheHeaders) {
           Object.entries(cacheHeaders).forEach(([key, value]) => {
@@ -42,7 +48,7 @@ export async function GET(request: Request) {
 
   if (error) {
     return NextResponse.redirect(
-      new URL(`/?error=${encodeURIComponent(error.message)}`, request.url)
+      new URL(`/?error=${encodeURIComponent(error.message)}`, officialOrigin)
     )
   }
 
