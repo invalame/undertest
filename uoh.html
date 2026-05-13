@@ -15,7 +15,7 @@
     <meta property="og:title" content="UnderLess">
     <meta property="og:description" content="en UnderLess tenés que adivinar artistas y canciones del under argentino.">
     <meta property="og:type" content="website">
-    <meta property="og:image" content="https://undertest.vercel.app/img/home_underless.png">
+    <meta property="og:image" content="https://underless.vercel.app/img/home_underless.png">
     <meta name="application-name" content="UnderLess">
     <meta name="google-site-verification" content="wJNtyF9L8PONkSvZSHAbqFFadmZrDmITZJYvXF0eivQ">
     <!-- Favicon - single declaration with correct format -->
@@ -27,7 +27,7 @@
         "@context": "https://schema.org",
         "@type": "WebSite",
         "name": "UnderLess",
-        "url": "https://undertest.vercel.app/"
+        "url": "https://underless.vercel.app/"
     }
     </script>
     <!-- UnderLess Sidebar Styles (scoped) -->
@@ -107,7 +107,19 @@
 
     <!-- Sidebar Panel - Mode selection with icons -->
     <nav class="underless-sidebar" aria-label="Menu de modos de juego">
-        <p class="underless-sidebar-label">MODOS DE JUEGO</p>
+        <a href="/" id="underless-sidebar-home" class="underless-sidebar-home-link" aria-label="Volver al inicio del sitio">
+            <span class="underless-sidebar-home-arrow" aria-hidden="true">←</span>
+            <span class="underless-sidebar-home-text">Home</span>
+        </a>
+
+        <div class="underless-social-section">
+            <p class="underless-sidebar-label">SOCIAL</p>
+            <button type="button" class="underless-mode-option underless-social-nav-btn" data-ul-panel="perfil">MI PERFIL</button>
+            <button type="button" class="underless-mode-option underless-social-nav-btn" data-ul-panel="tienda">TIENDA</button>
+            <button type="button" class="underless-mode-option underless-social-nav-btn" data-ul-panel="uless">ULESS</button>
+        </div>
+
+        <p class="underless-sidebar-label underless-sidebar-label--after-social">MODOS DE JUEGO</p>
 
         <div class="underless-mode-option underless-mode-normal active" aria-label="Modo UnderLess Normal">
             <img src="img/home_underless.png" alt="" class="mode-icon">
@@ -118,7 +130,6 @@
             <span>UNDER/HIGHER</span>
         </div>
 
-        <!-- Social Buttons -->
         <div class="underless-social-buttons">
             <p class="underless-sidebar-label">REDES</p>
             <a href="https://x.com/Invalame" target="_blank" class="underless-social-btn underless-twitter-btn">
@@ -138,6 +149,31 @@
             </a>
         </div>
     </nav>
+
+    <div id="underless-panel-perfil" class="underless-app-panel" aria-hidden="true">
+        <div class="underless-app-panel-backdrop" aria-hidden="true"></div>
+        <div class="underless-app-panel-box" role="dialog" aria-modal="true" aria-labelledby="ul-panel-perfil-title">
+            <button type="button" class="underless-app-panel-close" aria-label="Cerrar">&times;</button>
+            <h2 id="ul-panel-perfil-title" class="underless-app-panel-title">Mi perfil</h2>
+            <p class="underless-app-panel-placeholder">Próximamente.</p>
+        </div>
+    </div>
+    <div id="underless-panel-tienda" class="underless-app-panel" aria-hidden="true">
+        <div class="underless-app-panel-backdrop" aria-hidden="true"></div>
+        <div class="underless-app-panel-box" role="dialog" aria-modal="true" aria-labelledby="ul-panel-tienda-title">
+            <button type="button" class="underless-app-panel-close" aria-label="Cerrar">&times;</button>
+            <h2 id="ul-panel-tienda-title" class="underless-app-panel-title">Tienda</h2>
+            <p class="underless-app-panel-placeholder">Próximamente.</p>
+        </div>
+    </div>
+    <div id="underless-panel-uless" class="underless-app-panel" aria-hidden="true">
+        <div class="underless-app-panel-backdrop" aria-hidden="true"></div>
+        <div class="underless-app-panel-box" role="dialog" aria-modal="true" aria-labelledby="ul-panel-uless-title">
+            <button type="button" class="underless-app-panel-close" aria-label="Cerrar">&times;</button>
+            <h2 id="ul-panel-uless-title" class="underless-app-panel-title">ULESS</h2>
+            <p class="underless-app-panel-placeholder">Próximamente.</p>
+        </div>
+    </div>
 
     <!-- Under or Higher Game -->
     <div class="underless-uoh-game">
@@ -179,17 +215,13 @@
             </div>
         </div>
 
-        <!-- Right side: same buttons as normal mode -->
+        <!-- Right side: perfil -->
         <div class="uoh-top-right">
-            <button class="recommend-btn" onclick="openRecommendModal()">recomendar</button>
-            <button class="bugs-btn" onclick="openBugsModal()">bugs</button>
-            <a href="https://www.youtube.com/@UnderLesss" target="_blank" rel="noopener noreferrer" class="youtube-btn"
-                aria-label="YouTube">
-                <svg viewBox="0 0 24 24" fill="white" width="20" height="20">
-                    <path
-                        d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
-                </svg>
-            </a>
+            <div class="underless-profile-corner-wrap" data-ul-profile-corner-wrap hidden style="display:none">
+                <a data-ul-profile-corner-link href="/" class="underless-profile-corner-link" aria-label="Mi perfil">
+                    <img data-ul-profile-corner-img src="" alt="" width="36" height="36" class="underless-profile-corner-img" />
+                </a>
+            </div>
         </div>
 
         <!-- Header -->
@@ -314,6 +346,7 @@
 
 <!-- UnderLess Sidebar Scripts -->
 <script src="sample-artists.js"></script>
+<script defer src="/js/underless-profile-corner.js"></script>
 <script src="underless-sidebar.js"></script>
 </body>
 

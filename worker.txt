@@ -4627,7 +4627,7 @@ export default {
     const startRaw = url.searchParams.get("start");
     const mode = url.searchParams.get("mode") || "normal";
     // ==================== CORS ===================
-    const allowedOrigin = "https://undertest.vercel.app";
+    const allowedOrigin = "https://underless.vercel.app";
     if (request.method === "OPTIONS") {
       return new Response(null, {
         headers: {

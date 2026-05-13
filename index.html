@@ -18,17 +18,14 @@
         </header>
 
         <main class="home-main">
-            <!-- Google Login Button -->
-            <button class="home-btn google-btn" onclick="alert('Próximamente: Registro con Google')">
+            <p class="offline-warning" style="max-width: 420px; margin: 0 auto 1rem; text-align: center;">
+                La app principal corre con <strong>Next.js</strong>: ejecutá <code>npm run dev</code> y abrí
+                <a href="http://localhost:3000/">http://localhost:3000/</a>. El juego requiere cuenta; no hay modo offline en producción.
+            </p>
+            <a href="http://localhost:3000/login" class="home-btn google-btn">
                 <img src="img/Google_Favicon.png" alt="Google">
-                Registrarse con Google
-            </button>
-
-            <!-- Offline Play Button -->
-            <a href="/underless" class="home-btn offline-btn">
-                Jugar Offline
+                Ir a login (dev)
             </a>
-            <p class="offline-warning">(Las funciones sociales estarán desactivadas)</p>
 
             <!-- Barra de reproducción simplificada -->
             <div class="progress-wrapper hub-progress-wrapper" style="margin-top: 150px;">

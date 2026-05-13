@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Privacidad — UnderLess</title>
+    <link rel="stylesheet" href="/styles.css">
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+</head>
+
+<body>
+    <div id="home-root">
+        <header style="margin-top: 10vh; display: flex; flex-direction: column; align-items: center;">
+            <a href="/" class="logo" style="margin-bottom: 5px; font-size: 4em; text-decoration: none;">UnderLess</a>
+            <img src="/img/peepo-band.gif" alt="peepo band"
+                style="width: clamp(110px, 12vw, 170px); height: auto; margin-bottom: 10px; margin-top: 5px;">
+        </header>
+
+        <main class="home-main">
+            <article
+                style="max-width: 520px; margin: 0 auto; text-align: left; font-family: 'PoppinsFont', sans-serif;">
+                <h2 style="color: var(--white); font-size: 1.15em; margin: 0 0 16px 0;">Privacidad</h2>
+                <p class="offline-warning" style="margin: 0 0 14px 0; max-width: none; text-align: left;">
+                    UnderLess usa el inicio de sesión con Google (y, si lo activás, email y contraseña vía Supabase)
+                    solo para identificarte y guardar tu progreso en el juego.
+                </p>
+                <p class="offline-warning" style="margin: 0 0 14px 0; max-width: none; text-align: left;">
+                    No vendemos ni compartimos tus datos con terceros para publicidad. La información de cuenta la
+                    procesa el proveedor de autenticación que configuraste en el proyecto.
+                </p>
+                <p class="offline-warning" style="margin: 0 0 24px 0; max-width: none; text-align: left;">
+                    Si tenés dudas, contactanos por los canales que figuren en el sitio.
+                </p>
+            </article>
+            <a id="legal-back" href="/" class="home-btn offline-btn home-btn-hairline">Volver</a>
+        </main>
+    </div>
+    <script>
+        (function () {
+            var KEY = 'underlessLegalReturn_v1';
+            var a = document.getElementById('legal-back');
+            if (!a) return;
+            function safePath(href) {
+                try {
+                    var u = new URL(href, location.origin);
+                    if (u.origin !== location.origin) return '/';
+                    if (u.pathname.indexOf('//') !== -1) return '/';
+                    if (!u.pathname.startsWith('/')) return '/';
+                    return u.pathname + u.search + u.hash;
+                } catch (e) {
+                    return '/';
+                }
+            }
+            try {
+                var raw = sessionStorage.getItem(KEY);
+                if (!raw) return;
+                var o = JSON.parse(raw);
+                if (typeof o.ts === 'number' && (Date.now() - o.ts > 3600000)) {
+                    sessionStorage.removeItem(KEY);
+                    return;
+                }
+                if (typeof o.returnHref === 'string') {
+                    a.href = safePath(o.returnHref);
+                }
+            } catch (e) { }
+        })();
+    </script>
+</body>
+
+</html>
