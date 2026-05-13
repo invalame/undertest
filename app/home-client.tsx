@@ -34,7 +34,7 @@ function storeLegalSnapshot(step: EmailStep, emailValue: string) {
   }
 }
 
-export function HomeClient({ isAuthed, nextPath, errorMessage }: Props) {
+export function HomeClient({ isAuthed, nextPath, errorMessage, officialOrigin }: Props) {
   const router = useRouter()
   const [emailStep, setEmailStep] = useState<EmailStep>('idle')
   const [email, setEmail] = useState('')
