@@ -19,7 +19,7 @@ export async function serveProtectedGameHtml(filename: string, request: Request)
     return NextResponse.redirect(url)
   }
 
-  const path = join(process.cwd(), filename)
+  const path = join(process.cwd(), 'public', filename)
   const html = await readFile(path, 'utf8')
   return new NextResponse(html, { status: 200, headers: noStore })
 }
