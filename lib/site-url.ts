@@ -1,31 +1,28 @@
-/**
- * URL canónica del sitio (OAuth y emails). En Vercel suele inferirse; en local usá .env.local.
- */
 export function getSiteUrl() {
+  // 1. Prioridad absoluta: El dominio oficial que configuraste
   const explicit = process.env.NEXT_PUBLIC_SITE_URL
   if (explicit) {
     return explicit.replace(/\/$/, '')
   }
-  if (process.env.VERCEL_URL) {
-    return `https://${process.env.VERCEL_URL.replace(/^https?:\/\//, '')}`
+
+  // 2. Fallback de Vercel (si no hay variable)
+  if (process.env.VERCEL_PROJECT_PRODUCTION_URL) {
+    return `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
   }
+
+  // 3. Fallback local
   return 'http://localhost:3000'
 }
 
-/**
- * Evita open-redirect: solo rutas relativas del mismo origen.
- */
-export function safeNextPath(next: string | null, origin: string) {
-  if (!next || !next.startsWith('/') || next.startsWith('//')) {
-    return '/'
-  }
+export function safeNextPath(path: string | null, origin: string): string {
+  if (!path) return '/'
   try {
-    const resolved = new URL(next, origin)
-    const base = new URL(origin)
-    if (resolved.origin !== base.origin) {
-      return '/'
+    const url = new URL(path, origin)
+    // Solo permitimos redirecciones internas
+    if (url.origin === origin) {
+      return url.pathname + url.search
     }
-    return `${resolved.pathname}${resolved.search}`
+    return '/'
   } catch {
     return '/'
   }
