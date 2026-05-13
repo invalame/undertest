@@ -9,47 +9,47 @@ function isProtectedPath(pathname: string) {
   )
 }
 
+/**
+ * Middleware en Edge (Vercel): solo `@supabase/ssr` + `next/server`.
+ * Usamos `getUser()` (recomendado por Supabase en middleware), no `getClaims()`,
+ * para evitar dependencias que no compilan en el runtime Edge.
+ */
 export async function updateSession(request: NextRequest) {
   let supabaseResponse = NextResponse.next({
     request,
   })
 
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL
-  const anonKey =
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
+  const supabaseAnonKey =
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ??
     process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY
 
-  if (!url || !anonKey) {
+  if (!supabaseUrl || !supabaseAnonKey) {
     return supabaseResponse
   }
 
-  const supabase = createServerClient(url, anonKey, {
+  const supabase = createServerClient(supabaseUrl, supabaseAnonKey, {
     cookies: {
       getAll() {
         return request.cookies.getAll()
       },
-      setAll(cookiesToSet, cacheHeaders) {
-        cookiesToSet.forEach(({ name, value }) =>
-          request.cookies.set(name, value)
-        )
+      setAll(cookiesToSet) {
+        cookiesToSet.forEach(({ name, value }) => request.cookies.set(name, value))
         supabaseResponse = NextResponse.next({
           request,
         })
         cookiesToSet.forEach(({ name, value, options }) =>
           supabaseResponse.cookies.set(name, value, options)
         )
-        if (cacheHeaders) {
-          Object.entries(cacheHeaders).forEach(([key, value]) => {
-            supabaseResponse.headers.set(key, String(value))
-          })
-        }
       },
     },
   })
 
-  const { data } = await supabase.auth.getClaims()
+  const {
+    data: { user },
+  } = await supabase.auth.getUser()
 
-  if (isProtectedPath(request.nextUrl.pathname) && !data?.claims?.sub) {
+  if (isProtectedPath(request.nextUrl.pathname) && !user) {
     const redirectUrl = request.nextUrl.clone()
     redirectUrl.pathname = '/'
     redirectUrl.searchParams.set(
