@@ -19,7 +19,15 @@ export async function serveProtectedGameHtml(filename: string, request: Request)
     return NextResponse.redirect(url)
   }
 
+  const userId = data.claims.sub as string
+
   const path = join(process.cwd(), 'public', filename)
-  const html = await readFile(path, 'utf8')
+  const rawHtml = await readFile(path, 'utf8')
+
+  // Inject the user ID as a global JS variable so game.js can namespace localStorage keys.
+  // This ensures each Google account has its own isolated game state.
+  const injectedScript = `<script>window.__UL_USER_ID = ${JSON.stringify(userId)};</script>`
+  const html = rawHtml.replace('</head>', `${injectedScript}\n</head>`)
+
   return new NextResponse(html, { status: 200, headers: noStore })
 }

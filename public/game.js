@@ -218,18 +218,25 @@ function updateMediaSession() {
     }
 }
 
+// ==================== STORAGE HELPER ====================
+// Namespaces localStorage keys by user ID to prevent sharing across accounts
+function getStorageKey(baseKey) {
+    const userId = window.__UL_USER_ID || 'guest';
+    return `${baseKey}_${userId}`;
+}
+
 // HISTORIAL PERSISTENTE DE CANCIONES JUGADAS
 // Se guardan los nombres de las canciones ya jugadas para no repetir hasta completar la lista
-let playedSongsNormal = JSON.parse(localStorage.getItem('playedSongsNormal')) || [];
-let playedSongsArtist = JSON.parse(localStorage.getItem('playedSongsArtist')) || [];
+let playedSongsNormal = JSON.parse(localStorage.getItem(getStorageKey('playedSongsNormal'))) || [];
+let playedSongsArtist = JSON.parse(localStorage.getItem(getStorageKey('playedSongsArtist'))) || [];
 
 // NUEVO: Sistema de rachas
-let winStreak = parseInt(localStorage.getItem('winStreak')) || 0;
-let artistStreak = parseInt(localStorage.getItem('artistStreak')) || 0; // NUEVO
+let winStreak = parseInt(localStorage.getItem(getStorageKey('winStreak'))) || 0;
+let artistStreak = parseInt(localStorage.getItem(getStorageKey('artistStreak'))) || 0; // NUEVO
 const streakEl = document.getElementById('streak');
 
 // NUEVO: Sistema salva rachas
-let streaksavers = parseInt(localStorage.getItem('streaksavers')) || 0;
+let streaksavers = parseInt(localStorage.getItem(getStorageKey('streaksavers'))) || 0;
 const minstreak = 13;
 
 // NUEVO: Variables para Modo Artista
@@ -648,7 +655,7 @@ function saveModeState(mode) {
         currentMode: currentMode,
         wonSongsInStreak: Array.from(wonSongsInStreak) // Convert Set to Array
     };
-    localStorage.setItem('underless_save_v1', JSON.stringify(fullState));
+    localStorage.setItem(getStorageKey('underless_save_v1'), JSON.stringify(fullState));
 }
 
 // --- UNIQUE STREAK LOGIC ---
@@ -665,7 +672,7 @@ function showStreakWarning() {
 }
 
 function loadFromLocalStorage() {
-    const saved = localStorage.getItem('underless_save_v1');
+    const saved = localStorage.getItem(getStorageKey('underless_save_v1'));
     if (saved) {
         try {
             const parsed = JSON.parse(saved);
@@ -685,7 +692,7 @@ function loadFromLocalStorage() {
 
         } catch (e) {
             console.error("Error loading game state:", e);
-            localStorage.removeItem('underless_save_v1');
+            localStorage.removeItem(getStorageKey('underless_save_v1'));
         }
     }
 }
@@ -1016,7 +1023,7 @@ async function resetGame(forceNew = false) {
     // Si se fuerza un juego nuevo (botÃƒÂƒÃ‚Â³n reset/play again), borramos la canciÃƒÂƒÃ‚Â³n guardada
     if (forceNew) {
         playSound('click');
-        localStorage.removeItem('savedSong');
+        localStorage.removeItem(getStorageKey('savedSong'));
     }
 
     // availableSongs se rellena dentro de selectRandomSong si estÃƒÂƒÂ¡ vacÃƒÂƒÃ‚Â­o
@@ -1131,15 +1138,15 @@ function fullReset() {
     if (currentMode === 'normal') {
         winStreak = 0;
         streaksavers = 0;
-        localStorage.setItem('winStreak', winStreak);
-        localStorage.setItem('streaksavers', streaksavers);
+        localStorage.setItem(getStorageKey('winStreak'), winStreak);
+        localStorage.setItem(getStorageKey('streaksavers'), streaksavers);
     } else {
         artistStreak = 0;
-        localStorage.setItem('artistStreak', artistStreak);
+        localStorage.setItem(getStorageKey('artistStreak'), artistStreak);
     }
 
     // Limpiar estado guardado del juego
-    localStorage.removeItem('underless_save_v1');
+    localStorage.removeItem(getStorageKey('underless_save_v1'));
     normalModeState = null;
     artistModeState = null;
     albumModeState = null;
@@ -1150,7 +1157,7 @@ function fullReset() {
 
 function cheatStreak() {
     winStreak = 37;
-    localStorage.setItem('winStreak', winStreak);
+    localStorage.setItem(getStorageKey('winStreak'), winStreak);
     updateStreakDisplay();
     updateStreakSaverUI();
 }
@@ -1195,7 +1202,7 @@ function selectRandomSong() {
                 persistentHistory = []; // Reiniciar historial local
                 // Actualizar variable global y storage
                 playedSongsNormal = [];
-                localStorage.setItem('playedSongsNormal', JSON.stringify([]));
+                localStorage.setItem(getStorageKey('playedSongsNormal'), JSON.stringify([]));
 
                 availableSongs = [...fullPool];
             }
@@ -1248,10 +1255,10 @@ function selectRandomSong() {
     // Guardar cambios en las variables globales y localStorage
     if (currentMode === 'normal') {
         playedSongsNormal = persistentHistory;
-        localStorage.setItem('playedSongsNormal', JSON.stringify(playedSongsNormal));
+        localStorage.setItem(getStorageKey('playedSongsNormal'), JSON.stringify(playedSongsNormal));
     } else {
         playedSongsArtist = persistentHistory;
-        localStorage.setItem('playedSongsArtist', JSON.stringify(playedSongsArtist));
+        localStorage.setItem(getStorageKey('playedSongsArtist'), JSON.stringify(playedSongsArtist));
     }
 }
 
@@ -1430,17 +1437,17 @@ function showGameOver(won, isDuplicate = false) {
 
         if (currentMode === 'normal') {
             winStreak++;
-            localStorage.setItem('winStreak', winStreak);
+            localStorage.setItem(getStorageKey('winStreak'), winStreak);
             // Recompensas de Streak Save (solo en normal)
             if (winStreak === 10 || winStreak === 20 || winStreak === 40 || winStreak === 100) {
                 streaksavers++;
-                localStorage.setItem('streaksavers', streaksavers);
+                localStorage.setItem(getStorageKey('streaksavers'), streaksavers);
             }
         } else {
             // ARTIST / ALBUM MODE
             if (!isDuplicate) {
                 artistStreak++;
-                localStorage.setItem('artistStreak', artistStreak);
+                localStorage.setItem(getStorageKey('artistStreak'), artistStreak);
             }
         }
 
@@ -1480,7 +1487,7 @@ function showGameOver(won, isDuplicate = false) {
 
             if (winStreak >= minstreak && streaksavers > 0) {
                 streaksavers--;
-                localStorage.setItem('streaksavers', streaksavers);
+                localStorage.setItem(getStorageKey('streaksavers'), streaksavers);
                 // Vida consumida, racha salvada.
             } else {
                 // Si no hay vidas o no llegamos al minstreak, reset fatal.
@@ -1502,12 +1509,12 @@ function showGameOver(won, isDuplicate = false) {
                 }
 
                 winStreak = 0;
-                localStorage.setItem('winStreak', winStreak);
+                localStorage.setItem(getStorageKey('winStreak'), winStreak);
             }
         } else {
             // Artist o Album mode: reset artistStreak
             artistStreak = 0;
-            localStorage.setItem('artistStreak', artistStreak);
+            localStorage.setItem(getStorageKey('artistStreak'), artistStreak);
 
             // RESET UNIQUE SONGS TRACKING
             wonSongsInStreak.clear();
