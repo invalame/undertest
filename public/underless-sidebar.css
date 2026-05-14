@@ -1250,3 +1250,112 @@
     color: var(--ul-white);
     background: rgba(255, 255, 255, 0.06);
 }
+
+/* ========================================
+   SHARED PROFILE CORNER (Across all modes)
+   ======================================== */
+.underless-profile-corner-wrap {
+    display: flex !important;
+    align-items: center;
+    gap: 10px;
+    background: rgba(0, 0, 0, 0.4);
+    padding: 4px 12px 4px 4px;
+    border-radius: 50px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: all 0.2s ease;
+    text-decoration: none;
+    cursor: pointer;
+    user-select: none;
+    pointer-events: auto;
+}
+
+.underless-profile-corner-wrap:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: #55b725;
+    transform: translateY(-1px);
+}
+
+.underless-profile-corner-img {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.underless-profile-corner-name {
+    color: #fff;
+    font-size: 0.85rem;
+    font-weight: 600;
+    font-family: 'PoppinsFont', sans-serif;
+    max-width: 120px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Sidebar Toggle for Normal Mode */
+.underless-main-sidebar-toggle {
+    background: #242829;
+    border: 1px solid #3a3d3f;
+    padding: 10px;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 4px;
+    width: 44px;
+    height: 44px;
+    border-radius: 8px;
+    transition: all 0.2s;
+}
+
+.underless-main-sidebar-toggle:hover {
+    background: #333;
+    border-color: #555;
+}
+
+.underless-main-sidebar-toggle span {
+    display: block;
+    width: 20px;
+    height: 2px;
+    background: #fff;
+    border-radius: 2px;
+}
+
+@media (max-width: 768px) {
+    .underless-profile-corner-name {
+        display: none;
+    }
+    .underless-profile-corner-wrap {
+        padding: 4px;
+    }
+}
+
+/* Header layout helpers for UnderLess mode */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    gap: 15px;
+}
+
+header .header-left, 
+header .header-center, 
+header .header-right {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+header .header-center {
+    flex: 1;
+    justify-content: center;
+}
+
+header .header-right {
+    min-width: 50px;
+    justify-content: flex-end;
+}

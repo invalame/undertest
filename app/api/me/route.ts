@@ -67,7 +67,7 @@ export async function GET() {
   const avatarPath = row.avatar_path as string | null
   const oauth = oauthAvatar(user)
   const cornerSrc =
-    avatarPath && avatarPath.length > 0 ? `/img_profile/${encodeURI(avatarPath)}` : oauth ?? '/img/peepo-band.gif'
+    avatarPath && avatarPath.length > 0 ? `/img_profile/${encodeURI(avatarPath)}` : oauth ?? '/img_profile/default-profile.png'
 
   return NextResponse.json({
     ok: true,

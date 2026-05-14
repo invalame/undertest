@@ -5,11 +5,18 @@
     el.style.display = on ? '' : 'none'
   }
 
-  function applyAll(cornerSrc, profilePath) {
+  function applyAll(cornerSrc, profilePath, displayName, discriminator) {
     document.querySelectorAll('[data-ul-profile-corner-wrap]').forEach(function (wrap) {
       var link = wrap.querySelector('[data-ul-profile-corner-link]')
       var img = wrap.querySelector('[data-ul-profile-corner-img]')
       if (!link || !img) return
+      
+      // Inject Name
+      var nameEl = wrap.querySelector('[data-ul-profile-corner-name]')
+      if (nameEl) {
+        nameEl.textContent = displayName
+      }
+      
       img.src = cornerSrc
       img.alt = 'Perfil'
       link.href = profilePath
@@ -31,7 +38,7 @@
         hideAll()
         return
       }
-      applyAll(j.cornerSrc, j.profilePath)
+      applyAll(j.cornerSrc, j.profilePath, j.display_name, j.discriminator)
     } catch (e) {
       hideAll()
     }

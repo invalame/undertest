@@ -27,7 +27,7 @@
 }
 
 .profile-shell {
-  max-width: 720px;
+  max-width: 860px; /* Mas ancho en escritorio */
   width: 100%;
   margin: 0 auto;
   border: 1px solid #3a3d3f;
@@ -38,7 +38,16 @@
   flex: 1;
   display: flex;
   flex-direction: column;
-  overflow: hidden; /* Evita que el contenedor crezca infinitamente */
+  overflow: hidden; 
+}
+
+@media (max-width: 768px) {
+  .profile-shell {
+    max-width: 100%;
+    border-radius: 0;
+    border-left: none;
+    border-right: none;
+  }
 }
 
 .profile-head {
@@ -128,13 +137,14 @@
   color: #fff;
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px; /* Espacio para el lapiz */
 }
 
 .profile-disc {
   color: #575757;
   font-size: 0.6em;
   font-family: 'PoppinsFont', sans-serif;
+  margin-left: 4px;
 }
 
 .profile-edit-name-btn {
@@ -146,6 +156,11 @@
   display: inline-flex;
   opacity: 0.7;
   transition: opacity 0.2s;
+  order: 2; /* Despues del nombre */
+}
+
+.profile-username .profile-disc {
+  order: 3; /* Despues del lapiz */
 }
 
 .profile-edit-name-btn:hover {
@@ -174,6 +189,9 @@
   padding: 16px;
   border-radius: 10px;
   border: 1px solid #3a3d3f;
+  width: 100%;
+  box-sizing: border-box;
+  overflow: hidden;
 }
 
 .profile-bio-label {
@@ -191,6 +209,7 @@
   line-height: 1.5;
   color: #ddd;
   white-space: pre-wrap;
+  word-break: break-word; /* Evita que rompa el fondo */
 }
 
 .profile-bio-input {
@@ -204,10 +223,23 @@
   font-size: 0.9rem;
   resize: none;
   outline: none;
+  box-sizing: border-box;
 }
 
 .profile-bio-input:focus {
   border-color: #55b725;
+}
+
+.profile-bio-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.profile-bio-counter {
+  font-size: 0.75rem;
+  color: #666;
 }
 
 .profile-btn {
@@ -236,6 +268,17 @@
   background: rgba(85, 183, 37, 0.2);
 }
 
+.profile-btn-google {
+  width: 100%;
+  border-color: #4285f4;
+  background: rgba(66, 133, 244, 0.1);
+  margin-bottom: 15px;
+}
+
+.profile-btn-google:hover {
+  background: rgba(66, 133, 244, 0.2);
+}
+
 .profile-msg {
   font-size: 0.85rem;
   margin-top: 10px;
@@ -249,7 +292,7 @@
   flex: 1;
   display: flex;
   flex-direction: column;
-  min-height: 0; /* Permite scroll interno */
+  min-height: 0; 
 }
 
 .profile-posts-title {
@@ -268,6 +311,7 @@
   overflow-y: auto;
   min-height: 200px;
 }
+
 
 /* Custom Scrollbar */
 .profile-posts-box::-webkit-scrollbar {

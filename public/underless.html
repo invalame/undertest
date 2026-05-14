@@ -13,11 +13,12 @@
     <title>UnderLess</title>
     <meta name="description" content="en UnderLess tenÃ©s que adivinar artistas y canciones del under argentino.">
     <meta property="og:title" content="UnderLess">
-    <meta property="og:description" content="en UnderLess tenÃ©s que adivinar artistas y canciones del under argentino.">
+    <meta property="og:description"
+        content="en UnderLess tenÃ©s que adivinar artistas y canciones del under argentino.">
     <meta property="og:type" content="website">
     <meta property="og:image" content="https://invalame.github.io/UnderLess/img/home_underless.png">
     <meta name="application-name" content="UnderLess">
-    <meta name="google-site-verification" content="wJNtyF9L8PONkSvZSHAbqFFadmZrDmITZJYvXF0eivQ">
+    <meta name="google-site-verification" content="1w6pqcfcAv3jp6XGeAkgJrlF-pl88fDfLPT8aDDNAn0" />
     <!-- Favicon - single declaration with correct format -->
     <link rel="icon" type="image/x-icon" href="favicon.ico">
     <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
@@ -37,8 +38,27 @@
 
 
 <header>
-    <a href="/" class="logo" aria-label="Volver al inicio">UnderLess</a>
-    <img id="emote-7tv" src="img/peepo-band.gif" alt="peepo band">
+    <div class="header-left">
+        <button class="underless-main-sidebar-toggle" onclick="toggleSidebar()" aria-label="Menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+        <a href="/" class="logo" aria-label="Volver al inicio">UnderLess</a>
+    </div>
+    
+    <div class="header-center">
+        <img id="emote-7tv" src="img/peepo-band.gif" alt="peepo band">
+    </div>
+
+    <div class="header-right">
+        <div class="underless-profile-corner-wrap" data-ul-profile-corner-wrap hidden style="display:none">
+            <a data-ul-profile-corner-link href="/" class="underless-profile-corner-link" style="display: flex; align-items: center; gap: 8px; text-decoration: none;">
+                <img data-ul-profile-corner-img src="" alt="" width="32" height="32" class="underless-profile-corner-img" />
+                <span data-ul-profile-corner-name class="underless-profile-corner-name"></span>
+            </a>
+        </div>
+    </div>
 
     <!-- MODE SELECTOR + ARTIST DISPLAY CONTAINER -->
     <div class="mode-artist-container" id="mode-artist-container">
@@ -55,9 +75,11 @@
             <div class="artist-search-container">
                 <div class="search-container">
                     <svg viewBox="0 0 24 24" aria-hidden="true">
-                        <path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79L20.29 21l.71-.71L15.5 14zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5z" />
+                        <path
+                            d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79L20.29 21l.71-.71L15.5 14zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5z" />
                     </svg>
-                    <input type="text" class="search-input" id="artist-search-input" placeholder="Buscar artista..." autocomplete="off">
+                    <input type="text" class="search-input" id="artist-search-input" placeholder="Buscar artista..."
+                        autocomplete="off">
                 </div>
                 <div id="artist-list" class="songs-list"></div>
             </div>
@@ -68,9 +90,11 @@
             <div class="artist-search-container">
                 <div class="search-container">
                     <svg viewBox="0 0 24 24" aria-hidden="true">
-                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 14.5c-2.49 0-4.5-2.01-4.5-4.5S9.51 7.5 12 7.5s4.5 2.01 4.5 4.5-2.01 4.5-4.5 4.5zm0-5.5c-.55 0-1 .45-1 1s.45 1 1 1 1-.45 1-1-.45-1-1-1z" />
+                        <path
+                            d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 14.5c-2.49 0-4.5-2.01-4.5-4.5S9.51 7.5 12 7.5s4.5 2.01 4.5 4.5-2.01 4.5-4.5 4.5zm0-5.5c-.55 0-1 .45-1 1s.45 1 1 1 1-.45 1-1-.45-1-1-1z" />
                     </svg>
-                    <input type="text" class="search-input" id="album-search-input" placeholder="Buscar Ã¡lbum..." autocomplete="off">
+                    <input type="text" class="search-input" id="album-search-input" placeholder="Buscar Ã¡lbum..."
+                        autocomplete="off">
                 </div>
                 <div id="album-list" class="songs-list"></div>
             </div>
@@ -155,8 +179,9 @@
                 salvadores de racha: 3
             </div>
         </div>
-        
-        <div id="streak"><img id="streak-icon" src="img/racha_fuego_gris.png" alt="racha"><span id="streak-number">0</span></div>
+
+        <div id="streak"><img id="streak-icon" src="img/racha_fuego_gris.png" alt="racha"><span
+                id="streak-number">0</span></div>
 
     </div> <!-- End game-board-wrapper -->
 </main>
@@ -269,16 +294,20 @@
 
     <!-- Sidebar Panel - Mode selection with icons -->
     <nav class="underless-sidebar" aria-label="Menu de modos de juego">
-        <a href="/" id="underless-sidebar-home" class="underless-sidebar-home-link" aria-label="Volver al inicio del sitio">
+        <a href="/" id="underless-sidebar-home" class="underless-sidebar-home-link"
+            aria-label="Volver al inicio del sitio">
             <span class="underless-sidebar-home-arrow" aria-hidden="true">←</span>
             <span class="underless-sidebar-home-text">Home</span>
         </a>
 
         <div class="underless-social-section">
             <p class="underless-sidebar-label">SOCIAL</p>
-            <button type="button" class="underless-mode-option underless-social-nav-btn" data-ul-panel="perfil">MI PERFIL</button>
-            <button type="button" class="underless-mode-option underless-social-nav-btn" data-ul-panel="tienda">TIENDA</button>
-            <button type="button" class="underless-mode-option underless-social-nav-btn" data-ul-panel="uless">ULESS</button>
+            <button type="button" class="underless-mode-option underless-social-nav-btn" data-ul-panel="perfil">MI
+                PERFIL</button>
+            <button type="button" class="underless-mode-option underless-social-nav-btn"
+                data-ul-panel="tienda">TIENDA</button>
+            <button type="button" class="underless-mode-option underless-social-nav-btn"
+                data-ul-panel="uless">ULESS</button>
         </div>
 
         <p class="underless-sidebar-label underless-sidebar-label--after-social">MODOS DE JUEGO</p>

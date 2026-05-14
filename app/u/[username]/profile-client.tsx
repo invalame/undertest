@@ -57,6 +57,9 @@ export function ProfileClient({ profile, isOwner, oauthPicture, initialAvatars }
   const [isEditingName, setIsEditingName] = useState(false)
   const [msg, setMsg] = useState<{ type: 'ok' | 'err'; text: string } | null>(null)
 
+  const hasBioChanged = bio !== profile.bio
+  const bioCharCount = bio.length
+
   const row = useMemo(
     () => ({ ...profile, bio, display_name: displayName, avatar_path: avatarPath }),
     [profile, bio, displayName, avatarPath]
@@ -111,7 +114,8 @@ export function ProfileClient({ profile, isOwner, oauthPicture, initialAvatars }
     }
   }
 
-  async function pickAvatar(fn: string) {
+  async function pickAvatar(fn: string | null) {
+    // If fn is null, we are clearing to use OAuth/Default
     const ok = await saveField({ avatar_path: fn })
     if (!ok) return
     setAvatarPath(fn)
@@ -172,8 +176,7 @@ export function ProfileClient({ profile, isOwner, oauthPicture, initialAvatars }
               </div>
             ) : (
               <h1 className="profile-username">
-                {displayName}{' '}
-                <span className="profile-disc">#{profile.discriminator}</span>
+                {displayName}
                 {isOwner && (
                   <button 
                     className="profile-edit-name-btn" 
@@ -185,6 +188,7 @@ export function ProfileClient({ profile, isOwner, oauthPicture, initialAvatars }
                     </svg>
                   </button>
                 )}
+                <span className="profile-disc">#{profile.discriminator}</span>
               </h1>
             )}
           </div>
@@ -202,19 +206,23 @@ export function ProfileClient({ profile, isOwner, oauthPicture, initialAvatars }
                   maxLength={160}
                   rows={3}
                 />
-                <button
-                  type="button"
-                  className="profile-btn profile-btn-primary"
-                  style={{ marginTop: 8 }}
-                  disabled={loading || bio === profile.bio}
-                  onClick={() => {
-                    const filtered = filterBioLinks(bio)
-                    setBio(filtered)
-                    void saveField({ bio: filtered })
-                  }}
-                >
-                  Guardar biografía
-                </button>
+                <div className="profile-bio-footer">
+                  <span className="profile-bio-counter">{bioCharCount}/160</span>
+                  {hasBioChanged && (
+                    <button
+                      type="button"
+                      className="profile-btn profile-btn-primary"
+                      disabled={loading}
+                      onClick={() => {
+                        const filtered = filterBioLinks(bio)
+                        setBio(filtered)
+                        void saveField({ bio: filtered })
+                      }}
+                    >
+                      Guardar biografía
+                    </button>
+                  )}
+                </div>
               </>
             ) : (
               <p className="profile-bio-text">
@@ -251,8 +259,17 @@ export function ProfileClient({ profile, isOwner, oauthPicture, initialAvatars }
               Archivos en <code style={{ color: '#ccc' }}>/public/img_profile/</code>. Agregá imágenes ahí y
               recargá esta ventana.
             </p>
+            <div className="profile-modal-special">
+              <button 
+                type="button" 
+                className="profile-btn profile-btn-google"
+                onClick={() => void pickAvatar(null)}
+              >
+                Usar foto de Google / Default
+              </button>
+            </div>
             {avatars.length === 0 ? (
-              <p style={{ color: '#888', fontSize: '0.9rem' }}>No hay imágenes en la carpeta todavía.</p>
+              <p style={{ color: '#888', fontSize: '0.9rem', marginTop: 12 }}>No hay imágenes en la carpeta todavía.</p>
             ) : (
               <div className="profile-modal-grid">
                 {avatars.map((fn) => (
