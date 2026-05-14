@@ -17,11 +17,8 @@ export default async function HomePage({ searchParams }: Props) {
 
   if (data?.claims?.sub) {
     const userId = data.claims.sub
-    const { data: profile } = await supabase
-      .from('profiles')
-      .select('username, avatar_path, display_name, discriminator')
-      .eq('id', userId)
-      .maybeSingle()
+    const { ensureProfile } = await import('@/lib/profile/ensure-profile')
+    const profile = await ensureProfile(userId)
 
     const dest = safeNextPath(sp.next ?? null, origin)
     if (dest !== '/') {
@@ -32,8 +29,12 @@ export default async function HomePage({ searchParams }: Props) {
     const oauthAvatar = userMeta?.avatar_url || userMeta?.picture
     
     const userProfile = {
-      username: profile?.display_name && profile?.discriminator ? `${profile.display_name} #${profile.discriminator}` : (profile?.username || 'Usuario'),
-      avatar: profile?.avatar_path ? `/img_profile/${profile.avatar_path}` : oauthAvatar || '/img/peepo-band.gif'
+      username: profile?.display_name && profile?.discriminator 
+        ? `${profile.display_name} #${profile.discriminator}` 
+        : (profile?.username || 'Usuario'),
+      avatar: profile?.avatar_path 
+        ? `/img_profile/${profile.avatar_path}` 
+        : oauthAvatar || '/img/peepo-band.gif'
     }
 
     return <HomeClient isAuthed nextPath="/" errorMessage={null} officialOrigin={origin} userData={userProfile} />

@@ -225,6 +225,60 @@ function getStorageKey(baseKey) {
     return `${baseKey}_${userId}`;
 }
 
+// NUEVO: SincronizaciÃ³n con el servidor
+async function syncGameStateToServer() {
+    if (!window.__UL_USER_ID) return;
+    
+    const state = {
+        winStreak: parseInt(localStorage.getItem(getStorageKey('winStreak'))) || 0,
+        artistStreak: parseInt(localStorage.getItem(getStorageKey('artistStreak'))) || 0,
+        streaksavers: parseInt(localStorage.getItem(getStorageKey('streaksavers'))) || 0,
+        playedSongsNormal: JSON.parse(localStorage.getItem(getStorageKey('playedSongsNormal'))) || [],
+        playedSongsArtist: JSON.parse(localStorage.getItem(getStorageKey('playedSongsArtist'))) || [],
+        underless_save_v1: JSON.parse(localStorage.getItem(getStorageKey('underless_save_v1'))) || null
+    };
+
+    try {
+        await fetch('/api/game/state', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ state })
+        });
+    } catch (e) {
+        console.error("Error syncing to server:", e);
+    }
+}
+
+async function loadGameStateFromServer() {
+    if (!window.__UL_USER_ID) return;
+    
+    try {
+        const r = await fetch('/api/game/state');
+        const j = await r.json();
+        if (j.ok && j.state && Object.keys(j.state).length > 0) {
+            const s = j.state;
+            if (s.winStreak !== undefined) localStorage.setItem(getStorageKey('winStreak'), s.winStreak);
+            if (s.artistStreak !== undefined) localStorage.setItem(getStorageKey('artistStreak'), s.artistStreak);
+            if (s.streaksavers !== undefined) localStorage.setItem(getStorageKey('streaksavers'), s.streaksavers);
+            if (s.playedSongsNormal) localStorage.setItem(getStorageKey('playedSongsNormal'), JSON.stringify(s.playedSongsNormal));
+            if (s.playedSongsArtist) localStorage.setItem(getStorageKey('playedSongsArtist'), JSON.stringify(s.playedSongsArtist));
+            if (s.underless_save_v1) localStorage.setItem(getStorageKey('underless_save_v1'), JSON.stringify(s.underless_save_v1));
+            
+            // Recargar variables globales
+            winStreak = parseInt(s.winStreak) || 0;
+            artistStreak = parseInt(s.artistStreak) || 0;
+            streaksavers = parseInt(s.streaksavers) || 0;
+            playedSongsNormal = s.playedSongsNormal || [];
+            playedSongsArtist = s.playedSongsArtist || [];
+            
+            updateStreakDisplay();
+            updateStreakSaverUI();
+        }
+    } catch (e) {
+        console.error("Error loading from server:", e);
+    }
+}
+
 // HISTORIAL PERSISTENTE DE CANCIONES JUGADAS
 // Se guardan los nombres de las canciones ya jugadas para no repetir hasta completar la lista
 let playedSongsNormal = JSON.parse(localStorage.getItem(getStorageKey('playedSongsNormal'))) || [];
@@ -238,6 +292,9 @@ const streakEl = document.getElementById('streak');
 // NUEVO: Sistema salva rachas
 let streaksavers = parseInt(localStorage.getItem(getStorageKey('streaksavers'))) || 0;
 const minstreak = 13;
+
+// Inicializar carga desde el servidor
+loadGameStateFromServer();
 
 // NUEVO: Variables para Modo Artista
 let currentMode = 'normal'; // 'normal' | 'artist'
@@ -1527,6 +1584,9 @@ function showGameOver(won, isDuplicate = false) {
 
     correctAnswerEl.textContent = (currentSong.nombre || "");
     gameOverMessage.classList.add('show');
+
+    // Sincronizar con el servidor despuÃ©s de actualizar localStorage
+    syncGameStateToServer();
 
     // Randomizar texto del botÃƒÂƒÃ‚Â³n "una ma"
     const playAgainBtn = document.querySelector('.play-again-button');
