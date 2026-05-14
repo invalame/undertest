@@ -85,13 +85,6 @@ export default async function UserProfilePage({ params }: Props) {
 
   return (
     <div className="profile-root">
-      <ProfileClient
-        profile={profile}
-        isOwner={isOwner}
-        oauthPicture={oauth}
-        initialAvatars={[]}
-      />
-
       <div id="underless-sidebar-root">
           <div className="underless-overlay"></div>
           <nav className="underless-sidebar">
@@ -108,6 +101,13 @@ export default async function UserProfilePage({ params }: Props) {
               <a href="/uoh" className="underless-mode-option" style={{ textDecoration: 'none' }}>UNDER/HIGHER</a>
           </nav>
       </div>
+
+      <ProfileClient
+        profile={profile}
+        isOwner={isOwner}
+        oauthPicture={oauth}
+        initialAvatars={[]}
+      />
 
       <link rel="stylesheet" href="/underless-sidebar.css" />
       <Script src="/underless-sidebar.js" strategy="afterInteractive" />
