@@ -28,7 +28,7 @@ export async function PATCH(request: Request) {
   }
   const userId = userData.user.id
 
-  let body: { bio?: unknown; username?: unknown; avatar_path?: unknown }
+  let body: { bio?: unknown; username?: unknown; avatar_path?: unknown; display_name?: unknown }
   try {
     body = (await request.json()) as typeof body
   } catch {
@@ -52,6 +52,17 @@ export async function PATCH(request: Request) {
       )
     }
     patch.username = u
+  }
+
+  if (typeof body.display_name === 'string') {
+    const dName = body.display_name.trim()
+    if (dName.length < 2 || dName.length > 24) {
+      return NextResponse.json(
+        { ok: false, reason: 'bad_display_name', hint: 'El nombre debe tener entre 2 y 24 caracteres' },
+        { status: 400 }
+      )
+    }
+    patch.display_name = dName
   }
 
   if (body.avatar_path === null) {

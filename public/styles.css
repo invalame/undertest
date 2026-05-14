@@ -448,7 +448,7 @@
             cursor: pointer;
             box-shadow: none;
             position: relative;
-            margin-top: clamp(-40px, -5vh, -20px); /* SUBIDO: Antes era positivo */
+            margin-top: clamp(10px, 2vh, 30px); /* SUBIDO: Antes era positivo, devuelto a positivo para ir abajo */
             margin-bottom: clamp(20px, 4vh, 50px);
             opacity: 1;
             border: none;

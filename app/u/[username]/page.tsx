@@ -22,7 +22,7 @@ export default async function UserProfilePage({ params }: Props) {
   const supabase = await createClient()
   const { data: row, error } = await supabase
     .from('profiles')
-    .select('id, username, bio, avatar_path, underium, max_streak')
+    .select('id, username, bio, avatar_path, underium, max_streak, display_name, discriminator')
     .eq('username', username)
     .maybeSingle()
 
@@ -41,6 +41,8 @@ export default async function UserProfilePage({ params }: Props) {
     avatar_path: (row.avatar_path as string | null) ?? null,
     underium: Number(row.underium ?? 0),
     max_streak: Number(row.max_streak ?? 0),
+    display_name: (row.display_name as string) ?? 'Userless',
+    discriminator: (row.discriminator as string) ?? '0000',
   }
 
   const oauth = isOwner ? oauthPicture(sessionUser?.user_metadata as Record<string, unknown>) : null

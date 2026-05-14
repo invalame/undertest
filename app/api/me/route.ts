@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
-import { pickUniqueUsername } from '@/lib/profile/username'
+import { createDefaultProfile } from '@/lib/profile/username'
 
 export const dynamic = 'force-dynamic'
 
@@ -21,7 +21,7 @@ export async function GET() {
 
   let { data: row, error: selErr } = await supabase
     .from('profiles')
-    .select('username, avatar_path')
+    .select('username, avatar_path, display_name, discriminator')
     .eq('id', user.id)
     .maybeSingle()
 
@@ -32,11 +32,15 @@ export async function GET() {
   if (!row) {
     const email = user.email ?? undefined
     let username: string
+    let displayName: string = 'Userless'
+    let discriminator: string = '0000'
     try {
-      username = await pickUniqueUsername(async (candidate) => {
+      const result = await createDefaultProfile(async (u, dName, disc) => {
         const { error } = await supabase.from('profiles').insert({
           id: user.id,
-          username: candidate,
+          username: u,
+          display_name: dName,
+          discriminator: disc
         })
         if (!error) return { ok: true as const }
         const msg = error.message.toLowerCase()
@@ -44,17 +48,20 @@ export async function GET() {
           return { ok: false as const, duplicate: true }
         }
         return { ok: false as const, duplicate: false }
-      }, email, user.id)
+      }, user.id)
+      username = result.username
+      displayName = result.display_name
+      discriminator = result.discriminator
     } catch {
       return NextResponse.json({ ok: false, reason: 'profile_bootstrap' }, { status: 500 })
     }
 
     const { data: again } = await supabase
       .from('profiles')
-      .select('username, avatar_path')
+      .select('username, avatar_path, display_name, discriminator')
       .eq('id', user.id)
       .maybeSingle()
-    row = again ?? { username, avatar_path: null }
+    row = again ?? { username, avatar_path: null, display_name: displayName, discriminator: discriminator }
   }
 
   const avatarPath = row.avatar_path as string | null
@@ -65,6 +72,8 @@ export async function GET() {
   return NextResponse.json({
     ok: true,
     username: row.username as string,
+    display_name: row.display_name as string,
+    discriminator: row.discriminator as string,
     profilePath: `/u/${encodeURIComponent(row.username as string)}`,
     cornerSrc,
   })

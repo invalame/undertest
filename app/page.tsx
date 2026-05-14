@@ -19,7 +19,7 @@ export default async function HomePage({ searchParams }: Props) {
     const userId = data.claims.sub
     const { data: profile } = await supabase
       .from('profiles')
-      .select('username, avatar_path')
+      .select('username, avatar_path, display_name, discriminator')
       .eq('id', userId)
       .maybeSingle()
 
@@ -32,7 +32,7 @@ export default async function HomePage({ searchParams }: Props) {
     const oauthAvatar = userMeta?.avatar_url || userMeta?.picture
     
     const userProfile = {
-      username: profile?.username || 'Usuario',
+      username: profile?.display_name && profile?.discriminator ? `${profile.display_name} #${profile.discriminator}` : (profile?.username || 'Usuario'),
       avatar: profile?.avatar_path ? `/img_profile/${profile.avatar_path}` : oauthAvatar || '/img/peepo-band.gif'
     }
 

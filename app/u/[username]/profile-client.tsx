@@ -11,6 +11,8 @@ export type ProfilePublic = {
   avatar_path: string | null
   underium: number
   max_streak: number
+  display_name: string
+  discriminator: string
 }
 
 type Props = {
@@ -29,7 +31,7 @@ function displaySrc(p: ProfilePublic, oauth: string | null): string {
 export function ProfileClient({ profile, isOwner, oauthPicture, initialAvatars }: Props) {
   const router = useRouter()
   const [bio, setBio] = useState(profile.bio)
-  const [username, setUsername] = useState(profile.username)
+  const [displayName, setDisplayName] = useState(profile.display_name)
   const [avatarPath, setAvatarPath] = useState<string | null>(profile.avatar_path)
   const [pickerOpen, setPickerOpen] = useState(false)
   const [avatars, setAvatars] = useState<string[]>(initialAvatars)
@@ -37,16 +39,16 @@ export function ProfileClient({ profile, isOwner, oauthPicture, initialAvatars }
   const [msg, setMsg] = useState<{ type: 'ok' | 'err'; text: string } | null>(null)
 
   const row = useMemo(
-    () => ({ ...profile, bio, username, avatar_path: avatarPath }),
-    [profile, bio, username, avatarPath]
+    () => ({ ...profile, bio, display_name: displayName, avatar_path: avatarPath }),
+    [profile, bio, displayName, avatarPath]
   )
 
   const src = displaySrc(row, oauthPicture)
 
   const shareUrl = useMemo(() => {
     if (typeof window === 'undefined') return ''
-    return `${window.location.origin}/u/${encodeURIComponent(username)}`
-  }, [username])
+    return `${window.location.origin}/u/${encodeURIComponent(profile.username)}`
+  }, [profile.username])
 
   async function openPicker() {
     setMsg(null)
@@ -83,10 +85,7 @@ export function ProfileClient({ profile, isOwner, oauthPicture, initialAvatars }
         return false
       }
       setMsg({ type: 'ok', text: 'Guardado.' })
-      if (typeof patch.username === 'string' && patch.username !== profile.username) {
-        router.push(`/u/${encodeURIComponent(patch.username)}`)
-        router.refresh()
-      }
+      // Display name doesn't change the URL, so we don't need to redirect
       setLoading(false)
       return true
     } catch {
@@ -122,7 +121,7 @@ export function ProfileClient({ profile, isOwner, oauthPicture, initialAvatars }
           ) : null}
         </div>
         <div className="profile-head-main">
-          <h1 className="profile-username">{username}</h1>
+          <h1 className="profile-username">{displayName} <span style={{ color: '#aaa', fontSize: '0.7em' }}>#{profile.discriminator}</span></h1>
           <div className="profile-meta-row">
             <span className="profile-stat">
               Underium: <strong>{profile.underium}</strong>
@@ -136,21 +135,21 @@ export function ProfileClient({ profile, isOwner, oauthPicture, initialAvatars }
               <div className="profile-user-row">
                 <input
                   className="profile-user-input"
-                  value={username}
-                  onChange={(e) => setUsername(e.target.value.toLowerCase().replace(/[^a-z0-9_]/g, ''))}
+                  value={displayName}
+                  onChange={(e) => setDisplayName(e.target.value)}
                   maxLength={24}
                   autoComplete="off"
-                  aria-label="Nombre de usuario"
+                  aria-label="Nombre para mostrar"
                 />
                 <button
                   type="button"
                   className="profile-btn profile-btn-primary"
                   disabled={
                     loading ||
-                    username === profile.username ||
-                    !isValidUsername(username)
+                    displayName === profile.display_name ||
+                    displayName.trim().length < 2
                   }
-                  onClick={() => void saveField({ username })}
+                  onClick={() => void saveField({ display_name: displayName })}
                 >
                   Guardar nombre
                 </button>
