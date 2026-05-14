@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
 import { ProfileClient, type ProfilePublic } from './profile-client'
 import './profile.css'
+import Script from 'next/script'
 
 import { Metadata } from 'next'
 
@@ -95,6 +96,26 @@ export default async function UserProfilePage({ params }: Props) {
           initialAvatars={[]}
         />
       </div>
+
+      <div id="underless-sidebar-root">
+          <div className="underless-overlay" onClick={() => {}}></div>
+          <nav className="underless-sidebar">
+              <a href="/" className="underless-sidebar-home-link">
+                  <span className="underless-sidebar-home-text">Home</span>
+              </a>
+              <div className="underless-social-section">
+                  <p className="underless-sidebar-label">SOCIAL</p>
+                  <button type="button" className="underless-mode-option" onClick={() => window.location.href=profile.username ? `/u/${profile.username}` : '#'}>MI PERFIL</button>
+                  <button type="button" className="underless-mode-option">TIENDA</button>
+              </div>
+              <p className="underless-sidebar-label">MODOS DE JUEGO</p>
+              <button type="button" className="underless-mode-option" onClick={() => window.location.href='/underless'}>NORMAL</button>
+              <button type="button" className="underless-mode-option" onClick={() => window.location.href='/uoh'}>UNDER/HIGHER</button>
+          </nav>
+      </div>
+
+      <link rel="stylesheet" href="/underless-sidebar.css" />
+      <Script src="/underless-sidebar.js" strategy="afterInteractive" />
     </div>
   )
 }

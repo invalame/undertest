@@ -3,6 +3,7 @@
 import { useRouter } from 'next/navigation'
 import { useMemo, useState } from 'react'
 import { isValidUsername } from '@/lib/profile/username'
+import Link from 'next/link'
 
 export type ProfilePublic = {
   id: string
@@ -124,7 +125,28 @@ export function ProfileClient({ profile, isOwner, oauthPicture, initialAvatars }
 
   return (
     <>
-      <div className="profile-head">
+      <header className="profile-top-bar">
+        <div className="header-left">
+          <button 
+            className="underless-main-sidebar-toggle" 
+            onClick={() => {
+              if (typeof window !== 'undefined' && (window as any).toggleSidebar) {
+                (window as any).toggleSidebar();
+              }
+            }} 
+            aria-label="Menu"
+          >
+            <span></span>
+            <span></span>
+            <span></span>
+          </button>
+          <Link href="/underless" className="profile-back" style={{ marginBottom: 0 }}>
+            ← Volver al juego
+          </Link>
+        </div>
+      </header>
+      <div className="profile-shell">
+        <div className="profile-head">
         <div className="profile-head-top">
           <div className="profile-avatar-block">
             <img className="profile-avatar" src={src} alt="" width={96} height={96} />
@@ -259,19 +281,20 @@ export function ProfileClient({ profile, isOwner, oauthPicture, initialAvatars }
               Archivos en <code style={{ color: '#ccc' }}>/public/img_profile/</code>. Agregá imágenes ahí y
               recargá esta ventana.
             </p>
-            <div className="profile-modal-special">
-              <button 
-                type="button" 
-                className="profile-btn profile-btn-google"
-                onClick={() => void pickAvatar(null)}
-              >
-                Usar foto de Google / Default
-              </button>
-            </div>
-            {avatars.length === 0 ? (
-              <p style={{ color: '#888', fontSize: '0.9rem', marginTop: 12 }}>No hay imágenes en la carpeta todavía.</p>
-            ) : (
-              <div className="profile-modal-grid">
+            <div className="profile-modal-grid">
+                {/* Opción de Foto de Gmail siempre primero si existe */}
+                {oauthPicture && (
+                  <button
+                    type="button"
+                    className="profile-modal-tile profile-modal-tile-google"
+                    onClick={() => void pickAvatar(null)}
+                    aria-label="Usar foto de Google"
+                  >
+                    <img src={oauthPicture} alt="Google" />
+                    <div className="google-badge">G</div>
+                  </button>
+                )}
+                
                 {avatars.map((fn) => (
                   <button
                     key={fn}
