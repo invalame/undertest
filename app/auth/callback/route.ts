@@ -63,13 +63,18 @@ export async function GET(request: Request) {
 
     if (!profile) {
       const { createDefaultProfile } = await import('@/lib/profile/username')
+      const meta = user.user_metadata
+      const oauthAvatar = meta?.avatar_url ?? meta?.picture
+      const avatarUrl = typeof oauthAvatar === 'string' && oauthAvatar.startsWith('http') ? oauthAvatar : null
+
       try {
         await createDefaultProfile(async (u, dName, disc) => {
           const { error: insertErr } = await supabase.from('profiles').insert({
             id: user.id,
             username: u,
             display_name: dName,
-            discriminator: disc
+            discriminator: disc,
+            avatar_path: avatarUrl // Guardamos la URL de Google para que otros la vean
           })
           if (!insertErr) return { ok: true as const }
           const msg = insertErr.message.toLowerCase()

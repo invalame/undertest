@@ -85,17 +85,12 @@ export default async function UserProfilePage({ params }: Props) {
 
   return (
     <div className="profile-root">
-      <Link href="/underless" className="profile-back">
-        ← Volver al juego
-      </Link>
-      <div className="profile-shell">
-        <ProfileClient
-          profile={profile}
-          isOwner={isOwner}
-          oauthPicture={oauth}
-          initialAvatars={[]}
-        />
-      </div>
+      <ProfileClient
+        profile={profile}
+        isOwner={isOwner}
+        oauthPicture={oauth}
+        initialAvatars={[]}
+      />
 
       <div id="underless-sidebar-root">
           <div className="underless-overlay"></div>
