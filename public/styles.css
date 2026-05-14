@@ -3365,3 +3365,42 @@ button.play-button.hub-play-button--footer {
     line-height: 1.5;
     margin: 0;
 }
+
+/* --- FOOTER LEGAL DISCRETO --- */
+.home-footer-legal-bar {
+    width: 100%;
+    padding: 20px 0;
+    margin-top: auto;
+    display: flex;
+    justify-content: center;
+    border-top: 1px solid rgba(255, 255, 255, 0.03);
+}
+
+.home-footer-legal-content {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-family: 'PoppinsFont', sans-serif;
+    font-size: 0.75rem;
+}
+
+.home-legal-mini-link {
+    color: var(--muted);
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.home-legal-mini-link:hover {
+    color: var(--white);
+    text-decoration: underline;
+}
+
+.home-legal-mini-sep {
+    color: rgba(255, 255, 255, 0.1);
+}
+
+.home-legal-copy {
+    color: rgba(255, 255, 255, 0.2);
+    margin-left: 8px;
+}
+

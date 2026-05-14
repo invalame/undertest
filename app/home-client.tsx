@@ -85,6 +85,19 @@ export function HomeClient({ isAuthed, nextPath, errorMessage, officialOrigin, u
     setShowPassword(false)
   }, [emailStep])
 
+  // FAIL-SAFE: Si aterrizamos en el home con un código de Google/Supabase,
+  // redirigimos manualmente al callback para que se procese la sesión.
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const params = new URLSearchParams(window.location.search)
+      const code = params.get('code')
+      if (code && !isAuthed) {
+        const next = params.get('next') || '/underless'
+        window.location.href = `/auth/callback?code=${code}&next=${encodeURIComponent(next)}`
+      }
+    }
+  }, [isAuthed])
+
   const signupCallbackUrl = () => {
     const origin = typeof window !== 'undefined' ? window.location.origin : ''
     return `${origin}/auth/callback?next=${encodeURIComponent('/underless')}`
@@ -445,6 +458,16 @@ export function HomeClient({ isAuthed, nextPath, errorMessage, officialOrigin, u
           />
         </footer>
       ) : null}
+
+      <footer className="home-footer-legal-bar">
+        <div className="home-footer-legal-content">
+          <Link href="/legal/terms.html" className="home-legal-mini-link">Términos</Link>
+          <span className="home-legal-mini-sep">•</span>
+          <Link href="/legal/privacy.html" className="home-legal-mini-link">Privacidad</Link>
+          <span className="home-legal-mini-sep">•</span>
+          <span className="home-legal-copy">UnderLess © 2026</span>
+        </div>
+      </footer>
     </div>
   )
 }
