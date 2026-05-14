@@ -141,7 +141,7 @@ export function ProfileClient({ profile, isOwner, oauthPicture, initialAvatars }
             <span></span>
           </button>
           <Link href="/underless" className="profile-back" style={{ marginBottom: 0 }}>
-            ← Volver al juego
+            &larr; Volver al juego
           </Link>
         </div>
       </header>
@@ -316,5 +316,5 @@ export function ProfileClient({ profile, isOwner, oauthPicture, initialAvatars }
         </div>
       ) : null}
     </>
-  )
+  );
 }

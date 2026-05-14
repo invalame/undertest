@@ -86,7 +86,7 @@ export default async function UserProfilePage({ params }: Props) {
   return (
     <div className="profile-root">
       <Link href="/underless" className="profile-back">
-        ← Volver al juego
+        &larr; Volver al juego
       </Link>
       <div className="profile-shell">
         <ProfileClient
@@ -105,7 +105,7 @@ export default async function UserProfilePage({ params }: Props) {
               </a>
               <div className="underless-social-section">
                   <p className="underless-sidebar-label">SOCIAL</p>
-                  <button type="button" className="underless-mode-option" onClick={() => window.location.href=profile.username ? `/u/${profile.username}` : '#'}>MI PERFIL</button>
+                  <button type="button" className="underless-mode-option" onClick={() => { if (profile.username) window.location.href=`/u/${profile.username}` }}>MI PERFIL</button>
                   <button type="button" className="underless-mode-option">TIENDA</button>
               </div>
               <p className="underless-sidebar-label">MODOS DE JUEGO</p>
