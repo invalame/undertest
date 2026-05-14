@@ -555,7 +555,10 @@ const UnderlessSidebar = (function () {
 
     function updateLeftCard(artist, showListeners) {
         if (!artist) return;
-        if (imgLeft) imgLeft.src = artist.img;
+        if (imgLeft) {
+            imgLeft.src = ""; // Clear old image to prevent lag
+            imgLeft.src = artist.img;
+        }
         if (nameLeft) nameLeft.textContent = artist.name;
         if (countLeft) countLeft.textContent = formatNumber(artist.monthly_listeners);
 
@@ -570,7 +573,10 @@ const UnderlessSidebar = (function () {
 
     function updateRightCard(artist, showListeners) {
         if (!artist) return;
-        if (imgRight) imgRight.src = artist.img;
+        if (imgRight) {
+            imgRight.src = ""; // Clear old image to prevent lag
+            imgRight.src = artist.img;
+        }
         if (nameRight) nameRight.textContent = artist.name;
 
         // Only set the real count if we're showing listeners, otherwise hide it

@@ -16,6 +16,7 @@ type Props = {
   nextPath: string
   errorMessage: string | null
   officialOrigin?: string
+  userData?: { username: string; avatar: string }
 }
 
 function storeLegalSnapshot(step: EmailStep, emailValue: string) {
@@ -34,7 +35,7 @@ function storeLegalSnapshot(step: EmailStep, emailValue: string) {
   }
 }
 
-export function HomeClient({ isAuthed, nextPath, errorMessage, officialOrigin }: Props) {
+export function HomeClient({ isAuthed, nextPath, errorMessage, officialOrigin, userData }: Props) {
   const router = useRouter()
   const [emailStep, setEmailStep] = useState<EmailStep>('idle')
   const [email, setEmail] = useState('')
@@ -272,11 +273,20 @@ export function HomeClient({ isAuthed, nextPath, errorMessage, officialOrigin }:
             >
               Under Or Higher
             </Link>
-            <form action="/auth/signout" method="post" style={{ marginTop: 18 }}>
-              <button type="submit" className="home-btn google-btn home-btn-hairline" style={{ width: '100%' }}>
-                Cerrar sesión
-              </button>
-            </form>
+            
+            <div className="home-user-separator" />
+            
+            <div className="home-user-mini-profile">
+              <div className="home-user-info">
+                <img src={userData?.avatar || '/img/peepo-band.gif'} alt="" className="home-user-avatar-mini" />
+                <span className="home-user-name-mini">{userData?.username || 'Usuario'}</span>
+              </div>
+              <form action="/auth/signout" method="post">
+                <button type="submit" className="home-btn-small-rect">
+                  Salir
+                </button>
+              </form>
+            </div>
           </div>
         ) : (
           <>

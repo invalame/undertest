@@ -129,6 +129,23 @@
     border-right: 6px solid #2f3337;
 }
 
+#underless-sidebar-root .underless-sidebar-home-link {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 15px;
+    margin-bottom: 10px;
+    text-decoration: none;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+#underless-sidebar-root .underless-sidebar-home-text {
+    font-family: 'UnderLessFont', sans-serif;
+    font-size: 1.8rem;
+    color: var(--ul-white);
+    letter-spacing: 1px;
+}
+
 #underless-sidebar-root.underless-open .underless-sidebar {
     transform: translateX(0);
 }

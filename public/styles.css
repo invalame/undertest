@@ -448,7 +448,7 @@
             cursor: pointer;
             box-shadow: none;
             position: relative;
-            margin-top: clamp(4px, 1vh, 12px);
+            margin-top: clamp(-40px, -5vh, -20px); /* SUBIDO: Antes era positivo */
             margin-bottom: clamp(20px, 4vh, 50px);
             opacity: 1;
             border: none;
@@ -3129,12 +3129,12 @@ button.play-button.hub-play-button--footer {
 
 .home-landing-shell--grid {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(260px, 340px);
-    gap: clamp(20px, 4vw, 48px);
+    grid-template-columns: 1.2fr 380px; /* Sección principal más grande */
+    gap: clamp(20px, 5vw, 80px);
     align-items: start;
-    max-width: 1180px;
+    max-width: 1400px; /* Más ancho total */
     margin: 0 auto;
-    padding: 0 clamp(14px, 3vw, 28px);
+    padding: 0 clamp(14px, 4vw, 40px);
 }
 
 .home-landing-primary {
@@ -3178,209 +3178,190 @@ button.play-button.hub-play-button--footer {
     }
 }
 
-.home-updates-panel {
-    text-align: left;
-    background: var(--surface);
-    border: 1px solid var(--grisesito);
-    border-radius: 12px;
-    padding: 18px 16px 20px;
-    box-sizing: border-box;
-}
+/* --- NUEVO DISEÑO DEL HUB --- */
 
-.home-updates-title {
-    margin: 0 0 12px 0;
-    font-family: 'UnderLessFont', sans-serif;
-    font-size: 1.35rem;
-    color: var(--white);
-    letter-spacing: 0.04em;
-}
-
-.home-updates-howto {
-    margin-bottom: 16px;
-    padding-bottom: 14px;
-    border-bottom: 1px solid var(--grisesito);
-}
-
-.home-updates-howto-lead {
-    margin: 0 0 8px 0;
-    font-family: 'PoppinsFont', sans-serif;
-    font-size: 0.88rem;
-    font-weight: 600;
-    color: var(--muted);
-}
-
-.home-updates-howto-list {
-    margin: 0 0 10px 1.1em;
-    padding: 0;
-    font-family: 'PoppinsFont', sans-serif;
-    font-size: 0.82rem;
-    color: #c8c8c8;
-    line-height: 1.45;
-}
-
-.home-updates-howto-note {
-    margin: 0;
-    font-family: 'PoppinsFont', sans-serif;
-    font-size: 0.78rem;
-    color: var(--muted);
-    line-height: 1.45;
-}
-
-.home-updates-form {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    margin-bottom: 18px;
-}
-
-.home-updates-label {
-    font-family: 'PoppinsFont', sans-serif;
-    font-size: 0.82rem;
-    color: var(--muted);
-    margin-top: 4px;
-}
-
-.home-updates-input,
-.home-updates-textarea {
+.home-user-separator {
+    height: 1px;
+    background: rgba(255, 255, 255, 0.1);
+    margin: 20px 0;
     width: 100%;
-    box-sizing: border-box;
-    border-radius: 8px;
-    border: 1px solid var(--grisesito);
-    background: var(--panel);
-    color: var(--white);
+}
+
+.home-user-mini-profile {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 0 4px;
+}
+
+.home-user-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.home-user-avatar-mini {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--panel);
+}
+
+.home-user-name-mini {
     font-family: 'PoppinsFont', sans-serif;
-    font-size: 0.9rem;
-    padding: 10px 12px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    color: var(--white);
 }
 
-.home-updates-textarea {
-    resize: vertical;
-    min-height: 88px;
-}
-
-.home-updates-file {
+.home-btn-small-rect {
+    background: var(--panel);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    color: var(--muted);
+    padding: 6px 14px;
+    border-radius: 4px;
     font-family: 'PoppinsFont', sans-serif;
     font-size: 0.8rem;
-    color: var(--muted);
-    max-width: 100%;
-}
-
-.home-updates-file-row {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 8px;
-}
-
-.home-updates-file-name {
-    font-size: 0.78rem;
-    color: var(--muted);
-    max-width: 100%;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-}
-
-.home-updates-thumb-wrap {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 6px;
-}
-
-.home-updates-thumb {
-    max-width: 100%;
-    max-height: 120px;
-    border-radius: 8px;
-    object-fit: cover;
-}
-
-.home-updates-clear-img {
-    border: none;
-    background: transparent;
-    color: var(--accent);
+    font-weight: 600;
     cursor: pointer;
-    font-family: 'PoppinsFont', sans-serif;
-    font-size: 0.82rem;
-    text-decoration: underline;
-    padding: 0;
+    transition: all 0.2s;
 }
 
-.home-updates-error {
-    margin: 0;
-    color: var(--modal-lose);
-    font-size: 0.85rem;
-    font-family: 'PoppinsFont', sans-serif;
+.home-btn-small-rect:hover {
+    background: #333;
+    color: var(--white);
+    border-color: rgba(255, 255, 255, 0.3);
 }
 
-.home-updates-saved {
-    margin: 0;
-    font-size: 0.85rem;
-    color: var(--accent);
-    font-family: 'PoppinsFont', sans-serif;
-}
-
-.home-updates-login-hint {
-    margin: 0 0 16px 0;
-    font-size: 0.85rem;
-    color: var(--muted);
-    font-family: 'PoppinsFont', sans-serif;
-}
-
-.home-updates-list {
-    list-style: none;
-    margin: 0;
-    padding: 0;
+/* PANEL DE NOVEDADES (Anclado a la derecha con fondo) */
+.home-updates-aside {
+    position: sticky;
+    top: 20px;
+    height: calc(100vh - 40px);
     display: flex;
     flex-direction: column;
-    gap: 12px;
-    max-height: min(52vh, 420px);
-    overflow-y: auto;
 }
 
-.home-updates-empty {
-    font-family: 'PoppinsFont', sans-serif;
-    font-size: 0.85rem;
-    color: var(--muted);
-    padding: 8px 0;
+.updates-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    text-align: left;
+    background: rgba(28, 32, 34, 0.6); /* Recuadro de fondo */
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    padding: 24px;
+    border-radius: 20px;
+    height: 100%;
+    box-sizing: border-box;
 }
 
-.home-updates-card {
-    background: var(--panel);
-    border: 1px solid var(--grisesito);
-    border-radius: 10px;
-    overflow: hidden;
+.updates-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    overflow-y: auto; /* Scroll cuando sea debido */
+    padding-right: 8px;
 }
 
-.home-updates-card-img {
-    display: block;
-    width: 100%;
-    max-height: 140px;
-    object-fit: cover;
+/* OCULTAR EN CELULARES */
+@media (max-width: 900px) {
+    .home-landing-shell--grid {
+        grid-template-columns: 1fr;
+    }
+    .home-updates-aside {
+        display: none !important; /* Desaparece en móviles */
+    }
 }
 
-.home-updates-card-body {
-    padding: 10px 12px 12px;
+.updates-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
 }
 
-.home-updates-card-title {
-    margin: 0 0 6px 0;
+.updates-title {
     font-family: 'UnderLessFont', sans-serif;
-    font-size: 1.05rem;
+    font-size: 1.6rem;
+    margin: 0;
+    color: var(--white);
+    letter-spacing: 1px;
+}
+
+.updates-badge {
+    background: var(--accent);
+    color: white;
+    font-size: 0.7rem;
+    padding: 2px 8px;
+    border-radius: 20px;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.updates-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.update-card {
+    background: var(--surface);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 14px;
+    overflow: hidden;
+    transition: transform 0.2s, border-color 0.2s;
+}
+
+.update-card:hover {
+    border-color: var(--accent);
+    transform: translateY(-2px);
+}
+
+.update-img-wrap {
+    width: 100%;
+    height: 140px;
+    overflow: hidden;
+    background: #000;
+}
+
+.update-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.8;
+    transition: opacity 0.3s;
+}
+
+.update-card:hover .update-img {
+    opacity: 1;
+}
+
+.update-content {
+    padding: 16px;
+}
+
+.update-date {
+    font-size: 0.7rem;
+    color: var(--accent);
+    font-weight: bold;
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 6px;
+}
+
+.update-card-title {
+    font-family: 'UnderLessFont', sans-serif;
+    font-size: 1.1rem;
+    margin: 0 0 8px 0;
     color: var(--white);
 }
 
-.home-updates-card-desc {
-    margin: 0 0 8px 0;
+.update-card-desc {
     font-family: 'PoppinsFont', sans-serif;
-    font-size: 0.82rem;
-    color: #d0d0d0;
-    line-height: 1.4;
-    white-space: pre-wrap;
-}
-
-.home-updates-card-time {
-    font-size: 0.72rem;
-    color: var(--muted);
-    font-family: 'PoppinsFont', sans-serif;
+    font-size: 0.85rem;
+    color: #aaa;
+    line-height: 1.5;
+    margin: 0;
 }

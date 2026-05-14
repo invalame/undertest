@@ -16,11 +16,27 @@ export default async function HomePage({ searchParams }: Props) {
   const origin = getSiteUrl()
 
   if (data?.claims?.sub) {
+    const userId = data.claims.sub
+    const { data: profile } = await supabase
+      .from('profiles')
+      .select('username, avatar_path')
+      .eq('id', userId)
+      .maybeSingle()
+
     const dest = safeNextPath(sp.next ?? null, origin)
     if (dest !== '/') {
       redirect(dest)
     }
-    return <HomeClient isAuthed nextPath="/" errorMessage={null} />
+
+    const userMeta = (await supabase.auth.getUser()).data.user?.user_metadata
+    const oauthAvatar = userMeta?.avatar_url || userMeta?.picture
+    
+    const userProfile = {
+      username: profile?.username || 'Usuario',
+      avatar: profile?.avatar_path ? `/img_profile/${profile.avatar_path}` : oauthAvatar || '/img/peepo-band.gif'
+    }
+
+    return <HomeClient isAuthed nextPath="/" errorMessage={null} officialOrigin={origin} userData={userProfile} />
   }
 
   const errorMessage = (() => {
