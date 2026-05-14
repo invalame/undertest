@@ -98,19 +98,19 @@ export default async function UserProfilePage({ params }: Props) {
       </div>
 
       <div id="underless-sidebar-root">
-          <div className="underless-overlay" onClick={() => {}}></div>
+          <div className="underless-overlay"></div>
           <nav className="underless-sidebar">
               <a href="/" className="underless-sidebar-home-link">
                   <span className="underless-sidebar-home-text">Home</span>
               </a>
               <div className="underless-social-section">
                   <p className="underless-sidebar-label">SOCIAL</p>
-                  <button type="button" className="underless-mode-option" onClick={() => window.location.href=profile.username ? `/u/${profile.username}` : '#'}>MI PERFIL</button>
+                  <a href={`/u/${profile.username}`} className="underless-mode-option" style={{ textDecoration: 'none' }}>MI PERFIL</a>
                   <button type="button" className="underless-mode-option">TIENDA</button>
               </div>
               <p className="underless-sidebar-label">MODOS DE JUEGO</p>
-              <button type="button" className="underless-mode-option" onClick={() => window.location.href='/underless'}>NORMAL</button>
-              <button type="button" className="underless-mode-option" onClick={() => window.location.href='/uoh'}>UNDER/HIGHER</button>
+              <a href="/underless" className="underless-mode-option" style={{ textDecoration: 'none' }}>NORMAL</a>
+              <a href="/uoh" className="underless-mode-option" style={{ textDecoration: 'none' }}>UNDER/HIGHER</a>
           </nav>
       </div>
 
