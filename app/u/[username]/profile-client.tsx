@@ -147,125 +147,126 @@ export function ProfileClient({ profile, isOwner, oauthPicture, initialAvatars }
       </header>
       <div className="profile-shell">
         <div className="profile-head">
-        <div className="profile-head-top">
-          <div className="profile-avatar-block">
-            <img className="profile-avatar" src={src} alt="" width={96} height={96} />
-            {isOwner ? (
-              <button
-                type="button"
-                className="profile-avatar-edit"
-                onClick={() => void openPicker()}
-                aria-label="Cambiar imagen de perfil"
-              >
-                <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true" fill="currentColor">
-                  <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z" />
-                </svg>
-              </button>
-            ) : null}
-          </div>
-          <div className="profile-stats-top">
-            <span className="profile-stat">
-              Underium: <strong>{profile.underium}</strong>
-            </span>
-            <span className="profile-stat">
-              Racha máx.: <strong>{profile.max_streak}</strong>
-            </span>
-          </div>
-        </div>
-
-        <div className="profile-head-main">
-          <div className="profile-name-container">
-            {isOwner && isEditingName ? (
-              <div className="profile-name-edit-box">
-                <input
-                  className="profile-name-input"
-                  value={displayName}
-                  onChange={(e) => setDisplayName(e.target.value.slice(0, 20))}
-                  onBlur={() => {
-                    if (displayName.trim().length >= 2 && displayName !== profile.display_name) {
-                      void saveField({ display_name: displayName })
-                    }
-                    setIsEditingName(false)
-                  }}
-                  onKeyDown={(e) => {
-                    if (e.key === 'Enter') {
-                      e.currentTarget.blur()
-                    }
-                  }}
-                  autoFocus
-                  maxLength={20}
-                />
-              </div>
-            ) : (
-              <h1 className="profile-username">
-                {displayName}
-                {isOwner && (
-                  <button 
-                    className="profile-edit-name-btn" 
-                    onClick={() => setIsEditingName(true)}
-                    title="Editar nombre"
-                  >
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
-                      <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z" />
-                    </svg>
-                  </button>
-                )}
-                <span className="profile-disc">#{profile.discriminator}</span>
-              </h1>
-            )}
+          <div className="profile-head-top">
+            <div className="profile-avatar-block">
+              <img className="profile-avatar" src={src} alt="" width={96} height={96} />
+              {isOwner ? (
+                <button
+                  type="button"
+                  className="profile-avatar-edit"
+                  onClick={() => void openPicker()}
+                  aria-label="Cambiar imagen de perfil"
+                >
+                  <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true" fill="currentColor">
+                    <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z" />
+                  </svg>
+                </button>
+              ) : null}
+            </div>
+            <div className="profile-stats-top">
+              <span className="profile-stat">
+                Underium: <strong>{profile.underium}</strong>
+              </span>
+              <span className="profile-stat">
+                Racha máx.: <strong>{profile.max_streak}</strong>
+              </span>
+            </div>
           </div>
 
-          <div className="profile-bio-section">
-            <span className="profile-bio-label">Biografía</span>
-            {isOwner ? (
-              <>
-                <textarea
-                  id="profile-bio"
-                  className="profile-bio-input"
-                  value={bio}
-                  placeholder="Escribe algo sobre ti..."
-                  onChange={(e) => setBio(e.target.value.slice(0, 160))}
-                  maxLength={160}
-                  rows={3}
-                />
-                <div className="profile-bio-footer">
-                  <span className="profile-bio-counter">{bioCharCount}/160</span>
-                  {hasBioChanged && (
-                    <button
-                      type="button"
-                      className="profile-btn profile-btn-primary"
-                      disabled={loading}
-                      onClick={() => {
-                        const filtered = filterBioLinks(bio)
-                        setBio(filtered)
-                        void saveField({ bio: filtered })
-                      }}
+          <div className="profile-head-main">
+            <div className="profile-name-container">
+              {isOwner && isEditingName ? (
+                <div className="profile-name-edit-box">
+                  <input
+                    className="profile-name-input"
+                    value={displayName}
+                    onChange={(e) => setDisplayName(e.target.value.slice(0, 20))}
+                    onBlur={() => {
+                      if (displayName.trim().length >= 2 && displayName !== profile.display_name) {
+                        void saveField({ display_name: displayName })
+                      }
+                      setIsEditingName(false)
+                    }}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter') {
+                        e.currentTarget.blur()
+                      }
+                    }}
+                    autoFocus
+                    maxLength={20}
+                  />
+                </div>
+              ) : (
+                <h1 className="profile-username">
+                  {displayName}
+                  {isOwner && (
+                    <button 
+                      className="profile-edit-name-btn" 
+                      onClick={() => setIsEditingName(true)}
+                      title="Editar nombre"
                     >
-                      Guardar biografía
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z" />
+                      </svg>
                     </button>
                   )}
-                </div>
-              </>
-            ) : (
-              <p className="profile-bio-text">
-                {profile.bio ? profile.bio : 'Actualmente sin biografía.'}
-              </p>
-            )}
-          </div>
-          {msg ? (
-            <p className={`profile-msg profile-msg--${msg.type === 'ok' ? 'ok' : 'err'}`}>{msg.text}</p>
-          ) : null}
-        </div>
-      </div>
+                  <span className="profile-disc">#{profile.discriminator}</span>
+                </h1>
+              )}
+            </div>
 
-      <section className="profile-posts" aria-labelledby="profile-posts-h">
-        <h2 id="profile-posts-h" className="profile-posts-title">
-          Publicaciones
-        </h2>
-        <div className="profile-posts-box">
-          <p className="profile-posts-empty">Ningun post por aca</p>
+            <div className="profile-bio-section">
+              <span className="profile-bio-label">Biografía</span>
+              {isOwner ? (
+                <>
+                  <textarea
+                    id="profile-bio"
+                    className="profile-bio-input"
+                    value={bio}
+                    placeholder="Escribe algo sobre ti..."
+                    onChange={(e) => setBio(e.target.value.slice(0, 160))}
+                    maxLength={160}
+                    rows={3}
+                  />
+                  <div className="profile-bio-footer">
+                    <span className="profile-bio-counter">{bioCharCount}/160</span>
+                    {hasBioChanged && (
+                      <button
+                        type="button"
+                        className="profile-btn profile-btn-primary"
+                        disabled={loading}
+                        onClick={() => {
+                          const filtered = filterBioLinks(bio)
+                          setBio(filtered)
+                          void saveField({ bio: filtered })
+                        }}
+                      >
+                        Guardar biografía
+                      </button>
+                    )}
+                  </div>
+                </>
+              ) : (
+                <p className="profile-bio-text">
+                  {profile.bio ? profile.bio : 'Actualmente sin biografía.'}
+                </p>
+              )}
+            </div>
+            {msg ? (
+              <p className={`profile-msg profile-msg--${msg.type === 'ok' ? 'ok' : 'err'}`}>{msg.text}</p>
+            ) : null}
+          </div>
         </div>
-      </section>
+
+        <section className="profile-posts" aria-labelledby="profile-posts-h">
+          <h2 id="profile-posts-h" className="profile-posts-title">
+            Publicaciones
+          </h2>
+          <div className="profile-posts-box">
+            <p className="profile-posts-empty">Ningun post por aca</p>
+          </div>
+        </section>
+      </div>
 
       {pickerOpen ? (
         <div
