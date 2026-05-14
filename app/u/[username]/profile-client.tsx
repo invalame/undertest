@@ -257,9 +257,8 @@ export function ProfileClient({ profile, isOwner, oauthPicture, initialAvatars }
           ) : null}
         </div>
       </div>
-    </div>
 
-    <section className="profile-posts" aria-labelledby="profile-posts-h">
+      <section className="profile-posts" aria-labelledby="profile-posts-h">
         <h2 id="profile-posts-h" className="profile-posts-title">
           Publicaciones
         </h2>
@@ -308,6 +307,7 @@ export function ProfileClient({ profile, isOwner, oauthPicture, initialAvatars }
                   </button>
                 ))}
               </div>
+            )}
             <div className="profile-modal-actions">
               <button type="button" className="profile-btn" onClick={() => setPickerOpen(false)}>
                 Cerrar

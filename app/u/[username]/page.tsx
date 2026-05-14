@@ -98,7 +98,7 @@ export default async function UserProfilePage({ params }: Props) {
       </div>
 
       <div id="underless-sidebar-root">
-          <div className="underless-overlay"></div>
+          <div className="underless-overlay" onClick={() => {}}></div>
           <nav className="underless-sidebar">
               <a href="/" className="underless-sidebar-home-link">
                   <span className="underless-sidebar-home-text">Home</span>
