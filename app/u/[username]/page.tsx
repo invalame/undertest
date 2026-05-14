@@ -93,12 +93,24 @@ export default async function UserProfilePage({ params }: Props) {
               </a>
               <div className="underless-social-section">
                   <p className="underless-sidebar-label">SOCIAL</p>
-                  <a href={`/u/${profile.username}`} className="underless-mode-option" style={{ textDecoration: 'none' }}>MI PERFIL</a>
+                  <a 
+                    href={`/u/${profile.username}`} 
+                    className="underless-mode-option active" 
+                    style={{ textDecoration: 'none' }}
+                  >
+                    {isOwner ? 'MI PERFIL' : profile.display_name.toUpperCase()}
+                  </a>
                   <button type="button" className="underless-mode-option">TIENDA</button>
               </div>
               <p className="underless-sidebar-label">MODOS DE JUEGO</p>
-              <a href="/underless" className="underless-mode-option" style={{ textDecoration: 'none' }}>NORMAL</a>
-              <a href="/uoh" className="underless-mode-option" style={{ textDecoration: 'none' }}>UNDER/HIGHER</a>
+              <a href="/underless" className="underless-mode-option" style={{ textDecoration: 'none' }}>
+                  <img src="/img/home_underless.png" alt="" className="mode-icon" style={{ width: '20px', height: '20px', marginRight: '10px' }} />
+                  <span>UNDERLESS</span>
+              </a>
+              <a href="/uoh" className="underless-mode-option" style={{ textDecoration: 'none' }}>
+                  <img src="/img/home_underhigher.png" alt="" className="mode-icon" style={{ width: '20px', height: '20px', marginRight: '10px' }} />
+                  <span>UNDER/HIGHER</span>
+              </a>
           </nav>
       </div>
 
