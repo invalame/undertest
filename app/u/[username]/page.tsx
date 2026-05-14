@@ -4,7 +4,42 @@ import { createClient } from '@/lib/supabase/server'
 import { ProfileClient, type ProfilePublic } from './profile-client'
 import './profile.css'
 
+import { Metadata } from 'next'
+
 type Props = { params: Promise<{ username: string }> }
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { username: raw } = await params
+  const username = decodeURIComponent(raw).toLowerCase()
+  const supabase = await createClient()
+  const { data: profile } = await supabase
+    .from('profiles')
+    .select('display_name, discriminator, avatar_path')
+    .eq('username', username)
+    .maybeSingle()
+
+  const title = profile 
+    ? `${profile.display_name} #${profile.discriminator} - UnderLess` 
+    : 'Perfil - UnderLess'
+  
+  const avatar = profile?.avatar_path 
+    ? `https://underless.vercel.app/img_profile/${profile.avatar_path}` 
+    : 'https://underless.vercel.app/img_profile/default-profile.png'
+
+  return {
+    title,
+    description: `Mirá el perfil de ${profile?.display_name || username} en UnderLess.`,
+    openGraph: {
+      title,
+      images: [avatar],
+    },
+    twitter: {
+      card: 'summary',
+      title,
+      images: [avatar],
+    }
+  }
+}
 
 function oauthPicture(meta: Record<string, unknown> | null | undefined): string | null {
   if (!meta) return null

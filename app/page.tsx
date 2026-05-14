@@ -34,7 +34,7 @@ export default async function HomePage({ searchParams }: Props) {
         : (profile?.username || 'Usuario'),
       avatar: profile?.avatar_path 
         ? `/img_profile/${profile.avatar_path}` 
-        : oauthAvatar || '/img/peepo-band.gif'
+        : oauthAvatar || '/img_profile/default-profile.png'
     }
 
     return <HomeClient isAuthed nextPath="/" errorMessage={null} officialOrigin={origin} userData={userProfile} />

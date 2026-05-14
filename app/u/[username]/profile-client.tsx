@@ -25,7 +25,25 @@ type Props = {
 function displaySrc(p: ProfilePublic, oauth: string | null): string {
   if (p.avatar_path) return `/img_profile/${encodeURI(p.avatar_path)}`
   if (oauth) return oauth
-  return '/img/peepo-band.gif'
+  return '/img_profile/default-profile.png'
+}
+
+function filterBioLinks(text: string): string {
+  // Regex to find URLs
+  const urlRegex = /(https?:\/\/[^\s]+)/g;
+  return text.replace(urlRegex, (url) => {
+    const lower = url.toLowerCase();
+    if (
+      lower.includes('youtube.com') || 
+      lower.includes('youtu.be') || 
+      lower.includes('twitter.com') || 
+      lower.includes('x.com') || 
+      lower.includes('instagram.com')
+    ) {
+      return url;
+    }
+    return '[link removido]';
+  });
 }
 
 export function ProfileClient({ profile, isOwner, oauthPicture, initialAvatars }: Props) {
@@ -36,6 +54,7 @@ export function ProfileClient({ profile, isOwner, oauthPicture, initialAvatars }
   const [pickerOpen, setPickerOpen] = useState(false)
   const [avatars, setAvatars] = useState<string[]>(initialAvatars)
   const [loading, setLoading] = useState(false)
+  const [isEditingName, setIsEditingName] = useState(false)
   const [msg, setMsg] = useState<{ type: 'ok' | 'err'; text: string } | null>(null)
 
   const row = useMemo(
@@ -45,10 +64,7 @@ export function ProfileClient({ profile, isOwner, oauthPicture, initialAvatars }
 
   const src = displaySrc(row, oauthPicture)
 
-  const shareUrl = useMemo(() => {
-    if (typeof window === 'undefined') return ''
-    return `${window.location.origin}/u/${encodeURIComponent(profile.username)}`
-  }, [profile.username])
+
 
   async function openPicker() {
     setMsg(null)
@@ -105,24 +121,23 @@ export function ProfileClient({ profile, isOwner, oauthPicture, initialAvatars }
   return (
     <>
       <div className="profile-head">
-        <div className="profile-avatar-block">
-          <img className="profile-avatar" src={src} alt="" width={96} height={96} />
-          {isOwner ? (
-            <button
-              type="button"
-              className="profile-avatar-edit"
-              onClick={() => void openPicker()}
-              aria-label="Cambiar imagen de perfil"
-            >
-              <svg width="26" height="26" viewBox="0 0 24 24" aria-hidden="true" fill="currentColor">
-                <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z" />
-              </svg>
-            </button>
-          ) : null}
-        </div>
-        <div className="profile-head-main">
-          <h1 className="profile-username">{displayName} <span style={{ color: '#aaa', fontSize: '0.7em' }}>#{profile.discriminator}</span></h1>
-          <div className="profile-meta-row">
+        <div className="profile-head-top">
+          <div className="profile-avatar-block">
+            <img className="profile-avatar" src={src} alt="" width={96} height={96} />
+            {isOwner ? (
+              <button
+                type="button"
+                className="profile-avatar-edit"
+                onClick={() => void openPicker()}
+                aria-label="Cambiar imagen de perfil"
+              >
+                <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true" fill="currentColor">
+                  <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z" />
+                </svg>
+              </button>
+            ) : null}
+          </div>
+          <div className="profile-stats-top">
             <span className="profile-stat">
               Underium: <strong>{profile.underium}</strong>
             </span>
@@ -130,71 +145,86 @@ export function ProfileClient({ profile, isOwner, oauthPicture, initialAvatars }
               Racha máx.: <strong>{profile.max_streak}</strong>
             </span>
           </div>
-          {isOwner ? (
-            <>
-              <div className="profile-user-row">
+        </div>
+
+        <div className="profile-head-main">
+          <div className="profile-name-container">
+            {isOwner && isEditingName ? (
+              <div className="profile-name-edit-box">
                 <input
-                  className="profile-user-input"
+                  className="profile-name-input"
                   value={displayName}
-                  onChange={(e) => setDisplayName(e.target.value)}
-                  maxLength={24}
-                  autoComplete="off"
-                  aria-label="Nombre para mostrar"
+                  onChange={(e) => setDisplayName(e.target.value.slice(0, 20))}
+                  onBlur={() => {
+                    if (displayName.trim().length >= 2 && displayName !== profile.display_name) {
+                      void saveField({ display_name: displayName })
+                    }
+                    setIsEditingName(false)
+                  }}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter') {
+                      e.currentTarget.blur()
+                    }
+                  }}
+                  autoFocus
+                  maxLength={20}
+                />
+              </div>
+            ) : (
+              <h1 className="profile-username">
+                {displayName}{' '}
+                <span className="profile-disc">#{profile.discriminator}</span>
+                {isOwner && (
+                  <button 
+                    className="profile-edit-name-btn" 
+                    onClick={() => setIsEditingName(true)}
+                    title="Editar nombre"
+                  >
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z" />
+                    </svg>
+                  </button>
+                )}
+              </h1>
+            )}
+          </div>
+
+          <div className="profile-bio-section">
+            <span className="profile-bio-label">Biografía</span>
+            {isOwner ? (
+              <>
+                <textarea
+                  id="profile-bio"
+                  className="profile-bio-input"
+                  value={bio}
+                  placeholder="Escribe algo sobre ti..."
+                  onChange={(e) => setBio(e.target.value.slice(0, 160))}
+                  maxLength={160}
+                  rows={3}
                 />
                 <button
                   type="button"
                   className="profile-btn profile-btn-primary"
-                  disabled={
-                    loading ||
-                    displayName === profile.display_name ||
-                    displayName.trim().length < 2
-                  }
-                  onClick={() => void saveField({ display_name: displayName })}
+                  style={{ marginTop: 8 }}
+                  disabled={loading || bio === profile.bio}
+                  onClick={() => {
+                    const filtered = filterBioLinks(bio)
+                    setBio(filtered)
+                    void saveField({ bio: filtered })
+                  }}
                 >
-                  Guardar nombre
+                  Guardar biografía
                 </button>
-              </div>
-              <label className="profile-bio-label" htmlFor="profile-bio" style={{ marginTop: 14 }}>
-                Biografía
-              </label>
-              <textarea
-                id="profile-bio"
-                className="profile-bio-input"
-                value={bio}
-                onChange={(e) => setBio(e.target.value.slice(0, 500))}
-                maxLength={500}
-                rows={5}
-              />
-              <button
-                type="button"
-                className="profile-btn profile-btn-primary"
-                style={{ marginTop: 10 }}
-                disabled={loading || bio === profile.bio}
-                onClick={() => void saveField({ bio })}
-              >
-                Guardar biografía
-              </button>
-            </>
-          ) : (
-            <>
-              {profile.bio ? (
-                <>
-                  <span className="profile-bio-label" style={{ marginTop: 14 }}>
-                    Biografía
-                  </span>
-                  <p className="profile-bio-text">{profile.bio}</p>
-                </>
-              ) : (
-                <p className="profile-bio-text" style={{ marginTop: 14, color: '#777' }}>
-                  Sin biografía.
-                </p>
-              )}
-            </>
-          )}
+              </>
+            ) : (
+              <p className="profile-bio-text">
+                {profile.bio ? profile.bio : 'Actualmente sin biografía.'}
+              </p>
+            )}
+          </div>
           {msg ? (
             <p className={`profile-msg profile-msg--${msg.type === 'ok' ? 'ok' : 'err'}`}>{msg.text}</p>
           ) : null}
-          <p className="profile-share">Link para compartir: {shareUrl}</p>
         </div>
       </div>
 
