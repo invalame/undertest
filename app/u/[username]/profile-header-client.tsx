@@ -46,7 +46,7 @@ export function ProfileHeaderClient({ username }: { username: string }) {
           </nav>
       </div>
 
-      <div className="underless-global-top-actions" style={{ position: 'fixed', top: '20px', left: '20px', right: '20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', z-index: 1000, pointerEvents: 'none' }}>
+      <div className="underless-global-top-actions" style={{ position: 'fixed', top: '20px', left: '20px', right: '20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', zIndex: 1000, pointerEvents: 'none' }}>
           <div style={{ pointerEvents: 'auto' }}>
               <button className="underless-main-sidebar-toggle" onClick={toggleSidebar} aria-label="Menu" style={{ background: '#242829', border: '1px solid #3a3d3f', cursor: 'pointer', display: 'flex', flexDirection: 'column', gap: '4px', padding: '10px', borderRadius: '8px', width: '44px', height: '44px', justifyContent: 'center', alignItems: 'center' }}>
                   <span style={{ display: 'block', width: '20px', height: '2px', background: 'white' }}></span>
