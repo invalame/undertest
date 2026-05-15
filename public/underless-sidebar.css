@@ -155,26 +155,6 @@
     color: var(--ul-white);
 }
 
-/* Sidebar Trigger Line - Mas visible */
-.underless-sidebar-trigger-line {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 12px; /* Un poco mas gruesa por defecto */
-    height: 100%;
-    background: #55b725;
-    opacity: 0.5;
-    z-index: 99999; /* Por encima de TODO */
-    cursor: pointer;
-    transition: all 0.2s;
-    border-right: 1px solid rgba(255,255,255,0.1);
-}
-
-.underless-sidebar-trigger-line:hover {
-    opacity: 1;
-    width: 16px;
-    background: #64d62c;
-}
 
 #underless-sidebar-root .underless-sidebar-home-link {
     display: flex;
