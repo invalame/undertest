@@ -85,9 +85,20 @@ export default async function UserProfilePage({ params }: Props) {
 
   return (
     <div className="profile-root">
+      <div className="underless-sidebar-trigger-line" onClick={() => {
+        if (typeof window !== 'undefined' && (window as any).UnderlessSidebar) {
+          (window as any).UnderlessSidebar.toggleSidebar();
+        }
+      }} title="Abrir Sidebar"></div>
+
       <div id="underless-sidebar-root">
           <div className="underless-overlay"></div>
           <nav className="underless-sidebar">
+              <button type="button" className="underless-sidebar-close-btn" onClick={() => {
+                if (typeof window !== 'undefined' && (window as any).UnderlessSidebar) {
+                  (window as any).UnderlessSidebar.closeSidebar();
+                }
+              }} aria-label="Cerrar">×</button>
               <a href="/" className="underless-sidebar-home-link">
                   <span className="underless-sidebar-home-text">Home</span>
               </a>
@@ -113,6 +124,30 @@ export default async function UserProfilePage({ params }: Props) {
               </a>
           </nav>
       </div>
+
+      <header className="profile-header">
+          <div className="header-left">
+              <button className="underless-main-sidebar-toggle" onClick={() => {
+                if (typeof window !== 'undefined' && (window as any).UnderlessSidebar) {
+                  (window as any).UnderlessSidebar.toggleSidebar();
+                }
+              }} aria-label="Menu">
+                  <span></span>
+                  <span></span>
+                  <span></span>
+              </button>
+              <div className="underless-profile-corner-wrap" data-ul-profile-corner-wrap hidden style={{display:'none'}}>
+                  <a data-ul-profile-corner-link href="/" className="underless-profile-corner-link">
+                      <img data-ul-profile-corner-img src="" alt="" width="45" height="45" className="underless-profile-corner-img" />
+                      <span data-ul-profile-corner-name className="underless-profile-corner-name"></span>
+                  </a>
+              </div>
+          </div>
+          <div className="header-center">
+              <a href="/" className="logo" style={{ textDecoration: 'none', color: 'inherit' }}>UnderLess</a>
+          </div>
+          <div className="header-right"></div>
+      </header>
 
       <ProfileClient
         profile={profile}

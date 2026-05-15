@@ -781,6 +781,13 @@ const UnderlessSidebar = (function () {
             toggleSidebar();
         });
 
+        // New Close Button inside Sidebar
+        const sidebarCloseBtn = root.querySelector('.underless-sidebar-close-btn');
+        if (sidebarCloseBtn) sidebarCloseBtn.addEventListener('click', function() {
+            playClickSound();
+            closeSidebar();
+        });
+
         const overlay = root.querySelector('.underless-overlay');
         if (overlay) overlay.addEventListener('click', closeSidebar);
 

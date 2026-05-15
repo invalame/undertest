@@ -90,43 +90,64 @@
    OVERLAY + SIDEBAR
    ======================================== */
 #underless-sidebar-root .underless-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: var(--ul-overlay);
-    opacity: 0;
-    visibility: hidden;
-    pointer-events: none;
-    transition: opacity 0.2s, visibility 0.2s;
-    z-index: 6999;
-}
-
-#underless-sidebar-root.underless-open .underless-overlay {
-    opacity: 1;
-    visibility: visible;
-    pointer-events: auto;
+    display: none !important; /* No oscurecer la pantalla */
 }
 
 #underless-sidebar-root .underless-sidebar {
     position: fixed;
     top: 0;
     left: 0;
-    width: min(86%, 280px);
+    width: 300px; /* Un poco mas ancho */
     height: 100%;
     background: var(--ul-panel);
-    transform: translateX(-110%);
-    transition: transform 0.2s;
+    transform: translateX(-100%);
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     z-index: 7000;
     pointer-events: auto;
     overflow-y: auto;
-    padding: 60px 20px 25px 20px;
+    padding: 20px; /* Ajuste de padding */
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
     gap: 10px;
-    border-right: 6px solid #2f3337;
+    border-right: 4px solid #3a3d3f; /* Borde mas sutil */
+    box-shadow: 10px 0 30px rgba(0,0,0,0.5); /* Sombra para destacar sin oscurecer fondo */
+}
+
+/* Close button inside sidebar */
+.underless-sidebar-close-btn {
+    align-self: flex-end;
+    background: none;
+    border: none;
+    color: var(--ul-muted);
+    font-size: 2rem;
+    cursor: pointer;
+    line-height: 1;
+    padding: 5px;
+    transition: color 0.2s;
+}
+
+.underless-sidebar-close-btn:hover {
+    color: var(--ul-white);
+}
+
+/* Sidebar Trigger Line */
+.underless-sidebar-trigger-line {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 8px; /* Linea un poco gruesa */
+    height: 100%;
+    background: var(--ul-accent);
+    opacity: 0.3;
+    z-index: 6400;
+    cursor: pointer;
+    transition: opacity 0.2s, width 0.2s;
+}
+
+.underless-sidebar-trigger-line:hover {
+    opacity: 1;
+    width: 12px;
 }
 
 #underless-sidebar-root .underless-sidebar-home-link {
@@ -1257,9 +1278,9 @@
 .underless-profile-corner-wrap {
     display: flex !important;
     align-items: center;
-    gap: 10px;
+    gap: 12px;
     background: rgba(0, 0, 0, 0.4);
-    padding: 4px 12px 4px 4px;
+    padding: 6px 16px 6px 6px; /* Mas grande */
     border-radius: 50px;
     border: 1px solid rgba(255, 255, 255, 0.1);
     transition: all 0.2s ease;
@@ -1276,22 +1297,23 @@
 }
 
 .underless-profile-corner-img {
-    width: 32px;
-    height: 32px;
+    width: 45px; /* Un pelin mas grande */
+    height: 45px;
     border-radius: 50%;
     object-fit: cover;
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    border: 2px solid rgba(255, 255, 255, 0.2);
 }
 
 .underless-profile-corner-name {
     color: #fff;
-    font-size: 0.85rem;
+    font-size: 1.1rem; /* Un pelin mas grande */
     font-weight: 600;
     font-family: 'PoppinsFont', sans-serif;
-    max-width: 120px;
+    max-width: 180px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    display: inline-block !important; /* Siempre visible */
 }
 
 /* Sidebar Toggle for Normal Mode */

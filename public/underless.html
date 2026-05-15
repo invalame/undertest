@@ -37,6 +37,8 @@
 </head>
 
 
+<div class="underless-sidebar-trigger-line" onclick="toggleSidebar()" title="Abrir Sidebar"></div>
+
 <header>
     <div class="header-left">
         <button class="underless-main-sidebar-toggle" onclick="toggleSidebar()" aria-label="Menu">
@@ -44,20 +46,21 @@
             <span></span>
             <span></span>
         </button>
-        <a href="/" class="logo" aria-label="Volver al inicio">UnderLess</a>
+        <div class="underless-profile-corner-wrap" data-ul-profile-corner-wrap hidden style="display:none">
+            <a data-ul-profile-corner-link href="/" class="underless-profile-corner-link">
+                <img data-ul-profile-corner-img src="" alt="" width="45" height="45" class="underless-profile-corner-img" />
+                <span data-ul-profile-corner-name class="underless-profile-corner-name"></span>
+            </a>
+        </div>
     </div>
     
     <div class="header-center">
+        <a href="/" class="logo" aria-label="Volver al inicio">UnderLess</a>
         <img id="emote-7tv" src="img/peepo-band.gif" alt="peepo band">
     </div>
 
     <div class="header-right">
-        <div class="underless-profile-corner-wrap" data-ul-profile-corner-wrap hidden style="display:none">
-            <a data-ul-profile-corner-link href="/" class="underless-profile-corner-link" style="display: flex; align-items: center; gap: 8px; text-decoration: none;">
-                <img data-ul-profile-corner-img src="" alt="" width="32" height="32" class="underless-profile-corner-img" />
-                <span data-ul-profile-corner-name class="underless-profile-corner-name"></span>
-            </a>
-        </div>
+        <!-- Profile moved to left -->
     </div>
 
     <!-- MODE SELECTOR + ARTIST DISPLAY CONTAINER -->
@@ -292,8 +295,8 @@
     <!-- Overlay (darkens background when sidebar open) -->
     <div class="underless-overlay" aria-hidden="true"></div>
 
-    <!-- Sidebar Panel - Mode selection with icons -->
     <nav class="underless-sidebar" aria-label="Menu de modos de juego">
+        <button type="button" class="underless-sidebar-close-btn" onclick="toggleSidebar()" aria-label="Cerrar">×</button>
         <a href="/" id="underless-sidebar-home" class="underless-sidebar-home-link"
             aria-label="Volver al inicio del sitio">
             <span class="underless-sidebar-home-arrow" aria-hidden="true">←</span>

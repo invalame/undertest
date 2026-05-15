@@ -7,6 +7,55 @@
   color: #e8e8e8;
   font-family: 'PoppinsFont', system-ui, sans-serif;
   display: flex;
+  flex-direction: row;
+}
+
+.profile-header {
+  display: none; /* Oculto en desktop si el sidebar es permanente */
+}
+
+@media (max-width: 1100px) {
+  .profile-root {
+    flex-direction: column;
+  }
+  .profile-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background: #1c2022;
+    border-bottom: 1px solid #3a3d3f;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  .header-left, .header-center, .header-right {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .logo {
+    font-family: 'UnderLessFont', sans-serif;
+    font-size: 1.5rem;
+  }
+}
+
+/* Sidebar Trigger Line (Matches UnderLess) */
+.underless-sidebar-trigger-line {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 8px;
+  height: 100%;
+  background: #55b725;
+  opacity: 0.3;
+  z-index: 9999;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.underless-sidebar-trigger-line:hover {
+  opacity: 1;
+  width: 12px;
 }
 
 /* Sidebar persistent on Profile Page (Desktop) */
@@ -39,12 +88,11 @@
 }
 
 .profile-shell {
-  max-width: 1200px; /* Mas ancho y grande */
-  width: 100%;
+  width: 1000px; /* Ancho fijo como pidió el usuario */
   border: 1px solid #3a3d3f;
   border-radius: 12px;
   background: #1c2022;
-  padding: clamp(20px, 4vw, 60px); /* Mas padding interno */
+  padding: 60px; /* Padding fijo */
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
@@ -58,6 +106,13 @@
   align-items: flex-start;
 }
 
+@media (max-width: 1100px) {
+  .profile-shell {
+    width: 95%; /* Responsive para tablets/celulares pero fijo en desktop */
+    padding: clamp(20px, 4vw, 60px);
+  }
+}
+
 @media (max-width: 768px) {
   .profile-head {
     flex-direction: column;
@@ -69,6 +124,7 @@
     padding: 20px;
     border-radius: 0;
     border: none;
+    width: 100%;
   }
   .profile-root {
     padding: 0;
@@ -167,7 +223,7 @@
   border-radius: 8px;
   border: 1px solid #3a3d3f;
   width: 100%;
-  max-width: 500px; /* Menos rectangular */
+  max-width: none; /* Quitamos el limite de 500px para que no dependa de la bio */
   box-sizing: border-box;
 }
 
