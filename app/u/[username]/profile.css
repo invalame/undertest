@@ -11,52 +11,22 @@
 }
 
 .profile-header {
-  display: none; /* Oculto en desktop si el sidebar es permanente */
+  display: none;
 }
 
-@media (max-width: 1100px) {
-  .profile-root {
-    flex-direction: column;
-  }
-  .profile-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px 20px;
-    background: #1c2022;
-    border-bottom: 1px solid #3a3d3f;
-    width: 100%;
-    box-sizing: border-box;
-  }
-  .header-left, .header-center, .header-right {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-  }
-  .logo {
-    font-family: 'UnderLessFont', sans-serif;
-    font-size: 1.5rem;
-  }
+.profile-main-content {
+  flex: 1;
+  padding-top: 80px !important; /* Spacing for the top bar */
+  padding-bottom: clamp(16px, 4vw, 40px);
+  padding-left: clamp(16px, 4vw, 40px);
+  padding-right: clamp(16px, 4vw, 40px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 0;
 }
 
-/* Sidebar Trigger Line (Matches UnderLess) */
-.underless-sidebar-trigger-line {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 8px;
-  height: 100%;
-  background: #55b725;
-  opacity: 0.3;
-  z-index: 9999;
-  cursor: pointer;
-  transition: all 0.2s;
-}
 
-.underless-sidebar-trigger-line:hover {
-  opacity: 1;
-  width: 12px;
-}
 
 /* Sidebar persistent on Profile Page (Desktop) */
 @media (min-width: 1101px) {

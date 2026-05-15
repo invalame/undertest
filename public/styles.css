@@ -302,7 +302,7 @@
             animation: none;
             border-color: var(--accent);
             /* relleno completo */
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+            text-shadow: none !important;
         }
 
         * {
@@ -323,7 +323,7 @@
             /* Rojo */
             border-color: #cc0000;
             color: white;
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+            text-shadow: none !important;
         }
 
         .guess-box.partial {
@@ -446,7 +446,7 @@
             justify-content: center;
             align-items: center;
             cursor: pointer;
-            box-shadow: none;
+            box-shadow: none !important;
             position: relative;
             margin-top: clamp(10px, 2vh, 30px); /* SUBIDO: Antes era positivo, devuelto a positivo para ir abajo */
             margin-bottom: clamp(20px, 4vh, 50px);
@@ -595,7 +595,7 @@
             position: absolute;
             background-color: var(--panel);
             border-radius: 4px;
-            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+            box-shadow: none !important;
             width: 100%;
             /* Ancho exacto del contenedor padre */
             max-width: none;
@@ -661,7 +661,7 @@
             border-radius: 10px;
             overflow: hidden;
             /* Esto asegura que el header respete los bordes redondeados */
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
+            box-shadow: none !important;
             max-width: 90%;
             width: 400px;
             display: flex;
@@ -807,7 +807,7 @@
             padding: 0;
             border-radius: 50%;
             background-color: var(--grisesito);
-            box-shadow: none;
+            box-shadow: none !important;
             border: none;
             cursor: pointer;
         }
@@ -843,7 +843,7 @@
             height: 12px;
             border-radius: 50%;
             background: var(--grisesito);
-            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
+            box-shadow: none !important;
             cursor: pointer;
         }
 
@@ -852,7 +852,7 @@
             height: 12px;
             border-radius: 50%;
             background: var(--grisesito);
-            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
+            box-shadow: none !important;
             cursor: pointer;
         }
 
@@ -1489,7 +1489,7 @@
             background-color: var(--panel);
             border-radius: 8px;
             /* Nice rounded corners again */
-            box-shadow: none;
+            box-shadow: none !important;
             /* Sin sombra */
 
             width: fit-content;
@@ -1590,7 +1590,7 @@
         .mode-button.active {
             background: transparent;
             color: #ffffff;
-            box-shadow: none;
+            box-shadow: none !important;
         }
 
 
@@ -1619,7 +1619,7 @@
 
         .artist-search-container .search-container {
             background-color: transparent;
-            box-shadow: none;
+            box-shadow: none !important;
             border: none;
             transition: background-color 0.3s ease;
         }
@@ -1637,7 +1637,7 @@
             position: absolute;
             background-color: var(--panel);
             border-radius: 4px;
-            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+            box-shadow: none !important;
             width: 100%;
             top: 100%;
             z-index: 1000;
@@ -1670,7 +1670,7 @@
             position: absolute;
             background-color: var(--panel);
             border-radius: 4px;
-            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+            box-shadow: none !important;
             width: 100%;
             top: 100%;
             z-index: 1000;
@@ -1723,7 +1723,7 @@
             border-radius: 12px;
             width: 170px;
             height: auto;
-            box-shadow: none;
+            box-shadow: none !important;
             /* Removed shadow */
             border: 1px solid #444;
         }
@@ -1758,7 +1758,7 @@
             /* Added visibility delay to allow opacity fade out */
             transition: opacity 0.5s ease, transform 0.5s ease, visibility 0s 0.5s;
             pointer-events: none;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+            box-shadow: none !important;
         }
 
         #streak-warning.show {
@@ -1803,7 +1803,7 @@
             border-radius: 8px;
             border: 2px solid #444;
             object-fit: cover;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
+            box-shadow: none !important;
             flex-shrink: 0;
             /* Force static positioning to prevent drift */
             position: static !important;
@@ -1996,7 +1996,7 @@
             position: relative;
             font-family: 'PoppinsFont', sans-serif;
             text-align: center;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+            box-shadow: none !important;
             animation: popIn 0.3s ease-out;
         }
 
@@ -2105,7 +2105,7 @@
             align-items: center;
             color: var(--white);
             cursor: pointer;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+            box-shadow: none !important;
         }
 
         #mobile-menu-dropdown {
@@ -2118,7 +2118,7 @@
             display: none;
             flex-direction: column;
             gap: 8px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+            box-shadow: none !important;
             min-width: 140px;
         }
 
@@ -2212,7 +2212,7 @@
             flex-direction: column;
             align-items: center;
             gap: 15px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            box-shadow: none !important;
             animation: slideInRight 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             max-width: 300px;
         }
@@ -2315,7 +2315,7 @@
                 width: 90%;
                 max-width: 350px;
                 animation: fadeInModal 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
-                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
+                box-shadow: none !important;
             }
 
             /* Backdrop for mobile */
@@ -2370,7 +2370,7 @@
         justify-content: center;
         cursor: pointer;
         transition: transform 0.2s, background-color 0.2s;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+        box-shadow: none !important;
         text-decoration: none;
     }
 
@@ -2618,7 +2618,7 @@
     background-color: var(--surface);
     color: #ffffff;
     border: 1px solid var(--grisesito);
-    box-shadow: none;
+    box-shadow: none !important;
     transition: background-color 0.15s ease, border-color 0.15s ease;
 }
 
@@ -2642,7 +2642,7 @@
     background-color: var(--surface);
     color: var(--white);
     border: 1px solid var(--accent);
-    box-shadow: none;
+    box-shadow: none !important;
     transition: background-color 0.15s ease, border-color 0.15s ease;
 }
 
@@ -2706,7 +2706,7 @@
 .google-btn {
     background-color: #ffffff;
     color: #333333;
-    box-shadow: none;
+    box-shadow: none !important;
     border: 1px solid var(--grisesito);
 }
 
@@ -2723,7 +2723,7 @@
     background-color: var(--surface);
     color: #ffffff;
     border: 1px solid var(--grisesito);
-    box-shadow: none;
+    box-shadow: none !important;
 }
 
 .offline-btn:hover {
@@ -2777,13 +2777,13 @@
     box-sizing: border-box;
     text-align: center;
     font-family: 'PoppinsFont', sans-serif;
-    box-shadow: none;
+    box-shadow: none !important;
 }
 
 .login-auth-card .search-container {
     max-width: none;
     width: 100%;
-    box-shadow: none;
+    box-shadow: none !important;
 }
 
 /* —— Landing hub: layout compacto, barra ancha, volumen, flecha atrás —— */
@@ -2827,7 +2827,7 @@
     color: var(--muted);
     cursor: pointer;
     padding: 0;
-    box-shadow: none;
+    box-shadow: none !important;
 }
 
 .home-back-arrow:hover {
@@ -2917,7 +2917,7 @@
     align-items: center;
     justify-content: center;
     padding: 0;
-    box-shadow: none;
+    box-shadow: none !important;
 }
 
 .hub-volume-btn:hover {
@@ -2982,7 +2982,7 @@ button.play-button.hub-play-button--footer {
     margin-right: auto !important;
     margin-top: 0 !important;
     border: 2px solid var(--accent);
-    box-shadow: none;
+    box-shadow: none !important;
 }
 
 .home-btn-hairline {

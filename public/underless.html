@@ -39,95 +39,115 @@
 
 <div class="underless-sidebar-trigger-line" onclick="toggleSidebar()" title="Abrir Sidebar"></div>
 
-<header>
-    <div class="header-left">
-        <button class="underless-main-sidebar-toggle" onclick="toggleSidebar()" aria-label="Menu">
-            <span></span>
-            <span></span>
-            <span></span>
-        </button>
-        <div class="underless-profile-corner-wrap" data-ul-profile-corner-wrap hidden style="display:none">
-            <a data-ul-profile-corner-link href="/" class="underless-profile-corner-link">
-                <img data-ul-profile-corner-img src="" alt="" width="45" height="45" class="underless-profile-corner-img" />
-                <span data-ul-profile-corner-name class="underless-profile-corner-name"></span>
+<div id="underless-sidebar-root">
+    <!-- Sidebar navigation -->
+    <div class="underless-overlay" aria-hidden="true"></div>
+    <nav class="underless-sidebar" aria-label="Menu de modos de juego">
+        <button type="button" class="underless-sidebar-close-btn" onclick="toggleSidebar()" aria-label="Cerrar">×</button>
+        <a href="/" id="underless-sidebar-home" class="underless-sidebar-home-link" aria-label="Volver al inicio del sitio">
+            <span class="underless-sidebar-home-text">Home</span>
+        </a>
+
+        <div class="underless-social-section">
+            <p class="underless-sidebar-label">SOCIAL</p>
+            <button type="button" class="underless-mode-option underless-social-nav-btn" data-ul-panel="perfil">MI PERFIL</button>
+            <button type="button" class="underless-mode-option underless-social-nav-btn" data-ul-panel="tienda">TIENDA</button>
+            <button type="button" class="underless-mode-option underless-social-nav-btn" data-ul-panel="uless">ULESS</button>
+        </div>
+
+        <p class="underless-sidebar-label underless-sidebar-label--after-social">MODOS DE JUEGO</p>
+
+        <div class="underless-mode-option underless-mode-normal active" aria-label="Modo UnderLess Normal">
+            <img src="img/home_underless.png" alt="" class="mode-icon">
+            <span>UNDERLESS</span>
+        </div>
+        <div class="underless-mode-option underless-mode-underorhigher" aria-label="Modo Under or Higher">
+            <img src="img/home_underhigher.png" alt="" class="mode-icon">
+            <span>UNDER/HIGHER</span>
+        </div>
+
+        <div class="underless-social-buttons">
+            <p class="underless-sidebar-label">REDES</p>
+            <a href="https://x.com/Invalame" target="_blank" class="underless-social-btn underless-twitter-btn">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+                    <path
+                        d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+                </svg>
+                Twitter
+            </a>
+            <a href="https://youtube.com/@UnderLesss" target="_blank"
+                class="underless-social-btn underless-youtube-btn">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+                    <path
+                        d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
+                </svg>
+                YouTube
             </a>
         </div>
-    </div>
-    
-    <div class="header-center">
-        <a href="/" class="logo" aria-label="Volver al inicio">UnderLess</a>
-        <img id="emote-7tv" src="img/peepo-band.gif" alt="peepo band">
-    </div>
+    </nav>
 
-    <div class="header-right">
-        <!-- Profile moved to left -->
-    </div>
-
-    <!-- MODE SELECTOR + ARTIST DISPLAY CONTAINER -->
-    <div class="mode-artist-container" id="mode-artist-container">
-        <div class="mode-selector">
-            <div class="mode-indicator"></div>
-            <button id="mode-normal" class="mode-button active" onclick="switchMode('normal')">Normal</button>
-            <button id="mode-artist" class="mode-button" onclick="switchMode('artist')">Artista</button>
-            <button id="mode-album" class="mode-button" onclick="switchMode('album')">Album</button>
-        </div>
-
-        <!-- SECCIÃƒÂƒÃ¢Â€ÂœN DE ARTISTA -->
-        <div id="artist-section">
-            <div id="current-artist-display">Selecciona un artista</div>
-            <div class="artist-search-container">
-                <div class="search-container">
-                    <svg viewBox="0 0 24 24" aria-hidden="true">
-                        <path
-                            d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79L20.29 21l.71-.71L15.5 14zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5z" />
-                    </svg>
-                    <input type="text" class="search-input" id="artist-search-input" placeholder="Buscar artista..."
-                        autocomplete="off">
+    <!-- Game View Wrapper -->
+    <div class="underless-uoh-game">
+        <div class="uoh-top-bar">
+            <div class="uoh-top-left">
+                <button class="uoh-back-btn" id="uoh-back-btn" aria-label="Menu" onclick="toggleSidebar()">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+            
+            <div class="uoh-top-center">
+                <div class="logo-wrap">
+                    <a href="/" class="logo" aria-label="Volver al inicio">UnderLess</a>
+                    <img id="emote-7tv" src="img/peepo-band.gif" alt="peepo band" style="height: 30px; vertical-align: middle; margin-left: 10px;">
                 </div>
-                <div id="artist-list" class="songs-list"></div>
+            </div>
+
+            <div class="uoh-top-right">
+                <div class="underless-profile-corner-wrap" data-ul-profile-corner-wrap hidden style="display:none">
+                    <a data-ul-profile-corner-link href="/" class="underless-profile-corner-link" style="display: flex; align-items: center; gap: 8px; text-decoration: none; background: rgba(255,255,255,0.05); padding: 5px 12px; border-radius: 20px;">
+                        <img data-ul-profile-corner-img src="" alt="" width="28" height="28" class="underless-profile-corner-img" style="border-radius: 50%;" />
+                        <span data-ul-profile-corner-name class="underless-profile-corner-name" style="color: white; font-size: 0.9em; font-weight: 500;"></span>
+                    </a>
+                </div>
             </div>
         </div>
 
-        <!-- SECCIÃƒÂƒÃ¢Â€ÂœN DE ÃƒÂƒÃ‚Â LBUM -->
-        <div id="album-section">
-            <div class="artist-search-container">
-                <div class="search-container">
-                    <svg viewBox="0 0 24 24" aria-hidden="true">
-                        <path
-                            d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 14.5c-2.49 0-4.5-2.01-4.5-4.5S9.51 7.5 12 7.5s4.5 2.01 4.5 4.5-2.01 4.5-4.5 4.5zm0-5.5c-.55 0-1 .45-1 1s.45 1 1 1 1-.45 1-1-.45-1-1-1z" />
-                    </svg>
-                    <input type="text" class="search-input" id="album-search-input" placeholder="Buscar Ã¡lbum..."
-                        autocomplete="off">
+        <div class="mode-artist-container" id="mode-artist-container">
+            <div class="mode-selector">
+                <div class="mode-indicator"></div>
+                <button id="mode-normal" class="mode-button active" onclick="switchMode('normal')">Normal</button>
+                <button id="mode-artist" class="mode-button" onclick="switchMode('artist')">Artista</button>
+                <button id="mode-album" class="mode-button" onclick="switchMode('album')">Album</button>
+            </div>
+
+            <div id="artist-section">
+                <div id="current-artist-display">Selecciona un artista</div>
+                <div class="artist-search-container">
+                    <div class="search-container">
+                        <svg viewBox="0 0 24 24" aria-hidden="true">
+                            <path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79L20.29 21l.71-.71L15.5 14zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5z" />
+                        </svg>
+                        <input type="text" class="search-input" id="artist-search-input" placeholder="Buscar artista..." autocomplete="off">
+                    </div>
+                    <div id="artist-list" class="songs-list"></div>
                 </div>
-                <div id="album-list" class="songs-list"></div>
+            </div>
+
+            <div id="album-section">
+                <div class="artist-search-container">
+                    <div class="search-container">
+                        <svg viewBox="0 0 24 24" aria-hidden="true">
+                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 14.5c-2.49 0-4.5-2.01-4.5-4.5S9.51 7.5 12 7.5s4.5 2.01 4.5 4.5-2.01 4.5-4.5 4.5zm0-5.5c-.55 0-1 .45-1 1s.45 1 1 1 1-.45 1-1-.45-1-1-1z" />
+                        </svg>
+                        <input type="text" class="search-input" id="album-search-input" placeholder="Buscar álbum..." autocomplete="off">
+                    </div>
+                    <div id="album-list" class="songs-list"></div>
+                </div>
             </div>
         </div>
     </div>
-</header>
-
-<div id="ui-root">
-</div>
-
-
-
-<!-- MOBILE MENU (PHONE) -->
-<div class="mobile-menu-container" id="mobile-menu-container">
-    <button id="mobile-menu-btn" onclick="toggleMobileMenu()">
-        <svg viewBox="0 0 24 24" fill="currentColor" width="24" height="24">
-            <path
-                d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z" />
-        </svg>
-    </button>
-    <div id="mobile-menu-dropdown">
-        <button type="button" onclick="underlessGoMyProfile(); toggleMobileMenu()">Mi perfil</button>
-    </div>
-</div>
-
-<!-- Perfil (esquina superior derecha; reemplaza recomendar / bugs / YouTube) -->
-<div class="underless-profile-corner-wrap" data-ul-profile-corner-wrap hidden style="display:none">
-    <a data-ul-profile-corner-link href="/" class="underless-profile-corner-link" aria-label="Mi perfil">
-        <img data-ul-profile-corner-img src="" alt="" width="40" height="40" class="underless-profile-corner-img" />
-    </a>
 </div>
 
 <main>
@@ -281,16 +301,31 @@
      ======================================== -->
 <div id="underless-sidebar-root">
     <!-- Menu Buttons (Hamburger + Settings) -->
-    <div class="underless-menu-buttons">
-        <button class="underless-hamburger" aria-label="Abrir menu de modos" title="Menu">
-            <span></span>
-            <span></span>
-            <span></span>
-        </button>
-        <button class="underless-settings-btn" aria-label="Configuracion" title="Configuracion">
-            <img src="img/img_effects.png" alt="settings">
-        </button>
-    </div>
+    <div class="underless-sidebar-trigger-line" onclick="toggleSidebar()" title="Abrir Sidebar"></div>
+
+    <header>
+        <div class="header-left">
+            <button class="underless-main-sidebar-toggle" onclick="toggleSidebar()" aria-label="Menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <div class="underless-profile-corner-wrap" data-ul-profile-corner-wrap hidden style="display:none">
+                <a data-ul-profile-corner-link href="/" class="underless-profile-corner-link">
+                    <img data-ul-profile-corner-img src="" alt="" width="45" height="45" class="underless-profile-corner-img" />
+                    <span data-ul-profile-corner-name class="underless-profile-corner-name"></span>
+                </a>
+            </div>
+        </div>
+        
+        <div class="header-center">
+            <a href="/" class="logo" aria-label="Volver al inicio">UnderLess</a>
+        </div>
+    
+        <div class="header-right">
+            <img id="emote-7tv" src="img/peepo-band.gif" alt="peepo band" style="width: 120px; height: auto;">
+        </div>
+    </header>
 
     <!-- Overlay (darkens background when sidebar open) -->
     <div class="underless-overlay" aria-hidden="true"></div>

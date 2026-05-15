@@ -66,8 +66,7 @@ export default async function UserProfilePage({ params }: Props) {
     notFound()
   }
 
-  const { data: userData } = await supabase.auth.getUser()
-  const sessionUser = userData.user
+  const { data: { user: sessionUser } = { user: null } } = await supabase.auth.getUser()
   const isOwner = !!sessionUser && sessionUser.id === row.id
 
   const profile: ProfilePublic = {
@@ -92,8 +91,8 @@ export default async function UserProfilePage({ params }: Props) {
       }} title="Abrir Sidebar"></div>
 
       <div id="underless-sidebar-root">
-          <div className="underless-overlay"></div>
-          <nav className="underless-sidebar">
+          <div className="underless-overlay" aria-hidden="true"></div>
+          <nav className="underless-sidebar" aria-label="Menu de modos de juego">
               <button type="button" className="underless-sidebar-close-btn" onClick={() => {
                 if (typeof window !== 'undefined' && (window as any).UnderlessSidebar) {
                   (window as any).UnderlessSidebar.closeSidebar();
@@ -102,52 +101,49 @@ export default async function UserProfilePage({ params }: Props) {
               <a href="/" className="underless-sidebar-home-link">
                   <span className="underless-sidebar-home-text">Home</span>
               </a>
+
               <div className="underless-social-section">
                   <p className="underless-sidebar-label">SOCIAL</p>
-                  <a 
-                    href={`/u/${profile.username}`} 
-                    className="underless-mode-option active" 
-                    style={{ textDecoration: 'none' }}
-                  >
-                    {isOwner ? 'MI PERFIL' : profile.display_name.toUpperCase()}
-                  </a>
+                  <a href={`/u/${profile.username}`} className="underless-mode-option active">MI PERFIL</a>
                   <button type="button" className="underless-mode-option">TIENDA</button>
+                  <button type="button" className="underless-mode-option">ULESS</button>
               </div>
+
               <p className="underless-sidebar-label">MODOS DE JUEGO</p>
-              <a href="/underless" className="underless-mode-option" style={{ textDecoration: 'none' }}>
+              <a href="/underless" className="underless-mode-option">
                   <img src="/img/home_underless.png" alt="" className="mode-icon" style={{ width: '20px', height: '20px', marginRight: '10px' }} />
                   <span>UNDERLESS</span>
               </a>
-              <a href="/uoh" className="underless-mode-option" style={{ textDecoration: 'none' }}>
+              <a href="/uoh" className="underless-mode-option">
                   <img src="/img/home_underhigher.png" alt="" className="mode-icon" style={{ width: '20px', height: '20px', marginRight: '10px' }} />
                   <span>UNDER/HIGHER</span>
               </a>
           </nav>
-      </div>
 
-      <header className="profile-header">
-          <div className="header-left">
-              <button className="underless-main-sidebar-toggle" onClick={() => {
-                if (typeof window !== 'undefined' && (window as any).UnderlessSidebar) {
-                  (window as any).UnderlessSidebar.toggleSidebar();
-                }
-              }} aria-label="Menu">
-                  <span></span>
-                  <span></span>
-                  <span></span>
-              </button>
-              <div className="underless-profile-corner-wrap" data-ul-profile-corner-wrap hidden style={{display:'none'}}>
-                  <a data-ul-profile-corner-link href="/" className="underless-profile-corner-link">
-                      <img data-ul-profile-corner-img src="" alt="" width="45" height="45" className="underless-profile-corner-img" />
-                      <span data-ul-profile-corner-name className="underless-profile-corner-name"></span>
-                  </a>
+          <div className="uoh-top-bar">
+              <div className="uoh-top-left">
+                  <button className="uoh-back-btn" onClick={() => {
+                    if (typeof window !== 'undefined' && (window as any).UnderlessSidebar) {
+                      (window as any).UnderlessSidebar.toggleSidebar();
+                    }
+                  }} aria-label="Menu">
+                      <span></span>
+                      <span></span>
+                      <span></span>
+                  </button>
+              </div>
+              
+              <div className="uoh-top-center">
+                  <div className="logo-wrap">
+                      <a href="/" className="logo">UnderLess</a>
+                  </div>
+              </div>
+
+              <div className="uoh-top-right">
+                  {/* Empty or can add profile corner here if desired, but user said "two profile photos" was a mess */}
               </div>
           </div>
-          <div className="header-center">
-              <a href="/" className="logo" style={{ textDecoration: 'none', color: 'inherit' }}>UnderLess</a>
-          </div>
-          <div className="header-right"></div>
-      </header>
+      </div>
 
       <ProfileClient
         profile={profile}
@@ -155,6 +151,10 @@ export default async function UserProfilePage({ params }: Props) {
         oauthPicture={oauth}
         initialAvatars={[]}
       />
+
+      <style dangerouslySetInnerHTML={{ __html: `
+        * { box-shadow: none !important; text-shadow: none !important; }
+      `}} />
 
       <link rel="stylesheet" href="/underless-sidebar.css" />
       <Script src="/underless-sidebar.js" strategy="afterInteractive" />
