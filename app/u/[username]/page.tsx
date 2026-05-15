@@ -119,31 +119,34 @@ export default async function UserProfilePage({ params }: Props) {
                   <span>UNDER/HIGHER</span>
               </a>
           </nav>
+      </div>
 
-          <div className="uoh-top-bar">
-              <div className="uoh-top-left">
-                  <button className="uoh-back-btn" onClick={() => {
-                    if (typeof window !== 'undefined' && (window as any).UnderlessSidebar) {
-                      (window as any).UnderlessSidebar.toggleSidebar();
-                    }
-                  }} aria-label="Menu">
-                      <span></span>
-                      <span></span>
-                      <span></span>
-                  </button>
-              </div>
-              
-              <div className="uoh-top-center">
-                  <div className="logo-wrap">
-                      <a href="/" className="logo">UnderLess</a>
-                  </div>
-              </div>
-
-              <div className="uoh-top-right">
-                  {/* Empty or can add profile corner here if desired, but user said "two profile photos" was a mess */}
+      <header className="profile-top-header">
+          <div className="header-left-actions">
+              <button className="underless-main-sidebar-toggle" onClick={() => {
+                if (typeof window !== 'undefined' && (window as any).UnderlessSidebar) {
+                  (window as any).UnderlessSidebar.toggleSidebar();
+                }
+              }} aria-label="Menu">
+                  <span></span>
+                  <span></span>
+                  <span></span>
+              </button>
+              <div className="underless-profile-corner-wrap" data-ul-profile-corner-wrap hidden style={{display:'none'}}>
+                  <a data-ul-profile-corner-link href="/" className="underless-profile-corner-link">
+                      <img data-ul-profile-corner-img src="" alt="" width="32" height="32" className="underless-profile-corner-img" />
+                      <span data-ul-profile-corner-name className="underless-profile-corner-name"></span>
+                  </a>
               </div>
           </div>
-      </div>
+          
+          <div className="header-center-branding">
+              <a href="/" className="logo">UnderLess</a>
+              <img id="emote-7tv" src="/img/peepo-band.gif" alt="peepo band" style={{ height: '30px', marginLeft: '10px' }} />
+          </div>
+          
+          <div className="header-right-spacer"></div>
+      </header>
 
       <ProfileClient
         profile={profile}
@@ -154,6 +157,74 @@ export default async function UserProfilePage({ params }: Props) {
 
       <style dangerouslySetInnerHTML={{ __html: `
         * { box-shadow: none !important; text-shadow: none !important; }
+        
+        .profile-root {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            align-items: center;
+        }
+
+        .profile-top-header {
+            width: 100%;
+            max-width: 1200px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            box-sizing: border-box;
+            position: relative;
+        }
+
+        .header-left-actions {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            flex: 1;
+        }
+
+        .header-center-branding {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex: 2;
+        }
+
+        .header-center-branding .logo {
+            font-family: 'UnderLessFont', sans-serif;
+            font-size: 2.5rem;
+            text-decoration: none;
+            color: white;
+        }
+
+        .header-right-spacer {
+            flex: 1;
+        }
+
+        .underless-main-sidebar-toggle {
+            background: none;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .underless-main-sidebar-toggle span {
+            display: block;
+            width: 24px;
+            height: 2px;
+            background: white;
+        }
+
+        @media (max-width: 768px) {
+            .header-center-branding .logo {
+                font-size: 1.8rem;
+            }
+            #emote-7tv {
+                height: 20px !important;
+            }
+        }
       `}} />
 
       <link rel="stylesheet" href="/underless-sidebar.css" />

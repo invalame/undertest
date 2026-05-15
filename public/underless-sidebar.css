@@ -39,17 +39,18 @@
     position: fixed;
     top: 0;
     left: 0;
-    width: 4px;
-    height: 100vh;
-    background: rgba(255, 255, 255, 0.1);
+    width: 6px;
+    height: 100%;
+    background: rgba(40, 40, 40, 0.4); /* Dark grey */
     z-index: 9999;
     cursor: pointer;
     transition: background 0.2s, width 0.2s;
+    box-shadow: none !important;
 }
 
 .underless-sidebar-trigger-line:hover {
-    background: var(--ul-accent, #55b725);
-    width: 6px;
+    background: rgba(60, 60, 60, 0.8);
+    width: 10px;
 }
 
 /* ========================================
