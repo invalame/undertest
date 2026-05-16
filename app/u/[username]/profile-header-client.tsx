@@ -44,6 +44,16 @@ export function ProfileHeaderClient({ username }: { username: string }) {
                   <span>UNDER/HIGHER</span>
               </a>
           </nav>
+          
+          {/* Logout button bottom left sidebar */}
+          <div style={{ position: 'absolute', bottom: '20px', left: '20px', zIndex: 7001 }}>
+              <form action="/auth/signout" method="post">
+                  <button type="submit" className="underless-mode-option" style={{ background: 'transparent', border: 'none', color: '#ff4444', fontSize: '0.9rem', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+                      Cerrar Sesión
+                  </button>
+              </form>
+          </div>
       </div>
 
       <div className="underless-global-top-actions" style={{ position: 'fixed', top: '20px', left: '20px', right: '20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', zIndex: 1000, pointerEvents: 'none' }}>
@@ -60,6 +70,14 @@ export function ProfileHeaderClient({ username }: { username: string }) {
                   <span data-ul-profile-corner-name className="underless-profile-corner-name" style={{ color: 'white', fontSize: '0.9em', fontWeight: 500 }}></span>
               </a>
           </div>
+          {/* Logout corner for mobile if sidebar is not open, visible next to profile wrap */}
+          <div style={{ pointerEvents: 'auto', display: 'flex', gap: '10px' }}>
+            <form action="/auth/signout" method="post">
+                <button type="submit" aria-label="Cerrar sesión" style={{ background: 'rgba(0,0,0,0.6)', border: '1px solid rgba(255,40,40,0.3)', borderRadius: '20px', padding: '6px 12px', color: '#ff4444', cursor: 'pointer', display: 'flex', alignItems: 'center' }}>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+                </button>
+            </form>
+          </div>
       </div>
 
       <header className="profile-top-header">
@@ -68,6 +86,7 @@ export function ProfileHeaderClient({ username }: { username: string }) {
 
       <style jsx global>{`
         * { box-shadow: none !important; text-shadow: none !important; }
+        a { text-decoration: none !important; }
         
         .profile-root {
             display: flex;

@@ -23,8 +23,27 @@ type Props = {
   initialAvatars: string[]
 }
 
+function validateName(name: string): string | null {
+  if (!/^[a-zA-Z0-9 ]+$/.test(name)) {
+    return 'ponete un nombre como la gente';
+  }
+  if (name.length < 2 || name.length > 20) {
+    return 'ponete un nombre como la gente';
+  }
+  if (/(.)\1{4}/.test(name)) {
+    return 'ponete un nombre como la gente jajaj';
+  }
+  if (/^[0-9]+$/.test(name)) {
+    return 'ponete un nombre como la gente jajaj';
+  }
+  return null;
+}
+
 function displaySrc(p: ProfilePublic, oauth: string | null): string {
-  if (p.avatar_path) return `/img_profile/${encodeURI(p.avatar_path)}`
+  if (p.avatar_path) {
+    if (p.avatar_path.startsWith('http')) return p.avatar_path;
+    return `/img_profile/${encodeURI(p.avatar_path)}`;
+  }
   if (oauth) return oauth
   return '/img_profile/default-profile.png'
 }
@@ -107,21 +126,23 @@ export function ProfileClient({ profile, isOwner, oauthPicture, initialAvatars }
         return false
       }
       setMsg({ type: 'ok', text: 'Guardado.' })
+      setTimeout(() => setMsg(null), 3000)
       // Display name doesn't change the URL, so we don't need to redirect
       setLoading(false)
       return true
     } catch {
       setMsg({ type: 'err', text: 'Error de red.' })
+      setTimeout(() => setMsg(null), 3000)
       setLoading(false)
       return false
     }
   }
 
   async function pickAvatar(fn: string | null) {
-    // If fn is null, we are clearing to use OAuth/Default
-    const ok = await saveField({ avatar_path: fn })
+    const pathToSave = fn === null ? oauthPicture : fn;
+    const ok = await saveField({ avatar_path: pathToSave })
     if (!ok) return
-    setAvatarPath(fn)
+    setAvatarPath(pathToSave)
     setPickerOpen(false)
   }
 
@@ -156,9 +177,18 @@ export function ProfileClient({ profile, isOwner, oauthPicture, initialAvatars }
                       onChange={(e) => setDisplayName(e.target.value.slice(0, 20))}
                       onKeyDown={(e) => {
                         if (e.key === 'Enter') {
-                          if (displayName.trim().length >= 2 && displayName !== profile.display_name) {
-                            void saveField({ display_name: displayName })
+                          const trimmed = displayName.trim();
+                          if (trimmed === profile.display_name) {
+                            setIsEditingName(false);
+                            return;
                           }
+                          const err = validateName(trimmed);
+                          if (err) {
+                            setMsg({ type: 'err', text: err });
+                            setTimeout(() => setMsg(null), 3000);
+                            return;
+                          }
+                          void saveField({ display_name: trimmed })
                           setIsEditingName(false)
                         }
                       }}
@@ -166,9 +196,18 @@ export function ProfileClient({ profile, isOwner, oauthPicture, initialAvatars }
                       maxLength={20}
                     />
                     <button className="profile-name-save-btn" onClick={() => {
-                        if (displayName.trim().length >= 2 && displayName !== profile.display_name) {
-                          void saveField({ display_name: displayName })
+                        const trimmed = displayName.trim();
+                        if (trimmed === profile.display_name) {
+                          setIsEditingName(false);
+                          return;
                         }
+                        const err = validateName(trimmed);
+                        if (err) {
+                          setMsg({ type: 'err', text: err });
+                          setTimeout(() => setMsg(null), 3000);
+                          return;
+                        }
+                        void saveField({ display_name: trimmed })
                         setIsEditingName(false)
                     }}>Guardar</button>
                     <button className="profile-name-cancel-btn" onClick={() => {
@@ -236,7 +275,8 @@ export function ProfileClient({ profile, isOwner, oauthPicture, initialAvatars }
                           className="profile-btn profile-btn-primary"
                           disabled={loading || !hasBioChanged}
                           onClick={async () => {
-                            const filtered = filterBioLinks(bio)
+                            const sanitizedBio = bio.replace(/[<>]/g, '');
+                            const filtered = filterBioLinks(sanitizedBio)
                             setBio(filtered)
                             const ok = await saveField({ bio: filtered })
                             if (ok) setIsEditingBio(false)
@@ -261,7 +301,7 @@ export function ProfileClient({ profile, isOwner, oauthPicture, initialAvatars }
                 )}
               </div>
               {msg ? (
-                <p className={`profile-msg profile-msg--${msg.type === 'ok' ? 'ok' : 'err'}`}>{msg.text}</p>
+                <div className={`profile-msg profile-msg--${msg.type === 'ok' ? 'ok' : 'err'}`}>{msg.text}</div>
               ) : null}
             </div>
           </div>
