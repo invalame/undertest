@@ -2073,36 +2073,15 @@ window.addEventListener('beforeunload', () => {
 // ========================================
 
 function ajustarEscala() {
-    // DISABLE ON MOBILE/TABLET
-    if (window.innerWidth < 850) {
-        const ui = document.getElementById("ui-root");
-        if (ui) {
-            ui.style.transform = '';
-            ui.style.position = '';
-            ui.style.left = '';
-            ui.style.top = '';
-        }
-        return;
-    }
-
-    const baseAncho = 900;
-    const baseAlto = 950;
-
-    const escala = Math.min(
-        window.innerWidth / baseAncho,
-        window.innerHeight / baseAlto
-    );
-
-    // aplicar solo al contenedor interno
+    // DESACTIVADO: el layout ahora usa max-width + rem (modelo Songless).
+    // Limpiar estilos inline residuales que pudo haber dejado la versión anterior.
     const ui = document.getElementById("ui-root");
     if (ui) {
-        ui.style.transform = `scale(${escala})`;
-        // centrarlo
-        ui.style.position = "absolute";
-        ui.style.left = `50%`;
-        ui.style.top = `0`;
-        ui.style.transformOrigin = "top center";
-        ui.style.transform = `translateX(-50%) scale(${escala})`;
+        ui.style.transform = '';
+        ui.style.position = '';
+        ui.style.left = '';
+        ui.style.top = '';
+        ui.style.transformOrigin = '';
     }
 }
 
