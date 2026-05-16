@@ -80,9 +80,7 @@ export function ProfileHeaderClient({ username }: { username: string }) {
           </div>
       </div>
 
-      <header className="profile-top-header">
-          <a href="/" className="logo">Profiles</a>
-      </header>
+
 
       <style jsx global>{`
         * { box-shadow: none !important; text-shadow: none !important; }

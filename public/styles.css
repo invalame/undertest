@@ -130,12 +130,17 @@ body {
     background-color: var(--bg);
     color: var(--white);
     font-family: 'OtherTextFont', sans-serif;
+    /* Fuente local para todo el body */
     margin: 0;
     display: flex;
     flex-direction: column;
     align-items: center;
-    min-height: 100dvh;
-    justify-content: center;
+    min-height: 100vh;
+    justify-content: flex-start;
+
+
+
+
 }
 
 
@@ -161,7 +166,7 @@ header {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    padding: clamp(10px, 2vh, 25px) clamp(10px, 2vw, 25px) clamp(5px, 1vh, 10px);
+    padding: clamp(6px, 1.5vh, 25px) clamp(10px, 2vw, 25px) clamp(3px, 0.8vh, 10px);
     box-sizing: border-box;
     max-width: min(900px, 95%);
     margin-inline: auto;
@@ -171,27 +176,27 @@ header {
 
 header .logo {
     font-family: 'UnderLessFont', sans-serif;
-    /* Fuente local para el logo */
-    font-size: clamp(2.4em, 5vw, 3.8em);
+    font-size: clamp(2.4em, min(5vw, 8vh), 3.8em);
     font-weight: 800;
     letter-spacing: -1px;
     cursor: pointer;
     text-decoration: none;
     color: inherit;
     text-transform: none;
-    /* No uppercase para permitir U mayÃƒÂƒÃ‚Âºscula y resto minÃƒÂƒÃ‚Âºscula */
     --colorunder: #0082c4;
     user-select: none;
     -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
+    line-height: 1;
+    white-space: nowrap;
 }
 
 /* ESTILO PARA EL EMOTE */
 #emote-7tv {
-    width: clamp(110px, 12vw, 170px);
+    width: clamp(70px, min(12vw, 14vh), 170px);
     height: auto;
-    margin-top: 3px;
+    margin-top: clamp(2px, 0.5vh, 6px);
     display: block;
 }
 
@@ -204,7 +209,7 @@ main {
     width: 100%;
     max-width: min(900px, 95%);
     margin-inline: auto;
-    padding: clamp(10px, 2vh, 20px) clamp(10px, 2vw, 20px) clamp(10px, 2vh, 30px);
+    padding: clamp(4px, 1vh, 20px) clamp(10px, 2vw, 20px) clamp(4px, 1vh, 30px);
     box-sizing: border-box;
     position: relative;
 }
@@ -225,30 +230,27 @@ main {
 
 .guess-boxes {
     width: 100%;
-    margin-bottom: clamp(15px, 2.5vh, 40px);
+    margin-bottom: clamp(8px, 1.5vh, 40px);
     max-width: min(900px, 100%);
     margin-inline: auto;
 }
 
 .guess-box {
     background-color: var(--bg);
-    /* fondo igual al body */
     border: 2px solid var(--panel);
     border-radius: 6px;
-    /* un poquito de borde redondo, no exagerado */
     box-sizing: border-box;
     padding: 0 clamp(12px, 1.5vw, 18px);
-    margin-bottom: clamp(4px, 0.6vh, 12px);
+    margin-bottom: clamp(3px, 0.5vh, 12px);
     color: var(--muted);
-    height: clamp(40px, 6vh, 68px);
+    height: clamp(34px, 5vh, 68px);
     display: flex;
     align-items: center;
     justify-content: center;
     text-align: center;
-    font-size: clamp(0.95em, 1.1vw, 1.2em);
+    font-size: clamp(0.9em, 1.1vw, 1.2em);
     font-weight: 500;
     transition: background-color 0.2s, border-color 0.2s;
-    /* transiciÃƒÂƒÃ‚Â³n para el cambio de color */
 }
 
 /* ESTADO POR DEFECTO: CASILLA VACÃƒÂƒÃ‚ÂA */
@@ -342,15 +344,12 @@ main {
 
 
 /* Barra de Progreso */
-/* Barra de Progreso */
 .progress-wrapper {
     position: relative;
     width: 100%;
     max-width: 100%;
-    margin-bottom: clamp(12px, 2vh, 25px);
-    /* Reducido para subir el botÃƒÂƒÃ‚Â³n Play */
-    margin-top: clamp(15px, 3vh, 40px);
-    /* Bajalo un poco nomÃƒÂƒÂ¡s */
+    margin-bottom: clamp(6px, 1.5vh, 25px);
+    margin-top: clamp(8px, 2vh, 40px);
     margin-inline: auto;
 }
 
@@ -436,17 +435,16 @@ main {
 button.play-button {
     background-color: var(--accent);
     border-radius: 50%;
-    width: clamp(45px, 7vh, 75px);
-    height: clamp(45px, 7vh, 75px);
+    width: clamp(42px, 6vh, 75px);
+    height: clamp(42px, 6vh, 75px);
     display: flex;
     justify-content: center;
     align-items: center;
     cursor: pointer;
     box-shadow: none !important;
     position: relative;
-    margin-top: clamp(10px, 2vh, 30px);
-    /* SUBIDO: Antes era positivo, devuelto a positivo para ir abajo */
-    margin-bottom: clamp(20px, 4vh, 50px);
+    margin-top: clamp(6px, 1.5vh, 30px);
+    margin-bottom: clamp(10px, 2.5vh, 50px);
     opacity: 1;
     border: none;
 }
@@ -472,12 +470,12 @@ button.play-button svg {
 .search-controls-container {
     width: 100%;
     max-width: min(900px, 100%);
-    margin-top: clamp(5px, 2vh, 15px);
+    margin-top: clamp(2px, 1vh, 15px);
     margin-inline: auto;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: clamp(8px, 1.2vh, 15px);
+    gap: clamp(4px, 0.8vh, 15px);
     position: relative;
 }
 
@@ -1438,17 +1436,15 @@ button.play-button svg {
 /* ESTILO PARA RACHA */
 #streak {
     font-size: 1.5em;
-    /* Un poco más grande para el número */
     font-weight: bold;
-    margin-top: 10px;
-    margin-bottom: 25px;
+    margin-top: clamp(4px, 1vh, 15px);
+    margin-bottom: clamp(8px, 2vh, 25px);
     user-select: none;
     pointer-events: none;
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 8px;
-    /* Espacio entre el fueguito y el número */
     font-family: 'PoppinsFont', sans-serif;
     transition: color 0.5s ease;
 }
@@ -1534,7 +1530,7 @@ button.play-button svg {
     background-color: var(--panel);
     padding: 4px;
     border-radius: 12px;
-    margin-top: 15px;
+    margin-top: clamp(6px, 1.2vh, 15px);
     gap: 0;
     width: min(350px, 95vw);
     position: relative;
@@ -2410,8 +2406,11 @@ main {
 
 /* Adjust body min-height to avoid scroll on exact fit */
 body {
-    min-height: 100dvh;
+    min-height: 100vh;
+    /* Ensure no scrollbar appears if content fits */
+    height: 100%;
     overflow-y: auto;
+    /* Allow scroll if needed */
 }
 
 .search-controls-container {

@@ -58,12 +58,10 @@
 }
 
 .profile-shell {
-  width: 1000px;
-  height: 750px;
-  border: 1px solid #3a3d3f;
-  border-radius: 12px;
-  background: #1c2022;
-  padding: 60px;
+  width: 100%;
+  max-width: 1000px;
+  background: transparent;
+  padding: 20px 0;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
@@ -81,9 +79,6 @@
 @media (max-width: 1100px) {
   .profile-shell {
     width: 95%;
-    height: auto;
-    min-height: 750px;
-    padding: clamp(20px, 4vw, 40px);
   }
 }
 
@@ -95,13 +90,9 @@
     gap: 20px;
   }
   .profile-shell {
-    padding: 20px;
-    border-radius: 12px;
-    border: 1px solid #3a3d3f;
-    margin: 10px;
-    width: auto;
-    height: auto;
-    min-height: auto;
+    padding: 10px 0;
+    margin: 0;
+    width: 100%;
   }
   .profile-root {
     padding: 0;
@@ -251,12 +242,9 @@
 }
 
 .profile-bio-section {
-  background: rgba(0, 0, 0, 0.1);
-  padding: 16px;
-  border-radius: 8px;
-  border: 1px solid #3a3d3f;
   width: 100%;
   box-sizing: border-box;
+  padding-top: 10px;
 }
 
 @media (max-width: 768px) {
@@ -306,28 +294,6 @@
   color: #ccc;
   white-space: pre-wrap;
   word-break: break-word;
-  max-height: 4.5em; /* aprox 3 lineas */
-  overflow: hidden;
-  transition: max-height 0.3s ease;
-}
-
-.profile-bio-text-container.expanded .profile-bio-text {
-  max-height: 500px;
-  overflow-y: auto;
-}
-
-.profile-bio-more-btn {
-  background: none;
-  border: none;
-  color: #55b725;
-  padding: 4px 0 0 0;
-  font-size: 0.8rem;
-  cursor: pointer;
-  font-weight: 500;
-}
-
-.profile-bio-more-btn:hover {
-  text-decoration: underline;
 }
 
 .profile-bio-input {
@@ -519,23 +485,18 @@
 
 .profile-msg {
   position: absolute;
-  top: 20px;
-  right: 60px;
-  background: rgba(0, 0, 0, 0.8);
-  padding: 8px 16px;
-  border-radius: 6px;
-  font-size: 0.9rem;
+  top: 0px;
+  right: 20px;
+  font-size: 1rem;
+  font-weight: bold;
   z-index: 10;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.5) !important;
 }
 
 .profile-msg--ok {
   color: #55b725;
-  border: 1px solid #55b725;
 }
 
 .profile-msg--err {
   color: #ff4444;
-  border: 1px solid #ff4444;
 }
 

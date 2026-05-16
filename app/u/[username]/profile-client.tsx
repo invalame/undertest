@@ -74,12 +74,12 @@ export function ProfileClient({ profile, isOwner, oauthPicture, initialAvatars }
   const [pickerOpen, setPickerOpen] = useState(false)
   const [avatars, setAvatars] = useState<string[]>(initialAvatars)
   const [loading, setLoading] = useState(false)
+  const [savedBio, setSavedBio] = useState(profile.bio)
   const [isEditingName, setIsEditingName] = useState(false)
   const [isEditingBio, setIsEditingBio] = useState(false)
-  const [isBioExpanded, setIsBioExpanded] = useState(false)
   const [msg, setMsg] = useState<{ type: 'ok' | 'err'; text: string } | null>(null)
 
-  const hasBioChanged = bio !== profile.bio
+  const hasBioChanged = bio !== savedBio
   const bioCharCount = bio.length
 
   const row = useMemo(
@@ -269,7 +269,7 @@ export function ProfileClient({ profile, isOwner, oauthPicture, initialAvatars }
                     <div className="profile-bio-footer">
                       <span className="profile-bio-counter">{bioCharCount}/160</span>
                       <div className="profile-bio-actions">
-                        <button type="button" className="profile-btn profile-btn-secondary" onClick={() => { setBio(profile.bio); setIsEditingBio(false); }}>Cancelar</button>
+                        <button type="button" className="profile-btn profile-btn-secondary" onClick={() => { setBio(savedBio); setIsEditingBio(false); }}>Cancelar</button>
                         <button
                           type="button"
                           className="profile-btn profile-btn-primary"
@@ -279,7 +279,10 @@ export function ProfileClient({ profile, isOwner, oauthPicture, initialAvatars }
                             const filtered = filterBioLinks(sanitizedBio)
                             setBio(filtered)
                             const ok = await saveField({ bio: filtered })
-                            if (ok) setIsEditingBio(false)
+                            if (ok) {
+                                setSavedBio(filtered)
+                                setIsEditingBio(false)
+                            }
                           }}
                         >
                           Guardar
@@ -288,15 +291,10 @@ export function ProfileClient({ profile, isOwner, oauthPicture, initialAvatars }
                     </div>
                   </>
                 ) : (
-                  <div className={`profile-bio-text-container ${isBioExpanded ? 'expanded' : ''}`}>
+                  <div className="profile-bio-text-container">
                     <p className="profile-bio-text">
-                      {profile.bio ? profile.bio : 'Actualmente sin biografía.'}
+                      {bio ? bio : 'Actualmente sin biografía.'}
                     </p>
-                    {profile.bio && profile.bio.length > 80 && (
-                      <button className="profile-bio-more-btn" onClick={() => setIsBioExpanded(!isBioExpanded)}>
-                        {isBioExpanded ? 'Ver menos' : 'Ver más'}
-                      </button>
-                    )}
                   </div>
                 )}
               </div>
