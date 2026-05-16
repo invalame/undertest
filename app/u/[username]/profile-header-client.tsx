@@ -63,8 +63,7 @@ export function ProfileHeaderClient({ username }: { username: string }) {
       </div>
 
       <header className="profile-top-header">
-          <a href="/" className="logo">UnderLess</a>
-          <img id="emote-7tv" src="/img/peepo-band.gif" alt="peepo band" style={{ height: '30px', marginLeft: '10px' }} />
+          <a href="/" className="logo">Profiles</a>
       </header>
 
       <style jsx global>{`

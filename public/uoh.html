@@ -80,79 +80,77 @@
         </div>
         <div class="underless-mode-option underless-mode-underorhigher" aria-label="Modo Under or Higher">
             <img src="img/home_underhigher.png" alt="" class="mode-icon">
-            <span>UNDER/HIGHER</span>
+<!-- END NAV -->
+    
+    <div class="underless-uoh-game active">
+        <header class="game-header">
+            <h1 class="game-title"><span class="title-under">Under</span><span class="title-higher">/Higher</span></h1>
+            <p class="game-question">¿Cuál tiene <span class="highlight">MÁS</span> oyentes mensuales?</p>
+        </header>
+    
+        <div class="score-container">
+            <div class="score-circle" id="uoh-score-display">0</div>
         </div>
-    </nav>
+    
+        <main class="cards-container" id="uoh-cards-container">
+            <!-- Inline Lose Screen -->
+            <div class="uoh-lose-screen" id="uoh-lose-screen">
+                <h2 class="uoh-lose-title">PERDISTE</h2>
+                <p class="uoh-lose-subtitle">intentalo de nuevo si queres</p>
+                <div class="uoh-lose-score">
+                    <span class="uoh-lose-score-label">Tu racha:</span>
+                    <span class="uoh-lose-score-value" id="uoh-lose-score-value">0</span>
+                </div>
+                <div class="uoh-lose-buttons">
+                    <button class="uoh-lose-btn uoh-play-again-btn" onclick="UnderlessSidebar.playAgain()">Jugar de nuevo</button>
+                    <button class="uoh-lose-btn uoh-exit-btn" onclick="UnderlessSidebar.selectMode('normal')">Ir a UNDERLESS</button>
+                </div>
+            </div>
+    
+            <!-- Card Left -->
+            <div class="artist-card" id="uoh-card-left">
+                <div class="card-image-container">
+                    <img class="card-image" id="uoh-img-left" src="" alt="Artista 1">
+                    <div class="result-overlay wrong" id="uoh-overlay-left-wrong"></div>
+                    <div class="result-overlay correct" id="uoh-overlay-left-correct"></div>
+                </div>
+                <div class="card-info">
+                    <p class="artist-name" id="uoh-name-left">"Artista"</p>
+                    <div class="listeners-section">
+                        <p class="listeners-count" id="uoh-count-left">0</p>
+                    </div>
+                </div>
+            </div>
+    
+            <!-- VS Divider -->
+            <div class="vs-divider">VS</div>
+    
+            <!-- Card Right -->
+            <div class="artist-card" id="uoh-card-right">
+                <div class="card-image-container">
+                    <img class="card-image" id="uoh-img-right" src="" alt="Artista 2" onclick="UnderlessSidebar.handleCardClick('right')">
+                    <div class="result-overlay wrong" id="uoh-overlay-right-wrong"></div>
+                    <div class="result-overlay correct" id="uoh-overlay-right-correct"></div>
+                </div>
+                <div class="card-info">
+                    <p class="artist-name" id="uoh-name-right">"Artista"</p>
+                    <div class="listeners-section">
+                        <p class="listeners-count" id="uoh-count-right">0</p>
+                    </div>
+                    <div class="uoh-actions">
+                        <button class="uoh-btn uoh-btn-higher" onclick="UnderlessSidebar.handleCardClick('right')">MÁS</button>
+                        <button class="uoh-btn uoh-btn-under" onclick="UnderlessSidebar.handleCardClick('left')">MENOS</button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
 </div>
 
 <header>
     <a href="/" class="logo" aria-label="Volver al inicio">UnderLess</a>
     <img id="emote-7tv" src="img/peepo-band.gif" alt="peepo band">
 </header>
-
-<div class="underless-uoh-game active">
-    <header class="game-header">
-        <h1 class="game-title"><span class="title-under">Under</span><span class="title-higher">/Higher</span></h1>
-        <p class="game-question">¿Cuál tiene <span class="highlight">MÁS</span> oyentes mensuales?</p>
-    </header>
-
-    <div class="score-container">
-        <div class="score-circle" id="uoh-score-display">0</div>
-    </div>
-
-    <main class="cards-container" id="uoh-cards-container">
-        <!-- Inline Lose Screen -->
-        <div class="uoh-lose-screen" id="uoh-lose-screen">
-            <h2 class="uoh-lose-title">PERDISTE</h2>
-            <p class="uoh-lose-subtitle">intentalo de nuevo si queres</p>
-            <div class="uoh-lose-score">
-                <span class="uoh-lose-score-label">Tu racha:</span>
-                <span class="uoh-lose-score-value" id="uoh-lose-score-value">0</span>
-            </div>
-            <div class="uoh-lose-buttons">
-                <button class="uoh-lose-btn uoh-play-again-btn" onclick="UnderlessSidebar.playAgain()">Jugar de nuevo</button>
-                <button class="uoh-lose-btn uoh-exit-btn" onclick="UnderlessSidebar.selectMode('normal')">Ir a UNDERLESS</button>
-            </div>
-        </div>
-
-        <!-- Card Left -->
-        <div class="artist-card" id="uoh-card-left">
-            <div class="card-image-container">
-                <img class="card-image" id="uoh-img-left" src="" alt="Artista 1">
-                <div class="result-overlay wrong" id="uoh-overlay-left-wrong"></div>
-                <div class="result-overlay correct" id="uoh-overlay-left-correct"></div>
-            </div>
-            <div class="card-info">
-                <p class="artist-name" id="uoh-name-left">"Artista"</p>
-                <div class="listeners-section">
-                    <p class="listeners-count" id="uoh-count-left">0</p>
-                </div>
-            </div>
-        </div>
-
-        <!-- VS Divider -->
-        <div class="vs-divider">VS</div>
-
-        <!-- Card Right -->
-        <div class="artist-card" id="uoh-card-right">
-            <div class="card-image-container">
-                <img class="card-image" id="uoh-img-right" src="" alt="Artista 2" onclick="UnderlessSidebar.handleCardClick('right')">
-                <div class="result-overlay wrong" id="uoh-overlay-right-wrong"></div>
-                <div class="result-overlay correct" id="uoh-overlay-right-correct"></div>
-            </div>
-            <div class="card-info">
-                <p class="artist-name" id="uoh-name-right">"Artista"</p>
-                <div class="listeners-section">
-                    <p class="listeners-count" id="uoh-count-right">0</p>
-                </div>
-                <div class="uoh-actions">
-                    <button class="uoh-btn uoh-btn-higher" onclick="UnderlessSidebar.handleCardClick('right')">MÁS</button>
-                    <button class="uoh-btn uoh-btn-under" onclick="UnderlessSidebar.handleCardClick('left')">MENOS</button>
-                </div>
-            </div>
-        </div>
-    </main>
-</div>
 
 <script src="sample-artists.js"></script>
 <script defer src="/js/underless-profile-corner.js"></script>

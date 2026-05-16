@@ -56,6 +56,8 @@ export function ProfileClient({ profile, isOwner, oauthPicture, initialAvatars }
   const [avatars, setAvatars] = useState<string[]>(initialAvatars)
   const [loading, setLoading] = useState(false)
   const [isEditingName, setIsEditingName] = useState(false)
+  const [isEditingBio, setIsEditingBio] = useState(false)
+  const [isBioExpanded, setIsBioExpanded] = useState(false)
   const [msg, setMsg] = useState<{ type: 'ok' | 'err'; text: string } | null>(null)
 
   const hasBioChanged = bio !== profile.bio
@@ -152,20 +154,27 @@ export function ProfileClient({ profile, isOwner, oauthPicture, initialAvatars }
                       className="profile-name-input"
                       value={displayName}
                       onChange={(e) => setDisplayName(e.target.value.slice(0, 20))}
-                      onBlur={() => {
-                        if (displayName.trim().length >= 2 && displayName !== profile.display_name) {
-                          void saveField({ display_name: displayName })
-                        }
-                        setIsEditingName(false)
-                      }}
                       onKeyDown={(e) => {
                         if (e.key === 'Enter') {
-                          e.currentTarget.blur()
+                          if (displayName.trim().length >= 2 && displayName !== profile.display_name) {
+                            void saveField({ display_name: displayName })
+                          }
+                          setIsEditingName(false)
                         }
                       }}
                       autoFocus
                       maxLength={20}
                     />
+                    <button className="profile-name-save-btn" onClick={() => {
+                        if (displayName.trim().length >= 2 && displayName !== profile.display_name) {
+                          void saveField({ display_name: displayName })
+                        }
+                        setIsEditingName(false)
+                    }}>Guardar</button>
+                    <button className="profile-name-cancel-btn" onClick={() => {
+                        setDisplayName(profile.display_name)
+                        setIsEditingName(false)
+                    }}>✕</button>
                   </div>
                 ) : (
                   <h1 className="profile-username">
@@ -196,8 +205,17 @@ export function ProfileClient({ profile, isOwner, oauthPicture, initialAvatars }
               </div>
 
               <div className="profile-bio-section">
-                <span className="profile-bio-label">Biografía</span>
-                {isOwner ? (
+                <div className="profile-bio-header">
+                  <span className="profile-bio-label">Biografía</span>
+                  {isOwner && !isEditingBio && (
+                    <button className="profile-edit-bio-btn" onClick={() => setIsEditingBio(true)} title="Editar biografía">
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z" />
+                      </svg>
+                    </button>
+                  )}
+                </div>
+                {isOwner && isEditingBio ? (
                   <>
                     <textarea
                       id="profile-bio"
@@ -207,29 +225,39 @@ export function ProfileClient({ profile, isOwner, oauthPicture, initialAvatars }
                       onChange={(e) => setBio(e.target.value.slice(0, 160))}
                       maxLength={160}
                       rows={3}
+                      autoFocus
                     />
                     <div className="profile-bio-footer">
                       <span className="profile-bio-counter">{bioCharCount}/160</span>
-                      {hasBioChanged && (
+                      <div className="profile-bio-actions">
+                        <button type="button" className="profile-btn profile-btn-secondary" onClick={() => { setBio(profile.bio); setIsEditingBio(false); }}>Cancelar</button>
                         <button
                           type="button"
                           className="profile-btn profile-btn-primary"
-                          disabled={loading}
-                          onClick={() => {
+                          disabled={loading || !hasBioChanged}
+                          onClick={async () => {
                             const filtered = filterBioLinks(bio)
                             setBio(filtered)
-                            void saveField({ bio: filtered })
+                            const ok = await saveField({ bio: filtered })
+                            if (ok) setIsEditingBio(false)
                           }}
                         >
-                          Guardar biografía
+                          Guardar
                         </button>
-                      )}
+                      </div>
                     </div>
                   </>
                 ) : (
-                  <p className="profile-bio-text">
-                    {profile.bio ? profile.bio : 'Actualmente sin biografía.'}
-                  </p>
+                  <div className={`profile-bio-text-container ${isBioExpanded ? 'expanded' : ''}`}>
+                    <p className="profile-bio-text">
+                      {profile.bio ? profile.bio : 'Actualmente sin biografía.'}
+                    </p>
+                    {profile.bio && profile.bio.length > 80 && (
+                      <button className="profile-bio-more-btn" onClick={() => setIsBioExpanded(!isBioExpanded)}>
+                        {isBioExpanded ? 'Ver menos' : 'Ver más'}
+                      </button>
+                    )}
+                  </div>
                 )}
               </div>
               {msg ? (
