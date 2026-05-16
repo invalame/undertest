@@ -121,9 +121,9 @@ body {
 
 html,
 body {
-    height: 100%;
+    height: 100dvh;
     margin: 0;
-    overflow-x: hidden;
+    overflow: hidden;
 }
 
 body {
@@ -134,45 +134,49 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    height: 100dvh;
-    justify-content: space-between;
+    /* ===== LAYOUT FIX: usar flex-start, NO space-between ===== */
+    /* space-between separaba header y main dejando un hueco enorme */
+    justify-content: flex-start;
     overflow: hidden;
-
-
-
-
 }
 
 
 
 
 
+/* ===== GAME SHELL: contenedor de toda la UI, llena el viewport ===== */
 #ui-root {
     width: 100%;
     max-width: 1400px;
-    /* No fixed height — let content define it */
+    flex: 1 1 0;
+    /* ocupa todo el alto disponible */
     min-height: 0;
+    /* permite que flex achique si hace falta */
     display: flex;
     flex-direction: column;
     align-items: center;
     margin-inline: auto;
+    overflow: hidden;
+    /* nunca genera scroll */
 }
 
 
-/* HEADER PARA CENTRAR EL LOGO Y EL EMOTE VERTICALMENTE */
+/* ===== HEADER: zona fija superior, altura controlada ===== */
 header {
     width: 100%;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    padding: clamp(12px, 2vh, 30px) clamp(10px, 2vw, 25px) clamp(6px, 1vh, 15px);
+    /* Padding vertical calibrado: nunca demasiado ni demasiado poco */
+    padding: clamp(10px, 1.6vh, 22px) clamp(10px, 2vw, 25px) clamp(6px, 1vh, 14px);
     box-sizing: border-box;
     max-width: min(900px, 95%);
     margin-inline: auto;
     position: relative;
     z-index: 50;
     flex-shrink: 0;
+    /* nunca se achica */
 }
 
 header .logo {
@@ -195,32 +199,45 @@ header .logo {
 
 /* ESTILO PARA EL EMOTE */
 #emote-7tv {
-    width: clamp(70px, min(12vw, 14vh), 170px);
+    width: clamp(60px, min(10vw, 11vh), 130px);
     height: auto;
-    margin-top: clamp(2px, 0.5vh, 6px);
+    margin-top: clamp(2px, 0.4vh, 6px);
     display: block;
 }
 
+/* ===== MAIN: núcleo del juego, rellena el espacio disponible ===== */
+/*
+ * ARQUITECTURA PROFESIONAL:
+ * - main ocupa todo el alto restante (flex: 1 1 0)
+ * - los hijos son flex items con tamaños fijos (flex-shrink: 0)
+ * - .game-board-wrapper es el único que crece (flex: 1 1 0)
+ *   → las guess-boxes se centran verticalmente dentro de él
+ * - Resultado: layout idéntico a cualquier resolución, sin scroll
+ */
 main {
     flex: 1 1 0;
     min-height: 0;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: space-between;
+    /* gap fijo entre secciones — NO space-between */
+    justify-content: flex-start;
+    gap: clamp(6px, 1.1vh, 18px);
     width: 100%;
     max-width: min(900px, 95%);
     margin-inline: auto;
-    padding: clamp(8px, 1.5vh, 20px) clamp(10px, 2vw, 20px) clamp(8px, 1.5vh, 20px);
+    padding: clamp(4px, 0.8vh, 12px) clamp(10px, 2vw, 20px) clamp(10px, 1.6vh, 22px);
     box-sizing: border-box;
     position: relative;
+    overflow: hidden;
 }
 
+/* Pantallas anchas: ampliar el ancho máximo del contenido */
 @media (min-width: 1024px) {
 
     header,
     main {
-        max-width: min(1250px, 95%);
+        max-width: min(760px, 95%);
     }
 
     .progress-wrapper,
@@ -230,12 +247,18 @@ main {
 }
 
 
+/* ===== GUESS BOXES: bloque de casillas centrado en su zona ===== */
 .guess-boxes {
     width: 100%;
-    margin-bottom: 0;
     max-width: min(900px, 100%);
     margin-inline: auto;
+    margin-bottom: 0;
+    /* el gap de .game-board-wrapper maneja el espacio */
     flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    gap: clamp(3px, 0.5vh, 7px);
+    /* gap fijo entre casillas */
 }
 
 .guess-box {
@@ -244,9 +267,9 @@ main {
     border-radius: 6px;
     box-sizing: border-box;
     padding: 0 clamp(12px, 1.5vw, 18px);
-    margin-bottom: clamp(3px, 0.5vh, 12px);
+    /* margin-bottom eliminado: .guess-boxes usa gap */
     color: var(--muted);
-    height: clamp(34px, 5vh, 68px);
+    height: clamp(36px, 5.2vh, 62px);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -254,6 +277,7 @@ main {
     font-size: clamp(0.9em, 1.1vw, 1.2em);
     font-weight: 500;
     transition: background-color 0.2s, border-color 0.2s;
+    flex-shrink: 0;
 }
 
 /* ESTADO POR DEFECTO: CASILLA VACÃƒÂƒÃ‚ÂA */
@@ -346,14 +370,13 @@ main {
 
 
 
-/* Barra de Progreso */
+/* ===== PROGRESS BAR: zona fija, no crece ===== */
 .progress-wrapper {
     position: relative;
     width: 100%;
     max-width: 100%;
-    margin-bottom: 0;
-    margin-top: 0;
-    margin-inline: auto;
+    margin: 0;
+    /* gaps manejados por main gap */
     flex-shrink: 0;
 }
 
@@ -439,8 +462,8 @@ main {
 button.play-button {
     background-color: var(--accent);
     border-radius: 50%;
-    width: clamp(42px, 6vh, 75px);
-    height: clamp(42px, 6vh, 75px);
+    width: clamp(44px, 5.8vh, 68px);
+    height: clamp(44px, 5.8vh, 68px);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -476,6 +499,7 @@ button.play-button svg {
     width: 100%;
     max-width: min(900px, 100%);
     margin-top: 0;
+    /* gap de main maneja el espacio */
     margin-inline: auto;
     display: flex;
     flex-direction: column;
@@ -1122,20 +1146,34 @@ button.play-button svg {
 }
 
 
-/* responsive */
+/* ===== RESPONSIVE: mobile ≤850px permite scroll, desktop nunca ===== */
 @media (max-width:850px) {
+
+    html,
     body {
-        zoom: 1;
         height: auto;
         min-height: 100dvh;
         overflow-y: auto;
         overflow-x: hidden;
+    }
+
+    body {
         justify-content: flex-start;
+    }
+
+    #ui-root {
+        flex: none;
+        min-height: 0;
     }
 
     main {
         justify-content: flex-start;
-        gap: clamp(12px, 2vh, 28px);
+        gap: clamp(10px, 1.8vh, 22px);
+        overflow: visible;
+    }
+
+    .game-board-wrapper {
+        flex: none;
     }
 
     .guess-boxes {
@@ -1185,13 +1223,12 @@ button.play-button svg {
         overflow-x: hidden;
         overflow-y: auto;
         height: auto;
-        min-height: 100vh;
         min-height: 100dvh;
         display: flex;
         flex-direction: column;
         justify-content: flex-start;
         align-items: center;
-        padding-top: 10px;
+        padding-top: 8px;
     }
 
     header {
@@ -1225,14 +1262,13 @@ button.play-button svg {
     }
 
     main {
-        margin-top: 15px;
-        /* More spacing from header */
-        padding: 0 15px 25px 15px;
-        /* More horizontal padding */
+        margin-top: 8px;
+        padding: 0 15px 20px 15px;
         width: 100%;
         display: flex;
         flex-direction: column;
         align-items: center;
+        gap: clamp(8px, 1.5vh, 18px);
     }
 
     /* Artist section - CENTERED */
@@ -1489,10 +1525,9 @@ button.play-button svg {
 #streak-saver-ui {
     position: relative;
     /* No fixed */
-    margin-top: 5px;
-    /* Space from search input */
-    margin-bottom: 0px;
-    /* Reduced space to avoid scroll */
+    margin-top: 0;
+    /* gap de main maneja el espacio */
+    margin-bottom: 0;
 
     font-size: 1.0em;
     color: var(--white);
@@ -1513,6 +1548,7 @@ button.play-button svg {
     justify-content: center;
     gap: 5px;
     z-index: 10;
+    flex-shrink: 0;
 }
 
 #streak-saver-ui img {
@@ -1525,18 +1561,7 @@ button.play-button svg {
     vertical-align: middle;
 }
 
-.mode-artist-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    background: transparent;
-    padding: 0;
-    margin-top: 15px;
-    gap: 0;
-    width: fit-content;
-    position: relative;
-    /* Context needed for absolute positioning if we wanted, but we use fixed for art */
-}
+/* (duplicado eliminado — ver declaración canónica más abajo) */
 
 /* === CONTENEDOR UNIFICADO MODO + ARTISTA === */
 .mode-artist-container {
@@ -1547,6 +1572,7 @@ button.play-button svg {
     padding: 4px;
     border-radius: 12px;
     margin-top: 0;
+    /* gap de main maneja el espacio */
     gap: 0;
     width: min(350px, 95vw);
     position: relative;
@@ -1710,8 +1736,13 @@ main {
     display: block;
 }
 
-/* Wrapper to strictly contain the game board width */
+/* ===== ZONE FLEXIBLE: contiene las guess-boxes y crece para llenar el espacio ===== */
+/* Es el único flex item que crece; el resto tienen tamaño fijo */
 .game-board-wrapper {
+    flex: 1 1 0;
+    /* ← CLAVE: llena el espacio disponible */
+    min-height: 0;
+    /* permite achicarse si el viewport es pequeño */
     width: 100%;
     max-width: 100%;
     margin: 0 auto;
@@ -1719,6 +1750,8 @@ main {
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
+    /* ← centra las guess-boxes verticalmente */
 }
 
 /* ALBUM ART DISPLAY CONTAINER 
