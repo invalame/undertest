@@ -130,13 +130,13 @@ body {
     background-color: var(--bg);
     color: var(--white);
     font-family: 'OtherTextFont', sans-serif;
-    /* Fuente local para todo el body */
     margin: 0;
     display: flex;
     flex-direction: column;
     align-items: center;
-    min-height: 100vh;
-    justify-content: flex-start;
+    height: 100dvh;
+    justify-content: space-between;
+    overflow: hidden;
 
 
 
@@ -166,12 +166,13 @@ header {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    padding: clamp(6px, 1.5vh, 25px) clamp(10px, 2vw, 25px) clamp(3px, 0.8vh, 10px);
+    padding: clamp(12px, 2vh, 30px) clamp(10px, 2vw, 25px) clamp(6px, 1vh, 15px);
     box-sizing: border-box;
     max-width: min(900px, 95%);
     margin-inline: auto;
     position: relative;
     z-index: 50;
+    flex-shrink: 0;
 }
 
 header .logo {
@@ -201,15 +202,16 @@ header .logo {
 }
 
 main {
-    flex-grow: 1;
+    flex: 1 1 0;
+    min-height: 0;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    justify-content: space-between;
     width: 100%;
     max-width: min(900px, 95%);
     margin-inline: auto;
-    padding: clamp(4px, 1vh, 20px) clamp(10px, 2vw, 20px) clamp(4px, 1vh, 30px);
+    padding: clamp(8px, 1.5vh, 20px) clamp(10px, 2vw, 20px) clamp(8px, 1.5vh, 20px);
     box-sizing: border-box;
     position: relative;
 }
@@ -230,9 +232,10 @@ main {
 
 .guess-boxes {
     width: 100%;
-    margin-bottom: clamp(8px, 1.5vh, 40px);
+    margin-bottom: 0;
     max-width: min(900px, 100%);
     margin-inline: auto;
+    flex-shrink: 0;
 }
 
 .guess-box {
@@ -348,9 +351,10 @@ main {
     position: relative;
     width: 100%;
     max-width: 100%;
-    margin-bottom: clamp(6px, 1.5vh, 25px);
-    margin-top: clamp(8px, 2vh, 40px);
+    margin-bottom: 0;
+    margin-top: 0;
     margin-inline: auto;
+    flex-shrink: 0;
 }
 
 .progress-bar-container {
@@ -443,10 +447,11 @@ button.play-button {
     cursor: pointer;
     box-shadow: none !important;
     position: relative;
-    margin-top: clamp(6px, 1.5vh, 30px);
-    margin-bottom: clamp(10px, 2.5vh, 50px);
+    margin-top: 0;
+    margin-bottom: 0;
     opacity: 1;
     border: none;
+    flex-shrink: 0;
 }
 
 button.play-button[disabled] {
@@ -470,13 +475,14 @@ button.play-button svg {
 .search-controls-container {
     width: 100%;
     max-width: min(900px, 100%);
-    margin-top: clamp(2px, 1vh, 15px);
+    margin-top: 0;
     margin-inline: auto;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: clamp(4px, 0.8vh, 15px);
+    gap: 8px;
     position: relative;
+    flex-shrink: 0;
 }
 
 .controls-row {
@@ -1120,7 +1126,16 @@ button.play-button svg {
 @media (max-width:850px) {
     body {
         zoom: 1;
+        height: auto;
+        min-height: 100dvh;
         overflow-y: auto;
+        overflow-x: hidden;
+        justify-content: flex-start;
+    }
+
+    main {
+        justify-content: flex-start;
+        gap: clamp(12px, 2vh, 28px);
     }
 
     .guess-boxes {
@@ -1437,8 +1452,8 @@ button.play-button svg {
 #streak {
     font-size: 1.5em;
     font-weight: bold;
-    margin-top: clamp(4px, 1vh, 15px);
-    margin-bottom: clamp(8px, 2vh, 25px);
+    margin-top: 0;
+    margin-bottom: 0;
     user-select: none;
     pointer-events: none;
     display: flex;
@@ -1447,6 +1462,7 @@ button.play-button svg {
     gap: 8px;
     font-family: 'PoppinsFont', sans-serif;
     transition: color 0.5s ease;
+    flex-shrink: 0;
 }
 
 #streak-icon {
@@ -1530,11 +1546,12 @@ button.play-button svg {
     background-color: var(--panel);
     padding: 4px;
     border-radius: 12px;
-    margin-top: clamp(6px, 1.2vh, 15px);
+    margin-top: 0;
     gap: 0;
     width: min(350px, 95vw);
     position: relative;
     box-sizing: border-box;
+    flex-shrink: 0;
 }
 
 /* === ESTILOS PARA EL SELECTOR DE MODO === */
@@ -2406,11 +2423,8 @@ main {
 
 /* Adjust body min-height to avoid scroll on exact fit */
 body {
-    min-height: 100vh;
-    /* Ensure no scrollbar appears if content fits */
-    height: 100%;
-    overflow-y: auto;
-    /* Allow scroll if needed */
+    height: 100dvh;
+    overflow: hidden;
 }
 
 .search-controls-container {
