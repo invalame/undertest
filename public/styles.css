@@ -135,8 +135,11 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    min-height: 100vh;
+    height: 100dvh;
+    max-height: 100dvh;
+    min-height: 0;
     justify-content: flex-start;
+    overflow: hidden;
 
 
 
@@ -166,18 +169,19 @@ header {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    padding: clamp(10px, 2vh, 25px) clamp(10px, 2vw, 25px) clamp(5px, 1vh, 10px);
+    padding: clamp(4px, 1.5vh, 25px) clamp(10px, 2vw, 25px) clamp(2px, 0.5vh, 10px);
     box-sizing: border-box;
     max-width: min(900px, 95%);
     margin-inline: auto;
     position: relative;
     z-index: 50;
+    flex-shrink: 0;
 }
 
 header .logo {
     font-family: 'UnderLessFont', sans-serif;
     /* Fuente local para el logo */
-    font-size: clamp(2.4em, 5vw, 3.8em);
+    font-size: clamp(1.8em, min(5vw, 6vh), 3.8em);
     font-weight: 800;
     letter-spacing: -1px;
     cursor: pointer;
@@ -194,21 +198,22 @@ header .logo {
 
 /* ESTILO PARA EL EMOTE */
 #emote-7tv {
-    width: clamp(110px, 12vw, 170px);
+    width: clamp(70px, min(12vw, 12vh), 170px);
     height: auto;
-    margin-top: 3px;
+    margin-top: 2px;
     display: block;
 }
 
 main {
-    flex-grow: 1;
+    flex: 1 1 0;
+    min-height: 0;
     display: flex;
     flex-direction: column;
     align-items: center;
     width: 100%;
     max-width: min(900px, 95%);
     margin-inline: auto;
-    padding: clamp(10px, 2vh, 20px) clamp(10px, 2vw, 20px) clamp(10px, 2vh, 30px);
+    padding: clamp(4px, 1vh, 20px) clamp(10px, 2vw, 20px) clamp(4px, 1vh, 30px);
     box-sizing: border-box;
     position: relative;
 }
@@ -229,30 +234,28 @@ main {
 
 .guess-boxes {
     width: 100%;
-    margin-bottom: clamp(15px, 2.5vh, 40px);
+    margin-bottom: clamp(6px, 1.5vh, 40px);
     max-width: min(900px, 100%);
     margin-inline: auto;
+    flex-shrink: 0;
 }
 
 .guess-box {
     background-color: var(--bg);
-    /* fondo igual al body */
     border: 2px solid var(--panel);
     border-radius: 6px;
-    /* un poquito de borde redondo, no exagerado */
     box-sizing: border-box;
     padding: 0 clamp(12px, 1.5vw, 18px);
-    margin-bottom: clamp(4px, 0.6vh, 12px);
+    margin-bottom: clamp(3px, 0.4vh, 12px);
     color: var(--muted);
-    height: clamp(40px, 6vh, 68px);
+    height: clamp(32px, 5vh, 68px);
     display: flex;
     align-items: center;
     justify-content: center;
     text-align: center;
-    font-size: clamp(0.95em, 1.1vw, 1.2em);
+    font-size: clamp(0.85em, min(1.1vw, 1.8vh), 1.2em);
     font-weight: 500;
     transition: background-color 0.2s, border-color 0.2s;
-    /* transiciÃƒÂƒÃ‚Â³n para el cambio de color */
 }
 
 /* ESTADO POR DEFECTO: CASILLA VACÃƒÂƒÃ‚ÂA */
@@ -346,16 +349,14 @@ main {
 
 
 /* Barra de Progreso */
-/* Barra de Progreso */
 .progress-wrapper {
     position: relative;
     width: 100%;
     max-width: 100%;
-    margin-bottom: clamp(12px, 2vh, 25px);
-    /* Reducido para subir el botÃƒÂƒÃ‚Â³n Play */
-    margin-top: clamp(15px, 3vh, 40px);
-    /* Bajalo un poco nomÃƒÂƒÂ¡s */
+    margin-bottom: clamp(6px, 1.2vh, 25px);
+    margin-top: clamp(6px, 1.5vh, 40px);
     margin-inline: auto;
+    flex-shrink: 0;
 }
 
 .progress-bar-container {
@@ -440,19 +441,19 @@ main {
 button.play-button {
     background-color: var(--accent);
     border-radius: 50%;
-    width: clamp(45px, 7vh, 75px);
-    height: clamp(45px, 7vh, 75px);
+    width: clamp(40px, min(7vh, 7vw), 75px);
+    height: clamp(40px, min(7vh, 7vw), 75px);
     display: flex;
     justify-content: center;
     align-items: center;
     cursor: pointer;
     box-shadow: none !important;
     position: relative;
-    margin-top: clamp(10px, 2vh, 30px);
-    /* SUBIDO: Antes era positivo, devuelto a positivo para ir abajo */
-    margin-bottom: clamp(20px, 4vh, 50px);
+    margin-top: clamp(4px, 1vh, 30px);
+    margin-bottom: clamp(8px, 2vh, 50px);
     opacity: 1;
     border: none;
+    flex-shrink: 0;
 }
 
 button.play-button[disabled] {
@@ -467,8 +468,8 @@ button.play-button:not([disabled]):active {
 
 button.play-button svg {
     fill: white;
-    width: clamp(24px, 3vh, 38px);
-    height: clamp(24px, 3vh, 38px);
+    width: clamp(20px, min(3vh, 3vw), 38px);
+    height: clamp(20px, min(3vh, 3vw), 38px);
     margin-left: 3px;
 }
 
@@ -476,13 +477,14 @@ button.play-button svg {
 .search-controls-container {
     width: 100%;
     max-width: min(900px, 100%);
-    margin-top: clamp(5px, 2vh, 15px);
+    margin-top: clamp(2px, 1vh, 15px);
     margin-inline: auto;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: clamp(8px, 1.2vh, 15px);
+    gap: clamp(4px, 0.8vh, 15px);
     position: relative;
+    flex-shrink: 0;
 }
 
 .controls-row {
@@ -1127,6 +1129,8 @@ button.play-button svg {
     body {
         zoom: 1;
         overflow-y: auto;
+        height: auto;
+        max-height: none;
     }
 
     .guess-boxes {
@@ -1176,8 +1180,8 @@ button.play-button svg {
         overflow-x: hidden;
         overflow-y: auto;
         height: auto;
-        min-height: 100vh;
         min-height: 100dvh;
+        max-height: none;
         display: flex;
         flex-direction: column;
         justify-content: flex-start;
@@ -1442,19 +1446,18 @@ button.play-button svg {
 /* ESTILO PARA RACHA */
 #streak {
     font-size: 1.5em;
-    /* Un poco más grande para el número */
     font-weight: bold;
-    margin-top: 10px;
-    margin-bottom: 25px;
+    margin-top: clamp(4px, 0.8vh, 15px);
+    margin-bottom: clamp(4px, 1.5vh, 25px);
     user-select: none;
     pointer-events: none;
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 8px;
-    /* Espacio entre el fueguito y el número */
     font-family: 'PoppinsFont', sans-serif;
     transition: color 0.5s ease;
+    flex-shrink: 0;
 }
 
 #streak-icon {
@@ -1710,6 +1713,8 @@ main {
     display: flex;
     flex-direction: column;
     align-items: center;
+    flex: 1 1 0;
+    min-height: 0;
 }
 
 /* ALBUM ART DISPLAY CONTAINER 
@@ -2414,11 +2419,12 @@ main {
 
 /* Adjust body min-height to avoid scroll on exact fit */
 body {
-    min-height: 100vh;
-    /* Ensure no scrollbar appears if content fits */
-    height: 100%;
+    min-height: 0;
+    height: 100dvh;
+    max-height: 100dvh;
+    overflow: hidden;
     overflow-y: auto;
-    /* Allow scroll if needed */
+    /* Allow scroll only on mobile (overridden below for desktop) */
 }
 
 .search-controls-container {
@@ -2492,17 +2498,16 @@ body {
 /* REVERT: Constrain guess boxes and search controls back to original compact size */
 .guess-boxes {
     max-width: 700px !important;
-    /* Widened to 700px as requested */
-    /* Restore original narrow look */
     margin-left: auto !important;
     margin-right: auto !important;
+    flex-shrink: 0;
 }
 
 .search-controls-container {
     max-width: 800px !important;
-    /* Wider than guess boxes (600px) */
     margin-left: auto !important;
     margin-right: auto !important;
+    flex-shrink: 0;
 }
 
 /* === ESTILOS DEL HOME HUB === */
@@ -3391,198 +3396,4 @@ button.play-button.hub-play-button--footer {
 .home-legal-copy {
     color: rgba(255, 255, 255, 0.2);
     margin-left: 8px;
-}
-
-/* =====================================================
-   RESPONSIVE HEIGHT: pantallas con poco alto vertical
-   Evita tener que hacer zoom out para ver todo el juego
-   ===================================================== */
-
-/* Pantallas medianas de alto (850px - 750px): aprieta un poco */
-@media (max-height: 850px) {
-    header {
-        padding-top: 8px;
-        padding-bottom: 4px;
-    }
-
-    #emote-7tv {
-        width: clamp(80px, 10vw, 120px);
-        margin-top: 0;
-    }
-
-    .guess-boxes {
-        margin-bottom: 10px;
-    }
-
-    .guess-box {
-        height: clamp(32px, 5vh, 52px);
-        margin-bottom: clamp(3px, 0.4vh, 8px);
-        font-size: clamp(0.85em, 1vw, 1.1em);
-    }
-
-    .progress-wrapper {
-        margin-top: 10px;
-        margin-bottom: 10px;
-    }
-
-    button.play-button {
-        width: clamp(42px, 6vh, 62px);
-        height: clamp(42px, 6vh, 62px);
-        margin-top: 8px;
-        margin-bottom: 12px;
-    }
-
-    .search-controls-container {
-        margin-top: 4px;
-        gap: 6px;
-    }
-
-    #streak {
-        margin-top: 6px;
-        margin-bottom: 12px;
-        font-size: 1.2em;
-    }
-
-    #streak-saver-ui {
-        margin-top: 4px;
-        padding: 6px 12px;
-        font-size: 0.9em;
-    }
-
-    main {
-        padding-top: 6px;
-        padding-bottom: 10px;
-    }
-}
-
-/* Pantallas cortas (750px - 650px): compresión más agresiva */
-@media (max-height: 750px) {
-    header .logo {
-        font-size: clamp(2em, 4vw, 3em);
-    }
-
-    #emote-7tv {
-        width: clamp(65px, 8vw, 95px);
-    }
-
-    .guess-box {
-        height: clamp(28px, 4.5vh, 44px);
-        margin-bottom: 3px;
-        font-size: clamp(0.8em, 0.95vw, 1em);
-        padding: 0 10px;
-    }
-
-    .progress-wrapper {
-        margin-top: 8px;
-        margin-bottom: 8px;
-    }
-
-    .progress-bar-container {
-        height: 20px;
-    }
-
-    button.play-button {
-        width: clamp(38px, 5.5vh, 54px);
-        height: clamp(38px, 5.5vh, 54px);
-        margin-top: 6px;
-        margin-bottom: 8px;
-    }
-
-    button.play-button svg {
-        width: clamp(20px, 2.5vh, 30px);
-        height: clamp(20px, 2.5vh, 30px);
-    }
-
-    #streak {
-        margin-top: 4px;
-        margin-bottom: 8px;
-        font-size: 1.1em;
-    }
-
-    #streak-icon {
-        height: 24px;
-    }
-
-    #streak-saver-ui {
-        margin-top: 3px;
-        padding: 5px 10px;
-        font-size: 0.85em;
-    }
-
-    .search-input {
-        padding: 9px 12px;
-    }
-
-    #skip-button-standalone {
-        padding: 9px 10px;
-    }
-}
-
-/* Pantallas muy cortas (<650px): máxima compresión */
-@media (max-height: 650px) {
-    header {
-        padding-top: 4px;
-        padding-bottom: 2px;
-    }
-
-    #emote-7tv {
-        display: none;
-        /* Ocultar el gif para ganar espacio */
-    }
-
-    .guess-boxes {
-        margin-bottom: 6px;
-    }
-
-    .guess-box {
-        height: clamp(24px, 4vh, 36px);
-        margin-bottom: 2px;
-        font-size: 0.85em;
-    }
-
-    .progress-wrapper {
-        margin-top: 5px;
-        margin-bottom: 5px;
-    }
-
-    .progress-bar-container {
-        height: 16px;
-    }
-
-    .timer-text {
-        font-size: 0.75em;
-        top: -28px;
-    }
-
-    button.play-button {
-        width: 42px;
-        height: 42px;
-        margin-top: 4px;
-        margin-bottom: 6px;
-    }
-
-    button.play-button svg {
-        width: 20px;
-        height: 20px;
-    }
-
-    #streak {
-        margin-top: 3px;
-        margin-bottom: 5px;
-        font-size: 1em;
-    }
-
-    #streak-icon {
-        height: 20px;
-    }
-
-    #streak-saver-ui {
-        margin-top: 2px;
-        padding: 4px 8px;
-        font-size: 0.8em;
-    }
-
-    main {
-        padding: 3px 10px 6px;
-    }
 }
