@@ -48,13 +48,6 @@
             <span style="display: block; width: 20px; height: 2px; background: white;"></span>
             <span style="display: block; width: 20px; height: 2px; background: white;"></span>
         </button>
-    </div>
-    <div class="underless-profile-corner-wrap" data-ul-profile-corner-wrap hidden style="display:none; pointer-events: auto;">
-        <a data-ul-profile-corner-link href="/" class="underless-profile-corner-link" style="display: flex; align-items: center; gap: 8px; text-decoration: none; background: rgba(0,0,0,0.6); padding: 5px 12px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.1);">
-            <img data-ul-profile-corner-img src="" alt="" width="28" height="28" class="underless-profile-corner-img" style="border-radius: 50%;" />
-            <span data-ul-profile-corner-name class="underless-profile-corner-name" style="color: white; font-size: 0.9em; font-weight: 500;"></span>
-        </a>
-    </div>
 </div>
 
 <!-- SIDEBAR ROOT -->
@@ -83,9 +76,20 @@
             <img src="img/home_underhigher.png" alt="" class="mode-icon">
             <span>UNDER/HIGHER</span>
         </div>
+        <div class="sidebar-profile-dropdown" data-ul-profile-corner-wrap style="display:none;">
+            <button class="sidebar-profile-btn" onclick="if(window.toggleSidebarProfileMenu) window.toggleSidebarProfileMenu()">
+                <img data-ul-profile-corner-img src="" alt="" class="sidebar-profile-img" referrerpolicy="no-referrer">
+                <span data-ul-profile-corner-name class="sidebar-profile-name"></span>
+            </button>
+            <div class="sidebar-profile-menu" id="sidebar-profile-menu" style="display:none;">
+                <a data-ul-profile-corner-link href="/" class="sidebar-profile-menu-item">Mi perfil</a>
+                <form action="/auth/signout" method="post" style="margin:0; width:100%;">
+                    <button type="submit" class="sidebar-profile-menu-item logout-item">Cerrar sesión</button>
+                </form>
+            </div>
+        </div>
         
         <div class="underless-social-buttons">
-            <p class="underless-sidebar-label">REDES</p>
             <a href="https://x.com/Invalame" target="_blank" class="underless-social-btn underless-twitter-btn">
                 <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
                     <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />

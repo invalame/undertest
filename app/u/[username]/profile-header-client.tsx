@@ -45,17 +45,21 @@ export function ProfileHeaderClient({ username, avatarUrl }: { username: string;
               </a>
           </nav>
           
-          {/* Logout button bottom left sidebar */}
-          <div style={{ position: 'absolute', bottom: '20px', left: '20px', zIndex: 7001 }}>
-              <form action="/auth/signout" method="post">
-                  <button type="submit" className="underless-mode-option" style={{ background: 'transparent', border: 'none', color: '#ff4444', fontSize: '0.9rem', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '10px' }}>
-                      {avatarUrl && <img src={avatarUrl} alt="" style={{ width: '32px', height: '32px', borderRadius: '50%', objectFit: 'cover' }} referrerPolicy="no-referrer" />}
-                      <span style={{display: 'flex', alignItems: 'center', gap: '8px'}}>
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
-                        Cerrar Sesión
-                      </span>
-                  </button>
-              </form>
+          <div className="sidebar-profile-dropdown" data-ul-profile-corner-wrap style={{ display: 'none' }}>
+              <button className="sidebar-profile-btn" onClick={() => {
+                if (typeof window !== 'undefined' && (window as any).toggleSidebarProfileMenu) {
+                  (window as any).toggleSidebarProfileMenu();
+                }
+              }}>
+                  <img data-ul-profile-corner-img src="" alt="" className="sidebar-profile-img" referrerPolicy="no-referrer" />
+                  <span data-ul-profile-corner-name className="sidebar-profile-name"></span>
+              </button>
+              <div className="sidebar-profile-menu" id="sidebar-profile-menu" style={{ display: 'none' }}>
+                  <a data-ul-profile-corner-link href="/" className="sidebar-profile-menu-item">Mi perfil</a>
+                  <form action="/auth/signout" method="post" style={{ margin: 0, width: '100%' }}>
+                      <button type="submit" className="sidebar-profile-menu-item logout-item">Cerrar sesión</button>
+                  </form>
+              </div>
           </div>
       </div>
 
@@ -66,17 +70,9 @@ export function ProfileHeaderClient({ username, avatarUrl }: { username: string;
                   <span style={{ display: 'block', width: '20px', height: '2px', background: 'white' }}></span>
                   <span style={{ display: 'block', width: '20px', height: '2px', background: 'white' }}></span>
               </button>
-              <a href="/underless" className="mobile-only-back" aria-label="Ir a Underless" style={{ background: '#242829', border: '1px solid #3a3d3f', cursor: 'pointer', display: 'flex', flexDirection: 'column', gap: '4px', padding: '10px', borderRadius: '8px', width: '44px', height: '44px', justifyContent: 'center', alignItems: 'center', color: 'white' }}>
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+              <a href="/underless" className="mobile-only-back" aria-label="Ir a Underless" style={{ background: '#242829', border: '1px solid #3a3d3f', cursor: 'pointer', display: 'flex', flexDirection: 'column', gap: '4px', padding: '6px', borderRadius: '8px', width: '36px', height: '36px', justifyContent: 'center', alignItems: 'center', color: 'white' }}>
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
               </a>
-          </div>
-          {/* Logout corner for mobile if sidebar is not open, visible next to profile wrap */}
-          <div className="mobile-logout-wrap" style={{ pointerEvents: 'auto', display: 'flex', gap: '10px' }}>
-            <form action="/auth/signout" method="post">
-                <button type="submit" aria-label="Cerrar sesión" style={{ background: 'rgba(0,0,0,0.6)', border: '1px solid rgba(255,40,40,0.3)', borderRadius: '20px', padding: '6px 12px', color: '#ff4444', cursor: 'pointer', display: 'flex', alignItems: 'center' }}>
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
-                </button>
-            </form>
           </div>
       </div>
 

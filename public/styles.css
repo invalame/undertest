@@ -2428,10 +2428,6 @@ body {
 
 /* Mobile adjustments */
 @media (max-width: 480px) {
-    .underless-profile-corner-wrap {
-        right: 15px;
-        top: 55px;
-    }
 
     .youtube-container {
         right: 15px;
