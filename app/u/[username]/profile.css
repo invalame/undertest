@@ -16,7 +16,8 @@
 
 .profile-main-content {
   flex: 1;
-  padding-top: 80px !important; /* Spacing for the top bar */
+  padding-top: 80px !important;
+  /* Spacing for the top bar */
   padding-bottom: clamp(16px, 4vw, 40px);
   padding-left: clamp(16px, 4vw, 40px);
   padding-right: clamp(16px, 4vw, 40px);
@@ -44,6 +45,7 @@
     flex-direction: column;
     z-index: 5000;
   }
+
   .profile-root #underless-sidebar-root .underless-overlay {
     display: none !important;
   }
@@ -59,14 +61,16 @@
 }
 
 .profile-shell {
-  width: 100%;
-  max-width: 1000px;
+  width: 860px;
+  max-width: calc(100vw - 32px);
   background: transparent;
   padding: 20px 0;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
   position: relative;
+  overflow: hidden;
+  flex-shrink: 0;
 }
 
 .profile-head {
@@ -79,11 +83,7 @@
   box-sizing: border-box;
 }
 
-@media (max-width: 1100px) {
-  .profile-shell {
-    width: 95%;
-  }
-}
+@media (max-width: 1100px) {}
 
 @media (max-width: 768px) {
   .profile-head {
@@ -92,14 +92,17 @@
     text-align: left;
     gap: 16px;
   }
+
   .profile-shell {
     padding: 10px 0;
     margin: 0;
-    width: 100%;
+    max-width: calc(100vw - 20px);
   }
+
   .profile-root {
     padding: 0;
   }
+
   .profile-main-content {
     padding: 10px;
   }
@@ -113,7 +116,8 @@
 .profile-avatar {
   width: 140px;
   height: 140px;
-  border-radius: 4px; /* Mas cuadrado */
+  border-radius: 4px;
+  /* Mas cuadrado */
   object-fit: cover;
   border: 1px solid #575757;
   display: block;
@@ -505,4 +509,3 @@
 .profile-msg--err {
   color: #ff4444;
 }
-
