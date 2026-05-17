@@ -32,7 +32,6 @@ export default async function HomePage({ searchParams }: Props) {
       username: profile?.display_name && profile?.discriminator 
         ? `${profile.display_name} #${profile.discriminator}` 
         : (profile?.username || 'Usuario'),
-      profileSlug: profile?.username || '',
       avatar: profile?.avatar_path 
         ? `/img_profile/${profile.avatar_path}` 
         : oauthAvatar || '/img_profile/default-profile.png'

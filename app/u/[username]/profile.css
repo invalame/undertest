@@ -10,13 +10,6 @@
   flex-direction: column;
 }
 
-@media (min-width: 1101px) {
-  .profile-root {
-    flex-direction: row;
-    align-items: flex-start;
-  }
-}
-
 .profile-header {
   display: none;
 }
@@ -35,37 +28,29 @@
 
 
 
-/* Sidebar sticky on PC profile */
+/* Sidebar persistent on Profile Page (Desktop) */
 @media (min-width: 1101px) {
-  .profile-root #underless-sidebar-root {
+  .profile-root #underless-sidebar-root .underless-sidebar {
     position: sticky;
     top: 0;
-    height: 100vh;
-    z-index: 5000;
-  }
-  .profile-root #underless-sidebar-root .underless-sidebar {
-    position: relative;
     height: 100vh;
     transform: translateX(0);
     visibility: visible;
     pointer-events: auto;
+    box-shadow: none;
     border-right: 1px solid #3a3d3f;
     min-width: 280px;
     display: flex;
     flex-direction: column;
+    z-index: 5000;
   }
   .profile-root #underless-sidebar-root .underless-overlay {
-    display: none !important;
-  }
-  /* Hide the hamburger and back button on PC when sidebar is persistent */
-  .profile-root .underless-global-top-actions {
     display: none !important;
   }
 }
 
 .profile-main-content {
   flex: 1;
-  width: 100%;
   padding: clamp(16px, 4vw, 40px);
   display: flex;
   flex-direction: column;
@@ -75,7 +60,7 @@
 
 .profile-shell {
   width: 100%;
-  max-width: 900px;
+  max-width: 1000px;
   background: transparent;
   padding: 20px 0;
   box-sizing: border-box;
@@ -91,6 +76,7 @@
   margin-bottom: 32px;
   align-items: flex-start;
   width: 100%;
+  box-sizing: border-box;
 }
 
 @media (max-width: 1100px) {
@@ -166,13 +152,13 @@
   flex-direction: column;
   gap: 16px;
   min-width: 0;
+  width: 100%;
 }
 
 .profile-name-container {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  width: 100%;
 }
 
 .profile-name-edit-box {
@@ -232,22 +218,20 @@
 }
 
 .profile-username {
-  font-size: clamp(1.8rem, 4vw, 2.8rem);
   margin: 0;
+  font-family: 'UnderLessFont', sans-serif;
+  font-size: 2rem;
+  color: #fff;
   display: flex;
   align-items: center;
   gap: 12px;
-  flex-wrap: wrap;
-  word-break: break-all;
-  white-space: normal;
-  line-height: 1.2;
+  min-width: 0;
 }
 
 .profile-disc {
-  color: #55b725;
+  color: #575757;
   font-size: 0.55em;
-  font-weight: 500;
-  white-space: nowrap;
+  font-family: 'PoppinsFont', sans-serif;
 }
 
 .profile-edit-name-btn {

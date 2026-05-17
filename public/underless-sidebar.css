@@ -245,67 +245,69 @@
 #underless-sidebar-root .underless-social-buttons {
     display: flex;
     flex-direction: row;
-    justify-content: center;
-    gap: 12px;
+    gap: 10px;
     margin-top: 15px;
     padding-top: 15px;
-    border-top: 1px solid rgba(255,255,255,0.05);
+    border-top: 1px solid var(--ul-border);
+    justify-content: center;
 }
 
 #underless-sidebar-root .underless-social-btn {
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 10px;
+    width: 44px;
+    height: 44px;
     border: none;
-    border-radius: 6px;
-    color: var(--ul-muted);
-    background: transparent;
-    transition: all 0.15s ease;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--ul-white);
+    transition: all 0.2s ease;
 }
 
-#underless-sidebar-root .underless-social-btn span {
-    display: none;
+#underless-sidebar-root .underless-social-btn svg {
+    width: 20px;
+    height: 20px;
 }
 
 #underless-sidebar-root .underless-twitter-btn:hover {
-    background: rgba(255, 255, 255, 0.06);
-    color: var(--ul-white);
+    background: #1DA1F2;
+    color: white;
 }
 
 #underless-sidebar-root .underless-youtube-btn:hover {
-    background: rgba(255, 0, 0, 0.1);
-    color: #ff4444;
+    background: #FF0000;
+    color: white;
 }
 
-/* ========================================
-   SIDEBAR PROFILE MENU
-   ======================================== */
-#underless-sidebar-root .sidebar-profile-dropdown {
+/* Sidebar Footer Profile Dropdown */
+#underless-sidebar-root .sidebar-footer {
     margin-top: auto;
-    position: relative;
     padding-top: 20px;
+    display: flex;
+    flex-direction: column;
 }
 
-#underless-sidebar-root .sidebar-profile-btn {
+#underless-sidebar-root .sidebar-profile-toggle {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 12px;
+    padding: 10px;
     background: transparent;
     border: 1px solid transparent;
-    padding: 8px 10px;
     border-radius: 8px;
     cursor: pointer;
-    width: 100%;
     color: var(--ul-white);
-    transition: all 0.15s ease;
+    transition: background 0.2s;
     font-family: 'PoppinsFont', sans-serif;
     font-size: 0.95rem;
+    font-weight: 500;
+    width: 100%;
+    text-align: left;
 }
 
-#underless-sidebar-root .sidebar-profile-btn:hover {
+#underless-sidebar-root .sidebar-profile-toggle:hover {
     background: rgba(255, 255, 255, 0.05);
-    border-color: rgba(255, 255, 255, 0.1);
 }
 
 #underless-sidebar-root .sidebar-profile-img {
@@ -315,65 +317,56 @@
     object-fit: cover;
 }
 
-#underless-sidebar-root .sidebar-profile-name {
-    font-weight: 500;
-    max-width: 160px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    text-align: left;
-}
-
 #underless-sidebar-root .sidebar-profile-menu {
-    position: absolute;
-    bottom: 100%;
-    left: 0;
-    width: 100%;
-    background: #1a1c1d;
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    background: var(--ul-bg);
     border: 1px solid var(--ul-border);
     border-radius: 8px;
-    padding: 6px;
+    padding: 8px;
+    margin-bottom: 10px;
+    transform-origin: bottom left;
+    animation: slideUpFade 0.2s ease;
+}
+
+#underless-sidebar-root .sidebar-profile-menu.show {
     display: flex;
-    flex-direction: column;
-    gap: 4px;
-    margin-bottom: 8px;
-    box-sizing: border-box;
-    box-shadow: 0 -4px 12px rgba(0,0,0,0.4) !important;
+}
+
+@keyframes slideUpFade {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
 #underless-sidebar-root .sidebar-profile-menu-item {
     display: flex;
     align-items: center;
+    gap: 8px;
     padding: 10px 12px;
-    text-decoration: none;
+    border-radius: 6px;
     color: var(--ul-white);
+    text-decoration: none;
     font-family: 'PoppinsFont', sans-serif;
     font-size: 0.9rem;
-    border-radius: 4px;
-    background: transparent;
+    transition: background 0.2s;
     border: none;
+    background: transparent;
     cursor: pointer;
-    text-align: left;
     width: 100%;
-    box-sizing: border-box;
-    transition: background 0.15s;
+    text-align: left;
 }
 
 #underless-sidebar-root .sidebar-profile-menu-item:hover {
-    background: rgba(255,255,255,0.06);
+    background: rgba(255, 255, 255, 0.08);
 }
 
-#underless-sidebar-root .logout-item {
-    color: #ff4444;
+#underless-sidebar-root .sidebar-profile-menu-item.logout {
+    color: var(--ul-red);
 }
 
-#underless-sidebar-root .logout-item:hover {
-    background: rgba(255, 68, 68, 0.1);
-}
-
-#underless-sidebar-root .underless-youtube-btn:hover {
-    background: rgba(255, 0, 0, 0.1);
-    color: #ff4444;
+#underless-sidebar-root .sidebar-profile-menu-item.logout:hover {
+    background: rgba(180, 40, 40, 0.1);
 }
 
 /* ========================================
@@ -1443,6 +1436,49 @@
     background: rgba(255, 255, 255, 0.06);
 }
 
+/* ========================================
+   SHARED PROFILE CORNER (Across all modes)
+   ======================================== */
+.underless-profile-corner-wrap {
+    display: flex !important;
+    align-items: center;
+    gap: 12px;
+    background: rgba(0, 0, 0, 0.4);
+    padding: 6px 16px 6px 6px; /* Mas grande */
+    border-radius: 50px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: all 0.2s ease;
+    text-decoration: none;
+    cursor: pointer;
+    user-select: none;
+    pointer-events: auto;
+}
+
+.underless-profile-corner-wrap:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: #55b725;
+    transform: translateY(-1px);
+}
+
+.underless-profile-corner-img {
+    width: 45px; /* Un pelin mas grande */
+    height: 45px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+}
+
+.underless-profile-corner-name {
+    color: #fff;
+    font-size: 1.1rem; /* Un pelin mas grande */
+    font-weight: 600;
+    font-family: 'PoppinsFont', sans-serif;
+    max-width: 180px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: inline-block !important; /* Siempre visible */
+}
 
 /* Sidebar Toggle for Normal Mode */
 .underless-main-sidebar-toggle {
@@ -1474,6 +1510,14 @@
     border-radius: 2px;
 }
 
+@media (max-width: 768px) {
+    .underless-profile-corner-name {
+        display: none;
+    }
+    .underless-profile-corner-wrap {
+        padding: 4px;
+    }
+}
 
 /* Header layout helpers */
 header {

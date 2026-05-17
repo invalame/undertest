@@ -5,28 +5,42 @@
     el.style.display = on ? '' : 'none'
   }
 
-  function applyAll(cornerSrc, profilePath, displayName) {
-    document.querySelectorAll('[data-ul-profile-corner-wrap]').forEach(function (wrap) {
-      var img = wrap.querySelector('[data-ul-profile-corner-img]')
-      var nameEl = wrap.querySelector('[data-ul-profile-corner-name]')
-      var link = wrap.querySelector('[data-ul-profile-corner-link]')
+  function applyAll(cornerSrc, profilePath, displayName, discriminator) {
+    document.querySelectorAll('[data-ul-sidebar-profile-wrap]').forEach(function (wrap) {
+      var img = wrap.querySelector('[data-ul-sidebar-profile-img]')
+      if (!img) return
       
-      if (img) {
-        img.src = cornerSrc
-        img.alt = 'Perfil'
-      }
+      // Inject Name
+      var nameEl = wrap.querySelector('[data-ul-sidebar-profile-name]')
       if (nameEl) {
         nameEl.textContent = displayName
       }
-      if (link) {
-        link.href = profilePath
-      }
+      
+      img.src = cornerSrc
+      img.alt = 'Perfil'
+      
+      var profileLink = wrap.querySelector('[data-ul-sidebar-profile-link]')
+      if (profileLink) profileLink.href = profilePath
+      
       show(wrap, true)
+      
+      // Toggle dropdown logic
+      var toggleBtn = wrap.querySelector('[data-ul-sidebar-profile-toggle]')
+      var menu = wrap.querySelector('[data-ul-sidebar-profile-menu]')
+      if (toggleBtn && menu) {
+        toggleBtn.onclick = function(e) {
+          e.stopPropagation()
+          menu.classList.toggle('show')
+        }
+        document.addEventListener('click', function(e) {
+          if (!wrap.contains(e.target)) menu.classList.remove('show')
+        })
+      }
     })
   }
 
   function hideAll() {
-    document.querySelectorAll('[data-ul-profile-corner-wrap]').forEach(function (wrap) {
+    document.querySelectorAll('[data-ul-sidebar-profile-wrap]').forEach(function (wrap) {
       show(wrap, false)
     })
   }
@@ -39,7 +53,7 @@
         hideAll()
         return
       }
-      applyAll(j.cornerSrc, j.profilePath, j.display_name)
+      applyAll(j.cornerSrc, j.profilePath, j.display_name, j.discriminator)
     } catch (e) {
       hideAll()
     }
@@ -58,27 +72,6 @@
         window.location.href = '/'
       })
   }
-
-  window.toggleSidebarProfileMenu = function () {
-    var menus = document.querySelectorAll('#sidebar-profile-menu');
-    menus.forEach(function(menu) {
-      if (menu.style.display === 'none') {
-        menu.style.display = 'flex';
-      } else {
-        menu.style.display = 'none';
-      }
-    });
-  }
-
-  // Close menu when clicking outside
-  document.addEventListener('click', function(e) {
-    if (!e.target.closest('[data-ul-profile-corner-wrap]')) {
-      var menus = document.querySelectorAll('#sidebar-profile-menu');
-      menus.forEach(function(menu) {
-        menu.style.display = 'none';
-      });
-    }
-  });
 
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', init)

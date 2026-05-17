@@ -16,7 +16,7 @@ type Props = {
   nextPath: string
   errorMessage: string | null
   officialOrigin?: string
-  userData?: { username: string; profileSlug: string; avatar: string }
+  userData?: { username: string; avatar: string }
 }
 
 function storeLegalSnapshot(step: EmailStep, emailValue: string) {
@@ -290,10 +290,10 @@ export function HomeClient({ isAuthed, nextPath, errorMessage, officialOrigin, u
             <div className="home-user-separator" />
             
             <div className="home-user-mini-profile">
-              <Link href={userData?.profileSlug ? `/u/${userData.profileSlug}` : '/'} className="home-user-info" style={{ textDecoration: 'none' }}>
-                <img src={userData?.avatar || '/img/peepo-band.gif'} alt="" className="home-user-avatar-mini" referrerPolicy="no-referrer" />
-                <span className="home-user-name-mini" style={{ color: 'white' }}>{userData?.username || 'Usuario'}</span>
-              </Link>
+              <div className="home-user-info">
+                <img src={userData?.avatar || '/img/peepo-band.gif'} alt="" className="home-user-avatar-mini" />
+                <span className="home-user-name-mini">{userData?.username || 'Usuario'}</span>
+              </div>
               <form action="/auth/signout" method="post">
                 <button type="submit" className="home-btn-small-rect">
                   Salir
