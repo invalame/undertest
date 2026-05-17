@@ -28,24 +28,9 @@
 
 
 
-/* Sidebar persistent on Profile Page (Desktop) */
-@media (min-width: 1101px) {
-  .profile-root #underless-sidebar-root .underless-sidebar {
-    position: sticky;
-    top: 0;
-    height: 100vh; /* Altura infinita (toda la pantalla) */
-    transform: translateX(0);
-    visibility: visible;
-    pointer-events: auto;
-    box-shadow: none;
-    border-right: 1px solid #3a3d3f;
-    min-width: 280px;
-    display: flex;
-    flex-direction: column;
-  }
-  .profile-root #underless-sidebar-root .underless-overlay {
-    display: none !important;
-  }
+/* Sidebar overlay fix for Desktop profile layout (removed forced sticky sidebar) */
+.profile-root #underless-sidebar-root .underless-sidebar {
+  /* Let it behave like underless game */
 }
 
 .profile-main-content {
@@ -84,10 +69,10 @@
 
 @media (max-width: 768px) {
   .profile-head {
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    gap: 20px;
+    flex-direction: row;
+    align-items: flex-start;
+    text-align: left;
+    gap: 16px;
   }
   .profile-shell {
     padding: 10px 0;
@@ -305,8 +290,10 @@
   color: #fff;
   padding: 12px;
   font-family: inherit;
-  font-size: 0.9rem;
-  resize: none;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  resize: vertical;
+  min-height: 80px;
   outline: none;
 }
 

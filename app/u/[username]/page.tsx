@@ -82,9 +82,11 @@ export default async function UserProfilePage({ params }: Props) {
 
   const oauth = isOwner ? oauthPicture(sessionUser?.user_metadata as Record<string, unknown>) : null
 
+  const avatarUrl = profile.avatar_path ? (profile.avatar_path.startsWith('http') ? profile.avatar_path : `/img_profile/${encodeURI(profile.avatar_path)}`) : (oauth || '/img_profile/default-profile.png');
+
   return (
     <div className="profile-root">
-      <ProfileHeaderClient username={profile.username} />
+      <ProfileHeaderClient username={profile.username} avatarUrl={avatarUrl} />
 
       <ProfileClient
         profile={profile}

@@ -2334,22 +2334,3 @@ window.addEventListener('load', () => {
 window.addEventListener("resize", ajustarEscala);
 window.addEventListener("load", ajustarEscala);
 
-// FIX: Force loader on Play Button when switching modes without selection
-// This ensures visual feedback (spinner) persists until the user picks a song
-['mode-artist', 'mode-album', 'mode-normal'].forEach(modeId => {
-    const btn = document.getElementById(modeId);
-    if (btn) {
-        btn.addEventListener('click', () => {
-            setTimeout(() => {
-                const playBtn = document.getElementById('play-button');
-                // Check conditions to force loader
-                const needsLoader = (currentMode === 'artist' && !selectedArtist) ||
-                    (currentMode === 'album' && !selectedAlbum);
-
-                if (needsLoader && playBtn) {
-                    playBtn.innerHTML = '<div class="loader"></div>';
-                }
-            }, 50); // Small delay to run after main switch logic
-        });
-    }
-});

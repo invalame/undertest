@@ -40,7 +40,7 @@
 <div class="underless-sidebar-trigger-line" onclick="toggleSidebar()" title="Abrir Sidebar"></div>
 
 <!-- TOP ACTIONS (OUTSIDE THE BOX) -->
-<div class="underless-global-top-actions" style="position: fixed; top: 20px; left: 20px; right: 20px; display: flex; justify-content: space-between; align-items: center; z-index: 1000; pointer-events: none;">
+<div class="underless-global-top-actions" style="position: fixed; top: 20px; left: 20px; right: 20px; display: flex; justify-content: space-between; align-items: center; z-index: 6501; pointer-events: none;">
     <div style="pointer-events: auto;">
         <button class="underless-main-sidebar-toggle" onclick="toggleSidebar()" aria-label="Menu" style="background: #242829; border: 1px solid #3a3d3f; cursor: pointer; display: flex; flex-direction: column; gap: 4px; padding: 10px; border-radius: 8px; width: 44px; height: 44px; justify-content: center; align-items: center;">
             <span style="display: block; width: 20px; height: 2px; background: white;"></span>
@@ -50,7 +50,7 @@
     </div>
     <div class="underless-profile-corner-wrap" data-ul-profile-corner-wrap hidden style="display:none; pointer-events: auto;">
         <a data-ul-profile-corner-link href="/" class="underless-profile-corner-link" style="display: flex; align-items: center; gap: 8px; text-decoration: none; background: rgba(0,0,0,0.6); padding: 5px 12px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.1);">
-            <img data-ul-profile-corner-img src="" alt="" width="28" height="28" class="underless-profile-corner-img" style="border-radius: 50%;" />
+            <img data-ul-profile-corner-img src="" alt="" width="28" height="28" class="underless-profile-corner-img" style="border-radius: 50%;" referrerpolicy="no-referrer" />
             <span data-ul-profile-corner-name class="underless-profile-corner-name" style="color: white; font-size: 0.9em; font-weight: 500;"></span>
         </a>
     </div>
@@ -110,7 +110,7 @@
             </div>
     
             <!-- Card Left -->
-            <div class="artist-card" id="uoh-card-left">
+            <div class="artist-card" id="uoh-card-left" onclick="UnderlessSidebar.handleCardClick('left')">
                 <div class="card-image-container">
                     <img class="card-image" id="uoh-img-left" src="" alt="Artista 1">
                     <div class="result-overlay wrong" id="uoh-overlay-left-wrong"></div>
@@ -128,20 +128,16 @@
             <div class="vs-divider">VS</div>
     
             <!-- Card Right -->
-            <div class="artist-card" id="uoh-card-right">
+            <div class="artist-card" id="uoh-card-right" onclick="UnderlessSidebar.handleCardClick('right')">
                 <div class="card-image-container">
-                    <img class="card-image" id="uoh-img-right" src="" alt="Artista 2" onclick="UnderlessSidebar.handleCardClick('right')">
+                    <img class="card-image" id="uoh-img-right" src="" alt="Artista 2">
                     <div class="result-overlay wrong" id="uoh-overlay-right-wrong"></div>
                     <div class="result-overlay correct" id="uoh-overlay-right-correct"></div>
                 </div>
                 <div class="card-info">
                     <p class="artist-name" id="uoh-name-right">"Artista"</p>
                     <div class="listeners-section">
-                        <p class="listeners-count" id="uoh-count-right">0</p>
-                    </div>
-                    <div class="uoh-actions">
-                        <button class="uoh-btn uoh-btn-higher" onclick="UnderlessSidebar.handleCardClick('right')">MÁS</button>
-                        <button class="uoh-btn uoh-btn-under" onclick="UnderlessSidebar.handleCardClick('left')">MENOS</button>
+                        <p class="listeners-count" id="uoh-count-right">???</p>
                     </div>
                 </div>
             </div>

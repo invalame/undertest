@@ -114,7 +114,14 @@
    OVERLAY + SIDEBAR
    ======================================== */
 #underless-sidebar-root .underless-overlay {
-    display: none !important; /* No oscurecer la pantalla */
+    position: fixed;
+    inset: 0;
+    z-index: 6999;
+    background: transparent;
+    display: none;
+}
+#underless-sidebar-root.underless-open .underless-overlay {
+    display: block;
 }
 
 #underless-sidebar-root .underless-sidebar {
@@ -779,16 +786,12 @@
     margin: 0;
 }
 
-/* Listeners section - hidden until revealed, divider above */
+/* Listeners section always visible now */
 #underless-sidebar-root .listeners-section {
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1);
     border-top: 1px solid var(--ul-border);
 }
 
 #underless-sidebar-root .listeners-section.revealed {
-    max-height: 80px;
 }
 
 #underless-sidebar-root .listeners-container {
@@ -822,9 +825,7 @@
 /* Mobile phones */
 @media (max-width: 700px) {
     #underless-sidebar-root .underless-uoh-game.active {
-        padding: 8px;
-        padding-top: 10px;
-        padding-bottom: 10px;
+        padding: 80px 8px 10px 8px !important;
         overflow-y: auto;
         justify-content: flex-start;
     }
@@ -861,7 +862,6 @@
     }
 
     #underless-sidebar-root .listeners-section.revealed {
-        max-height: 55px;
     }
 
     #underless-sidebar-root .vs-divider {

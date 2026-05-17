@@ -152,7 +152,7 @@ export function ProfileClient({ profile, isOwner, oauthPicture, initialAvatars }
         <div className="profile-shell">
           <div className="profile-head">
             <div className="profile-avatar-block">
-              <img className="profile-avatar" src={src} alt="" width={140} height={140} />
+              <img className="profile-avatar" src={src} alt="" width={140} height={140} referrerPolicy="no-referrer" />
               {isOwner ? (
                 <button
                   type="button"
@@ -188,8 +188,9 @@ export function ProfileClient({ profile, isOwner, oauthPicture, initialAvatars }
                             setTimeout(() => setMsg(null), 3000);
                             return;
                           }
-                          void saveField({ display_name: trimmed })
-                          setIsEditingName(false)
+                          saveField({ display_name: trimmed }).then(ok => {
+                            if (ok) setIsEditingName(false)
+                          })
                         }
                       }}
                       autoFocus
@@ -207,8 +208,9 @@ export function ProfileClient({ profile, isOwner, oauthPicture, initialAvatars }
                           setTimeout(() => setMsg(null), 3000);
                           return;
                         }
-                        void saveField({ display_name: trimmed })
-                        setIsEditingName(false)
+                        saveField({ display_name: trimmed }).then(ok => {
+                            if (ok) setIsEditingName(false)
+                        })
                     }}>Guardar</button>
                     <button className="profile-name-cancel-btn" onClick={() => {
                         setDisplayName(profile.display_name)
@@ -338,7 +340,7 @@ export function ProfileClient({ profile, isOwner, oauthPicture, initialAvatars }
                     onClick={() => void pickAvatar(null)}
                     aria-label="Usar foto de Google"
                   >
-                    <img src={oauthPicture} alt="Google" />
+                    <img src={oauthPicture} alt="Google" referrerPolicy="no-referrer" />
                     <div className="google-badge">G</div>
                   </button>
                 )}

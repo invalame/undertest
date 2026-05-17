@@ -581,7 +581,7 @@ const UnderlessSidebar = (function () {
 
         // Only set the real count if we're showing listeners, otherwise hide it
         if (countRight) {
-            countRight.textContent = showListeners ? formatNumber(artist.monthly_listeners) : "?";
+            countRight.textContent = showListeners ? formatNumber(artist.monthly_listeners) : "???";
         }
 
         if (listenersRightSection) {
