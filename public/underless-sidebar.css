@@ -124,6 +124,15 @@
     display: block;
 }
 
+/* Perfil en móvil: fondo oscuro al abrir; tocar fuera cierra (manejado en React) */
+@media (max-width: 768px) {
+    #underless-sidebar-root.ul-profile-page.underless-open:not(.ul-profile-desktop) .underless-overlay {
+        display: block;
+        background: rgba(0, 0, 0, 0.55);
+        pointer-events: auto;
+    }
+}
+
 /* Perfil en escritorio: sidebar fijo, sin overlay */
 #underless-sidebar-root.ul-profile-desktop .underless-overlay {
     display: none !important;
@@ -914,6 +923,18 @@ body.ul-sidebar-open .underless-main-sidebar-toggle {
 #underless-sidebar-root .card-info {
     display: flex;
     flex-direction: column;
+    align-items: center;
+    text-align: center;
+    width: 100%;
+}
+
+#underless-sidebar-root .card-info .artist-name,
+#underless-sidebar-root .card-info .listeners-section,
+#underless-sidebar-root .card-info .listeners-count {
+    width: 100%;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 #underless-sidebar-root .artist-name-section {

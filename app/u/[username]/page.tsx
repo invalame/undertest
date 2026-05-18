@@ -2,8 +2,8 @@ import { notFound } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
 import { ProfileClient, type ProfilePublic } from './profile-client'
 import { ProfileHeaderClient } from './profile-header-client'
+import { getProfileByUsername } from './get-profile'
 import './profile.css'
-import Script from 'next/script'
 
 import { Metadata } from 'next'
 
@@ -12,19 +12,14 @@ type Props = { params: Promise<{ username: string }> }
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { username: raw } = await params
   const username = decodeURIComponent(raw).toLowerCase()
-  const supabase = await createClient()
-  const { data: profile } = await supabase
-    .from('profiles')
-    .select('display_name, discriminator, avatar_path')
-    .eq('username', username)
-    .maybeSingle()
+  const { row: profile } = await getProfileByUsername(username)
 
-  const title = profile 
-    ? `${profile.display_name} #${profile.discriminator} - UnderLess` 
+  const title = profile
+    ? `${profile.display_name} #${profile.discriminator} - UnderLess`
     : 'Perfil - UnderLess'
-  
-  const avatar = profile?.avatar_path 
-    ? `https://underless.vercel.app/img_profile/${profile.avatar_path}` 
+
+  const avatar = profile?.avatar_path
+    ? `https://underless.vercel.app/img_profile/${profile.avatar_path}`
     : 'https://underless.vercel.app/img_profile/default-profile.png'
 
   return {
@@ -38,7 +33,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       card: 'summary',
       title,
       images: [avatar],
-    }
+    },
   }
 }
 
@@ -56,33 +51,35 @@ export default async function UserProfilePage({ params }: Props) {
   }
 
   const supabase = await createClient()
-  const { data: row, error } = await supabase
-    .from('profiles')
-    .select('id, username, bio, avatar_path, underium, max_streak, display_name, discriminator')
-    .eq('username', username)
-    .maybeSingle()
+  const [{ row }, { data: { user: sessionUser } = { user: null } }] = await Promise.all([
+    getProfileByUsername(username),
+    supabase.auth.getUser(),
+  ])
 
-  if (error || !row) {
+  if (!row) {
     notFound()
   }
 
-  const { data: { user: sessionUser } = { user: null } } = await supabase.auth.getUser()
   const isOwner = !!sessionUser && sessionUser.id === row.id
 
   const profile: ProfilePublic = {
-    id: row.id as string,
-    username: row.username as string,
-    bio: (row.bio as string) ?? '',
-    avatar_path: (row.avatar_path as string | null) ?? null,
-    underium: Number(row.underium ?? 0),
-    max_streak: Number(row.max_streak ?? 0),
-    display_name: (row.display_name as string) ?? 'Userless',
-    discriminator: (row.discriminator as string) ?? '0000',
+    id: row.id,
+    username: row.username,
+    bio: row.bio,
+    avatar_path: row.avatar_path,
+    underium: row.underium,
+    max_streak: row.max_streak,
+    display_name: row.display_name,
+    discriminator: row.discriminator,
   }
 
   const oauth = isOwner ? oauthPicture(sessionUser?.user_metadata as Record<string, unknown>) : null
 
-  const avatarUrl = profile.avatar_path ? (profile.avatar_path.startsWith('http') ? profile.avatar_path : `/img_profile/${encodeURI(profile.avatar_path)}`) : (oauth || '/img_profile/default-profile.png');
+  const avatarUrl = profile.avatar_path
+    ? profile.avatar_path.startsWith('http')
+      ? profile.avatar_path
+      : `/img_profile/${encodeURI(profile.avatar_path)}`
+    : oauth || '/img_profile/default-profile.png'
 
   return (
     <div className="profile-root">
@@ -94,9 +91,6 @@ export default async function UserProfilePage({ params }: Props) {
         oauthPicture={oauth}
         initialAvatars={[]}
       />
-
-      <link rel="stylesheet" href="/underless-sidebar.css" />
-      <Script src="/underless-sidebar.js" strategy="afterInteractive" />
     </div>
   )
 }

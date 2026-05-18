@@ -1,61 +1,69 @@
 'use client'
 
-import React, { useEffect } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 
-type UnderlessSidebarApi = {
-    toggleSidebar: () => void
-    closeSidebar: (force?: boolean) => void
-    openSidebar: () => void
-}
+const DESKTOP_MQ = '(min-width: 769px)'
 
 export function ProfileHeaderClient({ username, avatarUrl }: { username: string; avatarUrl?: string }) {
-    const getSidebar = (): UnderlessSidebarApi | null => {
-        if (typeof window === 'undefined') return null
-        return (window as Window & { UnderlessSidebar?: UnderlessSidebarApi }).UnderlessSidebar ?? null
-    }
+    const [sidebarOpen, setSidebarOpen] = useState(false)
+    const [isDesktop, setIsDesktop] = useState(false)
+
+    const syncViewport = useCallback(() => {
+        const desktop = window.matchMedia(DESKTOP_MQ).matches
+        setIsDesktop(desktop)
+        setSidebarOpen(desktop)
+    }, [])
+
+    useEffect(() => {
+        syncViewport()
+        const mq = window.matchMedia(DESKTOP_MQ)
+        const onChange = () => syncViewport()
+        mq.addEventListener('change', onChange)
+        return () => mq.removeEventListener('change', onChange)
+    }, [syncViewport])
+
+    useEffect(() => {
+        document.body.classList.toggle('ul-sidebar-open', sidebarOpen)
+        return () => document.body.classList.remove('ul-sidebar-open')
+    }, [sidebarOpen])
 
     const toggleSidebar = () => {
-        const ul = getSidebar()
-        if (ul) {
-            ul.toggleSidebar()
-            return
-        }
-        const w = window as Window & { toggleSidebar?: () => void }
-        if (typeof w.toggleSidebar === 'function') w.toggleSidebar()
+        if (isDesktop) return
+        setSidebarOpen((v) => !v)
     }
 
     const closeSidebar = () => {
-        const ul = getSidebar()
-        if (ul) ul.closeSidebar(true)
+        if (isDesktop) return
+        setSidebarOpen(false)
     }
 
-    useEffect(() => {
-        const boot = () => {
-            const w = window as Window & {
-                UnderlessSidebar?: UnderlessSidebarApi & { init?: () => void; syncSidebarChrome?: () => void }
-            }
-            if (w.UnderlessSidebar?.init) w.UnderlessSidebar.init()
-            if (w.UnderlessSidebar?.openSidebar) w.UnderlessSidebar.openSidebar()
-            else if (w.UnderlessSidebar?.syncSidebarChrome) w.UnderlessSidebar.syncSidebarChrome()
-        }
-        boot()
-        const t = window.setTimeout(boot, 200)
-        return () => window.clearTimeout(t)
-    }, [])
+    const rootClass = [
+        sidebarOpen ? 'underless-open' : '',
+        'ul-profile-page',
+        isDesktop ? 'ul-profile-desktop' : 'ul-profile-mobile',
+    ]
+        .filter(Boolean)
+        .join(' ')
 
     return (
         <>
-            <div
-                className="underless-sidebar-trigger-line"
-                onClick={toggleSidebar}
-                title="Abrir menú"
-                role="button"
-                tabIndex={0}
-                onKeyDown={(e) => e.key === 'Enter' && toggleSidebar()}
-            />
+            {!isDesktop && !sidebarOpen ? (
+                <div
+                    className="underless-sidebar-trigger-line"
+                    onClick={toggleSidebar}
+                    title="Abrir menú"
+                    role="button"
+                    tabIndex={0}
+                    onKeyDown={(e) => e.key === 'Enter' && toggleSidebar()}
+                />
+            ) : null}
 
-            <div id="underless-sidebar-root" data-ul-page="profile">
-                <div className="underless-overlay" aria-hidden="true" />
+            <div id="underless-sidebar-root" data-ul-page="profile" className={rootClass}>
+                <div
+                    className="underless-overlay"
+                    aria-hidden={!sidebarOpen || isDesktop}
+                    onClick={closeSidebar}
+                />
                 <nav className="underless-sidebar" aria-label="Menú de modos de juego">
                     <button type="button" className="underless-sidebar-close-btn" onClick={closeSidebar} aria-label="Cerrar">
                         ×
@@ -146,84 +154,34 @@ export function ProfileHeaderClient({ username, avatarUrl }: { username: string;
                 }}
             >
                 <div style={{ pointerEvents: 'auto' }} className="mobile-header-left">
-                    <button
-                        type="button"
-                        className="underless-main-sidebar-toggle"
-                        onClick={toggleSidebar}
-                        aria-label="Menú"
-                        style={{
-                            background: '#242829',
-                            border: '1px solid #3a3d3f',
-                            cursor: 'pointer',
-                            display: 'flex',
-                            flexDirection: 'column',
-                            gap: '4px',
-                            padding: '10px',
-                            borderRadius: '8px',
-                            width: '44px',
-                            height: '44px',
-                            justifyContent: 'center',
-                            alignItems: 'center',
-                        }}
-                    >
-                        <span style={{ display: 'block', width: '20px', height: '2px', background: 'white' }} />
-                        <span style={{ display: 'block', width: '20px', height: '2px', background: 'white' }} />
-                        <span style={{ display: 'block', width: '20px', height: '2px', background: 'white' }} />
-                    </button>
+                    {!sidebarOpen ? (
+                        <button
+                            type="button"
+                            className="underless-main-sidebar-toggle"
+                            onClick={toggleSidebar}
+                            aria-label="Menú"
+                            style={{
+                                background: '#242829',
+                                border: '1px solid #3a3d3f',
+                                cursor: 'pointer',
+                                display: 'flex',
+                                flexDirection: 'column',
+                                gap: '4px',
+                                padding: '10px',
+                                borderRadius: '8px',
+                                width: '44px',
+                                height: '44px',
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                            }}
+                        >
+                            <span style={{ display: 'block', width: '20px', height: '2px', background: 'white' }} />
+                            <span style={{ display: 'block', width: '20px', height: '2px', background: 'white' }} />
+                            <span style={{ display: 'block', width: '20px', height: '2px', background: 'white' }} />
+                        </button>
+                    ) : null}
                 </div>
             </div>
-
-            <style jsx global>{`
-        * {
-          box-shadow: none !important;
-          text-shadow: none !important;
-        }
-        a {
-          text-decoration: none !important;
-        }
-
-        .profile-root {
-          display: flex;
-          flex-direction: column;
-          min-height: 100vh;
-          align-items: center;
-        }
-
-        .profile-top-header {
-          width: 100%;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          padding: 40px 20px 20px;
-          box-sizing: border-box;
-          position: relative;
-        }
-
-        .profile-top-header .logo {
-          font-family: 'UnderLessFont', sans-serif;
-          font-size: clamp(2rem, 5vw, 3rem);
-          text-decoration: none;
-          color: white;
-        }
-
-        @media (max-width: 768px) {
-          .profile-top-header .logo {
-            font-size: 1.8rem;
-          }
-          #emote-7tv {
-            height: 20px !important;
-          }
-        }
-
-        @media (min-width: 769px) {
-          .profile-root .profile-main-content,
-          .profile-root .profile-shell {
-            margin-left: 300px;
-            width: calc(100% - 300px);
-            max-width: 900px;
-          }
-        }
-      `}</style>
         </>
     )
 }

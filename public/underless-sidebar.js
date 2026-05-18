@@ -381,6 +381,8 @@ const UnderlessSidebar = (function () {
         if (!isProfilePage()) return;
         if (isProfileDesktop()) {
             openSidebar();
+        } else {
+            closeSidebar(true);
         }
         syncSidebarChrome();
     }
@@ -950,7 +952,10 @@ const UnderlessSidebar = (function () {
             return;
         }
         if (initDone) {
-            if (isProfilePage()) openSidebar();
+            if (isProfilePage()) {
+                if (isProfileDesktop()) openSidebar();
+                else closeSidebar(true);
+            }
             syncSidebarChrome();
             return;
         }
@@ -973,7 +978,8 @@ const UnderlessSidebar = (function () {
 
         if (isProfilePage()) {
             document.body.setAttribute('data-ul-page', 'profile');
-            openSidebar();
+            if (isProfileDesktop()) openSidebar();
+            else closeSidebar(true);
         } else {
             syncSidebarChrome();
         }

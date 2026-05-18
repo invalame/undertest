@@ -122,7 +122,16 @@ export function ProfileClient({ profile, isOwner, oauthPicture, initialAvatars }
         <div className="profile-shell">
           <div className="profile-head">
             <div className="profile-avatar-block">
-              <img className="profile-avatar" src={src} alt="" width={140} height={140} referrerPolicy="no-referrer" />
+              <img
+                className="profile-avatar"
+                src={src}
+                alt=""
+                width={140}
+                height={140}
+                referrerPolicy="no-referrer"
+                decoding="async"
+                fetchPriority="high"
+              />
               {isOwner ? (
                 <button
                   type="button"
