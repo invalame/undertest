@@ -16,7 +16,6 @@
 
 .profile-main-content {
   flex: 1;
-  min-width: 0;
   padding-top: 80px !important;
   /* Spacing for the top bar */
   padding-bottom: clamp(16px, 4vw, 40px);
@@ -32,23 +31,11 @@
 
 /* Sidebar persistent on Profile Page (Desktop) */
 @media (min-width: 1101px) {
-  .profile-root {
-    flex-direction: row;
-    align-items: stretch;
-  }
-
-  .profile-root #underless-sidebar-root {
-    position: relative;
-    flex-shrink: 0;
-    pointer-events: auto;
-    z-index: 5000;
-  }
-
   .profile-root #underless-sidebar-root .underless-sidebar {
     position: sticky;
     top: 0;
     height: 100vh;
-    transform: translateX(0) !important;
+    transform: translateX(0);
     visibility: visible;
     pointer-events: auto;
     box-shadow: none;
@@ -59,28 +46,9 @@
     z-index: 5000;
   }
 
-  .profile-root #underless-sidebar-root .underless-overlay,
-  .profile-root .profile-sidebar-close-btn,
-  .profile-root .profile-sidebar-trigger {
+  .profile-root #underless-sidebar-root .underless-overlay {
     display: none !important;
   }
-}
-
-@media (max-width: 1100px) {
-  .profile-root .profile-sidebar-close-btn {
-    display: block;
-  }
-}
-
-.profile-root .profile-signout-form {
-  margin: 0;
-  width: 100%;
-}
-
-.profile-root .profile-signout-btn {
-  display: flex;
-  align-items: center;
-  gap: 10px;
 }
 
 .profile-main-content {

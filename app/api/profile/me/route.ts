@@ -58,7 +58,7 @@ export async function PATCH(request: Request) {
     const dName = sanitizeDisplayName(body.display_name)
     if (!dName) {
       return NextResponse.json(
-        { ok: false, reason: 'bad_display_name', hint: 'Nombre inválido (solo letras, números y espacios, 2–20 caracteres)' },
+        { ok: false, reason: 'bad_display_name', hint: 'ponete un nombre como la gente' },
         { status: 400 }
       )
     }

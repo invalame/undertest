@@ -124,6 +124,61 @@
     display: block;
 }
 
+/* Perfil en escritorio: sidebar fijo, sin overlay */
+#underless-sidebar-root.ul-profile-desktop .underless-overlay {
+    display: none !important;
+}
+
+#underless-sidebar-root.ul-profile-desktop .underless-sidebar {
+    transform: translateX(0);
+}
+
+@media (min-width: 769px) {
+    #underless-sidebar-root.ul-profile-page .underless-sidebar-close-btn,
+    #underless-sidebar-root[data-ul-page="profile"] .underless-sidebar-close-btn {
+        display: none;
+    }
+
+    #underless-sidebar-root[data-ul-page="profile"] .underless-sidebar {
+        transform: translateX(0);
+    }
+
+    #underless-sidebar-root[data-ul-page="profile"] .underless-overlay {
+        display: none !important;
+    }
+}
+
+/* Burger oculto cuando el sidebar está abierto */
+body.ul-sidebar-open .underless-main-sidebar-toggle {
+    display: none !important;
+}
+
+#underless-sidebar-root .underless-sidebar-footer {
+    margin-top: auto;
+    padding-top: 16px;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    pointer-events: auto;
+}
+
+#underless-sidebar-root .underless-logout-btn {
+    width: 100%;
+    background: transparent;
+    border: none;
+    color: #ff6b6b;
+    font-size: 0.9rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 4px;
+    font-family: inherit;
+    text-align: left;
+}
+
+#underless-sidebar-root .underless-logout-btn:hover {
+    color: #ff8888;
+}
+
 #underless-sidebar-root .underless-sidebar {
     position: fixed;
     top: 0;

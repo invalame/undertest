@@ -1,12 +1,12 @@
 'use client'
 
-import { useRouter } from 'next/navigation'
 import { useMemo, useState } from 'react'
 import {
   countWords,
   MAX_BIO_WORDS,
   sanitizeBio,
   sanitizeDisplayName,
+  stripUnsafeText,
   validateDisplayName,
 } from '@/lib/profile/sanitize'
 
@@ -37,12 +37,7 @@ function displaySrc(p: ProfilePublic, oauth: string | null): string {
   return '/img_profile/default-profile.png'
 }
 
-function limitBioInput(text: string): string {
-  return sanitizeBio(text)
-}
-
 export function ProfileClient({ profile, isOwner, oauthPicture, initialAvatars }: Props) {
-  const router = useRouter()
   const [bio, setBio] = useState(profile.bio)
   const [displayName, setDisplayName] = useState(profile.display_name)
   const [avatarPath, setAvatarPath] = useState<string | null>(profile.avatar_path)
@@ -149,7 +144,7 @@ export function ProfileClient({ profile, isOwner, oauthPicture, initialAvatars }
                     <input
                       className="profile-name-input"
                       value={displayName}
-                      onChange={(e) => setDisplayName(e.target.value.slice(0, 20))}
+                      onChange={(e) => setDisplayName(stripUnsafeText(e.target.value).slice(0, 20))}
                       onKeyDown={(e) => {
                         if (e.key === 'Enter') {
                           const trimmed = displayName.trim();
@@ -163,8 +158,13 @@ export function ProfileClient({ profile, isOwner, oauthPicture, initialAvatars }
                             setTimeout(() => setMsg(null), 3000);
                             return;
                           }
-                          saveField({ display_name: trimmed }).then(ok => {
-                            if (ok) setIsEditingName(false)
+                          const safe = sanitizeDisplayName(trimmed)
+                          if (!safe) return
+                          saveField({ display_name: safe }).then(ok => {
+                            if (ok) {
+                              setDisplayName(safe)
+                              setIsEditingName(false)
+                            }
                           })
                         }
                       }}
@@ -183,8 +183,17 @@ export function ProfileClient({ profile, isOwner, oauthPicture, initialAvatars }
                           setTimeout(() => setMsg(null), 3000);
                           return;
                         }
-                        saveField({ display_name: trimmed }).then(ok => {
-                            if (ok) setIsEditingName(false)
+                        const safe = sanitizeDisplayName(trimmed)
+                        if (!safe) {
+                          setMsg({ type: 'err', text: 'ponete un nombre como la gente' })
+                          setTimeout(() => setMsg(null), 3000)
+                          return
+                        }
+                        saveField({ display_name: safe }).then(ok => {
+                            if (ok) {
+                              setDisplayName(safe)
+                              setIsEditingName(false)
+                            }
                         })
                     }}>Guardar</button>
                     <button className="profile-name-cancel-btn" onClick={() => {
@@ -238,7 +247,7 @@ export function ProfileClient({ profile, isOwner, oauthPicture, initialAvatars }
                       className="profile-bio-input"
                       value={bio}
                       placeholder="Escribe algo sobre ti..."
-                      onChange={(e) => setBio(limitBioInput(e.target.value))}
+                      onChange={(e) => setBio(sanitizeBio(e.target.value))}
                       rows={6}
                       autoFocus
                     />
@@ -251,12 +260,12 @@ export function ProfileClient({ profile, isOwner, oauthPicture, initialAvatars }
                           className="profile-btn profile-btn-primary"
                           disabled={loading || !hasBioChanged}
                           onClick={async () => {
-                            const filtered = sanitizeBio(bio)
-                            setBio(filtered)
-                            const ok = await saveField({ bio: filtered })
+                            const cleaned = sanitizeBio(bio)
+                            setBio(cleaned)
+                            const ok = await saveField({ bio: cleaned })
                             if (ok) {
-                                setSavedBio(filtered)
-                                setIsEditingBio(false)
+                              setSavedBio(cleaned)
+                              setIsEditingBio(false)
                             }
                           }}
                         >
