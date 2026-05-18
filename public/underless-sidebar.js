@@ -45,6 +45,34 @@ const UnderlessSidebar = (function () {
         return num.toLocaleString('es-AR');
     }
 
+    function isProfilePage() {
+        return !!document.querySelector('.profile-root');
+    }
+
+    function isProfileDesktop() {
+        return isProfilePage() && window.matchMedia('(min-width: 1101px)').matches;
+    }
+
+    function isGamePage() {
+        const p = window.location.pathname;
+        return p.includes('underless') || p.includes('uoh');
+    }
+
+    function isMobileViewport() {
+        return window.matchMedia('(max-width: 768px)').matches;
+    }
+
+    function canUserCloseSidebar() {
+        if (isProfileDesktop()) return false;
+        return true;
+    }
+
+    function shouldOverlayCloseSidebar() {
+        if (!canUserCloseSidebar()) return false;
+        if (isGamePage() && !isMobileViewport()) return false;
+        return true;
+    }
+
     function getStoredVolume(key, defaultVal) {
         const stored = localStorage.getItem(key);
         if (stored !== null) {
@@ -331,6 +359,7 @@ const UnderlessSidebar = (function () {
 
     function closeSidebar() {
         if (!root) return;
+        if (!canUserCloseSidebar()) return;
         root.classList.remove('underless-open');
         isOpen = false;
         console.log('Sidebar closed');
@@ -338,7 +367,20 @@ const UnderlessSidebar = (function () {
 
     function toggleSidebar() {
         console.log('toggleSidebar called, isOpen:', isOpen);
-        isOpen ? closeSidebar() : openSidebar();
+        if (isOpen) {
+            if (!canUserCloseSidebar()) return;
+            closeSidebar();
+        } else {
+            openSidebar();
+        }
+    }
+
+    function syncProfileSidebarLayout() {
+        if (!root || !isProfilePage()) return;
+        if (isProfileDesktop()) {
+            root.classList.add('underless-open');
+            isOpen = true;
+        }
     }
 
     function closeUlPlaceholderPanels() {
@@ -789,7 +831,10 @@ const UnderlessSidebar = (function () {
         });
 
         const overlay = root.querySelector('.underless-overlay');
-        if (overlay) overlay.addEventListener('click', closeSidebar);
+        if (overlay) overlay.addEventListener('click', function () {
+            if (!shouldOverlayCloseSidebar()) return;
+            closeSidebar();
+        });
 
         const settingsBtn = root.querySelector('.underless-settings-btn');
         if (settingsBtn) settingsBtn.addEventListener('click', function () {
@@ -880,11 +925,13 @@ const UnderlessSidebar = (function () {
                     closeSettingsModal();
                 } else if (root.querySelector('.underless-app-panel.show')) {
                     closeUlPlaceholderPanels();
-                } else if (isOpen) {
+                } else if (isOpen && canUserCloseSidebar()) {
                     closeSidebar();
                 }
             }
         });
+
+        window.addEventListener('resize', syncProfileSidebarLayout);
     }
 
     // ========================================
@@ -897,6 +944,7 @@ const UnderlessSidebar = (function () {
 
         attachEventListeners();
         initSettingsSliders();
+        syncProfileSidebarLayout();
 
         // Restore saved mode or check URL
         const isUOHPage = window.location.pathname.includes('uoh');

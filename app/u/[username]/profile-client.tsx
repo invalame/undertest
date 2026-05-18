@@ -2,8 +2,13 @@
 
 import { useRouter } from 'next/navigation'
 import { useMemo, useState } from 'react'
-import { isValidUsername } from '@/lib/profile/username'
-import Link from 'next/link'
+import {
+  countWords,
+  MAX_BIO_WORDS,
+  sanitizeBio,
+  sanitizeDisplayName,
+  validateDisplayName,
+} from '@/lib/profile/sanitize'
 
 export type ProfilePublic = {
   id: string
@@ -23,22 +28,6 @@ type Props = {
   initialAvatars: string[]
 }
 
-function validateName(name: string): string | null {
-  if (!/^[a-zA-Z0-9 ]+$/.test(name)) {
-    return 'ponete un nombre como la gente';
-  }
-  if (name.length < 2 || name.length > 20) {
-    return 'ponete un nombre como la gente';
-  }
-  if (/(.)\1{4}/.test(name)) {
-    return 'ponete un nombre como la gente jajaj';
-  }
-  if (/^[0-9]+$/.test(name)) {
-    return 'ponete un nombre como la gente jajaj';
-  }
-  return null;
-}
-
 function displaySrc(p: ProfilePublic, oauth: string | null): string {
   if (p.avatar_path) {
     if (p.avatar_path.startsWith('http')) return p.avatar_path;
@@ -48,22 +37,8 @@ function displaySrc(p: ProfilePublic, oauth: string | null): string {
   return '/img_profile/default-profile.png'
 }
 
-function filterBioLinks(text: string): string {
-  // Regex to find URLs
-  const urlRegex = /(https?:\/\/[^\s]+)/g;
-  return text.replace(urlRegex, (url) => {
-    const lower = url.toLowerCase();
-    if (
-      lower.includes('youtube.com') || 
-      lower.includes('youtu.be') || 
-      lower.includes('twitter.com') || 
-      lower.includes('x.com') || 
-      lower.includes('instagram.com')
-    ) {
-      return url;
-    }
-    return '[link removido]';
-  });
+function limitBioInput(text: string): string {
+  return sanitizeBio(text)
 }
 
 export function ProfileClient({ profile, isOwner, oauthPicture, initialAvatars }: Props) {
@@ -80,7 +55,7 @@ export function ProfileClient({ profile, isOwner, oauthPicture, initialAvatars }
   const [msg, setMsg] = useState<{ type: 'ok' | 'err'; text: string } | null>(null)
 
   const hasBioChanged = bio !== savedBio
-  const bioCharCount = bio.length
+  const bioWordCount = countWords(bio)
 
   const row = useMemo(
     () => ({ ...profile, bio, display_name: displayName, avatar_path: avatarPath }),
@@ -182,7 +157,7 @@ export function ProfileClient({ profile, isOwner, oauthPicture, initialAvatars }
                             setIsEditingName(false);
                             return;
                           }
-                          const err = validateName(trimmed);
+                          const err = validateDisplayName(trimmed);
                           if (err) {
                             setMsg({ type: 'err', text: err });
                             setTimeout(() => setMsg(null), 3000);
@@ -202,7 +177,7 @@ export function ProfileClient({ profile, isOwner, oauthPicture, initialAvatars }
                           setIsEditingName(false);
                           return;
                         }
-                        const err = validateName(trimmed);
+                        const err = validateDisplayName(trimmed);
                         if (err) {
                           setMsg({ type: 'err', text: err });
                           setTimeout(() => setMsg(null), 3000);
@@ -263,13 +238,12 @@ export function ProfileClient({ profile, isOwner, oauthPicture, initialAvatars }
                       className="profile-bio-input"
                       value={bio}
                       placeholder="Escribe algo sobre ti..."
-                      onChange={(e) => setBio(e.target.value.slice(0, 160))}
-                      maxLength={160}
-                      rows={3}
+                      onChange={(e) => setBio(limitBioInput(e.target.value))}
+                      rows={6}
                       autoFocus
                     />
                     <div className="profile-bio-footer">
-                      <span className="profile-bio-counter">{bioCharCount}/160</span>
+                      <span className="profile-bio-counter">{bioWordCount}/{MAX_BIO_WORDS} palabras</span>
                       <div className="profile-bio-actions">
                         <button type="button" className="profile-btn profile-btn-secondary" onClick={() => { setBio(savedBio); setIsEditingBio(false); }}>Cancelar</button>
                         <button
@@ -277,8 +251,7 @@ export function ProfileClient({ profile, isOwner, oauthPicture, initialAvatars }
                           className="profile-btn profile-btn-primary"
                           disabled={loading || !hasBioChanged}
                           onClick={async () => {
-                            const sanitizedBio = bio.replace(/[<>]/g, '');
-                            const filtered = filterBioLinks(sanitizedBio)
+                            const filtered = sanitizeBio(bio)
                             setBio(filtered)
                             const ok = await saveField({ bio: filtered })
                             if (ok) {

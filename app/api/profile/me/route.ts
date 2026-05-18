@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
 import { isValidUsername } from '@/lib/profile/username'
+import { sanitizeBio, sanitizeDisplayName } from '@/lib/profile/sanitize'
 import { readdir } from 'node:fs/promises'
 import { join } from 'node:path'
 
@@ -39,8 +40,7 @@ export async function PATCH(request: Request) {
   const allowedFiles = await allowedAvatarFiles()
 
   if (typeof body.bio === 'string') {
-    const bio = body.bio.slice(0, 500)
-    patch.bio = bio
+    patch.bio = sanitizeBio(body.bio)
   }
 
   if (typeof body.username === 'string') {
@@ -55,10 +55,10 @@ export async function PATCH(request: Request) {
   }
 
   if (typeof body.display_name === 'string') {
-    const dName = body.display_name.trim()
-    if (dName.length < 2 || dName.length > 24) {
+    const dName = sanitizeDisplayName(body.display_name)
+    if (!dName) {
       return NextResponse.json(
-        { ok: false, reason: 'bad_display_name', hint: 'El nombre debe tener entre 2 y 24 caracteres' },
+        { ok: false, reason: 'bad_display_name', hint: 'Nombre inválido (solo letras, números y espacios, 2–20 caracteres)' },
         { status: 400 }
       )
     }

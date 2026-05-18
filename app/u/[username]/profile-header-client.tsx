@@ -9,20 +9,14 @@ export function ProfileHeaderClient({ username, avatarUrl }: { username: string;
         }
     }
 
-    const closeSidebar = () => {
-        if (typeof window !== 'undefined' && (window as any).UnderlessSidebar) {
-            (window as any).UnderlessSidebar.closeSidebar();
-        }
-    }
-
     return (
         <>
-            <div className="underless-sidebar-trigger-line" onClick={toggleSidebar} title="Abrir Sidebar"></div>
+            <div className="underless-sidebar-trigger-line profile-sidebar-trigger" onClick={toggleSidebar} title="Abrir menú"></div>
 
-            <div id="underless-sidebar-root">
+            <div id="underless-sidebar-root" className="underless-profile-sidebar-root">
                 <div className="underless-overlay" aria-hidden="true"></div>
                 <nav className="underless-sidebar" aria-label="Menu de modos de juego">
-                    <button type="button" className="underless-sidebar-close-btn" onClick={closeSidebar} aria-label="Cerrar">×</button>
+                    <button type="button" className="underless-sidebar-close-btn profile-sidebar-close-btn" aria-label="Cerrar">×</button>
                     <a href="/" className="underless-sidebar-home-link">
                         <span className="underless-sidebar-home-text">Home</span>
                     </a>
@@ -43,20 +37,23 @@ export function ProfileHeaderClient({ username, avatarUrl }: { username: string;
                         <img src="/img/home_underhigher.png" alt="" className="mode-icon" style={{ width: '20px', height: '20px', marginRight: '10px' }} />
                         <span>UNDER/HIGHER</span>
                     </a>
-                </nav>
 
-                {/* Logout button bottom left sidebar */}
-                <div style={{ position: 'absolute', bottom: '20px', left: '20px', zIndex: 7001 }}>
-                    <form action="/auth/signout" method="post">
-                        <button type="submit" className="underless-mode-option" style={{ background: 'transparent', border: 'none', color: '#ff4444', fontSize: '0.9rem', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '10px' }}>
-                            {avatarUrl && <img src={avatarUrl} alt="" style={{ width: '32px', height: '32px', borderRadius: '50%', objectFit: 'cover' }} referrerPolicy="no-referrer" />}
-                            <span style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
-                                Cerrar Sesión
-                            </span>
-                        </button>
-                    </form>
-                </div>
+                    <footer className="sidebar-footer profile-sidebar-footer">
+                        <form action="/auth/signout" method="post" className="profile-signout-form">
+                            <button type="submit" className="sidebar-profile-menu-item logout profile-signout-btn">
+                                {avatarUrl && (
+                                    <img src={avatarUrl} alt="" className="sidebar-profile-img" referrerPolicy="no-referrer" />
+                                )}
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                                    <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                                    <polyline points="16 17 21 12 16 7"></polyline>
+                                    <line x1="21" y1="12" x2="9" y2="12"></line>
+                                </svg>
+                                Cerrar sesión
+                            </button>
+                        </form>
+                    </footer>
+                </nav>
             </div>
 
             <div className="underless-global-top-actions" style={{ position: 'fixed', top: '20px', left: '20px', right: '20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', zIndex: 6501, pointerEvents: 'none' }}>
@@ -82,7 +79,17 @@ export function ProfileHeaderClient({ username, avatarUrl }: { username: string;
             display: flex;
             flex-direction: column;
             min-height: 100vh;
-            align-items: center;
+            align-items: stretch;
+            width: 100%;
+        }
+
+        @media (max-width: 1100px) {
+            .profile-root {
+                align-items: center;
+            }
+            .profile-root .profile-main-content {
+                width: 100%;
+            }
         }
 
         .profile-top-header {
