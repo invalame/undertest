@@ -80,9 +80,9 @@ export function ProfileHeaderClient({ username, avatarUrl }: { username: string;
                         <button type="button" className="underless-mode-option">
                             TIENDA
                         </button>
-                        <button type="button" className="underless-mode-option">
-                            ULESS
-                        </button>
+                        <a href="/forum" className="underless-mode-option">
+                            FORO
+                        </a>
                     </div>
 
                     <p className="underless-sidebar-label">MODOS DE JUEGO</p>
