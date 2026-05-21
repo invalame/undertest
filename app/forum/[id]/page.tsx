@@ -23,7 +23,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
       if (data) {
           const bodyPrev = data.body.length > 50 ? data.body.substring(0, 50) + '...' : data.body
-          const title = `Post de ${data.author?.display_name || 'Usuario'} - UnderLess`
+          const authorData = data.author as any
+          const title = `Post de ${authorData?.display_name || 'Usuario'} - UnderLess`
           return {
               title,
               description: bodyPrev,
