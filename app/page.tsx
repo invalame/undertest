@@ -20,6 +20,10 @@ export default async function HomePage({ searchParams }: Props) {
     const { ensureProfile } = await import('@/lib/profile/ensure-profile')
     const profile = await ensureProfile(userId)
 
+    if (profile && profile.onboarded === false) {
+      redirect('/welcome')
+    }
+
     const dest = safeNextPath(sp.next ?? null, origin)
     if (dest !== '/') {
       redirect(dest)
