@@ -1,9 +1,9 @@
 'use client'
 
-import { useMemo, useState } from 'react'
+import { useMemo, useState, useEffect } from 'react'
+import Link from 'next/link'
 import {
-  countWords,
-  MAX_BIO_WORDS,
+  MAX_BIO_CHARS,
   sanitizeBio,
   sanitizeDisplayName,
   stripUnsafeText,
@@ -48,9 +48,20 @@ export function ProfileClient({ profile, isOwner, oauthPicture, initialAvatars }
   const [isEditingName, setIsEditingName] = useState(false)
   const [isEditingBio, setIsEditingBio] = useState(false)
   const [msg, setMsg] = useState<{ type: 'ok' | 'err'; text: string } | null>(null)
+  const [userPosts, setUserPosts] = useState<any[]>([])
+  const [loadingPosts, setLoadingPosts] = useState(true)
+
+  useEffect(() => {
+    fetch(`/api/forum/posts?authorId=${profile.id}`)
+      .then(res => res.json())
+      .then(data => {
+        if (data.ok) setUserPosts(data.posts || [])
+      })
+      .finally(() => setLoadingPosts(false))
+  }, [profile.id])
 
   const hasBioChanged = bio !== savedBio
-  const bioWordCount = countWords(bio)
+  const bioCharCount = bio.length
 
   const row = useMemo(
     () => ({ ...profile, bio, display_name: displayName, avatar_path: avatarPath }),
@@ -258,10 +269,11 @@ export function ProfileClient({ profile, isOwner, oauthPicture, initialAvatars }
                       placeholder="Escribe algo sobre ti..."
                       onChange={(e) => setBio(sanitizeBio(e.target.value))}
                       rows={6}
+                      maxLength={MAX_BIO_CHARS}
                       autoFocus
                     />
                     <div className="profile-bio-footer">
-                      <span className="profile-bio-counter">{bioWordCount}/{MAX_BIO_WORDS} palabras</span>
+                      <span className="profile-bio-counter">{bioCharCount}/{MAX_BIO_CHARS} caracteres</span>
                       <div className="profile-bio-actions">
                         <button type="button" className="profile-btn profile-btn-secondary" onClick={() => { setBio(savedBio); setIsEditingBio(false); }}>Cancelar</button>
                         <button
@@ -301,8 +313,28 @@ export function ProfileClient({ profile, isOwner, oauthPicture, initialAvatars }
             <h2 id="profile-posts-h" className="profile-posts-title">
               Publicaciones
             </h2>
-            <div className="profile-posts-box">
-              <p className="profile-posts-empty">Ninguna publicación por aquí</p>
+            <div className="profile-posts-box" style={{ padding: userPosts.length > 0 ? '0' : undefined, display: 'flex', flexDirection: 'column', gap: '16px', background: 'transparent', border: 'none' }}>
+              {loadingPosts ? (
+                <div style={{ textAlign: 'center', width: '100%', color: '#575757' }}>Cargando publicaciones...</div>
+              ) : userPosts.length === 0 ? (
+                <p className="profile-posts-empty">Ninguna publicación por aquí</p>
+              ) : (
+                userPosts.map(post => (
+                  <Link href={`/uless/${post.id}`} key={post.id} className="forum-post" style={{ textDecoration: 'none', textAlign: 'left' }}>
+                      <div className="forum-post-content">
+                          <div className="forum-post-header">
+                              <span className="forum-post-author" style={{ textDecoration: 'none' }}>
+                                  <span className="forum-post-name">{profile.display_name}</span>
+                              </span>
+                              <span className="forum-post-time" style={{ color: '#575757', fontSize: '0.8rem' }}>{new Date(post.created_at).toLocaleDateString('es-AR')}</span>
+                          </div>
+                          <div className="forum-post-body" style={{ margin: '8px 0 0 0', fontSize: '0.95rem', color: '#e8e8e8', whiteSpace: 'pre-wrap' }}>
+                              {post.body.length > 200 ? post.body.substring(0, 200) + '...' : post.body}
+                          </div>
+                      </div>
+                  </Link>
+                ))
+              )}
             </div>
           </section>
         </div>

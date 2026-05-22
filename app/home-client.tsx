@@ -291,8 +291,10 @@ export function HomeClient({ isAuthed, nextPath, errorMessage, officialOrigin, u
             
             <div className="home-user-mini-profile">
               <div className="home-user-info">
-                <img src={userData?.avatar || '/img/peepo-band.gif'} alt="" className="home-user-avatar-mini" />
-                <span className="home-user-name-mini">{userData?.username || 'Usuario'}</span>
+                <Link href={`/u/${userData?.username || ''}`} style={{ display: 'flex', alignItems: 'center', gap: '10px', textDecoration: 'none', color: 'inherit' }}>
+                  <img src={userData?.avatar || '/img/peepo-band.gif'} alt="" className="home-user-avatar-mini" />
+                  <span className="home-user-name-mini">{userData?.username || 'Usuario'}</span>
+                </Link>
               </div>
               <form action="/auth/signout" method="post">
                 <button type="submit" className="home-btn-small-rect">

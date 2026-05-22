@@ -61,8 +61,8 @@
 }
 
 .profile-shell {
-  width: min(1080px, 100%);
-  max-width: 100%;
+  width: 100%;
+  max-width: 1080px;
   background: transparent;
   padding: 20px 0;
   box-sizing: border-box;

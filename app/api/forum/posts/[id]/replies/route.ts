@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
+import { validateLinks } from '@/lib/forum/validate-links'
 
 export const dynamic = 'force-dynamic'
 
@@ -36,6 +37,10 @@ export async function POST(req: Request, { params }: { params: Promise<{ id: str
 
   if (!body || typeof body !== 'string' || body.trim().length === 0 || body.length > 2000) {
     return NextResponse.json({ ok: false, error: 'Invalid body' }, { status: 400 })
+  }
+
+  if (!validateLinks(body)) {
+    return NextResponse.json({ ok: false, error: 'Solo se permiten links de Twitter/X, YouTube, Instagram, Kick y citas del foro.' }, { status: 400 })
   }
 
   // Verify post exists

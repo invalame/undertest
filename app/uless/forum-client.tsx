@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
+import { parsePostBody } from './utils'
 
 type UserProfile = {
   id: string
@@ -202,7 +203,7 @@ export function ForumClient({ currentUser }: { currentUser: UserProfile | null }
              {showSearch && searchResults.length > 0 && (
                  <div className="forum-search-results">
                      {searchResults.map(res => (
-                         <Link href={`/forum/${res.id}`} key={res.id} className="forum-search-result-item" onClick={() => setShowSearch(false)}>
+                         <Link href={`/uless/${res.id}`} key={res.id} className="forum-search-result-item" onClick={() => setShowSearch(false)}>
                              <img src={displaySrc(res.author?.avatar_path || res.avatar_path || null)} alt="" />
                              <div style={{ flex: 1, minWidth: 0 }}>
                                  <div style={{ fontWeight: 600, fontSize: '0.9rem', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
@@ -254,14 +255,25 @@ export function ForumClient({ currentUser }: { currentUser: UserProfile | null }
         )}
 
         {loading ? (
-            <div style={{ textAlign: 'center', color: '#575757', padding: '40px' }}>Cargando posts...</div>
+            <div style={{ display: 'flex', justifyContent: 'center', padding: '40px' }}>
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#575757" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="spinner-anim">
+                    <line x1="12" y1="2" x2="12" y2="6"></line>
+                    <line x1="12" y1="18" x2="12" y2="22"></line>
+                    <line x1="4.93" y1="4.93" x2="7.76" y2="7.76"></line>
+                    <line x1="16.24" y1="16.24" x2="19.07" y2="19.07"></line>
+                    <line x1="2" y1="12" x2="6" y2="12"></line>
+                    <line x1="18" y1="12" x2="22" y2="12"></line>
+                    <line x1="4.93" y1="19.07" x2="7.76" y2="16.24"></line>
+                    <line x1="16.24" y1="7.76" x2="19.07" y2="4.93"></line>
+                </svg>
+            </div>
         ) : posts.length === 0 ? (
             <div style={{ textAlign: 'center', color: '#575757', padding: '40px' }}>No hay posts todavía. Sé el primero.</div>
         ) : (
             posts.map(post => {
                 const isVoted = votedIds.has(post.id)
                 return (
-                    <Link href={`/forum/${post.id}`} key={post.id} className="forum-post">
+                    <Link href={`/uless/${post.id}`} key={post.id} className="forum-post">
                         <img src={displaySrc(post.author.avatar_path)} alt="" className="forum-create-avatar" style={{ width: '40px', height: '40px' }} />
                         <div className="forum-post-content">
                             <div className="forum-post-header">
@@ -271,15 +283,15 @@ export function ForumClient({ currentUser }: { currentUser: UserProfile | null }
                                 </Link></object>
                                 <span className="forum-post-time">{timeAgo(post.created_at)}</span>
                             </div>
-                            <p className="forum-post-body">
-                                {post.body.length > 300 ? post.body.substring(0, 300) + '...' : post.body}
-                            </p>
+                            <div className="forum-post-body">
+                                {parsePostBody(post.body.length > 300 ? post.body.substring(0, 300) + '...' : post.body)}
+                            </div>
                             <div className="forum-post-footer">
                                 <object><button 
                                     className={`forum-action-btn ${isVoted ? 'upvoted' : ''}`} 
                                     onClick={(e) => handleVote(e, post.id)}
                                 >
-                                    <svg width="18" height="18" viewBox="0 0 24 24" fill={isVoted ? 'currentColor' : 'none'} stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                                         <polyline points="18 15 12 9 6 15"></polyline>
                                     </svg>
                                     {post.upvotes}
@@ -297,13 +309,14 @@ export function ForumClient({ currentUser }: { currentUser: UserProfile | null }
                                     onClick={(e) => {
                                         e.preventDefault()
                                         e.stopPropagation()
-                                        navigator.clipboard.writeText(`${window.location.origin}/forum/${post.id}`)
+                                        setNewPostBody((prev) => prev ? prev + `\n${window.location.origin}/uless/${post.id}\n` : `${window.location.origin}/uless/${post.id}\n`)
+                                        window.scrollTo({ top: 0, behavior: 'smooth' })
                                     }}
-                                    title="Copiar enlace"
+                                    title="Citar post"
                                 >
                                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                        <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
-                                        <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
+                                        <path d="M3 21c3 0 7-1 7-8V5c0-1.25-.75-2-2-2H4c-1.25 0-2 .75-2 2v12c0 4 1 6 1 6Z"></path>
+                                        <path d="M15 21c3 0 7-1 7-8V5c0-1.25-.75-2-2-2h-4c-1.25 0-2 .75-2 2v12c0 4 1 6 1 6Z"></path>
                                     </svg>
                                 </button></object>
                             </div>

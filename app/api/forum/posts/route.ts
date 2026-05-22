@@ -1,11 +1,13 @@
 import { NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
+import { validateLinks } from '@/lib/forum/validate-links'
 
 export const dynamic = 'force-dynamic'
 
 export async function GET(req: Request) {
   const { searchParams } = new URL(req.url)
   const sort = searchParams.get('sort') || 'recommended' // 'recommended', 'recent'
+  const authorId = searchParams.get('authorId')
   
   const supabase = await createClient()
   
@@ -16,7 +18,10 @@ export async function GET(req: Request) {
       author:author_id ( username, display_name, discriminator, avatar_path )
     `)
   
-  if (sort === 'recent') {
+  if (authorId) {
+    query = query.eq('author_id', authorId)
+    query = query.order('created_at', { ascending: false })
+  } else if (sort === 'recent') {
     query = query.order('created_at', { ascending: false })
   } else {
     // Recommended: order by upvotes first, then created_at.
@@ -47,6 +52,10 @@ export async function POST(req: Request) {
 
   if (!body || typeof body !== 'string' || body.trim().length === 0 || body.length > 2000) {
     return NextResponse.json({ ok: false, error: 'Invalid body' }, { status: 400 })
+  }
+
+  if (!validateLinks(body)) {
+    return NextResponse.json({ ok: false, error: 'Solo se permiten links de Twitter/X, YouTube, Instagram, Kick y citas del foro.' }, { status: 400 })
   }
 
   const { data, error } = await supabase

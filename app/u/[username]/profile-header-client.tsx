@@ -80,7 +80,7 @@ export function ProfileHeaderClient({ username, avatarUrl }: { username: string;
                         <button type="button" className="underless-mode-option">
                             TIENDA
                         </button>
-                        <a href="/forum" className="underless-mode-option">
+                        <a href="/uless" className="underless-mode-option">
                             ULESS
                         </a>
                     </div>
@@ -133,6 +133,7 @@ export function ProfileHeaderClient({ username, avatarUrl }: { username: string;
                                     </svg>
                                     Cerrar sesión
                                 </span>
+                                <span className="sidebar-username">{username}</span>
                             </button>
                         </form>
                     </div>

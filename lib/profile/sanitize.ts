@@ -1,8 +1,5 @@
-/** Límite de palabras en biografía (cliente y servidor). */
-export const MAX_BIO_WORDS = 320
-
-/** Respaldo por caracteres (~320 palabras largas). */
-export const MAX_BIO_CHARS = 4000
+/** Límite de caracteres en biografía. */
+export const MAX_BIO_CHARS = 320
 
 const DISPLAY_NAME_RE = /^[a-zA-Z0-9 ]+$/
 const URL_RE = /(https?:\/\/[^\s]+)/gi
@@ -47,8 +44,7 @@ export function filterBioLinks(text: string): string {
 export function sanitizeBio(raw: string): string {
   const stripped = stripUnsafeText(raw)
   const linked = filterBioLinks(stripped)
-  const limited = truncateToWordLimit(linked, MAX_BIO_WORDS)
-  return limited.slice(0, MAX_BIO_CHARS)
+  return linked.slice(0, MAX_BIO_CHARS)
 }
 
 export function validateDisplayName(name: string): string | null {
