@@ -25,14 +25,11 @@ export default async function ForumPage() {
   if (user) {
       const { data } = await supabase
         .from('profiles')
-        .select('username, avatar_path, onboarded')
+        .select('username, avatar_path')
         .eq('id', user.id)
         .maybeSingle()
         
       if (data) {
-          if (data.onboarded === false) {
-              redirect('/welcome')
-          }
           const oauth = oauthPicture(user.user_metadata as Record<string, unknown>)
           const avatarUrl = data.avatar_path
             ? (data.avatar_path.startsWith('http') ? data.avatar_path : `/img_profile/${encodeURI(data.avatar_path)}`)

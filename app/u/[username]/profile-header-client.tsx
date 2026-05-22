@@ -80,7 +80,7 @@ export function ProfileHeaderClient({ username, avatarUrl }: { username: string;
                         <button type="button" className="underless-mode-option">
                             TIENDA
                         </button>
-                        <a href="/uless" className="underless-mode-option">
+                        <a href="/forum" className="underless-mode-option">
                             ULESS
                         </a>
                     </div>
@@ -103,25 +103,39 @@ export function ProfileHeaderClient({ username, avatarUrl }: { username: string;
                             style={{ width: '20px', height: '20px', marginRight: '10px' }}
                         />
                         <span>UNDER/HIGHER</span>
-                    {username && (
-                        <div className="underless-sidebar-footer" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '12px', borderTop: '1px solid #3a3d3f', marginTop: 'auto' }}>
-                            <a href={`/u/${username}`} style={{ display: 'flex', alignItems: 'center', gap: '12px', textDecoration: 'none', color: '#fff', minWidth: 0, flex: 1 }} title="Ir a mi perfil">
+                    </a>
+
+                    <div className="underless-sidebar-footer">
+                        <form action="/auth/signout" method="post">
+                            <button type="submit" className="underless-logout-btn">
                                 {avatarUrl ? (
-                                    <img src={avatarUrl} alt="" style={{ width: '36px', height: '36px', borderRadius: '50%', objectFit: 'cover', flexShrink: 0 }} referrerPolicy="no-referrer" />
+                                    <img
+                                        src={avatarUrl}
+                                        alt=""
+                                        style={{ width: '32px', height: '32px', borderRadius: '50%', objectFit: 'cover' }}
+                                        referrerPolicy="no-referrer"
+                                    />
                                 ) : null}
-                                <span style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', fontSize: '0.95rem', fontWeight: 600 }}>{username}</span>
-                            </a>
-                            <form action="/auth/signout" method="post" style={{ margin: 0, flexShrink: 0 }}>
-                                <button type="submit" style={{ background: 'transparent', border: 'none', color: '#b3b3b3', cursor: 'pointer', padding: '8px', borderRadius: '6px', display: 'flex', alignItems: 'center', justifyContent: 'center' }} title="Cerrar sesión" onMouseEnter={e => e.currentTarget.style.color = '#fff'} onMouseLeave={e => e.currentTarget.style.color = '#b3b3b3'}>
-                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                <span style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                                    <svg
+                                        width="18"
+                                        height="18"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        strokeWidth="2"
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                    >
                                         <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
                                         <polyline points="16 17 21 12 16 7" />
                                         <line x1="21" y1="12" x2="9" y2="12" />
                                     </svg>
-                                </button>
-                            </form>
-                        </div>
-                    )}
+                                    Cerrar sesión
+                                </span>
+                            </button>
+                        </form>
+                    </div>
                 </nav>
             </div>
 

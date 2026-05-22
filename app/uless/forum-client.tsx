@@ -2,7 +2,6 @@
 
 import React, { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
-import { parsePostBody } from './quote-utils'
 
 type UserProfile = {
   id: string
@@ -255,9 +254,7 @@ export function ForumClient({ currentUser }: { currentUser: UserProfile | null }
         )}
 
         {loading ? (
-            <div style={{ display: 'flex', justifyContent: 'center', padding: '40px' }}>
-                <div style={{ width: '40px', height: '40px', borderRadius: '50%', border: '3px solid #3a3d3f', borderTopColor: '#55b725', animation: 'spin 1s linear infinite' }} />
-            </div>
+            <div style={{ textAlign: 'center', color: '#575757', padding: '40px' }}>Cargando posts...</div>
         ) : posts.length === 0 ? (
             <div style={{ textAlign: 'center', color: '#575757', padding: '40px' }}>No hay posts todavía. Sé el primero.</div>
         ) : (
@@ -274,22 +271,22 @@ export function ForumClient({ currentUser }: { currentUser: UserProfile | null }
                                 </Link></object>
                                 <span className="forum-post-time">{timeAgo(post.created_at)}</span>
                             </div>
-                            <div className="forum-post-body" style={{ margin: '0 0 12px 0', fontSize: '0.95rem', lineHeight: 1.5, color: '#e8e8e8', whiteSpace: 'pre-wrap', wordBreak: 'break-word' }}>
-                                {parsePostBody(post.body)}
-                            </div>
+                            <p className="forum-post-body">
+                                {post.body.length > 300 ? post.body.substring(0, 300) + '...' : post.body}
+                            </p>
                             <div className="forum-post-footer">
                                 <object><button 
                                     className={`forum-action-btn ${isVoted ? 'upvoted' : ''}`} 
                                     onClick={(e) => handleVote(e, post.id)}
                                 >
-                                    <svg width="20" height="20" viewBox="0 0 24 24" fill={isVoted ? '#55b725' : 'none'} stroke={isVoted ? '#55b725' : 'currentColor'} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                        <path d="M12 2l-8 10h5v10h6V12h5z"></path>
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill={isVoted ? 'currentColor' : 'none'} stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                        <polyline points="18 15 12 9 6 15"></polyline>
                                     </svg>
                                     {post.upvotes}
                                 </button></object>
                                 
                                 <span className="forum-action-btn" style={{ cursor: 'default' }}>
-                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                                         <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
                                     </svg>
                                     {post.reply_count}
@@ -300,14 +297,13 @@ export function ForumClient({ currentUser }: { currentUser: UserProfile | null }
                                     onClick={(e) => {
                                         e.preventDefault()
                                         e.stopPropagation()
-                                        setNewPostBody(prev => prev + (prev.trim() ? '\n' : '') + `${window.location.origin}/uless/${post.id} `)
-                                        window.scrollTo({ top: 0, behavior: 'smooth' })
+                                        navigator.clipboard.writeText(`${window.location.origin}/forum/${post.id}`)
                                     }}
-                                    title="Citar post"
+                                    title="Copiar enlace"
                                 >
-                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                        <path d="M3 21c3 0 7-1 7-8V5c0-1.25-.756-2.017-2-2H4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2 1 0 1.5.5 2 2s-.5 4-3 4"></path>
-                                        <path d="M15 21c3 0 7-1 7-8V5c0-1.25-.757-2.017-2-2h-4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2 1 0 1.5.5 2 2s-.5 4-3 4"></path>
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                        <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
+                                        <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
                                     </svg>
                                 </button></object>
                             </div>
