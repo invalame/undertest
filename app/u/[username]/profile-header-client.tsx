@@ -81,7 +81,7 @@ export function ProfileHeaderClient({ username, avatarUrl }: { username: string;
                             TIENDA
                         </button>
                         <a href="/forum" className="underless-mode-option">
-                            FORO
+                            ULESS
                         </a>
                     </div>
 

@@ -245,6 +245,8 @@
   color: inherit;
   transition: background 0.15s;
   cursor: pointer;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .forum-post:hover {
@@ -254,6 +256,7 @@
 .forum-post-content {
   flex: 1;
   min-width: 0;
+  width: 100%;
 }
 
 .forum-post-header {

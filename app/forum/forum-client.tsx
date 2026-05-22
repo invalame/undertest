@@ -185,7 +185,7 @@ export function ForumClient({ currentUser }: { currentUser: UserProfile | null }
       <div className="forum-shell">
         
         <div className="forum-top-bar">
-          <h1 className="forum-title">Foro</h1>
+          <h1 className="forum-title">uLess</h1>
           <div className="forum-search-box" style={{ position: 'relative' }}>
              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#575757" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ marginRight: '8px' }}>
                 <circle cx="11" cy="11" r="8"></circle>
