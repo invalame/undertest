@@ -13,6 +13,10 @@
   flex-direction: column;
 }
 
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
 .forum-main-content {
   flex: 1;
   padding-top: 80px;

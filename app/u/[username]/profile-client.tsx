@@ -256,12 +256,13 @@ export function ProfileClient({ profile, isOwner, oauthPicture, initialAvatars }
                       className="profile-bio-input"
                       value={bio}
                       placeholder="Escribe algo sobre ti..."
-                      onChange={(e) => setBio(sanitizeBio(e.target.value))}
+                      onChange={(e) => setBio(stripUnsafeText(e.target.value))}
                       rows={6}
                       autoFocus
+                      maxLength={320}
                     />
                     <div className="profile-bio-footer">
-                      <span className="profile-bio-counter">{bioWordCount}/{MAX_BIO_WORDS} palabras</span>
+                      <span className="profile-bio-counter">{bio.length}/320 caracteres</span>
                       <div className="profile-bio-actions">
                         <button type="button" className="profile-btn profile-btn-secondary" onClick={() => { setBio(savedBio); setIsEditingBio(false); }}>Cancelar</button>
                         <button
@@ -269,7 +270,7 @@ export function ProfileClient({ profile, isOwner, oauthPicture, initialAvatars }
                           className="profile-btn profile-btn-primary"
                           disabled={loading || !hasBioChanged}
                           onClick={async () => {
-                            const cleaned = sanitizeBio(bio)
+                            const cleaned = bio.trim().slice(0, 320)
                             setBio(cleaned)
                             const ok = await saveField({ bio: cleaned })
                             if (ok) {

@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
+import { parsePostBody } from './quote-utils'
 
 type UserProfile = {
   id: string
@@ -200,8 +201,8 @@ export function PostDetailClient({ currentUser, postId }: { currentUser: UserPro
   if (loading) {
       return (
           <div className="forum-main-content">
-              <div className="forum-shell" style={{ textAlign: 'center', padding: '40px', color: '#575757' }}>
-                  Cargando post...
+              <div className="forum-shell" style={{ display: 'flex', justifyContent: 'center', padding: '40px' }}>
+                  <div style={{ width: '40px', height: '40px', borderRadius: '50%', border: '3px solid #3a3d3f', borderTopColor: '#55b725', animation: 'spin 1s linear infinite' }} />
               </div>
           </div>
       )
@@ -242,16 +243,16 @@ export function PostDetailClient({ currentUser, postId }: { currentUser: UserPro
                     </Link>
                     <span className="forum-post-time">{timeAgo(post.created_at)}</span>
                 </div>
-                <p className="forum-post-body" style={{ fontSize: '1.05rem', margin: '16px 0' }}>
-                    {post.body}
-                </p>
+                <div className="forum-post-body" style={{ fontSize: '1.05rem', margin: '16px 0', whiteSpace: 'pre-wrap', wordBreak: 'break-word', color: '#e8e8e8' }}>
+                    {parsePostBody(post.body)}
+                </div>
                 <div className="forum-post-footer">
                     <button 
                         className={`forum-action-btn ${votedPost ? 'upvoted' : ''}`} 
                         onClick={handleVotePost}
                     >
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill={votedPost ? 'currentColor' : 'none'} stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                            <polyline points="18 15 12 9 6 15"></polyline>
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill={votedPost ? '#55b725' : 'none'} stroke={votedPost ? '#55b725' : 'currentColor'} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                            <path d="M12 2l-8 10h5v10h6V12h5z"></path>
                         </svg>
                         {post.upvotes}
                     </button>
@@ -259,15 +260,15 @@ export function PostDetailClient({ currentUser, postId }: { currentUser: UserPro
                     <button 
                         className="forum-action-btn"
                         onClick={() => {
-                            navigator.clipboard.writeText(`${window.location.origin}/forum/${post.id}`)
-                            alert('Enlace copiado al portapapeles.')
+                            setNewReplyBody(prev => prev + (prev.trim() ? '\n' : '') + `${window.location.origin}/uless/${post.id} `)
+                            document.querySelector('.forum-create-textarea')?.focus()
                         }}
                     >
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                            <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
-                            <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                            <path d="M3 21c3 0 7-1 7-8V5c0-1.25-.756-2.017-2-2H4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2 1 0 1.5.5 2 2s-.5 4-3 4"></path>
+                            <path d="M15 21c3 0 7-1 7-8V5c0-1.25-.757-2.017-2-2h-4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2 1 0 1.5.5 2 2s-.5 4-3 4"></path>
                         </svg>
-                        Compartir
+                        Citar
                     </button>
 
                     {currentUser?.id === post.author_id && (
@@ -332,16 +333,16 @@ export function PostDetailClient({ currentUser, postId }: { currentUser: UserPro
                                 </Link>
                                 <span className="forum-post-time">{timeAgo(reply.created_at)}</span>
                             </div>
-                            <p className="forum-post-body" style={{ margin: '8px 0', fontSize: '0.9rem' }}>
-                                {reply.body}
-                            </p>
+                            <div className="forum-post-body" style={{ margin: '8px 0', fontSize: '0.9rem', whiteSpace: 'pre-wrap', wordBreak: 'break-word', color: '#e8e8e8' }}>
+                                {parsePostBody(reply.body)}
+                            </div>
                             <div className="forum-post-footer">
                                 <button 
                                     className={`forum-action-btn ${isVoted ? 'upvoted' : ''}`} 
                                     onClick={() => handleVoteReply(reply.id)}
                                 >
-                                    <svg width="16" height="16" viewBox="0 0 24 24" fill={isVoted ? 'currentColor' : 'none'} stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                        <polyline points="18 15 12 9 6 15"></polyline>
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill={isVoted ? '#55b725' : 'none'} stroke={isVoted ? '#55b725' : 'currentColor'} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                        <path d="M12 2l-8 10h5v10h6V12h5z"></path>
                                     </svg>
                                     {reply.upvotes}
                                 </button>
