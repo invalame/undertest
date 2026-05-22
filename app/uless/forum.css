@@ -60,15 +60,14 @@
 }
 
 .forum-shell {
-  width: 100%;
-  max-width: 700px;
+  width: min(700px, 100%);
+  max-width: 100%;
   background: transparent;
   padding: 0;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
   gap: 16px;
-  flex-shrink: 0;
 }
 
 /* Header & Search */
@@ -155,9 +154,6 @@
   padding: 16px;
   display: flex;
   gap: 16px;
-  width: 100%;
-  box-sizing: border-box;
-  flex-shrink: 0;
 }
 
 .forum-create-avatar {
@@ -174,7 +170,6 @@
   display: flex;
   flex-direction: column;
   gap: 8px;
-  min-width: 0;
 }
 
 .forum-create-textarea {
@@ -252,7 +247,6 @@
   cursor: pointer;
   width: 100%;
   box-sizing: border-box;
-  flex-shrink: 0;
 }
 
 .forum-post:hover {

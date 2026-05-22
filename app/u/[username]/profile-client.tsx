@@ -259,7 +259,6 @@ export function ProfileClient({ profile, isOwner, oauthPicture, initialAvatars }
                       onChange={(e) => setBio(sanitizeBio(e.target.value))}
                       rows={6}
                       autoFocus
-                      maxLength={4000}
                     />
                     <div className="profile-bio-footer">
                       <span className="profile-bio-counter">{bioWordCount}/{MAX_BIO_WORDS} palabras</span>
