@@ -1,11 +1,10 @@
 'use client'
 
 import React, { useCallback, useEffect, useState } from 'react'
-import Link from 'next/link'
 
 const DESKTOP_MQ = '(min-width: 769px)'
 
-export function ForumHeaderClient({ username, avatarUrl }: { username?: string; avatarUrl?: string }) {
+export function ForumHeaderClient() {
     const [sidebarOpen, setSidebarOpen] = useState(false)
     const [isDesktop, setIsDesktop] = useState(false)
 
@@ -72,14 +71,6 @@ export function ForumHeaderClient({ username, avatarUrl }: { username?: string; 
 
                     <div className="underless-social-section">
                         <p className="underless-sidebar-label">SOCIAL</p>
-                        {username ? (
-                            <a href={`/u/${username}`} className="underless-mode-option">
-                                MI PERFIL
-                            </a>
-                        ) : null}
-                        <button type="button" className="underless-mode-option">
-                            TIENDA
-                        </button>
                         <a href="/uless" className="underless-mode-option active">
                             ULESS
                         </a>
@@ -94,30 +85,9 @@ export function ForumHeaderClient({ username, avatarUrl }: { username?: string; 
                         <img src="/img/home_underhigher.png" alt="" className="mode-icon" style={{ width: '20px', height: '20px', marginRight: '10px' }} />
                         <span>UNDER/HIGHER</span>
                     </a>
-
-                    {username && (
-                        <div className="underless-sidebar-footer">
-                            <form action="/auth/signout" method="post">
-                                <button type="submit" className="underless-logout-btn">
-                                    {avatarUrl ? (
-                                        <img src={avatarUrl} alt="" style={{ width: '32px', height: '32px', borderRadius: '50%', objectFit: 'cover' }} referrerPolicy="no-referrer" />
-                                    ) : null}
-                                    <span style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
-                                            <polyline points="16 17 21 12 16 7" />
-                                            <line x1="21" y1="12" x2="9" y2="12" />
-                                        </svg>
-                                        Cerrar sesión
-                                    </span>
-                                    <span className="sidebar-username">{username}</span>
-                                </button>
-                            </form>
-                        </div>
-                    )}
                 </nav>
             </div>
-            
+
             <div
                 className="underless-global-top-actions"
                 style={{ position: 'fixed', top: '20px', left: '20px', right: '20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', zIndex: 6501, pointerEvents: 'none' }}

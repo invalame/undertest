@@ -5,14 +5,33 @@ export const dynamic = 'force-dynamic'
 
 export async function DELETE(req: Request, { params }: { params: Promise<{ id: string, replyId: string }> }) {
   const { id, replyId } = await params
-  const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
-  
-  if (!user) {
-    return NextResponse.json({ ok: false, error: 'Unauthorized' }, { status: 401 })
+
+  let anon_uuid: string | undefined
+  try {
+    const body = await req.json()
+    anon_uuid = body?.anon_uuid
+  } catch {
+    return NextResponse.json({ ok: false, error: 'Invalid request' }, { status: 400 })
   }
 
-  // RLS will ensure they can only delete their own
+  if (!anon_uuid) {
+    return NextResponse.json({ ok: false, error: 'Missing identity' }, { status: 401 })
+  }
+
+  const supabase = await createClient()
+
+  // Verify ownership via anon_uuid
+  const { data: reply } = await supabase
+    .from('forum_replies')
+    .select('anon_uuid')
+    .eq('id', replyId)
+    .eq('post_id', id)
+    .maybeSingle()
+
+  if (!reply || reply.anon_uuid !== anon_uuid) {
+    return NextResponse.json({ ok: false, error: 'Not your reply' }, { status: 403 })
+  }
+
   const { error } = await supabase
     .from('forum_replies')
     .delete()
@@ -31,10 +50,10 @@ export async function DELETE(req: Request, { params }: { params: Promise<{ id: s
     .single()
 
   if (post) {
-      await supabase
-        .from('forum_posts')
-        .update({ reply_count: Math.max(0, (post.reply_count || 0) - 1) })
-        .eq('id', id)
+    await supabase
+      .from('forum_posts')
+      .update({ reply_count: Math.max(0, (post.reply_count || 0) - 1) })
+      .eq('id', id)
   }
 
   return NextResponse.json({ ok: true })

@@ -3,15 +3,20 @@ import { createClient } from '@/lib/supabase/server'
 
 export const dynamic = 'force-dynamic'
 
+// Votes are tracked client-side in localStorage.
+// The API just increments/decrements the counter in the DB.
 export async function POST(req: Request) {
   const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
-  
-  if (!user) {
-    return NextResponse.json({ ok: false, error: 'Unauthorized' }, { status: 401 })
-  }
 
-  const { targetType, targetId } = await req.json()
+  let targetType: string, targetId: string, toggle: boolean
+  try {
+    const body = await req.json()
+    targetType = body.targetType
+    targetId = body.targetId
+    toggle = body.toggle ?? true // true = add vote, false = remove vote
+  } catch {
+    return NextResponse.json({ ok: false, error: 'Invalid payload' }, { status: 400 })
+  }
 
   if (!targetType || !['post', 'reply'].includes(targetType) || !targetId) {
     return NextResponse.json({ ok: false, error: 'Invalid payload' }, { status: 400 })
@@ -19,91 +24,30 @@ export async function POST(req: Request) {
 
   const table = targetType === 'post' ? 'forum_posts' : 'forum_replies'
 
-  // Check if vote exists
-  const { data: existingVote } = await supabase
-    .from('forum_votes')
-    .select('*')
-    .eq('user_id', user.id)
-    .eq('target_type', targetType)
-    .eq('target_id', targetId)
-    .maybeSingle()
+  const { data: targetData } = await supabase
+    .from(table)
+    .select('upvotes')
+    .eq('id', targetId)
+    .single()
 
-  if (existingVote) {
-    // Remove vote
-    await supabase
-      .from('forum_votes')
-      .delete()
-      .eq('user_id', user.id)
-      .eq('target_type', targetType)
-      .eq('target_id', targetId)
-
-    // Decrement count in target table
-    const { data: targetData } = await supabase
-      .from(table)
-      .select('upvotes')
-      .eq('id', targetId)
-      .single()
-      
-    if (targetData) {
-      await supabase
-        .from(table)
-        .update({ upvotes: Math.max(0, (targetData.upvotes || 0) - 1) })
-        .eq('id', targetId)
-    }
-
-    return NextResponse.json({ ok: true, voted: false })
-  } else {
-    // Add vote
-    const { error: voteError } = await supabase
-      .from('forum_votes')
-      .insert({
-        user_id: user.id,
-        target_type: targetType,
-        target_id: targetId
-      })
-
-    if (voteError) {
-       return NextResponse.json({ ok: false, error: voteError.message }, { status: 500 })
-    }
-
-    // Increment count in target table
-    const { data: targetData } = await supabase
-      .from(table)
-      .select('upvotes')
-      .eq('id', targetId)
-      .single()
-      
-    if (targetData) {
-      await supabase
-        .from(table)
-        .update({ upvotes: (targetData.upvotes || 0) + 1 })
-        .eq('id', targetId)
-    }
-
-    return NextResponse.json({ ok: true, voted: true })
+  if (!targetData) {
+    return NextResponse.json({ ok: false, error: 'Target not found' }, { status: 404 })
   }
+
+  const currentVotes = targetData.upvotes || 0
+  const newVotes = toggle
+    ? currentVotes + 1
+    : Math.max(0, currentVotes - 1)
+
+  await supabase
+    .from(table)
+    .update({ upvotes: newVotes })
+    .eq('id', targetId)
+
+  return NextResponse.json({ ok: true, upvotes: newVotes })
 }
 
-export async function GET(req: Request) {
-    const { searchParams } = new URL(req.url)
-    const targetIds = searchParams.get('ids')?.split(',') || []
-    
-    if (targetIds.length === 0) {
-        return NextResponse.json({ ok: true, votes: [] })
-    }
-
-    const supabase = await createClient()
-    const { data: { user } } = await supabase.auth.getUser()
-    
-    if (!user) {
-      return NextResponse.json({ ok: true, votes: [] })
-    }
-
-    const { data } = await supabase
-        .from('forum_votes')
-        .select('target_id')
-        .eq('user_id', user.id)
-        .in('target_id', targetIds)
-
-    return NextResponse.json({ ok: true, votes: data?.map(v => v.target_id) || [] })
+// GET is no longer needed (votes tracked in localStorage), kept for compat
+export async function GET() {
+  return NextResponse.json({ ok: true, votes: [] })
 }

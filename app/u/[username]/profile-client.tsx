@@ -15,7 +15,6 @@ export type ProfilePublic = {
   username: string
   bio: string
   avatar_path: string | null
-  underium: number
   max_streak: number
   display_name: string
   discriminator: string
@@ -242,9 +241,6 @@ export function ProfileClient({ profile, isOwner, oauthPicture, initialAvatars }
 
               <div className="profile-stats-top">
                 <span className="profile-stat">
-                  Underium: <strong>{profile.underium}</strong>
-                </span>
-                <span className="profile-stat">
                   Racha máx.: <strong>{profile.max_streak}</strong>
                 </span>
               </div>
@@ -355,19 +351,6 @@ export function ProfileClient({ profile, isOwner, oauthPicture, initialAvatars }
               recargá esta ventana.
             </p>
             <div className="profile-modal-grid">
-                {/* Opción de Foto de Gmail siempre primero si existe */}
-                {oauthPicture && (
-                  <button
-                    type="button"
-                    className="profile-modal-tile profile-modal-tile-google"
-                    onClick={() => void pickAvatar(null)}
-                    aria-label="Usar foto de Google"
-                  >
-                    <img src={oauthPicture} alt="Google" referrerPolicy="no-referrer" />
-                    <div className="google-badge">G</div>
-                  </button>
-                )}
-                
                 {avatars.map((fn) => (
                   <button
                     key={fn}
