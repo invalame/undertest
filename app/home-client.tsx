@@ -21,7 +21,7 @@ export function HomeClient() {
   }, [hubVolume])
 
   return (
-    <div id="home-root" className="home-root--landing home-root--idle-hub">
+    <div id="home-root" className="home-root home-root--landing home-root--idle-hub">
       {/* Volume control */}
       <div className="hub-volume-global">
         <div className="hub-volume-global-inner hub-volume-control">
